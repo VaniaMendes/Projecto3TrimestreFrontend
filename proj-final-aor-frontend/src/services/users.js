@@ -11,7 +11,7 @@ export async function login(newUser){
                 Accept: "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newUser)
+            body: JSON.stringify(newUser),
         }
         );
         if(response.ok) {

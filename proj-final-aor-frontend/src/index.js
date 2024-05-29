@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import './components/forms/FormStyle.css'
+import './components/forms/FormStyle.css';
 import './index.css';
 import Login from "./pages/Login.js";
 import Home from "./pages/Home.js";
