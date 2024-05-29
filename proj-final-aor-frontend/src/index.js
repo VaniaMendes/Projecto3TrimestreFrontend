@@ -7,6 +7,7 @@ import Login from "./pages/Login.js";
 import Home from "./pages/Home.js";
 import reportWebVitals from './reportWebVitals';
 import 'react-toastify/dist/ReactToastify.css';
+import ForgetPassword from './pages/ForgetPassword.js';
 
 
 function Routing() {
@@ -18,6 +19,9 @@ function Routing() {
         </>} />
         <Route path="/home" element={<>
           <Home />
+        </>} />
+        <Route path="/forget-password" element={<>
+          <ForgetPassword />
         </>} />
       </Routes>
     </div>
