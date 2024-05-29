@@ -1,0 +1,28 @@
+header{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #fff;
+    color: var(--dark-color);
+    border-bottom: var(--main-red) 3px solid;
+}
+
+.search-bar{
+    width: 200px;
+    height: 30px; 
+    border-radius: 20px;
+    padding: 5px;
+    font-size: 1em;
+}
+
+.top-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #fff;
+    color: var(--dark-color);
+    border-bottom: var(--main-red) 3px solid;
+}
