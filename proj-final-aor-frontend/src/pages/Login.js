@@ -1,5 +1,6 @@
 import React from "react";
-import logo from '../components/assets/Logo_CSW-full.png'
+import logo from '../components/assets/Logo_CSW-full-redimens.png';
+import './Login.css';
 import LoginForm from "../components/forms/LoginForm";
 
 
