@@ -6,6 +6,8 @@ import './index.css';
 import Login from "./pages/Login.js";
 import Home from "./pages/Home.js";
 import reportWebVitals from './reportWebVitals';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Routing() {
   return (
