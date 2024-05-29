@@ -1,87 +1,50 @@
 import React, { useState } from "react"
+import {login} from "../../services/users"
+import { toast } from 'react-toastify';
 
 function LoginForm() {
     
     // State variables
-    const [inputs, setInputs] = useState({});
-    /*// Accessing store methods
-    const updateToken = userStore((state) => state.updateToken);
-    const updateUserData = userStore((state) => state.updateUserData);
-    const {updateNotifications} = useNotificationStore();
-    // Hook for navigation
-    const navigate = useNavigate();
+    const [newUser, setNewUser] = useState({});
     
-    // Function to handle changes in input fields
     const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-
-        setInputs(values => ({ ...values, [name]: value}))
+        const { name, value } = event.target;
+        setNewUser(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     }
 
-    // Function to handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
         try {
-            // Attempting login
-            const { response, status } = await AuthService.login(inputs);
-            if (response && status) { // Check if response and status exist
-                if (status === 200) {
-                    const data = await response.data;
-                    updateToken(data);
-                    fetchUserData(data);
-                    fetchNotifications(data);
-                    navigate('/home', { replace: true });
-                } else if (status === 404) {
-                    navigate('/pending')
-                } else {
-                    throw new Error("Something went wrong");
-                }
+            const result = await login(newUser);
+            if (result === null) {
+                toast.error("Invalid username or password");
             } else {
-                throw new Error("No response received from the server");
+                toast.success("Successfully logged in");
             }
         } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-            alert("An error occurred, please try again later.");
-        };
-    }
-    
-
-    // Function to fetch user data after successful login
-    const fetchUserData = async (token) => {
-        try {
-            const username = await AuthService.getUsername(token);
-            const userData = await AuthService.getUserData(token, username);
-            await updateUserData(userData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error("Error occurred while logging in:", error);
+            toast.error("An error occurred while logging in");
         }
     }
-
-    const fetchNotifications = async (token) => {
-        try {
-            const notifications = await NotificationService.getLatestNotifications(token, inputs.username);
-            await updateNotifications(notifications);
-        } catch (error) {
-            console.error('Error fetching notifications:', error);
-        }
-    }*/
     
-    
+    console.log(newUser)
     return (
         <div className="login-container">
             <h2>
                 Bem-vindo ao CSW
             </h2>
             {/* Login form */}
-            <form  action="#">
+            <form  onSubmit={handleSubmit}>
                     <br/>
                     {/* Username input */}
                     <input 
                         type="text"
                         name="username"
-                        value={inputs.username || ''}   
+                        value={newUser.username || ''}  
+                        onChange = {handleChange} 
                         placeholder="Username" 
                         
                         required
@@ -90,13 +53,14 @@ function LoginForm() {
                     <input 
                         type="password" 
                         name="password"
-                        value={inputs.password || ''} 
+                        value={newUser.password || ''} 
+                        onChange = {handleChange}
                         placeholder="Password" 
                         
                         required
                     />
                     {/* Submit button */}
-                    <button type="submit">Login</button>
+                    <button type="button" onClick={handleSubmit}>Login</button>
                     <span className="click-link" >
                         Forgot password?
                     </span>

@@ -5,6 +5,8 @@ import './components/forms/FormStyle.css'
 import './index.css';
 import Login from "./pages/Login.js";
 import reportWebVitals from './reportWebVitals';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Routing() {
   return (
