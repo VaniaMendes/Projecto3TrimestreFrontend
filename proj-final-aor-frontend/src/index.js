@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import './components/forms/FormStyle.css'
 import './index.css';
@@ -18,13 +18,13 @@ function Routing() {
   );
 }
 
-ReactDOM.render(
-  <React.StrictMode> 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
     <BrowserRouter>
       <Routing />
     </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );
 
 reportWebVitals();
