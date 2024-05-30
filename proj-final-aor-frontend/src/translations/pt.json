@@ -1,5 +1,8 @@
 {
     "welcome": "Bem-vindo ao CSW",
-    "login": "Entrar"
+    "login": "Entrar",
+    "signup": "Registar",
 
+    "time":"{t, time, short}", 
+    "date":"{d, date}"
 }
