@@ -16,7 +16,7 @@ export const userStore = create (
         }),
         {
             name: 'userStore',
-            storage: createJSONStorage(() => sessionStorage)
+            storage: createJSONStorage(() => sessionStorage),
         }
 
     )

@@ -1,88 +1,85 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
+import {login} from "../../services/users";
+import { toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {userStore} from "../../stores/UserStore";
+import { IntlProvider, FormattedMessage } from "react-intl";
+import languages from "../../translations";
+import { useNavigate  } from 'react-router-dom';
+
+
 
 function LoginForm() {
     
     // State variables
-    const [inputs, setInputs] = useState({});
-    /*// Accessing store methods
-    const updateToken = userStore((state) => state.updateToken);
-    const updateUserData = userStore((state) => state.updateUserData);
-    const {updateNotifications} = useNotificationStore();
-    // Hook for navigation
-    const navigate = useNavigate();
-    
-    // Function to handle changes in input fields
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
+    const [newUser, setNewUser] = useState({});
 
-        setInputs(values => ({ ...values, [name]: value}))
+    // Get the locale from the userStore
+   const locale = userStore((state) => state.locale);
+
+   //
+   const navigate = useNavigate();
+
+
+    // Get the updateToken function from the userStore
+    const updateToken = userStore((state) => state.updateToken); 
+    
+    // Handle change in input fields
+    // Update the state variable with the new value
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setNewUser(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     }
 
-    // Function to handle form submission
+    // Handle submit of the form
+    // Call the login function with the newUser state variable
+    // If the result is null, show an error message
+    // If the result is not null, show a success message
+    // If an error occurs, show an error message
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
         try {
-            // Attempting login
-            const { response, status } = await AuthService.login(inputs);
-            if (response && status) { // Check if response and status exist
-                if (status === 200) {
-                    const data = await response.data;
-                    updateToken(data);
-                    fetchUserData(data);
-                    fetchNotifications(data);
-                    navigate('/home', { replace: true });
-                } else if (status === 404) {
-                    navigate('/pending')
-                } else {
-                    throw new Error("Something went wrong");
-                }
+            const result = await login(newUser);
+            if (result === null) {
+                toast.error("Invalid email or password");
             } else {
-                throw new Error("No response received from the server");
+                updateToken(result);
+                toast.success("Successfully logged in");
             }
         } catch (error) {
-            console.error('There was a problem with the fetch operation:', error);
-            alert("An error occurred, please try again later.");
-        };
-    }
-    
-
-    // Function to fetch user data after successful login
-    const fetchUserData = async (token) => {
-        try {
-            const username = await AuthService.getUsername(token);
-            const userData = await AuthService.getUserData(token, username);
-            await updateUserData(userData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error("Error occurred while logging in:", error);
+            toast.error("An error occurred while logging in");
         }
     }
 
-    const fetchNotifications = async (token) => {
-        try {
-            const notifications = await NotificationService.getLatestNotifications(token, inputs.username);
-            await updateNotifications(notifications);
-        } catch (error) {
-            console.error('Error fetching notifications:', error);
-        }
-    }*/
-    
+    const handleForgotPassword = () => {
+        navigate("/forgot-password");
+    }
     
     return (
         <div className="login-container">
+           <IntlProvider locale={locale} messages={languages[locale]}> 
+
+            <ToastContainer />
             <h2>
-                Bem-vindo ao CSW
+            <FormattedMessage id="welcome">
+                        {(message) => <span>{message}</span>}
+                      </FormattedMessage>
             </h2>
             {/* Login form */}
-            <form  action="#">
+            <form  onSubmit={handleSubmit}>
                     <br/>
-                    {/* Username input */}
+                    {/* Email input */}
                     <input 
                         type="text"
-                        name="username"
-                        value={inputs.username || ''}   
-                        placeholder="Username" 
+                        name="email"
+                        value={newUser.email || ''}  
+                        onChange = {handleChange} 
+                        placeholder="Email" 
                         
                         required
                     />
@@ -90,17 +87,22 @@ function LoginForm() {
                     <input 
                         type="password" 
                         name="password"
-                        value={inputs.password || ''} 
+                        value={newUser.password || ''} 
+                        onChange = {handleChange}
                         placeholder="Password" 
                         
                         required
                     />
                     {/* Submit button */}
-                    <button type="submit">Login</button>
-                    <span className="click-link" >
+                    <button type="submit"><FormattedMessage id="login">
+                        {(message) => <span>{message}</span>}
+                      </FormattedMessage></button>
+                    <span className="click-link" onClick={handleForgotPassword}>
                         Forgot password?
                     </span>
             </form>
+            </IntlProvider>
+
         </div>
     );
 }

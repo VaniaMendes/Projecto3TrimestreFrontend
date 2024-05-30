@@ -1,5 +1,5 @@
 import React from "react";
-import logo from '../assets/Logo_CSW-full-redimens.png'
+import logo from '../assets/Logo_CSW-full-redimens.png';
 import './Header.css';
 import {userStore} from "../../stores/UserStore";
 import languages from "../../translations"; 
