@@ -44,7 +44,7 @@ function ForgetPassword(){
            <IntlProvider locale={locale} messages={languages[locale]}> 
 
             <h2>
-            <FormattedMessage id="forgotPassword">
+            <FormattedMessage id="changePassword">
                         {(message) => <span>{message}</span>}
                       </FormattedMessage>
             </h2>

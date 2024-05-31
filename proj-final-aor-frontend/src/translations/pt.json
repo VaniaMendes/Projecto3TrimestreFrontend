@@ -5,6 +5,8 @@
     "createAccount" : " Criar nova conta",
     "forgotPassword": "Esqueci a senha",
     "recoveryPAssword": "Recuperar senha",
-    "back": "Voltar"
+    "back": "Voltar",
+    "changePassword": "Alterar password",
+    "changemypassword": "Alterar a minha senha"
 
 }

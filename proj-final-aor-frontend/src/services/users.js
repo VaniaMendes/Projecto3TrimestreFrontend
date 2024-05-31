@@ -85,4 +85,42 @@ export async function recoveryPassword(email){
 }
 }
 
+
+export async function resetPassword(resetPassToken, password, confirmPassword){
+ 
+    try{
+       // Construct the URL with query parameters
+       const urlWithParams = new URL(`${url}/change-password`);
+       urlWithParams.searchParams.append("password", password);
+       urlWithParams.searchParams.append("confirmPassword", confirmPassword);
+
+
+       // Make a PUT request to the 'reset-password' endpoint of the backend API
+       const response = await fetch(urlWithParams, {
+           method: "PUT",
+           headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+               "resetPassToken": resetPassToken
+           }
+       });
+
+       console.log(response.status);
+
+    // If the response is OK, return 200
+    if (response.ok) {
+        console.log("User changed password");
+        return 200;
+        // Otherwise, return 400
+    } else {
+        console.log("Failed to change password");
+        return 400;
+    }
+    // If an error occurs, throw the error
+} catch (error) {
+    console.error("Failed to change password", error);
+    throw error;
+}
+}
+
   

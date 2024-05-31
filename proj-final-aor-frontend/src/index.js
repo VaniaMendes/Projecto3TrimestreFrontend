@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ForgetPassword from './pages/ForgetPassword.js';
 import Register from './pages/Register.js';
 import { ToastContainer } from 'react-toastify';
+import ChangePassword from './pages/ChangePassword.js';
 
 
 function Routing() {
@@ -28,6 +29,9 @@ function Routing() {
         </>} />
         <Route path="/register" element={<>
           <Register />
+        </>} />
+        <Route path="/change-password" element={<>
+          <ChangePassword />
         </>} />
       </Routes>
     </div>

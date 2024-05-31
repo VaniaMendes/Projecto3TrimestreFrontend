@@ -4,8 +4,10 @@
     "login": "Login",
     "register": "Create",
     "createAccount": " Create New Account",
-    "forgotPassword": "Forgot Password",
-    "recoveryPAssword" : "Recovery Password",
-    "back": "Back"
+    "forgotPassword": "Forgot my Password",
+    "recoveryPAssword" : "Recovery",
+    "back": "Back",
+    "changePassword": "Change Password",
+    "changemypassword": "Change my Password"
 
 } 
