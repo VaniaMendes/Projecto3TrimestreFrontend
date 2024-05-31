@@ -1,6 +1,11 @@
 {
 
     "welcome": "Welcome to the CSW",
-    "login": "Login"
+    "login": "Login",
+    "register": "Create",
+    "createAccount": " Create New Account",
+    "forgotPassword": "Forgot Password",
+    "recoveryPAssword" : "Recovery Password",
+    "back": "Back"
 
 } 

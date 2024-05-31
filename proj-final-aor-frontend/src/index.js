@@ -23,7 +23,7 @@ function Routing() {
         <Route path="/home" element={<>
           <Home />
         </>} />
-        <Route path="/forget-password" element={<>
+        <Route path="/forgot-password" element={<>
           <ForgetPassword />
         </>} />
         <Route path="/register" element={<>
