@@ -123,4 +123,8 @@ export async function resetPassword(resetPassToken, password, confirmPassword){
 }
 }
 
+export async function confirmAccount(tokenConfirmation, user){
+
+}
+
   

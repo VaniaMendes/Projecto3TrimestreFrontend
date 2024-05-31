@@ -11,6 +11,7 @@ import ForgetPassword from './pages/ForgetPassword.js';
 import Register from './pages/Register.js';
 import { ToastContainer } from 'react-toastify';
 import ChangePassword from './pages/ChangePassword.js';
+import ConfirmationAccount from './pages/ConfirmationAccount.js';
 
 
 function Routing() {
@@ -32,6 +33,9 @@ function Routing() {
         </>} />
         <Route path="/change-password" element={<>
           <ChangePassword />
+        </>} />
+        <Route path="/confirm-account" element={<>
+          <ConfirmationAccount />
         </>} />
       </Routes>
     </div>

@@ -7,6 +7,8 @@
     "recoveryPAssword": "Recuperar senha",
     "back": "Voltar",
     "changePassword": "Alterar password",
-    "changemypassword": "Alterar a minha senha"
+    "changemypassword": "Alterar a minha senha",
+    "confirmationAccount": "Confimação de conta",
+    "confirm": "Confirmar"
 
 }

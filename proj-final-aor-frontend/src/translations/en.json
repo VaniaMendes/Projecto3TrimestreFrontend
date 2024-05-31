@@ -8,6 +8,8 @@
     "recoveryPAssword" : "Recovery",
     "back": "Back",
     "changePassword": "Change Password",
-    "changemypassword": "Change my Password"
+    "changemypassword": "Change my Password",
+    "confirmationAccount": "Confirmation Account",
+    "confirm": "Confirm"
 
 } 
