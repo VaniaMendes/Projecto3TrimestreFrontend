@@ -1,7 +1,7 @@
 
 
 import React from "react";
-import logo from '../components/assets/Logo_CSW-full-redimens.png';
+import logo from '../components/assets/Logo_CSW-full-redim.png';
 
 const Login = () => {
     return (
