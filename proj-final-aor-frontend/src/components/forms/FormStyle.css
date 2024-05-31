@@ -36,7 +36,7 @@ form{
     }
 }
 
-.login-container{
+.login-container, .register-container{
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -49,3 +49,4 @@ form{
     height: 400px;
 
 }
+

@@ -33,4 +33,56 @@ export async function login(newUser){
     }
 }
 
+
+export async function register(user){
+    try{
+        // Make a POST request to the'register' endpoint of the backend API
+        const response = await fetch(url + "/register",{
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user),
+        }
+    );
+    // If the response is OK, return 200
+    if(response.ok) {
+        return 200;
+        // Otherwise, return 400
+    } else {
+        return 400;
+    }
+    // If an error occurs, throw the error
+    }catch(error){
+        throw error;
+}
+}
+
+export async function recoveryPassword(email){
+    try{
+        // Make a POST request to the'recoveryPassword' endpoint of the backend API
+        const response = await fetch(url + "/recovery-password",{
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "email": email
+            }
+            
+        }
+    );
+    // If the response is OK, return 200
+    if(response.ok) {
+        return 200;
+        // Otherwise, return 400
+    } else {
+        return 400;
+    }
+    // If an error occurs, throw the error
+    }catch(error){
+        throw error;
+}
+}
+
   

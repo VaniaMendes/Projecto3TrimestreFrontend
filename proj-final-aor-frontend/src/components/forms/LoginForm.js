@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import {login} from "../../services/users";
 import { toast } from 'react-toastify';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import {userStore} from "../../stores/UserStore";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import languages from "../../translations";
@@ -63,8 +61,6 @@ function LoginForm() {
     return (
         <div className="login-container">
            <IntlProvider locale={locale} messages={languages[locale]}> 
-
-            <ToastContainer />
             <h2>
             <FormattedMessage id="welcome">
                         {(message) => <span>{message}</span>}
