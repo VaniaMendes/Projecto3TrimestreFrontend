@@ -5,6 +5,11 @@
     "signup": "Sign Up",
 
     "time":"{t, time, short}", 
-    "date":"{d, date}"
+    "date":"{d, date}",
+
+    "home": "Home",
+    "components": "Components",
+    "messages": "Messages",
+    "notifications": "Notifications"
 
 } 

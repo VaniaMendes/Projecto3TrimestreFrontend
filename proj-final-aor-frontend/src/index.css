@@ -81,9 +81,11 @@
   --light-red: #DA737B;
 	--red2-color: #A0000C;
 	--dark-red: #550006;
+  --grey-color: #8D8D8D;
 	--dark-color: #282828;
 	--background-color: #f6f5f7;
 }
+
 
 button{
   font-family: "Roboto", sans-serif;
@@ -94,12 +96,13 @@ button{
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin: 2px;
+  margin: 2px 5px;
   transition: background-color 0.3s ease;
 }
 
 button:hover{
   background-color: var(--light-red);
+  color: var(--background-color);
   
 }
 
