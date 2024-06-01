@@ -3,13 +3,20 @@
     "welcome": "Welcome to the CSW",
     "login": "Login",
     "signup": "Sign Up",
+    "logout": "Logout",
 
     "time":"{t, time, short}", 
     "date":"{d, date}",
 
+    "create": "Create",
+    "seeAll": "See All",
+
     "home": "Home",
+    "myProjects": "My Projects",
     "components": "Components",
     "messages": "Messages",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "myProfile": "My Profile"
 
 } 

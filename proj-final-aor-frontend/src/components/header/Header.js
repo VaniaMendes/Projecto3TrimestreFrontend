@@ -7,6 +7,7 @@ import { AiFillHome } from "react-icons/ai";
 import { BiSolidComponent } from "react-icons/bi";
 import { BiSolidMessageSquareDots } from "react-icons/bi";
 import { IoNotifications } from "react-icons/io5";
+import { MdArrowDropDown } from "react-icons/md";
 import './Header.css';
 import {userStore} from "../../stores/UserStore";
 import languages from "../../translations"; 
@@ -20,8 +21,10 @@ const Header = () => {
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [showSearchBar, setShowSearchBar] = useState(false);
+    const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const [showHomeMenu, setShowHomeMenu] = useState(false);
+    const [showComponentsMenu, setShowComponentsMenu] = useState(false);
     
-
     useEffect(() => {
         const timer = setInterval(() => {
             setTime(new Date());
@@ -50,6 +53,24 @@ const Header = () => {
 
     const handleSearchBarBlur = () => {
         setShowSearchBar(false);
+    }
+
+    const handleHomeClick = () => {
+        setShowHomeMenu(!showHomeMenu);
+        setShowComponentsMenu(false);
+        setShowProfileMenu(false);
+    }
+
+    const handleComponentsClick = () => {
+        setShowComponentsMenu(!showComponentsMenu);
+        setShowHomeMenu(false);
+        setShowProfileMenu(false);
+    }
+
+    const handleProfileClick = () => {
+        setShowProfileMenu(!showProfileMenu);
+        setShowHomeMenu(false);
+        setShowComponentsMenu(false);
     }
 
     const logoToRender = isMobile ? logoSmall : logo;
@@ -101,13 +122,36 @@ const Header = () => {
                         <div className="header-right">
                             {/*<button><FormattedMessage id="login" /></button>
                             <button><FormattedMessage id="signup" /></button>*/}
-                            <div className="icon-container">
-                                <AiFillHome className="icon" />
-                                <p className="icon-subtitle"><FormattedMessage id="home"/></p>
+                            <div className="submenu-container">
+                                <div className={`icon-container ${showHomeMenu ? 'active-menu' : ''}`} onClick={handleHomeClick}>
+                                    <AiFillHome className="icon" />
+                                    <p className="icon-subtitle">
+                                        <FormattedMessage id="home"/>
+                                        <MdArrowDropDown/>
+                                    </p>
+                                </div>
+                                {showHomeMenu && (
+                                        <div className="submenu">
+                                            <p><FormattedMessage id="create"/></p>
+                                            <p><FormattedMessage id="seeAll"/></p>
+                                            <p><FormattedMessage id="myProjects"/></p>
+                                        </div>
+                                    )}
                             </div>
-                            <div className="icon-container">
-                                <BiSolidComponent className="icon"/>
-                                <p className="icon-subtitle"><FormattedMessage id="components"/></p>
+                            <div className="submenu-container">
+                                <div className={`icon-container ${showComponentsMenu ? 'active-menu' : ''}`} onClick={handleComponentsClick}>
+                                    <BiSolidComponent className="icon"/>
+                                    <p className="icon-subtitle">
+                                        <FormattedMessage id="components"/>
+                                        <MdArrowDropDown />
+                                    </p>
+                                </div>
+                                {showComponentsMenu && (
+                                        <div className="submenu">
+                                            <p><FormattedMessage id="create"/></p>
+                                            <p><FormattedMessage id="seeAll"/></p>
+                                        </div>
+                                    )}
                             </div>
                             <div className="icon-container">
                                 <BiSolidMessageSquareDots className="icon"/>
@@ -117,10 +161,23 @@ const Header = () => {
                                 <IoNotifications className="icon"/>
                                 <p className="icon-subtitle"><FormattedMessage id="notifications"/></p>
                             </div>
-                            <div className="photo-container">
-                                <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
+                            <div className="submenu-container">
+                                <div className={`icon-container ${showProfileMenu ? 'active-menu' : ''}`} onClick={handleProfileClick}>
+                                    <div className="photo-container">
+                                        <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
+                                    </div>
+                                    <p className="icon-subtitle">
+                                        <FormattedMessage id="profile"/>
+                                        <MdArrowDropDown />
+                                    </p>
+                                </div>
+                                {showProfileMenu && (
+                                        <div className="submenu">
+                                            <p><FormattedMessage id="myProfile"/></p>
+                                            <p><FormattedMessage id="logout"/></p>
+                                        </div>
+                                    )}
                             </div>
-
 
                         </div>
                     )}
