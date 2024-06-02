@@ -1,0 +1,116 @@
+.filter-bar-container{
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    color: var(--grey-color);
+    padding: 0.7em 3em;
+    margin-top: 100px;
+    width: 100%;
+    border-bottom: #ccc 1px solid;
+
+    .right-side{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 20%;
+    }
+
+    p{
+        display: flex;
+        align-items: center;
+        font-size: 0.8em;
+        cursor: pointer;
+    }
+    
+}
+
+.active-item{
+    color: var(--main-red);
+    position: relative;
+    display: inline-block;
+}
+
+.select-container {
+    position: absolute;
+    top: 37px;
+    right: 132px;
+    display: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1100;
+}
+
+.select-container.show {
+    display: block;
+}
+
+.radio-wrapper {
+    padding: 0.5em 1em;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background-color: var(--light-grey);
+    }
+}
+
+label {
+    font-size: 0.8em;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--main-red);
+    }
+}
+
+input {
+    margin-right: 10px;
+}
+
+.filter-icon {
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+/* Hide the default radio button appearance */
+input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    margin-right: 10px;
+}
+
+input[type="radio"]:checked {
+    background-color: #fff;
+    border-color: var(--grey-color);
+}
+
+input[type="radio"]:checked::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--grey-color);
+    position: absolute;
+    top: 2px;
+    left: 2.5px;
+}
+
+/* Change the background color of the entire div when the radio button is checked */
+input[type="radio"]:checked + label {
+    color: var(--main-red); /* Change text color if necessary */
+}
+

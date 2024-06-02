@@ -8,6 +8,7 @@ import { BiSolidComponent } from "react-icons/bi";
 import { BiSolidMessageSquareDots } from "react-icons/bi";
 import { IoNotifications } from "react-icons/io5";
 import { MdArrowDropDown } from "react-icons/md";
+import { MdArrowDropUp } from "react-icons/md";
 import './Header.css';
 import {userStore} from "../../stores/UserStore";
 import languages from "../../translations"; 
@@ -95,7 +96,7 @@ const Header = () => {
                                 {index !== ["en", "pt"].length - 1 && <span>|</span>}
                             </React.Fragment>
                         ))}
-                    </div>
+                    </div> 
                 </div>
                 <div className="bottom-header">
                     <div className="header-left">
@@ -127,7 +128,7 @@ const Header = () => {
                                     <AiFillHome className="icon" />
                                     <p className="icon-subtitle">
                                         <FormattedMessage id="home"/>
-                                        <MdArrowDropDown/>
+                                        {showHomeMenu ? <MdArrowDropUp /> : <MdArrowDropDown/>}
                                     </p>
                                 </div>
                                 {showHomeMenu && (
@@ -141,13 +142,13 @@ const Header = () => {
                             <div className="submenu-container">
                                 <div className={`icon-container ${showComponentsMenu ? 'active-menu' : ''}`} onClick={handleComponentsClick}>
                                     <BiSolidComponent className="icon"/>
-                                    <p className="icon-subtitle">
+                                    <p className="icon-subtitle component-subtitle">
                                         <FormattedMessage id="components"/>
-                                        <MdArrowDropDown />
+                                        {showComponentsMenu ? <MdArrowDropUp /> : <MdArrowDropDown/>}
                                     </p>
                                 </div>
                                 {showComponentsMenu && (
-                                        <div className="submenu">
+                                        <div className="submenu component-submemu">
                                             <p><FormattedMessage id="create"/></p>
                                             <p><FormattedMessage id="seeAll"/></p>
                                         </div>
@@ -168,7 +169,7 @@ const Header = () => {
                                     </div>
                                     <p className="icon-subtitle">
                                         <FormattedMessage id="profile"/>
-                                        <MdArrowDropDown />
+                                        {showProfileMenu ? <MdArrowDropUp /> : <MdArrowDropDown/>}
                                     </p>
                                 </div>
                                 {showProfileMenu && (
