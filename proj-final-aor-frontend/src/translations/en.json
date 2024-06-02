@@ -17,6 +17,23 @@
     "messages": "Messages",
     "notifications": "Notifications",
     "profile": "Profile",
-    "myProfile": "My Profile"
+    "myProfile": "My Profile",
+
+    "projects": "Projects",
+    "state": "State",
+    "sortBy": "Sort By",
+
+    "planning": "Planning",
+    "ready": "Ready",
+    "approved": "Approved",
+    "inProgress": "In Progress",
+    "finished": "Finished",
+    "cancelled": "Cancelled",
+
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "vacancies": "Vacancies",
+    "lowToHigh": "Low to High",
+    "highToLow": "High to Low"
 
 } 
