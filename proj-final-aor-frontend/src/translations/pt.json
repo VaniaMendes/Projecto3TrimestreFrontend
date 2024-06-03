@@ -1,6 +1,9 @@
 {
     "welcome": "Bem-vindo ao CSW",
     "login": "Entrar",
+    "signup": "Registar",
+    "logout": "Sair",
+    "login": "Entrar",
     "register": " Registar",
     "createAccount" : " Criar nova conta",
     "forgotPassword": "Esqueci a senha",
@@ -11,4 +14,34 @@
     "confirmationAccount": "Confimação de conta",
     "confirm": "Confirmar"
 
+    "time":"{t, time, short}", 
+    "date":"{d, date}",
+
+    "create": "Criar",
+    "seeAll": "Ver Todos",
+
+    "home": "Início",
+    "myProjects": "Meus Projetos",
+    "components": "Componentes",
+    "messages": "Mensagens",
+    "notifications": "Notificações",
+    "profile": "Perfil",
+    "myProfile": "Meu Perfil",
+
+    "projects": "Projetos",
+    "state": "Estado",
+    "sortBy": "Ordenar por",
+
+    "planning": "Em Planeamento",
+    "ready": "Pronto",
+    "approved": "Aprovado",
+    "inProgress": "Em Progresso",
+    "finished": "Finalizado",
+    "cancelled": "Cancelado",
+
+    "newest": "Mais Recentes",
+    "oldest": "Mais Antigos",
+    "vacancies": "Vagas",
+    "lowToHigh": "Ascendente",
+    "highToLow": "Descendente"
 }

@@ -1,8 +1,8 @@
 
 
 import React from "react";
-import logo from '../components/assets/Logo_CSW-full-redimens.png';
 import ForgetPasswordForm from "../components/forms/ForgotPasswordForm.js";
+import logo from '../components/assets/Logo_CSW-full-redimens.png';
 
 const ForgetPassword = () => {
     return (

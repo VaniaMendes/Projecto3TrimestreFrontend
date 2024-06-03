@@ -81,20 +81,34 @@
   --light-red: #DA737B;
 	--red2-color: #A0000C;
 	--dark-red: #550006;
+  --grey-color: #8D8D8D;
+  --light-grey: #eeeeee;
 	--dark-color: #282828;
 	--background-color: #f6f5f7;
 }
 
+
 button{
   font-family: "Roboto", sans-serif;
-  font-weight: 500;
+  font-weight: 400;
   font-style: normal;
   font-size: 1rem;
-  padding: 10px 20px;
+  padding: 0.5em 2em;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin: 2px;
+  margin: 2px 5px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover{
+  background-color: var(--light-red);
+  color: var(--background-color);
+  
+}
+
+button:active {
+  transform: scale(0.95);
 }
 
 .header-secondary{

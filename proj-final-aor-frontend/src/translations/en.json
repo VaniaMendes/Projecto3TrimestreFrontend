@@ -2,6 +2,9 @@
 
     "welcome": "Welcome to the CSW",
     "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout",
+    "login": "Login",
     "register": "Create",
     "createAccount": " Create New Account",
     "forgotPassword": "Forgot my Password",
@@ -11,5 +14,36 @@
     "changemypassword": "Change my Password",
     "confirmationAccount": "Confirmation Account",
     "confirm": "Confirm"
+
+    "time":"{t, time, short}", 
+    "date":"{d, date}",
+
+    "create": "Create",
+    "seeAll": "See All",
+
+    "home": "Home",
+    "myProjects": "My Projects",
+    "components": "Components",
+    "messages": "Messages",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "myProfile": "My Profile",
+
+    "projects": "Projects",
+    "state": "State",
+    "sortBy": "Sort By",
+
+    "planning": "Planning",
+    "ready": "Ready",
+    "approved": "Approved",
+    "inProgress": "In Progress",
+    "finished": "Finished",
+    "cancelled": "Cancelled",
+
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "vacancies": "Vacancies",
+    "lowToHigh": "Low to High",
+    "highToLow": "High to Low"
 
 } 
