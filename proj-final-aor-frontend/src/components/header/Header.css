@@ -14,22 +14,6 @@ header{
     z-index: 1000;
 }
 
-.search-bar {
-    width: 12.5em;
-    height: 2em;
-    border-radius: 0.625em;
-    padding: 0.3125em;
-    font-size: 1em;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    transition: all 0.3s ease;
-    outline: none;
-}
-
-.search-bar:focus{
-    outline: none;
-}
-
 /*-----------
 TOP HEADER
 -----------*/
@@ -120,14 +104,16 @@ BOTTOM HEADER
 }
 
 .search-bar {
-    padding: 10px;
     font-size: 1em;
     margin-left: 40px;
     width: 100%;
+    background-color: #da737c31;
+    padding: 5px 10px 5px 20px;
+    border: transparent;
 }
 
 .search-bar:focus{
-    outline: var(--light-red) 1px solid;
+    outline: none;
 }
 
 .icon-container{

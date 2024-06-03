@@ -47,5 +47,12 @@
     "oldest": "Mais Antigos",
     "vacancies": "Vagas",
     "lowToHigh": "Ascendente",
-    "highToLow": "Descendente"
+    "highToLow": "Descendente",
+
+    "lab": "Laboratório",
+    "description": "Descrição",
+    "keywords": "Palavras-chave",
+    "skills": "Competências",
+    "teamMembers": "Membros da Equipa"
+
 }
