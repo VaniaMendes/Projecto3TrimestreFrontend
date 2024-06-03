@@ -17,6 +17,7 @@
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
+    "uploadPhoto": "Upload Photo",
 
     
     "time":"{t, time, short}", 

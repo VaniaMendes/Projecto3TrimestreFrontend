@@ -16,6 +16,7 @@
     "email": "Email",
     "password": "Senha",
     "confirmPassword": "Confirmar senha",
+    "uploadPhoto": "Carregar Foto",
 
     "time":"{t, time, short}", 
     "date":"{d, date}",

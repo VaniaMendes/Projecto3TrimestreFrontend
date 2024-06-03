@@ -138,3 +138,21 @@ Register Page
 
 }
 
+/*-----------
+BOTTOM HEADER
+-----------*/
+.initial-Header{
+  width: 100%;
+  display: flex;
+  padding: 0.5em;
+    
+}
+
+.header-image{
+  width: 250px;
+  height: auto;
+  left: 10%;
+  top:12%;
+  position: relative;
+}
+

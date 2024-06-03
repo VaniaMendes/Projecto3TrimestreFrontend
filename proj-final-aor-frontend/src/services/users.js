@@ -123,7 +123,28 @@ export async function resetPassword(resetPassToken, password, confirmPassword){
 }
 }
 
-export async function confirmAccount(tokenConfirmation, user){
+export async function confirmAccount(tokenConfirmation, userData){
+    try {
+        const response = await fetch(url + "/confirm", {
+          method: 'PUT',
+          headers: {
+            Accept: "application/json",
+            'Content-Type': 'application/json',
+            'tokenConfirmation': tokenConfirmation
+          },
+          body: JSON.stringify(userData)
+        });
+    
+        if (response.ok) {
+          return 200;
+          
+        } else {
+          return 400;
+        }
+      } catch (error) {
+        console.error('Erro ao confirmar usuário:', error);
+     
+      }
 
 }
 
