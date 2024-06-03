@@ -1,10 +1,11 @@
 {
-    "welcome": "Bem-vindo ao CSW",
+    "welcome": "Bem-vindo ao ILM",
     "login": "Entrar",
     "signup": "Registar",
     "logout": "Sair",
     "register": " Registar",
     "createAccount" : " Criar nova conta",
+    "forgotyourPassword": "Esqueceu a senha?",
     "forgotPassword": "Esqueci a senha",
     "recoveryPAssword": "Recuperar senha",
     "back": "Voltar",
@@ -12,6 +13,9 @@
     "changemypassword": "Alterar a minha senha",
     "confirmationAccount": "Confimação de conta",
     "confirm": "Confirmar",
+    "email": "Email",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
 
     "time":"{t, time, short}", 
     "date":"{d, date}",
