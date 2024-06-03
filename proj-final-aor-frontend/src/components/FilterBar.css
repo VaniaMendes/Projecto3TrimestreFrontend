@@ -34,8 +34,7 @@
 
 .select-container {
     position: absolute;
-    top: 37px;
-    right: 132px;
+    top: 100%;
     display: none;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -54,6 +53,7 @@
     align-items: center;
 
     &:hover {
+        color: var(--main-red);
         background-color: var(--light-grey);
     }
 }
