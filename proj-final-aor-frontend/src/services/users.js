@@ -33,4 +33,98 @@ export async function login(newUser){
     }
 }
 
+
+export async function register(user){
+    try{
+        // Make a POST request to the'register' endpoint of the backend API
+        const response = await fetch(url + "/register",{
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user),
+        }
+    );
+    // If the response is OK, return 200
+    if(response.ok) {
+        return 200;
+        // Otherwise, return 400
+    } else {
+        return 400;
+    }
+    // If an error occurs, throw the error
+    }catch(error){
+        throw error;
+}
+}
+
+export async function recoveryPassword(email){
+    try{
+        // Make a POST request to the'recoveryPassword' endpoint of the backend API
+        const response = await fetch(url + "/recovery-password",{
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "email": email
+            }
+            
+        }
+    );
+    // If the response is OK, return 200
+    if(response.ok) {
+        return 200;
+        // Otherwise, return 400
+    } else {
+        return 400;
+    }
+    // If an error occurs, throw the error
+    }catch(error){
+        throw error;
+}
+}
+
+
+export async function resetPassword(resetPassToken, password, confirmPassword){
+ 
+    try{
+       // Construct the URL with query parameters
+       const urlWithParams = new URL(`${url}/change-password`);
+       urlWithParams.searchParams.append("password", password);
+       urlWithParams.searchParams.append("confirmPassword", confirmPassword);
+
+
+       // Make a PUT request to the 'reset-password' endpoint of the backend API
+       const response = await fetch(urlWithParams, {
+           method: "PUT",
+           headers: {
+               Accept: "application/json",
+               "Content-Type": "application/json",
+               "resetPassToken": resetPassToken
+           }
+       });
+
+       console.log(response.status);
+
+    // If the response is OK, return 200
+    if (response.ok) {
+        console.log("User changed password");
+        return 200;
+        // Otherwise, return 400
+    } else {
+        console.log("Failed to change password");
+        return 400;
+    }
+    // If an error occurs, throw the error
+} catch (error) {
+    console.error("Failed to change password", error);
+    throw error;
+}
+}
+
+export async function confirmAccount(tokenConfirmation, user){
+
+}
+
   

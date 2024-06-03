@@ -1,20 +1,20 @@
 
 
 import React from "react";
-import ForgetPasswordForm from "../components/forms/ForgotPasswordForm.js";
 import logo from '../components/assets/Logo_CSW-full-redimens.png';
+import ChangePasswordForm from "../components/forms/ChangePasswordForm.js";
 
-const ForgetPassword = () => {
+const ChangePassword = () => {
     return (
       <div>
         <div className="header-secondary">
           <img src={logo} alt="CSW Logo" style={{ width: '250px', height: 'auto'}}/>
         </div>
         <div className="login-page-container">
-          <ForgetPasswordForm/>
+          <ChangePasswordForm/>
         </div>
       </div>
     );
   };
   
-  export default ForgetPassword;
+  export default ChangePassword;
