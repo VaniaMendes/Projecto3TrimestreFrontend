@@ -88,6 +88,7 @@ function RegisterForm(){
             <form  onSubmit={handleSubmit}>
                     <br/>
                     {/* Email input */}
+                    <div className = "input-container">
                     <input 
                         type="text"
                         name="email"
@@ -97,6 +98,14 @@ function RegisterForm(){
                         
                         required
                     />
+
+<label htmlFor="email">
+                            <FormattedMessage id="email">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
+                    </div> 
+                    <div className = "input-container">
                     {/* Password input */}
                     <input 
                         type="password" 
@@ -107,6 +116,14 @@ function RegisterForm(){
                         
                         required
                     />
+                    
+                    <label htmlFor="password">
+                            <FormattedMessage id="password">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
+                    </div>
+                    <div className = "input-container">
                     {/* Password input */}
                     <input 
                         type="password" 
@@ -117,6 +134,13 @@ function RegisterForm(){
                         
                         required
                     />
+                    
+                    <label htmlFor="confirmPassword">
+                            <FormattedMessage id="confirmPassword">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
+                    </div>
                     {/* Submit button */}
                     <button type="submit"><FormattedMessage id="register">
                         {(message) => <span>{message}</span>}

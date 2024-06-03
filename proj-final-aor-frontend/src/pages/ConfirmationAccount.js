@@ -3,18 +3,30 @@
 import React from "react";
 import logo from '../components/assets/Logo_CSW-full-redim.png';
 import ConfirmationAccountForm from "../components/forms/ConfirmAccountForm.js";
+import {userStore} from "../stores/UserStore";
+import { IntlProvider } from "react-intl";
+import languages from "../translations";
+import TopHeader from "../components/header/TopHeader";
 
-const ChangePassword = () => {
-    return (
-      <div>
-        <div className="header-secondary">
-          <img src={logo} alt="CSW Logo" style={{ width: '250px', height: 'auto'}}/>
-        </div>
-        <div className="login-page-container">
-          <ConfirmationAccountForm/>
-        </div>
-      </div>
-    );
-  };
+const  ConfirmationAccount = () => {
+  // Get the locale from the userStore
+  const locale = userStore((state) => state.locale);
   
-  export default ChangePassword;
+  return (
+      
+    <div>
+    <IntlProvider locale={locale} messages={languages[locale]}> 
+<div className="initial-Header"><TopHeader /></div>
+   
+   <div className="header-left">
+     <img className = "header-image" src={logo} alt="CSW Logo"/>
+   </div>
+   <div className="login-page-container">
+     <ConfirmationAccountForm />
+   </div>
+   </IntlProvider>
+ </div>
+   );
+ };
+  
+  export default ConfirmationAccount;
