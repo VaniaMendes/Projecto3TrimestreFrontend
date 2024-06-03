@@ -8,11 +8,16 @@ import Home from "./pages/Home.js";
 import reportWebVitals from './reportWebVitals';
 import 'react-toastify/dist/ReactToastify.css';
 import ForgetPassword from './pages/ForgetPassword.js';
+import Register from './pages/Register.js';
+import { ToastContainer } from 'react-toastify';
+import ChangePassword from './pages/ChangePassword.js';
+import ConfirmationAccount from './pages/ConfirmationAccount.js';
 
 
 function Routing() {
   return (
     <div>
+      <ToastContainer />
       <Routes>
         <Route path="/login" element={<>
           <Login />
@@ -20,8 +25,17 @@ function Routing() {
         <Route path="/home" element={<>
           <Home />
         </>} />
-        <Route path="/forget-password" element={<>
+        <Route path="/forgot-password" element={<>
           <ForgetPassword />
+        </>} />
+        <Route path="/register" element={<>
+          <Register />
+        </>} />
+        <Route path="/change-password" element={<>
+          <ChangePassword />
+        </>} />
+        <Route path="/confirm-account" element={<>
+          <ConfirmationAccount />
         </>} />
       </Routes>
     </div>

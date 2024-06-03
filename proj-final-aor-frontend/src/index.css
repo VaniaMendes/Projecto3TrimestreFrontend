@@ -126,3 +126,15 @@ Login Page
   align-items: center;
   justify-content: center;
 }
+
+
+/*----------
+Register Page
+-----------*/
+.register-page-container{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
