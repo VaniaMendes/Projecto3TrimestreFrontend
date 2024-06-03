@@ -4,7 +4,6 @@
     "login": "Login",
     "signup": "Sign Up",
     "logout": "Logout",
-    "login": "Login",
     "register": "Create",
     "createAccount": " Create New Account",
     "forgotPassword": "Forgot my Password",
@@ -13,8 +12,9 @@
     "changePassword": "Change Password",
     "changemypassword": "Change my Password",
     "confirmationAccount": "Confirmation Account",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
 
+    
     "time":"{t, time, short}", 
     "date":"{d, date}",
 
