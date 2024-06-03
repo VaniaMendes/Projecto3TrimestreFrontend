@@ -7,7 +7,7 @@ import languages from "../translations";
 import { IntlProvider, FormattedMessage } from "react-intl";
 
 const FilterBar = (props) => {
-    const {locale} = props;
+    const {locale, projectsTotal, componentsTotal} = props;
     const [state, setState] = useState('all');
     const [stateSelected, setStateSelected] = useState(false);
     const [sortBy, setSortBy] = useState('newest');
@@ -76,20 +76,20 @@ const FilterBar = (props) => {
                                 {sortBySelected ? <MdArrowDropUp /> : <MdArrowDropDown/>}
                             </p>
                             {sortBySelected && (
-                                <div className="select-container">
-                                    <div>
+                                <div className={`select-container ${sortBySelected ? 'show' : ''}`}>
+                                    <div className="radio-wrapper">
                                         <input type="radio" id="newest" name="sort" value="Newest" />
                                         <label htmlFor="newest"><FormattedMessage id="newest"/></label>
                                     </div>
-                                    <div>
+                                    <div className="radio-wrapper">
                                         <input type="radio" id="oldest" name="sort" value="Oldest" />
                                         <label htmlFor="oldest"><FormattedMessage id="oldest"/></label>
                                     </div>
-                                    <div>
+                                    <div className="radio-wrapper">
                                         <input type="radio" id="vacanciesLow" name="sort" value="VacanciesLow" />
                                         <label htmlFor="vacanciesLow"><FormattedMessage id="vacancies"/> : <FormattedMessage id="lowToHigh"/></label>
                                     </div>
-                                    <div>
+                                    <div className="radio-wrapper">
                                         <input type="radio" id="vacanciesHigh" name="sort" value="VacanciesHigh" />
                                         <label htmlFor="vacanciesHigh"><FormattedMessage id="vacancies"/> : <FormattedMessage id="highToLow"/></label>
                                     </div>
