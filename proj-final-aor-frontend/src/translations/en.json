@@ -44,6 +44,12 @@
     "oldest": "Oldest",
     "vacancies": "Vacancies",
     "lowToHigh": "Low to High",
-    "highToLow": "High to Low"
+    "highToLow": "High to Low",
+
+    "lab": "Lab",
+    "description": "Description",
+    "keywords": "Keywords",
+    "skills": "Skills",
+    "teamMembers": "Team Members"
 
 } 

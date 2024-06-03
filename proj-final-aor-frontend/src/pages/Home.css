@@ -1,0 +1,80 @@
+.home-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 180px 50px 50px;
+
+    .left-side {
+        background-color: white;
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .right-side {
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 10px;
+        padding: 10px;
+        width: 20%;
+        border-radius: 5px;
+
+        .sk-title-container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            padding: 10px;
+            border-radius: 40px;
+            background-color: white;
+
+            .search-keyword-container{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: white;
+
+                .search-keyword-icon{
+                    margin-top: 10px;
+                    font-size: 1em;
+                    cursor: pointer;
+                    color: var(--grey-color);
+
+                    &:hover{
+                        color: var(--red2-color);
+                    }
+                }
+
+                .search-keyword{
+                    background-color: var(--light-grey);
+                    padding: 5px 10px;
+                    border: transparent;
+                    margin: 10px;
+    
+                    &:focus{
+                        outline: none;
+                    }
+                }
+
+            }
+            
+        }
+
+
+        .keyword{
+            background-color: white;
+            padding: 10px;
+            border-radius: 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    }
+}
