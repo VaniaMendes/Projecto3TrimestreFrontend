@@ -2,7 +2,7 @@
 
 import React from "react";
 import ForgetPasswordForm from "../components/forms/ForgotPasswordForm.js";
-import logo from '../components/assets/Logo_CSW-full-redimens.png';
+import logo from '../components/assets/Logo_CSW-full-redim.png';
 
 const ForgetPassword = () => {
     return (
