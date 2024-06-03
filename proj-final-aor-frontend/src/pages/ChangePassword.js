@@ -1,7 +1,7 @@
 
 
 import React from "react";
-import logo from '../components/assets/Logo_CSW-full-redimens.png';
+import logo from '../components/assets/Logo_CSW-full-redim.png';
 import ChangePasswordForm from "../components/forms/ChangePasswordForm.js";
 
 const ChangePassword = () => {

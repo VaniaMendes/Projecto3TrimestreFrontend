@@ -1,7 +1,7 @@
 
 import React from "react";
 import RegisterForm from "../components/forms/RegisterForm";
-import logo from '../components/assets/Logo_CSW-full-redimens.png';
+import logo from '../components/assets/Logo_CSW-full-redim.png';
 import './Login.css';
 
 const Register = () => {
