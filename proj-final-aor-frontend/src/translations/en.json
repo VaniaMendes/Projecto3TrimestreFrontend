@@ -18,6 +18,11 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "uploadPhoto": "Upload Photo",
+    "firstName": "First Name *",
+    "lastName": "Last Name *",
+    "nickname": "Nickname *",
+    "biography": "Biography",
+    "perfilVisibility": "Profile Visibility",
 
     
     "time":"{t, time, short}", 

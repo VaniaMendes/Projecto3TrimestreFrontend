@@ -17,6 +17,11 @@
     "password": "Senha",
     "confirmPassword": "Confirmar senha",
     "uploadPhoto": "Carregar Foto",
+    "firstName": " Primeiro Nome",
+    "lastName": "Último Nome",
+    "nickname": "Alcunha",
+    "biography": "Biografia",
+    "perfilVisibility": "Visibilidade do Perfil",
 
     "time":"{t, time, short}", 
     "date":"{d, date}",
