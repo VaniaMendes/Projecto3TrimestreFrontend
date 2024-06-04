@@ -59,7 +59,7 @@
     }
 }
 
-label {
+.radio-label {
     font-size: 0.8em;
     cursor: pointer;
 
@@ -68,7 +68,7 @@ label {
     }
 }
 
-input {
+.radio-input {
     margin-right: 10px;
 }
 

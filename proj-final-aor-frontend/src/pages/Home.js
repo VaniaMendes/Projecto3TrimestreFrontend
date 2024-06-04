@@ -3,6 +3,7 @@ import "./Home.css";
 import Header from "../components/header/Header";
 import FilterBar from "../components/FilterBar";
 import ProjectInfo from "../components/ProjectInfo";
+import KeywordComponent from "../components/KeywordComponent";
 import {userStore} from "../stores/UserStore";
 import { IoSearch } from "react-icons/io5";
 import languages from "../translations"; 
@@ -44,6 +45,9 @@ const Home = () => {
                 <div className="left-side">
                     <ProjectInfo locale={locale}/>
                     <ProjectInfo locale={locale}/>
+                    <ProjectInfo locale={locale}/>
+                    <ProjectInfo locale={locale}/>
+                    <ProjectInfo locale={locale}/>
                 </div>
 
                 <div className="right-side">
@@ -55,17 +59,20 @@ const Home = () => {
                             <IoSearch className="search-keyword-icon" onClick={handleSearchIconClick}/>
                         )}
                         {showSearchKeywordBar && (
-                            <input className="search-keyword" type="search" placeholder="Search..." autoFocus/>
+                            <input className="search-keyword-input" type="search" placeholder="Search..." autoFocus/>
                         )}
                         </div>
                     </div>
                     
                     <div className="keywords-container">
-                        <div className="keyword">Keyword 1</div>
-                        <div className="keyword">Keyword 2</div>
-                        <div className="keyword">Keyword 3</div>
-                        <div className="keyword">Keyword 4</div>
-                        <div className="keyword">Keyword 5</div>
+                        <KeywordComponent keyword="Keyword 1"/>
+                        <KeywordComponent keyword="Keyword asdasdasda"/>
+                        <KeywordComponent keyword="Keyw"/>
+                        <KeywordComponent keyword="Keyword 3"/>
+                        <KeywordComponent keyword="Keyword 5"/>
+                        <KeywordComponent keyword="Keyword 6"/>
+                        <KeywordComponent keyword="Keyword 7"/>
+                        <KeywordComponent keyword="Keyword 8"/>
                     </div>
 
                 </div>

@@ -53,6 +53,8 @@
     "description": "Descrição",
     "keywords": "Palavras-chave",
     "skills": "Competências",
-    "teamMembers": "Membros da Equipa"
+    "teamMembers": "Membros da Equipa",
+
+    "developer": "Desenvolvedor"
 
 }
