@@ -8,11 +8,17 @@ import {userStore} from "../stores/UserStore";
 import { IoSearch } from "react-icons/io5";
 import languages from "../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
+import ProjectService from "../services/ProjectService";
 
 const Home = () => {
-    const {token, userData, locale} = userStore();
+    const {locale} = userStore();
     const [showSearchKeywordBar, setShowSearchKeywordBar] = useState(false);
     const searchContainerRef = useRef(null);
+    const [projectsData, setProjectsData] = useState([]);
+
+    useEffect(() => {
+        fetchProjectsData();
+    }, []);
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
@@ -21,6 +27,16 @@ const Home = () => {
             document.removeEventListener('click', handleClickOutside);
         };
     }, []);
+
+    const fetchProjectsData = async () => {
+        try {
+            const response = await ProjectService.getAll();
+            console.log(response);
+            setProjectsData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const handleSearchIconClick = (event) => {
         event.stopPropagation();

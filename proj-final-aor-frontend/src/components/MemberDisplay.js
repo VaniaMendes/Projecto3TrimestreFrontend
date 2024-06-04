@@ -9,8 +9,6 @@ const MemberDisplay = (props) => {
     const role = props.role;
     const locale = props.locale;
 
-    console.log(role);
-
     return (
         <div className="member-display">
             <IntlProvider locale={locale} messages={languages[locale]}>
