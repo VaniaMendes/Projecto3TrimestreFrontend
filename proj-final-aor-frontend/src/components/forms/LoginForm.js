@@ -46,7 +46,7 @@ function LoginForm() {
                 toast.error("Invalid email or password");
             } else {
                 updateToken(result);
-                toast.success("Successfully logged in");
+                navigate("/home");
             }
         } catch (error) {
             console.error("Error occurred while logging in:", error);
@@ -69,32 +69,51 @@ function LoginForm() {
             {/* Login form */}
             <form  onSubmit={handleSubmit}>
                     <br/>
+
+                    <div className = "input-container">
                     {/* Email input */}
+                    
                     <input 
                         type="text"
                         name="email"
                         value={newUser.email || ''}  
                         onChange = {handleChange} 
-                        placeholder="Email" 
+                        placeholder="Write your Email" 
                         
                         required
                     />
+                    <label htmlFor="email">
+                            <FormattedMessage id="email">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
+                        </div>
+                        <div className = "input-container">
                     {/* Password input */}
                     <input 
                         type="password" 
                         name="password"
                         value={newUser.password || ''} 
                         onChange = {handleChange}
-                        placeholder="Password" 
+                        placeholder="Write your password" 
                         
                         required
                     />
+
+                            <label htmlFor="password">
+                            <FormattedMessage id="password">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
+                    </div>
                     {/* Submit button */}
                     <button type="submit"><FormattedMessage id="login">
                         {(message) => <span>{message}</span>}
                       </FormattedMessage></button>
                     <span className="click-link" onClick={handleForgotPassword}>
-                        Forgot password?
+                    <FormattedMessage id="forgotyourPassword">
+                        {(message) => <span>{message}</span>}
+                      </FormattedMessage>
                     </span>
             </form>
             </IntlProvider>

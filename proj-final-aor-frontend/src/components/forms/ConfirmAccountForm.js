@@ -1,23 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
+import { confirmAccount } from "../../services/users";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from 'react-toastify';
+import queryString from "query-string";
+
 
 function Confirmation() {
   //State variables
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    nickname: "",
+    photo: null,
+    lab: "",
+    biography: "",
+    visibilityState: ""
+  });
+  const navigate = useNavigate();
+  const [tokenConfirmation, setTokenConfirmation] = useState("");
+  const location = useLocation();
+
 
   // Get the locale from the userStore
   const locale = userStore((state) => state.locale);
 
+  // Get the resetPassToken from the URL params
+  useEffect(() => {
+    const queryParams = queryString.parse(location.search);
+    const resetPassToken = queryParams.token;
+    if (resetPassToken) {
+      setTokenConfirmation(resetPassToken);
+    }
+  }, [location.search]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    const { photo, ...userData } = user; 
+    const formData = new FormData();
+    formData.append("photo", photo);
+    formData.append("userData", JSON.stringify(userData)); 
+
+    try {
+      const responseStatus = await confirmAccount(tokenConfirmation, formData);
+      if (responseStatus === 200) {
+        toast.success("Conta confirmada com sucesso!");
+        navigate("/login");
+      } else {
+        toast.warning(" Falha ao confirmar conta.");
+      }
+    } catch (error) {
+      console.error("Erro ao confirmar usuário:", error);
+      
+    }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUser(prevUser => ({ ...prevUser, [name]: value }));
-};
+
+  const handleChange = (event) => {
+    const { name, value, files } = event.target;
+    if (name === 'photo' && files.length > 0) {
+        const file = files[0];
+        const url = URL.createObjectURL(file);
+        setUser(url);
+    } else {
+        setUser(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    }
+}
+
 
   return (
     <div className="confirmation-container">
@@ -30,6 +85,9 @@ function Confirmation() {
         {/* Login form */}
         <form onSubmit={handleSubmit}>
           <br />
+
+          <div className="inputs-bottom">
+            <div className = "inputs-left">
           {/* FirstName input */}
           <input
             type="text"
@@ -57,7 +115,26 @@ function Confirmation() {
             onChange={handleChange}
             placeholder="Nickname"
           />
+          </div>
 
+          <div className = "inputs-right">
+
+            {/* Photo input*/}
+
+           <div className="confirm-photo">           </div>
+
+          <div className="change-photo">  
+            <input type="file" id="photo" name="photo" accept="image/*" value={user.photo}  style={{ display: 'none' }}
+            onChange={handleChange}/>
+
+            <button type="button" onClick={() => document.getElementById('photo').click()}>  <FormattedMessage id="uploadPhoto">
+            {(message) => <span>{message}</span>}
+          </FormattedMessage></button>
+            </div> 
+          
+
+            </div>
+</div>
           {/* Workplace input */}
           <div className="radio-buttons">
             <input type="radio" id="option1" name="lab" value="LISBOA"  onChange={handleChange} />

@@ -20,7 +20,7 @@ function ForgetPassword(){
    
 
     const handleBack = () =>{
-        navigate("/home");
+        navigate("/login");
     }
 
     const handleSubmit = async (event) => {

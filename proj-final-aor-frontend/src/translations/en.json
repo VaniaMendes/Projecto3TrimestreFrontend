@@ -1,11 +1,12 @@
 {
 
-    "welcome": "Welcome to the CSW",
+    "welcome": "Welcome to the ILM",
     "login": "Login",
     "signup": "Sign Up",
     "logout": "Logout",
     "register": "Create",
     "createAccount": " Create New Account",
+    "forgotyourPassword": "Forgot password?",
     "forgotPassword": "Forgot my Password",
     "recoveryPAssword" : "Recovery",
     "back": "Back",
@@ -13,6 +14,10 @@
     "changemypassword": "Change my Password",
     "confirmationAccount": "Confirmation Account",
     "confirm": "Confirm",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "uploadPhoto": "Upload Photo",
 
     
     "time":"{t, time, short}", 
