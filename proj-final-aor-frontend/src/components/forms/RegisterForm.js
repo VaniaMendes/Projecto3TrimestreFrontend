@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {register} from "../../services/users";
 import { toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom'
 
 
 function RegisterForm(){
@@ -16,6 +17,7 @@ function RegisterForm(){
 
     // State variables
     const [user, setUser] = useState({});
+    const navigate = useNavigate();
    
     // Handle change in input fields
     // Update the state variable with the new value
@@ -66,7 +68,8 @@ function RegisterForm(){
             if (result === 400) {
                 toast.error("Invalid email or password");
             } else {
-                toast.success("Successfully registered");
+                toast.success("Successfully registered. Please verify your email account.");
+                navigate("/login");
             }
         } catch (error) {
             console.error("Error occurred while registering:", error);
@@ -99,7 +102,7 @@ function RegisterForm(){
                         required
                     />
 
-<label htmlFor="email">
+<label  className="label-description" htmlFor="email">
                             <FormattedMessage id="email">
                                 {(message) => <span>{message}</span>}
                             </FormattedMessage>
@@ -117,7 +120,7 @@ function RegisterForm(){
                         required
                     />
                     
-                    <label htmlFor="password">
+                    <label className="label-description" htmlFor="password">
                             <FormattedMessage id="password">
                                 {(message) => <span>{message}</span>}
                             </FormattedMessage>
@@ -135,7 +138,7 @@ function RegisterForm(){
                         required
                     />
                     
-                    <label htmlFor="confirmPassword">
+                    <label className="label-description" htmlFor="confirmPassword">
                             <FormattedMessage id="confirmPassword">
                                 {(message) => <span>{message}</span>}
                             </FormattedMessage>

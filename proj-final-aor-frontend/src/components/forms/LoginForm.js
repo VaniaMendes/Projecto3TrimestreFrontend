@@ -82,7 +82,7 @@ function LoginForm() {
                         
                         required
                     />
-                    <label htmlFor="email">
+                    <label className="label-description" htmlFor="email">
                             <FormattedMessage id="email">
                                 {(message) => <span>{message}</span>}
                             </FormattedMessage>
@@ -100,7 +100,7 @@ function LoginForm() {
                         required
                     />
 
-                            <label htmlFor="password">
+                            <label className="label-description" htmlFor="password">
                             <FormattedMessage id="password">
                                 {(message) => <span>{message}</span>}
                             </FormattedMessage>

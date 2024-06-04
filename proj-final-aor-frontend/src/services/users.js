@@ -123,20 +123,28 @@ export async function resetPassword(resetPassToken, password, confirmPassword){
 }
 }
 
-export async function confirmAccount(tokenConfirmation, userData){
+export async function confirmAccount(tokenConfirmation, user, lab){
     try {
-        const response = await fetch(url + "/confirm", {
+
+         // Construct the URL with query parameters
+       const urlWithParams = new URL(`${url}/confirm`);
+       urlWithParams.searchParams.append("lab", lab);
+
+
+        const response = await fetch(urlWithParams, {
           method: 'PUT',
           headers: {
             Accept: "application/json",
             'Content-Type': 'application/json',
             'tokenConfirmation': tokenConfirmation
           },
-          body: JSON.stringify(userData)
+          body: JSON.stringify(user)
         });
+        console.log(response.status);
     
         if (response.ok) {
           return 200;
+          
           
         } else {
           return 400;
