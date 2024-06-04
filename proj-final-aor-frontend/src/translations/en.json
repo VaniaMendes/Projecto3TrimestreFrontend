@@ -55,6 +55,8 @@
     "description": "Description",
     "keywords": "Keywords",
     "skills": "Skills",
-    "teamMembers": "Team Members"
+    "teamMembers": "Team Members",
+
+    "developer": "Developer"
 
 } 
