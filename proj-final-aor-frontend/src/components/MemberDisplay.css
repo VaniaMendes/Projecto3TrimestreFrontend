@@ -1,0 +1,14 @@
+.member-display{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 50%;
+    padding: 2px;
+
+    .name-container{
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        padding: 5px 15px;
+    }
+}
