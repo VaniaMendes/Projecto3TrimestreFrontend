@@ -43,13 +43,6 @@
     "state": "State",
     "sortBy": "Sort By",
 
-    "planning": "Planning",
-    "ready": "Ready",
-    "approved": "Approved",
-    "inProgress": "In Progress",
-    "finished": "Finished",
-    "cancelled": "Cancelled",
-
     "newest": "Newest",
     "oldest": "Oldest",
     "vacancies": "Vacancies",
@@ -62,6 +55,15 @@
     "skills": "Skills",
     "teamMembers": "Team Members",
 
-    "developer": "Developer"
+    "developer": "Developer",
+    "CREATOR": "Creator",
+    "COLLABORATOR": "Collaborator",
+
+    "PLANNING": "Planning",
+    "READY": "Ready",
+    "APPROVED": "Approved",
+    "IN_PROGRESS": "In Progress",
+    "FINISHED": "Finished",
+    "CANCELLED": "Cancelled"
 
 } 
