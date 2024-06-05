@@ -35,7 +35,13 @@ const FilterBar = (props) => {
     return (
         <div className="filter-bar-container roboto-medium">
             <IntlProvider locale={locale} messages={languages[locale]}>
-                <p>XXX <FormattedMessage id="projects"/></p>
+                {projectsTotal > 0 && (
+                    <p>{projectsTotal} <FormattedMessage id="projects"/></p>
+                )}
+                {componentsTotal > 0 && (
+                    <p>{componentsTotal} <FormattedMessage id="components"/></p>
+                )}
+                
                 <div className="right-side">
                     {isMobile ? <BiSliderAlt className="filter-icon"/> : (
                         <>
@@ -47,27 +53,27 @@ const FilterBar = (props) => {
                                 <div className={`select-container ${stateSelected ? 'show' : ''}`}>
                                     <div className="radio-wrapper">
                                         <input className="radio-input" type="radio" id="planning" name="state" value="Planning" />
-                                        <label className="radio-label" htmlFor="planning"><FormattedMessage id="planning"/></label>
+                                        <label className="radio-label" htmlFor="planning"><FormattedMessage id="PLANNING"/></label>
                                     </div>
                                     <div className="radio-wrapper">
                                         <input className="radio-input" type="radio" id="ready" name="state" value="Ready" />
-                                        <label className="radio-label" htmlFor="ready"><FormattedMessage id="ready"/></label>
+                                        <label className="radio-label" htmlFor="ready"><FormattedMessage id="READY"/></label>
                                     </div>
                                     <div className="radio-wrapper">
                                         <input className="radio-input" type="radio" id="approved" name="state" value="Approved" />
-                                        <label className="radio-label" htmlFor="approved"><FormattedMessage id="approved"/></label>
+                                        <label className="radio-label" htmlFor="approved"><FormattedMessage id="APPROVED"/></label>
                                     </div>
                                     <div className="radio-wrapper">
                                         <input className="radio-input" type="radio" id="inProgress" name="state" value="InProgress" />
-                                        <label className="radio-label" htmlFor="inProgress"><FormattedMessage id="inProgress"/></label>
+                                        <label className="radio-label" htmlFor="inProgress"><FormattedMessage id="IN_PROGRESS"/></label>
                                     </div>
                                     <div className="radio-wrapper">
                                         <input className="radio-input" type="radio" id="finished" name="state" value="Finished" />
-                                        <label className="radio-label" htmlFor="finished"><FormattedMessage id="finished"/></label>
+                                        <label className="radio-label" htmlFor="finished"><FormattedMessage id="FINISHED"/></label>
                                     </div>
                                     <div className="radio-wrapper">
                                         <input className="radio-input" type="radio" id="cancelled" name="state" value="Cancelled" />
-                                        <label className="radio-label" htmlFor="cancelled"><FormattedMessage id="cancelled"/></label>
+                                        <label className="radio-label" htmlFor="cancelled"><FormattedMessage id="CANCELLED"/></label>
                                     </div>
                                 </div>
                             )}

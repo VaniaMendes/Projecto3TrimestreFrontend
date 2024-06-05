@@ -86,6 +86,7 @@ input[type="radio"] {
     border: 2px solid #ccc;
     width: 16px;
     height: 16px;
+    padding: 0;
     border-radius: 50%;
     outline: none;
     cursor: pointer;

@@ -1,11 +1,11 @@
-const API_BASE_URL = "http://localhost:8080/project_backend/rest/projects";
+const API_BASE_URL = "http://localhost:8080/project_backend/rest";
 
-const ProjectService = {
+const SkillInterestService = {
 
-    getAll: async () => {
+    getAllSkills: async () => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/`, {
+            const response = await fetch(`${API_BASE_URL}/skills/`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -27,10 +27,10 @@ const ProjectService = {
 
     },
 
-    count: async () => {
+    getAllInterests: async () => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/count`, {
+            const response = await fetch(`${API_BASE_URL}/interests/`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -51,7 +51,6 @@ const ProjectService = {
         }
 
     },
-
 };
 
-export default ProjectService;
+export default SkillInterestService;

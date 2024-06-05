@@ -1,11 +1,11 @@
 import React from "react";
-import "./KeywordComponent.css";
+import "./Keywords.css";
 
 const KeywordComponent = (props) => {
-    const keyword = props.keyword;
+    const {keyword, isProjectInfo} = props;
 
     return (
-        <div className="keyword-single-container">
+        <div className={isProjectInfo ? "kw-info" : "keyword-single-container"}>
             <p>{keyword}</p>
         </div>
     );

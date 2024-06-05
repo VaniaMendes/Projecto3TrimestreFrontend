@@ -1,31 +1,32 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import "./Home.css";
 import Header from "../components/header/Header";
 import FilterBar from "../components/FilterBar";
 import ProjectInfo from "../components/ProjectInfo";
-import KeywordComponent from "../components/KeywordComponent";
+import KeywordsContainer from "../components/keywords/KeywordsContainer";
 import {userStore} from "../stores/UserStore";
-import { IoSearch } from "react-icons/io5";
 import languages from "../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
 import ProjectService from "../services/ProjectService";
 
 const Home = () => {
     const {locale} = userStore();
-    const [showSearchKeywordBar, setShowSearchKeywordBar] = useState(false);
-    const searchContainerRef = useRef(null);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+    const [projectsTotal, setProjectsTotal] = useState(0);
+    
     const [projectsData, setProjectsData] = useState([]);
 
     useEffect(() => {
         fetchProjectsData();
+        featchCountProjects();
     }, []);
 
     useEffect(() => {
-        document.addEventListener('click', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
         };
+
+        window.addEventListener('resize', handleResize);
     }, []);
 
     const fetchProjectsData = async () => {
@@ -39,21 +40,23 @@ const Home = () => {
         }
     };
 
-    const handleSearchIconClick = (event) => {
-        event.stopPropagation();
-        setShowSearchKeywordBar(true);
-    };
-
-    const handleClickOutside = (event) => {
-        if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
-            setShowSearchKeywordBar(false);
+    const featchCountProjects = async () => {
+        try {
+            const response = await ProjectService.count();
+            
+            setProjectsTotal(response);
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
     };
+
+    
 
     return (
         <div>
             <Header />
-            <FilterBar locale={locale}/>
+            <FilterBar locale={locale} projectsTotal={projectsTotal}/>
 
             <IntlProvider locale={locale} messages={languages[locale]}>
 
@@ -61,38 +64,18 @@ const Home = () => {
 
                 <div className="left-side">
                     {projectsData.length > 0 ? (
-                        <ProjectInfo locale={locale} data={projectsData} />
+                        <ProjectInfo data={projectsData} />
                     ) : (
                         <div>Loading...</div>
                     )}
                 </div>
 
-                <div className="right-side">
-                    <div className="sk-title-container">
-                        <h3><FormattedMessage id="skills"/> / </h3>
-                        <h3><FormattedMessage id="keywords"/></h3>
-                        <div className="search-keyword-container" ref={searchContainerRef}>
-                        {!showSearchKeywordBar && (
-                            <IoSearch className="search-keyword-icon" onClick={handleSearchIconClick}/>
-                        )}
-                        {showSearchKeywordBar && (
-                            <input className="search-keyword-input" type="search" placeholder="Search..." autoFocus/>
-                        )}
-                        </div>
-                    </div>
-                    
-                    <div className="keywords-container">
-                        <KeywordComponent keyword="Keyword 1"/>
-                        <KeywordComponent keyword="Keyword asdasdasda"/>
-                        <KeywordComponent keyword="Keyw"/>
-                        <KeywordComponent keyword="Keyword 3"/>
-                        <KeywordComponent keyword="Keyword 5"/>
-                        <KeywordComponent keyword="Keyword 6"/>
-                        <KeywordComponent keyword="Keyword 7"/>
-                        <KeywordComponent keyword="Keyword 8"/>
-                    </div>
+                {!isMobile && (
 
-                </div>
+                    <div className="right-side">
+                        <KeywordsContainer />
+                    </div>
+                )}
 
             </div>
 

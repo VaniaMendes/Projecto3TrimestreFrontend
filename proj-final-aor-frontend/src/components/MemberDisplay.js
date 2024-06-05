@@ -1,25 +1,24 @@
 import React from "react";
 import "./MemberDisplay.css";
-import languages from "../translations"; 
-import { IntlProvider, FormattedMessage } from "react-intl";
+import defaultPhoto from "./assets/profile_pic_default.png"
+import {FormattedMessage } from "react-intl";
 
 const MemberDisplay = (props) => {
     const photo = props.photo;
     const name = props.name;
     const role = props.role;
-    const locale = props.locale;
 
     return (
         <div className="member-display">
-            <IntlProvider locale={locale} messages={languages[locale]}>
+            
                 <div className="photo-container">
-                    <img src={photo} alt="member" />
+                    <img src={photo || defaultPhoto} alt="member" />
                 </div>
                 <div className="name-container">
                     <h4>{name}</h4>
                     <p><FormattedMessage id={role}/></p>
                 </div>
-            </IntlProvider>
+            
         </div>
     );
 }
