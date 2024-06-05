@@ -11,7 +11,8 @@ function Profile() {
     // Get the locale from the userStore
   const locale = userStore((state) => state.locale);
   const token = userStore((state) => state.token); 
-  const userId = userStore((state) => state.userId);
+  console.log(token);
+
   const intl = useIntl();
 
   //State variables
@@ -19,30 +20,37 @@ function Profile() {
 
   useEffect(() => {
     async function fetchUser(){
-        const data = await getUserInfo(token, userId);
+        const data = await getUserInfo(token);
         setUser(data);
     }
     fetchUser();
-    }, []);
+    }, [token]);
 
-
-
+ 
+console.log(user);
 
     return (
         <div className="profile-container">
              <IntlProvider locale={locale} messages={languages[locale]}>
             <div className="profile-header">
                 <div className="profile-image">
-                    {photo ? <img src={photo} alt="User Photo" /> : <img src={logo} alt="Logo" />}
+                    {user && user.photo ? <img src={user.photo} alt=" Photo" /> : <img src={logo} alt="Logo" />}
                 </div>
+                <div className="profile-info">
+            {user && <div className="user-name">{user.firstName} {user.lastName}</div>}
+            {user && <div className="user-email">{user.email}</div>}
+            {user && <div className = "user-lab">{user.lab.name}</div>}
+        </div>
             </div>
+              {/* Conteúdo da biografia */}
             <div className="profile-biography">
                 <div className="input-profile">
                 <label className="label-profile" htmlFor="biography">
                             {intl.formatMessage({ id: "biography"})}
                         </label>
                 </div>
-                {/* Conteúdo da biografia */}
+                
+
             </div>
             <div className="profile-keywords">
                 {/* Conteúdo das palavras-chave */}

@@ -45,10 +45,9 @@
     height: 100px;
     border: 2px solid var(--background-color);
     border-radius: 50%;
-    overflow: hidden;
     margin-bottom: 15px;
     position: relative;
-    top: -60%;
+    top: -49%;
 }
 
 .profile-image img {
@@ -118,4 +117,15 @@
     width: 100%;
     padding-top: 20px;
     box-sizing: border-box;
+}
+
+
+.profile-info{
+    display: flex;
+    justify-content: space-between;
+   
+
+}
+.user-name, .user-email, .user-lab {
+    margin: 0 95px; /* Adiciona uma margem de 10px à esquerda e à direita de cada elemento */
 }

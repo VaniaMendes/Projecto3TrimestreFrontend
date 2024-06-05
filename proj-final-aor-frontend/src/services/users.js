@@ -1,5 +1,5 @@
 //Define the base URL for the backend API
-const url = "https://localhost:8443/project_backend/rest/users";
+const url = "http://localhost:8080/project_backend/rest/users";
 
 // Export an asynchronous function named 'login' that receives a 'newUser' object as a parameter
 export async function login(newUser){
@@ -158,14 +158,10 @@ export async function confirmAccount(tokenConfirmation, user, lab){
 }
 
 
-export async function getUserInfo(token, userId){
+export async function getUserInfo(token){
     try{
 
-          // Construct the URL with query parameters
-       const urlWithParams = new URL(`${url}/`);
-       urlWithParams.searchParams.append("userId", userId);
-
-        const response = await fetch(urlWithParams, {
+        const response = await fetch(url + "/profile", {
             method: "GET",
             headers: {
                 Accept: "application/json",
