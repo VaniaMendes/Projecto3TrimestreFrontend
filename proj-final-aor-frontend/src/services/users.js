@@ -1,5 +1,5 @@
 //Define the base URL for the backend API
-const url = "http://localhost:8080/project_backend/rest/users";
+const url = "https://localhost:8443/project_backend/rest/users";
 
 // Export an asynchronous function named 'login' that receives a 'newUser' object as a parameter
 export async function login(newUser){
@@ -153,7 +153,42 @@ export async function confirmAccount(tokenConfirmation, user, lab){
         console.error('Erro ao confirmar usuário:', error);
      
       }
+    
 
 }
 
-  
+
+export async function getUserInfo(token, userId){
+    try{
+
+          // Construct the URL with query parameters
+       const urlWithParams = new URL(`${url}/`);
+       urlWithParams.searchParams.append("userId", userId);
+
+        const response = await fetch(urlWithParams, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Login failed:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}

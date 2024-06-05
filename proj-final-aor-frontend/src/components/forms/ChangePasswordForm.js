@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,6 +18,8 @@ function ChangePasswordForm() {
   const [resetPassToken, setResetPassToken] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+  const intl = useIntl();
 
   // Get the resetPassToken from the URL params
   useEffect(() => {
@@ -44,7 +46,7 @@ function ChangePasswordForm() {
 
     if (!validatePassword(password)) {
       toast.error(
-        "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character"
+        "Invalid Password"
       );
       return;
     }
@@ -77,7 +79,7 @@ function ChangePasswordForm() {
   return (
     <div className="register-container">
       <IntlProvider locale={locale} messages={languages[locale]}>
-        <h2>
+        <h2 className="title-forms">
           <FormattedMessage id="changemypassword">
             {(message) => <span>{message}</span>}
           </FormattedMessage>
@@ -86,24 +88,47 @@ function ChangePasswordForm() {
         <form onSubmit={handleSubmit}>
           <br />
           {/* Password input */}
+          <div className="input-container">
           <input
             type="text"
             name="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="New Password"
+            onFocus={() => setShowPasswordRequirements(true)}
+            onBlur={() => setShowPasswordRequirements(false)}
+            placeholder={intl.formatMessage({ id: "password"})}
             required
           />
+           <label className="label-description" htmlFor="password">
+                            <FormattedMessage id="password">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
+          </div>
+          {showPasswordRequirements && (
+            <p className="message-user-password">
+                <FormattedMessage id="messageAboutPassword">
+              {(message) => <span>{message}</span>}
+            </FormattedMessage>
+           </p>
+          )}
           {/* Confirm Password input */}
+         <div className="input-container">
           <input
             type="text"
             name="newPassword"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            placeholder="Confirm New Password"
+            placeholder={intl.formatMessage({ id: "newPassword"})}
             required
           />
+           <label className="label-description" htmlFor="password">
+                            <FormattedMessage id="newPassword">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
          
+         </div>
 
           {/* Submit button */}
           <button type="submit">

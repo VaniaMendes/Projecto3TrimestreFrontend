@@ -1,0 +1,121 @@
+:root {
+    --width-profile: 70%;
+    --main-red: #ff0000;
+    --background-color: #f0f0f0;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 15%;
+    height: auto;
+}
+
+.profile-header,
+.profile-biography,
+.profile-keywords,
+.profile-interests,
+.profile-projects {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    border-radius: 10px;
+    border: solid 1px var(--main-red);
+    width: var(--width-profile);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile-biography {
+    position: relative;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--background-color);
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 15px;
+    position: relative;
+    top: -60%;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+
+    
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --width-profile: 90%;
+    }
+    
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    :root {
+        --width-profile: 100%;
+    }
+
+    .profile-container {
+        padding: 10px;
+    }
+    
+    .profile-header,
+    .profile-biography,
+    .profile-keywords,
+    .profile-interests,
+    .profile-projects {
+        width: 100%;
+        padding: 10px;
+    }
+    
+    .profile-image {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.profile-header {
+    height: 150px;
+}
+
+.label-profile {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 1%;
+    transform: translateY(-220%);
+    pointer-events: none;
+    transition: all 0.2s;
+    font-size: 15px;
+    color: var(--main-red);
+    background-color: white;
+    padding: 0 5px;
+}
+
+.input-profile {
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+    box-sizing: border-box;
+}

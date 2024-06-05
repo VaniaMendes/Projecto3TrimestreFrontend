@@ -7,9 +7,9 @@
     "createAccount" : " Criar nova conta",
     "forgotyourPassword": "Esqueceu a senha?",
     "forgotPassword": "Esqueci a senha",
-    "recoveryPAssword": "Recuperar senha",
+    "recoveryPAssword": "Enviar",
     "back": "Voltar",
-    "changePassword": "Alterar password",
+    "changePassword": "Recuperar senha",
     "changemypassword": "Alterar a minha senha",
     "confirmationAccount": "Confimação de conta",
     "confirm": "Confirmar",
@@ -22,6 +22,11 @@
     "nickname": "Alcunha",
     "biography": "Biografia",
     "perfilVisibility": "Visibilidade do Perfil",
+    "messageRecoveryPassword": "Insira o seu email e enviaremos um link para recuperar a sua senha",
+    "messageAboutPassword": "A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
+    "newPassword": "Confirmar senha",
+    "interests": "Interesses",
+
 
     "time":"{t, time, short}", 
     "date":"{d, date}",
