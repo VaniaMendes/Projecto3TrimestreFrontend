@@ -31,8 +31,9 @@ const Home = () => {
     const fetchProjectsData = async () => {
         try {
             const response = await ProjectService.getAll();
-            console.log(response);
-            setProjectsData(response.data);
+            
+            setProjectsData(response);
+            
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -59,11 +60,11 @@ const Home = () => {
             <div className="home-container">
 
                 <div className="left-side">
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
+                    {projectsData.length > 0 ? (
+                        <ProjectInfo locale={locale} data={projectsData} />
+                    ) : (
+                        <div>Loading...</div>
+                    )}
                 </div>
 
                 <div className="right-side">
