@@ -26,6 +26,8 @@
     "messageAboutPassword": "A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula, um número e um caractere especial.",
     "newPassword": "Confirmar senha",
     "interests": "Interesses",
+    "addNewSkill": "Adicionar nova competência",
+   
 
 
     "time":"{t, time, short}", 

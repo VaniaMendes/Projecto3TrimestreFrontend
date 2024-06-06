@@ -27,6 +27,15 @@
     "messageAboutPassword": "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.",
     "newPassword": "Confirm Password",
     "interests": "Interests",
+    "name": "Name: ",
+    "initialData": "Initial Date:",
+    "finalData": "Final Date:",
+    "addNewSkill": "Add New Skill",
+   
+  
+
+    
+   
     
     
 
