@@ -17,7 +17,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-    const navigate = useNavigate();
+
     const {token, userData, locale} = userStore();
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
