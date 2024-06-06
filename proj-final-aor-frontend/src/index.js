@@ -12,6 +12,7 @@ import Register from './pages/Register.js';
 import { ToastContainer } from 'react-toastify';
 import ChangePassword from './pages/ChangePassword.js';
 import ConfirmationAccount from './pages/ConfirmationAccount.js';
+import NewProject from './pages/NewProject.js';
 
 
 function Routing() {
@@ -36,6 +37,9 @@ function Routing() {
         </>} />
         <Route path="/confirm-account" element={<>
           <ConfirmationAccount />
+        </>} />
+        <Route path="/new-project" element={<>
+          <NewProject />
         </>} />
       </Routes>
     </div>

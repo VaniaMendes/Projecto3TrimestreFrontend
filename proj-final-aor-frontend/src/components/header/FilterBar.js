@@ -3,10 +3,12 @@ import './FilterBar.css';
 import { MdArrowDropDown } from "react-icons/md";
 import { MdArrowDropUp } from "react-icons/md";
 import { BiSliderAlt } from "react-icons/bi";
-import languages from "../translations"; 
+import { useActionsStore } from "../../stores/ActionStore";
+import languages from "../../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
 
 const FilterBar = (props) => {
+    const {isSliderOpen, updateIsSliderOpen} = useActionsStore();
     const {locale, projectsTotal, componentsTotal} = props;
     const [state, setState] = useState('all');
     const [stateSelected, setStateSelected] = useState(false);
@@ -32,6 +34,10 @@ const FilterBar = (props) => {
         setStateSelected(false);
     };
 
+    const handleClickSliderIcon = () => {
+        updateIsSliderOpen(!isSliderOpen);
+    }
+
     return (
         <div className="filter-bar-container roboto-medium">
             <IntlProvider locale={locale} messages={languages[locale]}>
@@ -43,7 +49,7 @@ const FilterBar = (props) => {
                 )}
                 
                 <div className="right-side">
-                    {isMobile ? <BiSliderAlt className="filter-icon"/> : (
+                    {isMobile ? <BiSliderAlt className={isSliderOpen ? "slider-icon-active" : 'slider-icon'} onClick={handleClickSliderIcon}/> : (
                         <>
                             <p className={stateSelected ? 'active-item' : ''} onClick={handleClickState}>
                                 <FormattedMessage id="state"/>
