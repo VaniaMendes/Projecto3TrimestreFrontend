@@ -1,6 +1,6 @@
 
 import React, {useState} from "react"
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
 import languages from "../../translations";
 import {userStore} from "../../stores/UserStore";
 import { ToastContainer } from 'react-toastify';
@@ -18,6 +18,8 @@ function RegisterForm(){
     // State variables
     const [user, setUser] = useState({});
     const navigate = useNavigate();
+    const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
+    const intl = useIntl();
    
     // Handle change in input fields
     // Update the state variable with the new value
@@ -52,7 +54,7 @@ function RegisterForm(){
         }
 
         if (!validatePassword(user.password)) {
-           toast.warning("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
+           toast.warning("Invalid password");
             return;
         }
 
@@ -82,7 +84,7 @@ function RegisterForm(){
            <IntlProvider locale={locale} messages={languages[locale]}> 
 
             <ToastContainer />
-            <h2>
+            <h2 className="title-forms">
             <FormattedMessage id="createAccount">
                         {(message) => <span>{message}</span>}
                       </FormattedMessage>
@@ -97,7 +99,7 @@ function RegisterForm(){
                         name="email"
                         value={user.email || ''}  
                         onChange = {handleChange} 
-                        placeholder="Email" 
+                        placeholder={intl.formatMessage({ id: "email"})} 
                         
                         required
                     />
@@ -115,17 +117,25 @@ function RegisterForm(){
                         name="password"
                         value={user.password || ''} 
                         onChange = {handleChange}
-                        placeholder="Password" 
+                        onFocus={() => setShowPasswordRequirements(true)}
+                        onBlur={() => setShowPasswordRequirements(false)}
+                        placeholder={intl.formatMessage({ id: "password"})}
                         
                         required
                     />
                     
+                    
                     <label className="label-description" htmlFor="password">
-                            <FormattedMessage id="password">
-                                {(message) => <span>{message}</span>}
-                            </FormattedMessage>
+                    {intl.formatMessage({ id: "password"})}
                         </label>
                     </div>
+                    {showPasswordRequirements && (
+            <p className="message-user-password">
+                <FormattedMessage id="messageAboutPassword">
+              {(message) => <span>{message}</span>}
+            </FormattedMessage>
+           </p>
+          )}
                     <div className = "input-container">
                     {/* Password input */}
                     <input 
@@ -133,7 +143,8 @@ function RegisterForm(){
                         name="confirmPassword"
                         value={user.confirmPassword || ''} 
                         onChange = {handleChange}
-                        placeholder="Confirm Password" 
+                      
+                        placeholder={intl.formatMessage({ id: "confirmPassword"})}
                         
                         required
                     />

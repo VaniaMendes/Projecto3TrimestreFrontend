@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { IntlProvider, FormattedMessage,  useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
 import { confirmAccount } from "../../services/users";
@@ -7,6 +7,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import queryString from "query-string";
 import './FormStyle.css';
+import logo from '../assets/profile_pic_default.png';
 
 
 function Confirmation() {
@@ -24,6 +25,7 @@ function Confirmation() {
   const [tokenConfirmation, setTokenConfirmation] = useState("");
   const location = useLocation();
   const [photo, setPhoto]= useState(null);
+  const intl = useIntl();
 
 
   // Get the locale from the userStore
@@ -95,7 +97,7 @@ const handleChangePhoto = (event) => {
   return (
     <div className="confirmation-container">
       <IntlProvider locale={locale} messages={languages[locale]}>
-        <h2 >
+        <h2 className="title-forms" >
           <FormattedMessage id="confirmationAccount">
             {(message) => <span>{message}</span>}
           </FormattedMessage>
@@ -113,7 +115,7 @@ const handleChangePhoto = (event) => {
             name="firstName"
             value={user.firstName}
             onChange={handleChange}
-            placeholder="First Name"
+            placeholder={intl.formatMessage({ id: "firstName"})}
             required
           />
           <label className="label-description" htmlFor="firstName">
@@ -129,7 +131,7 @@ const handleChangePhoto = (event) => {
             name="lastName"
             value={user.lastName}
             onChange={handleChange}
-            placeholder="Last Name"
+            placeholder={intl.formatMessage({ id: "lastName"})}
             required
           />
 
@@ -146,7 +148,7 @@ const handleChangePhoto = (event) => {
             name="nickname"
             value={user.nickname}
             onChange={handleChange}
-            placeholder="Nickname"
+            placeholder={intl.formatMessage({ id: "nickname"})}
           />
           <label className="label-description" htmlFor="nickname">
                             <FormattedMessage id="nickname">
@@ -159,7 +161,7 @@ const handleChangePhoto = (event) => {
           <div className = "inputs-right">
             {/* Photo display */}
             <div className="confirm-photo">
-                {photo && <img src={photo} alt="Selected" />}
+            {photo ? <img src={photo} alt="User Photo" /> : <img src={logo} alt="Logo" />}
               </div>
 
 
@@ -215,14 +217,12 @@ const handleChangePhoto = (event) => {
             name="biography"
             value={user.biography}
             onChange={handleChange}
-            placeholder="Biography"
+            placeholder={intl.formatMessage({ id: "biography"})}
           />
           <label className="label-description" htmlFor="biography">
-                            <FormattedMessage id="biography">
-                                {(message) => <span>{message}</span>}
-                            </FormattedMessage>
-                        </label>
+          {intl.formatMessage({ id: "biography"})}</label>
           </div>
+                        
           {/* Visibility input */}
           <div className="radio-buttonsConfirm">
             <p className="visibility-description" > <FormattedMessage id="perfilVisibility">

@@ -1,6 +1,6 @@
 
 import React, {useState} from "react"
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
 import languages from "../../translations";
 import {userStore} from "../../stores/UserStore";
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,6 +17,7 @@ function ForgetPassword(){
     // State variables
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
+    const intl = useIntl();
    
 
     const handleBack = () =>{
@@ -43,7 +44,7 @@ function ForgetPassword(){
         <div className="register-container">
            <IntlProvider locale={locale} messages={languages[locale]}> 
 
-            <h2>
+            <h2 className="title-forms">
             <FormattedMessage id="changePassword">
                         {(message) => <span>{message}</span>}
                       </FormattedMessage>
@@ -51,17 +52,28 @@ function ForgetPassword(){
             {/* Login form */}
             <form  onSubmit={handleSubmit}>
                     <br/>
+                     <p className="message-user"> <FormattedMessage id="messageRecoveryPassword">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage></p>
                     {/* Email input */}
+                    <div className="input-container">
+                       
                     <input 
                         type="text"
                         name="email"
                         value={email}  
                         onChange={(e) => setEmail(e.target.value)} 
-                        placeholder="Email"                       
+                        placeholder={intl.formatMessage({ id: "email"})}                      
                         
                         required
                     />
-                  
+                     <label className="label-description" htmlFor="email">
+                            <FormattedMessage id="email">
+                                {(message) => <span>{message}</span>}
+                            </FormattedMessage>
+                        </label>
+                  </div>
+                  <div className="buttons-forgotPassword">
                     {/* Submit button */}
                     <button type="submit"><FormattedMessage id="recoveryPAssword">
                         {(message) => <span>{message}</span>}
@@ -70,7 +82,7 @@ function ForgetPassword(){
                     <button onClick={handleBack}><FormattedMessage id="back">
                         {(message) => <span>{message}</span>}
                       </FormattedMessage></button>
-                    
+                    </div>
             </form>
             </IntlProvider>
 

@@ -153,7 +153,39 @@ export async function confirmAccount(tokenConfirmation, user, lab){
         console.error('Erro ao confirmar usuário:', error);
      
       }
+    
 
 }
 
-  
+
+export async function getUserInfo(token){
+    try{
+
+        const response = await fetch(url + "/profile", {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Login failed:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
+

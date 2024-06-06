@@ -8,9 +8,9 @@
     "createAccount": " Create New Account",
     "forgotyourPassword": "Forgot password?",
     "forgotPassword": "Forgot my Password",
-    "recoveryPAssword" : "Recovery",
+    "recoveryPAssword" : "Send",
     "back": "Back",
-    "changePassword": "Change Password",
+    "changePassword": "Recovery Password",
     "changemypassword": "Change my Password",
     "confirmationAccount": "Confirmation Account",
     "confirm": "Confirm",
@@ -23,6 +23,21 @@
     "nickname": "Nickname *",
     "biography": "Biography",
     "perfilVisibility": "Profile Visibility",
+    "messageRecoveryPassword": "Enter your email and we will send you a link to reset your password",
+    "messageAboutPassword": "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.",
+    "newPassword": "Confirm Password",
+    "interests": "Interests",
+    "name": "Name: ",
+    "initialData": "Initial Date:",
+    "finalData": "Final Date:",
+    "addNewSkill": "Add New Skill",
+   
+  
+
+    
+   
+    
+    
 
     
     "time":"{t, time, short}", 
