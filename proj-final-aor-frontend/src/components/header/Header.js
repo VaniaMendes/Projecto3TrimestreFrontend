@@ -14,10 +14,10 @@ import './Header.css';
 import {userStore} from "../../stores/UserStore";
 import languages from "../../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-    
+
     const {token, userData, locale} = userStore();
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
@@ -108,8 +108,8 @@ const Header = () => {
                                 </div>
                                 {showProjectsMenu && (
                                         <div className="submenu">
-                                            <p><FormattedMessage id="create"/></p>
-                                            <p><FormattedMessage id="seeAll"/></p>
+                                            <p onClick={() => navigate(`/new-project`)}><FormattedMessage id="create"/></p>
+                                            <p onClick={() => navigate(`/home`)}><FormattedMessage id="seeAll"/></p>
                                             <p><FormattedMessage id="myProjects"/></p>
                                         </div>
                                     )}

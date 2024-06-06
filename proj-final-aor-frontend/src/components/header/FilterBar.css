@@ -9,6 +9,7 @@
     margin-top: 100px;
     width: 100%;
     border-bottom: #ccc 1px solid;
+    z-index: 500;
 
     .right-side{
         display: flex;
@@ -72,46 +73,20 @@
     margin-right: 10px;
 }
 
-.filter-icon {
+.slider-icon {
     font-size: 1.2em;
     cursor: pointer;
 }
 
-/* Hide the default radio button appearance */
-input[type="radio"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: #fff;
-    border: 2px solid #ccc;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    outline: none;
+.slider-icon-active {
+    font-size: 1.2em;
+    color: var(--main-red);
     cursor: pointer;
-    position: relative;
-    margin-right: 10px;
 }
 
-input[type="radio"]:checked {
-    background-color: #fff;
-    border-color: var(--grey-color);
-}
 
-input[type="radio"]:checked::after {
-    content: '';
-    display: block;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--grey-color);
-    position: absolute;
-    top: 2px;
-    left: 2.5px;
+@media (max-width: 768px) {
+    .radio-wrapper {
+        padding: 0.5em;
+    }
 }
-
-/* Change the background color of the entire div when the radio button is checked */
-input[type="radio"]:checked + label {
-    color: var(--main-red); /* Change text color if necessary */
-}
-

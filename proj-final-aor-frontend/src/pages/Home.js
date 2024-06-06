@@ -1,86 +1,157 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect} from "react";
 import "./Home.css";
-import Header from "../components/header/Header";
-import FilterBar from "../components/FilterBar";
-import ProjectInfo from "../components/ProjectInfo";
-import KeywordComponent from "../components/KeywordComponent";
-import {userStore} from "../stores/UserStore";
-import { IoSearch } from "react-icons/io5";
 import languages from "../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
+import Header from "../components/header/Header";
+import FilterBar from "../components/header/FilterBar";
+import ProjectInfo from "../components/ProjectInfo";
+import KeywordsContainer from "../components/keywords/KeywordsContainer";
+import ProjectService from "../services/ProjectService";
+import SliderContainer from "../components/SliderContainer";
+import {userStore} from "../stores/UserStore";
+import { useActionsStore } from "../stores/ActionStore";
 
 const Home = () => {
-    const {token, userData, locale} = userStore();
-    const [showSearchKeywordBar, setShowSearchKeywordBar] = useState(false);
-    const searchContainerRef = useRef(null);
+    const {locale} = userStore();
+    const {isSliderOpen} = useActionsStore();
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+    const [projectsTotal, setProjectsTotal] = useState(0);
+    
+    const [projectsData, setProjectsData] = useState([]);
 
     useEffect(() => {
-        document.addEventListener('click', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('click', handleClickOutside);
-        };
+        fetchProjectsData();
+        featchCountProjects();
     }, []);
 
-    const handleSearchIconClick = (event) => {
-        event.stopPropagation();
-        setShowSearchKeywordBar(true);
-    };
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
 
-    const handleClickOutside = (event) => {
-        if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
-            setShowSearchKeywordBar(false);
+        window.addEventListener('resize', handleResize);
+    }, []);
+
+    const fetchProjectsData = async () => {
+        try {
+            const response = await ProjectService.getAll();
+            
+            setProjectsData(response);
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
     };
+
+    const featchCountProjects = async () => {
+        try {
+            const response = await ProjectService.count();
+            
+            setProjectsTotal(response);
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    
 
     return (
         <div>
             <Header />
-            <FilterBar locale={locale}/>
+            <FilterBar locale={locale} projectsTotal={projectsTotal}/>
 
             <IntlProvider locale={locale} messages={languages[locale]}>
 
             <div className="home-container">
 
                 <div className="left-side">
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
-                    <ProjectInfo locale={locale}/>
+                    {projectsData.length > 0 ? (
+                        <ProjectInfo data={projectsData} />
+                    ) : (
+                        <div>Loading...</div>
+                    )}
                 </div>
 
-                <div className="right-side">
-                    <div className="sk-title-container">
-                        <h3><FormattedMessage id="skills"/> / </h3>
-                        <h3><FormattedMessage id="keywords"/></h3>
-                        <div className="search-keyword-container" ref={searchContainerRef}>
-                        {!showSearchKeywordBar && (
-                            <IoSearch className="search-keyword-icon" onClick={handleSearchIconClick}/>
-                        )}
-                        {showSearchKeywordBar && (
-                            <input className="search-keyword-input" type="search" placeholder="Search..." autoFocus/>
-                        )}
-                        </div>
-                    </div>
-                    
-                    <div className="keywords-container">
-                        <KeywordComponent keyword="Keyword 1"/>
-                        <KeywordComponent keyword="Keyword asdasdasda"/>
-                        <KeywordComponent keyword="Keyw"/>
-                        <KeywordComponent keyword="Keyword 3"/>
-                        <KeywordComponent keyword="Keyword 5"/>
-                        <KeywordComponent keyword="Keyword 6"/>
-                        <KeywordComponent keyword="Keyword 7"/>
-                        <KeywordComponent keyword="Keyword 8"/>
-                    </div>
+                {!isMobile && (
 
-                </div>
+                    <div className="right-side">
+                        <KeywordsContainer />
+                    </div>
+                )}
 
+                {isMobile && (
+                    <SliderContainer isOpen={isSliderOpen}>
+                        <FilterOptions />
+                        <KeywordsContainer />
+                    </SliderContainer>
+                )}
             </div>
 
             </IntlProvider>
         </div>
+    );
+};
+
+
+
+
+
+const FilterOptions = () => {
+    
+    return (
+        <>
+            <div className="filter-options">
+                <p><FormattedMessage id="state" /></p>
+                <div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="planning" name="state" value="Planning" />
+                        <label className="radio-label" htmlFor="planning"><FormattedMessage id="PLANNING" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="ready" name="state" value="Ready" />
+                        <label className="radio-label" htmlFor="ready"><FormattedMessage id="READY" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="approved" name="state" value="Approved" />
+                        <label className="radio-label" htmlFor="approved"><FormattedMessage id="APPROVED" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="inProgress" name="state" value="InProgress" />
+                        <label className="radio-label" htmlFor="inProgress"><FormattedMessage id="IN_PROGRESS" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="finished" name="state" value="Finished" />
+                        <label className="radio-label" htmlFor="finished"><FormattedMessage id="FINISHED" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="cancelled" name="state" value="Cancelled" />
+                        <label className="radio-label" htmlFor="cancelled"><FormattedMessage id="CANCELLED" /></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div className="filter-options">
+                <p><FormattedMessage id="sortBy" /></p>
+                <div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="newest" name="sort" value="Newest" />
+                        <label className="radio-label" htmlFor="newest"><FormattedMessage id="newest" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="oldest" name="sort" value="Oldest" />
+                        <label className="radio-label" htmlFor="oldest"><FormattedMessage id="oldest" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="vacanciesLow" name="sort" value="VacanciesLow" />
+                        <label className="radio-label" htmlFor="vacanciesLow"><FormattedMessage id="vacancies" /> : <FormattedMessage id="lowToHigh" /></label>
+                    </div>
+                    <div className="radio-wrapper">
+                        <input className="radio-input" type="radio" id="vacanciesHigh" name="sort" value="VacanciesHigh" />
+                        <label className="radio-label" htmlFor="vacanciesHigh"><FormattedMessage id="vacancies" /> : <FormattedMessage id="highToLow" /></label>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 

@@ -1,0 +1,48 @@
+/* SliderContainer.css */
+
+.slider-container {
+    margin-top: 140px;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    height: calc(100% - 140px);
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease-in-out;
+    z-index: 400;
+}
+
+.slider-container.open {
+    right: 0;
+}
+
+.slider-content {
+    overflow-y: auto;
+    height: calc(100% - 50px);
+}
+
+.slider-item {
+    display: flex;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.filter-options{    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}

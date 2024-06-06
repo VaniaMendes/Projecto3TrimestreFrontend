@@ -48,13 +48,6 @@
     "state": "Estado",
     "sortBy": "Ordenar por",
 
-    "planning": "Em Planeamento",
-    "ready": "Pronto",
-    "approved": "Aprovado",
-    "inProgress": "Em Progresso",
-    "finished": "Finalizado",
-    "cancelled": "Cancelado",
-
     "newest": "Mais Recentes",
     "oldest": "Mais Antigos",
     "vacancies": "Vagas",
@@ -67,6 +60,15 @@
     "skills": "Competências",
     "teamMembers": "Membros da Equipa",
 
-    "developer": "Desenvolvedor"
+    "developer": "Desenvolvedor",
+    "CREATOR": "Criador",
+    "COLLABORATOR": "Colaborador",
+
+    "PLANNING": "Em Planeamento",
+    "READY": "Pronto",
+    "APPROVED": "Aprovado",
+    "IN_PROGRESS": "Em Progresso",
+    "FINISHED": "Finalizado",
+    "CANCELLED": "Cancelado"
 
 }
