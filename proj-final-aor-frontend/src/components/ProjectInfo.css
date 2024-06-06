@@ -6,7 +6,7 @@
 .info-container{
     display: flex;
     flex-direction: column;
-    align-items: left;
+    align-items: flex-start;
     justify-content: flex-start;
     width: 48%;
     height: 400px;
@@ -16,12 +16,14 @@
     border-radius: 5px;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    transition: box-shadow 0.3s ease, transform 0.3s ease; /* Add this line */
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    background: linear-gradient(to top, #ff0a1e27, var(--light-background-color) 10%);
 
     &:hover{
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
         cursor: pointer;
-        transform: scale(1.02); /* Add this line */
+        border: solid 1px var(--grey-color);
+        transform: scale(1.02);
     }
 
     h2{
@@ -115,6 +117,14 @@
 
 @media (max-width: 768px) {
     .info-container {
+        width: 90%;
+        padding: 10px 20px 0;
+        margin: 20px 0;
         width: 100%;
+    }
+
+    .project-cards-container{
+        display: flex;
+        justify-content: center;
     }
 }

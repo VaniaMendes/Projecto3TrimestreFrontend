@@ -119,6 +119,50 @@ button:active {
   padding: 0 50px;
 }
 
+
+/*----------
+INPUT TYPE RADIO
+----------*/
+
+/* Hide the default radio button appearance */
+input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  margin-right: 10px;
+}
+
+input[type="radio"]:checked {
+  background-color: #fff;
+  border-color: var(--grey-color);
+}
+
+input[type="radio"]:checked::after {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--grey-color);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}
+
+/* Change the background color of the entire div when the radio button is checked */
+input[type="radio"]:checked + label {
+  color: var(--main-red); /* Change text color if necessary */
+}
+
 /*----------
 Login Page
 ----------*/

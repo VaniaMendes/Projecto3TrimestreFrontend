@@ -6,7 +6,6 @@
 
     .left-side {
         background-color: var(--light-background-color);
-        width: 80%;
         display: flex;
         flex-wrap: center;
         margin: 10px;
@@ -16,11 +15,7 @@
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     }
 
-    @media (max-width: 768px) {
-        .left-side {
-            width: 100%;
-        }
-    }
+    
 
     .right-side {
         background-color: white;
@@ -46,3 +41,13 @@
     padding: 10px;
 }
 
+@media (max-width: 768px) {
+    .home-container{
+        padding: 150px 5px 0 5px;
+        justify-content: center;
+    }
+    
+    .left-side {
+        width: 100%;
+    }
+}
