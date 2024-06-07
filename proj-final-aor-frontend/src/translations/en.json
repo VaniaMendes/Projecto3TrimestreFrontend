@@ -55,6 +55,9 @@
     "myProfile": "My Profile",
 
     "projects": "Projects",
+    "projectName": "Project Name",
+    "maxMembers": "Max Members",
+
     "state": "State",
     "sortBy": "Sort By",
 
