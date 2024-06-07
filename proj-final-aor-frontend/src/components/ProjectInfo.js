@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import KeywordComponent from "./keywords/KeywordComponent";
 import MemberDisplay from "./MemberDisplay";
 import "./ProjectInfo.css";
@@ -6,8 +6,6 @@ import { FormattedMessage } from "react-intl";
 
 const ProjectInfo = (props) => {
     const {data} = props;
-
-    console.log(data);
 
     return (
         <div className="project-cards-container">

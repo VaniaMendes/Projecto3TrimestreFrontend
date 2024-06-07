@@ -47,6 +47,9 @@
     "myProfile": "Meu Perfil",
 
     "projects": "Projetos",
+    "projectName": "Nome do Projeto",
+    "maxMembers": "Máximo de Membros",
+
     "state": "Estado",
     "sortBy": "Ordenar por",
 

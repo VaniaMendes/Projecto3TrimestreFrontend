@@ -7,6 +7,6 @@ export const useActionsStore = create((set) => ({
     isSliderOpen : false,
     updateIsSliderOpen : (isSliderOpen) => set({isSliderOpen}),
 
-    resetUseActionsStore: () => set({ isModalOpen : false, isModalOpen : false}),
+    resetUseActionsStore: () => set({ isModalOpen : false, isSliderOpen : false}),
 
 }));
