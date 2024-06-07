@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {login} from "../../services/users";
 import { toast } from 'react-toastify';
 import {userStore} from "../../stores/UserStore";
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
 import languages from "../../translations";
 import { useNavigate  } from 'react-router-dom';
 
@@ -12,12 +12,14 @@ function LoginForm() {
     
     // State variables
     const [newUser, setNewUser] = useState({});
+    const navigate = useNavigate();
+    const intl = useIntl();
 
     // Get the locale from the userStore
    const locale = userStore((state) => state.locale);
 
-   //
-   const navigate = useNavigate();
+   
+
 
 
     // Get the updateToken function from the userStore
@@ -61,7 +63,7 @@ function LoginForm() {
     return (
         <div className="login-container">
            <IntlProvider locale={locale} messages={languages[locale]}> 
-            <h2>
+            <h2 className="title-forms">
             <FormattedMessage id="welcome">
                         {(message) => <span>{message}</span>}
                       </FormattedMessage>
@@ -78,7 +80,7 @@ function LoginForm() {
                         name="email"
                         value={newUser.email || ''}  
                         onChange = {handleChange} 
-                        placeholder="Write your Email" 
+                        placeholder={intl.formatMessage({ id: "email"})}
                         
                         required
                     />
@@ -95,7 +97,7 @@ function LoginForm() {
                         name="password"
                         value={newUser.password || ''} 
                         onChange = {handleChange}
-                        placeholder="Write your password" 
+                        placeholder={intl.formatMessage({ id: "password"})}
                         
                         required
                     />

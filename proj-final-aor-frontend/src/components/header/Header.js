@@ -17,7 +17,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
-    const navigate = useNavigate();
+
     const {token, userData, locale} = userStore();
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
@@ -25,6 +25,8 @@ const Header = () => {
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showProjectsMenu, setShowProjectsMenu] = useState(false);
     const [showComponentsMenu, setShowComponentsMenu] = useState(false);
+
+    const navigate = useNavigate();
     
     useEffect(() => {
         const handleResize = () => {
@@ -62,6 +64,10 @@ const Header = () => {
 
     const logoToRender = isMobile ? logoSmall : logo;
     const logoWidth = isMobile ? '50px' : '200px';
+
+    function handleClickProfile() {
+        navigate("/profile")
+    }
 
     return (
         <header>
@@ -143,7 +149,7 @@ const Header = () => {
                                 </div>
                                 {showProfileMenu && (
                                         <div className="submenu">
-                                            <p><FormattedMessage id="myProfile"/></p>
+                                            <p onClick={handleClickProfile}><FormattedMessage id="myProfile"/></p>
                                             <p><FormattedMessage id="logout"/></p>
                                         </div>
                                     )}

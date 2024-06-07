@@ -1,0 +1,193 @@
+:root {
+    --width-profile: 70%;
+ 
+    --background-color: #f0f0f0;
+    --light-color: #fff0f1;
+	--pastel-color: #D7D4B9;
+  --main-red: #C01722;
+  --light-red: #DA737B;
+	--red2-color: #A0000C;
+	--dark-red: #550006;
+  --light-grey: #eeeeee;
+  --light-grey2: #e5e5e5;
+  --grey-color: #8D8D8D;
+	--dark-color: #282828;
+	--background-color: #b8171705;
+  --light-background-color: #fdfdfd;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 15%;
+    height: auto;
+}
+
+.profile-header,
+.profile-biography,
+.profile-keywords,
+.profile-interests,
+.profile-projects {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    border-radius: 10px;
+    border: solid 1px var(--main-red);
+    width: var(--width-profile);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profile-biography {
+    position: relative;
+}
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--background-color);
+    border-radius: 50%;
+    margin-bottom: 15px;
+    position: relative;
+    top: -49%;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+
+    
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --width-profile: 90%;
+    }
+    
+    .profile-image {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    :root {
+        --width-profile: 100%;
+    }
+
+    .profile-container {
+        padding: 10px;
+    }
+    
+    .profile-header,
+    .profile-biography,
+    .profile-keywords,
+    .profile-interests,
+    .profile-projects {
+        width: 100%;
+        padding: 10px;
+        position: relative;
+    }
+    
+    .profile-image {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.profile-header {
+    height: 150px;
+}
+
+.label-profile {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 1%;
+    transform: translateY(-220%);
+    pointer-events: none;
+    transition: all 0.2s;
+    font-size: 15px;
+    color: var(--main-red);
+    background-color: white;
+    padding: 0 5px;
+}
+
+.input-profile {
+    position: relative;
+    width: 100%;
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+
+
+.profile-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Quando a tela for menor que 768px (tamanho típico de um tablet), altere a direção do flex para column */
+@media (max-width: 768px) {
+    .profile-info {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+}
+.user-name, .user-email, .user-lab {
+    margin: 0 95px; /* Adiciona uma margem de 10px à esquerda e à direita de cada elemento */
+}
+.add-keywords {
+    align-self: flex-end;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    top:50%;
+    transform: translateY(-90%);
+}
+
+
+@media screen and (max-width: 768px) {
+    .add-keywords {
+        align-self: flex-end;
+        margin-top: auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .add-keywords {
+        align-self: flex-end;
+        margin-top: auto;
+    }
+}
+
+.Project-title{
+    font-size: 25px;
+    color: var(--red2-color);
+  
+}
+.profile-projects{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+  
+}
+.project-lab{
+    border-bottom: 1px solid var(--light-grey);
+    width: 100%;
+    margin-bottom: 15px;
+    margin-top: 5px;
+
+}
