@@ -12,7 +12,11 @@ export const userStore = create (
             updateUserData: (newUserData) => set({ userData: newUserData }),
 
             locale:"en",
-            updateLocale : (locale) => set({ locale })
+            updateLocale : (locale) => set({ locale }),
+
+
+            userId: null, 
+            updateUserId: (userId) => set({ userId })
         }),
         {
             name: 'userStore',

@@ -19,7 +19,8 @@ function Profile() {
   // Get the locale from the userStore
   const locale = userStore((state) => state.locale);
   const token = userStore((state) => state.token);
-  console.log(token);
+  const updateUserId = userStore((state) => state.updateUserId); 
+
 
   //Library to format date of projects
   momentDurationFormatSetup(moment);
@@ -32,10 +33,19 @@ function Profile() {
   const [interests, setInterests] = useState([]);
   const [projects, setProjects] = useState([]);
 
+  //Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  //Modal type
+  const [modalType, setModalType] = useState(""); 
 
-  const handleOpenModal = () => {
+  const handleOpenModalSkill = () => {
       setIsModalOpen(true);
+      setModalType("skill");
+  };
+
+  const handleOpenModalInterest = () => {
+      setIsModalOpen(true);
+      setModalType("interest");
   };
 
   const handleCloseModal = () => {
@@ -55,6 +65,11 @@ function Profile() {
 
       const projectsData = await getUserProjects(token, data.id);
       setProjects(projectsData);
+
+      // Update the userId in the userStore
+      if (data) {
+        updateUserId(data.id);
+      }
     }
     fetchUser();
   }, [token]);
@@ -64,7 +79,7 @@ function Profile() {
   return (
     <div className="profile-container">
       <IntlProvider locale={locale} messages={languages[locale]}>
-      <div>{isModalOpen && <AddNewSkill onClose={handleCloseModal} />}</div>
+      <div>{isModalOpen && <AddNewSkill onClose={handleCloseModal} modalType={modalType}/>}</div>
         <div className="profile-header">
           <div className="profile-image">
             {user && user.photo ? (
@@ -106,7 +121,7 @@ function Profile() {
             </label>
           </div>
 
-          <div className="add-keywords" onClick={handleOpenModal}>
+          <div className="add-keywords" onClick={handleOpenModalSkill}>
             <GoPlusCircle />
           </div>
           <div className="list-keywords">
@@ -123,7 +138,7 @@ function Profile() {
             </label>
           </div>
 
-          <div className="add-keywords" onClick={handleOpenModal}>
+          <div className="add-keywords" onClick={handleOpenModalInterest}>
             <GoPlusCircle />
           </div>
           <div className="list-keywords">
