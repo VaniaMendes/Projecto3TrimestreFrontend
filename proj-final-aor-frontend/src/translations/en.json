@@ -31,6 +31,10 @@
     "initialData": "Initial Date:",
     "finalData": "Final Date:",
     "addNewSkill": "Add New Skill",
+    "pleaseSelectOneSkill": "Type of skill:",
+    "ifNoSkillFound": "If you don't find the skill you are looking for, you can add it!",
+    "addNewInterest": "Add New Interest",
+    "ifNoIntesrestFound": "If you don't find the interest you are looking for, you can add it!",
    
   
 
