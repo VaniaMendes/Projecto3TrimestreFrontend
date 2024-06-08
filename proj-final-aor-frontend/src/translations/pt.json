@@ -27,8 +27,10 @@
     "newPassword": "Confirmar senha",
     "interests": "Interesses",
     "addNewSkill": "Adicionar nova competência",
-   
-
+    "pleaseSelectOneSkill": "Tipo de competência:",
+    "ifNoSkillFound": "Se não encontrar a competência que procura, pode adicioná-la!",
+    "addNewInterest": "Adicionar novo interesse",
+    "ifNoIntesrestFound": "Se não encontrar o interesse que procura, pode adicioná-lo!",
 
     "time":"{t, time, short}", 
     "date":"{d, date}",
