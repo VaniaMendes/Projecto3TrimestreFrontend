@@ -189,3 +189,25 @@ export async function getUserInfo(token){
 
 }
 
+
+export async function logoutUser(token) {
+    try {
+        const response = await fetch(url + '/logout', {
+            method: 'POST',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'token': token
+            }
+        });
+
+       if(response.ok) {
+        return 200;
+       } else {
+        return 400;
+       }
+
+    } catch (error) {
+        console.error('There was a problem with the fetch operation: ', error);
+    }
+}

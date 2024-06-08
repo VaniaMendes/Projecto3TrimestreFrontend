@@ -31,6 +31,10 @@
     "ifNoSkillFound": "Se não encontrar a competência que procura, pode adicioná-la!",
     "addNewInterest": "Adicionar novo interesse",
     "ifNoIntesrestFound": "Se não encontrar o interesse que procura, pode adicioná-lo!",
+    "conhecimento": "Conhecimento",
+    "software": "Software",
+    "hardware": "Hardware",
+    "ferramentas": "Ferramentas",
 
     "time":"{t, time, short}", 
     "date":"{d, date}",

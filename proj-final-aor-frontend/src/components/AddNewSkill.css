@@ -28,6 +28,13 @@
     /* Sobreposição */
     z-index: 1000; /* Valor alto para garantir a sobreposição */
 }
+@media screen and (max-width: 768px) {
+    .modal-skill-container {
+        width: 100%;
+        height: 100%;
+    }
+    
+}
 
 .modal-close{
     position: absolute;
@@ -84,4 +91,8 @@
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 16px;
+}
+.profile-biography{
+    position: relative;
+    align-items: start;
 }
