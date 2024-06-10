@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { IntlProvider, useIntl } from "react-intl";
-import languages from "../translations";
-import { userStore } from "../stores/UserStore";
+import languages from "../../translations";
+import { userStore } from "../../stores/UserStore";
 import "./AddNewSkill.css";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { getAllSkills, createNewSkill, associateSkillToUser } from "../services/skills";
-import { getAllInterests, createNewInterest, associateInterestToUser} from "../services/interests";
+import { getAllSkills, createNewSkill, associateSkillToUser } from "../../services/skills";
+import { getAllInterests, createNewInterest, associateInterestToUser} from "../../services/interests";
 import SkillComponent from "./SkillComponent";
 import { toast } from "react-toastify";
 

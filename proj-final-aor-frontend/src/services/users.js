@@ -211,3 +211,49 @@ export async function logoutUser(token) {
         console.error('There was a problem with the fetch operation: ', error);
     }
 }
+
+export async function updateUser(token, userId, editUser) {
+    try {
+        const response = await fetch(`${url}/${userId}`, {
+            method: 'PUT',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'token': token
+            },
+            body: JSON.stringify(editUser),
+        
+        });
+        if(response.ok) {
+            return 200;
+        } else {
+            return 400;
+        }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation: ', error);
+        }
+}
+
+export async function updateBiography(userId, token, biography){
+    try{
+        
+        const response = await fetch(`${url}/${userId}/biography`, {
+            method: 'PUT',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'token': token
+            },
+            body: JSON.stringify(biography),
+        
+        });
+        if(response.ok) {
+            return 200;
+        } else {
+            return 400;
+        }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation: ', error);
+
+    }
+}
