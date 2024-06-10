@@ -15,6 +15,7 @@ import './Header.css';
 import {userStore} from "../../stores/UserStore";
 import languages from "../../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
+import { logoutUser } from "../../services/users";
 
 
 const Header = () => {
@@ -72,6 +73,17 @@ const Header = () => {
 
     function handleClickProfile() {
         navigate("/profile")
+    }
+    const handleClickLogout = async() => {
+        const response = await logoutUser(token);
+        if(response===200){
+            navigate("/login");
+        }
+        else{
+            console.error("Failed to logout user");
+        }
+
+
     }
 
     return (
