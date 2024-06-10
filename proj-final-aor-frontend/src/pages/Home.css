@@ -13,6 +13,7 @@
         border: solid 1px var(--light-grey2);
         border-radius: 5px;
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+        width: 100%;
     }
 
     
@@ -47,7 +48,5 @@
         justify-content: center;
     }
     
-    .left-side {
-        width: 100%;
-    }
+    
 }

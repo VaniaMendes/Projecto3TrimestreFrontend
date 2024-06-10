@@ -2,10 +2,10 @@ const API_BASE_URL = "http://localhost:8080/project_backend/rest/projects";
 
 const ProjectService = {
 
-    getAll: async () => {
+    getProjects: async (order, vacancies, state) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/`, {
+            const response = await fetch(`${API_BASE_URL}/?order=${order}&vacancies=${vacancies}&state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -27,10 +27,10 @@ const ProjectService = {
 
     },
 
-    count: async () => {
+    count: async (state) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/count`, {
+            const response = await fetch(`${API_BASE_URL}/count?state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
