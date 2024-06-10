@@ -12,11 +12,12 @@ import SliderContainer from "../components/SliderContainer";
 import {userStore} from "../stores/UserStore";
 import { useActionsStore } from "../stores/ActionStore";
 import { getCountProjectFromUser } from "../services/users";
+import FilterOptions from "../components/FilterOptions";
 
 const Home = () => {
     const navigate = useNavigate();
     const {locale, token} = userStore();
-    const {isSliderOpen} = useActionsStore();
+    const { isSliderOpen, stateId, vacancies, sortBy} = useActionsStore();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [projectsTotal, setProjectsTotal] = useState(0);
     const [projectsData, setProjectsData] = useState([]);
@@ -28,12 +29,12 @@ const Home = () => {
         }
     }, [token, navigate]);
 
+
     useEffect(() => {
         const fetchData = async () => {
             if (userId) {
                 try {
                     const userProjectData = await ProjectService.getUserProjectsFullInfo(token, userId);
-                    console.log(userProjectData);
                     setProjectsData(userProjectData);
                     const projectCount = await getCountProjectFromUser(userId);
                     setProjectsTotal(projectCount);
@@ -41,15 +42,13 @@ const Home = () => {
                     console.error('Error fetching user projects:', error);
                 }
             } else {
-                fetchProjectsData();
-                fetchCountProjects();
+                fetchProjectsData(sortBy, vacancies, stateId);
+                fetchCountProjects(stateId);
             }
         };
-    
-        fetchData();
-    }, [userId, token]);
-    
 
+        fetchData();
+    }, [userId, token, sortBy, vacancies, stateId]);
     
 
     useEffect(() => {
@@ -60,9 +59,10 @@ const Home = () => {
         window.addEventListener('resize', handleResize);
     }, []);
 
-    const fetchUserProjects = async (token, userId) => {
+
+    const fetchProjectsData = async (sortBy, vacancies, stateId) => {
         try {
-            const response = await ProjectService.getUserProjects(token, userId);
+            const response = await ProjectService.getProjects(sortBy, vacancies, stateId);
             
             setProjectsData(response);
             
@@ -71,20 +71,9 @@ const Home = () => {
         }
     };
 
-    const fetchProjectsData = async () => {
+    const fetchCountProjects = async (state) => {
         try {
-            const response = await ProjectService.getAll();
-            
-            setProjectsData(response);
-            
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-    const fetchCountProjects = async () => {
-        try {
-            const response = await ProjectService.count();
+            const response = await ProjectService.count(state);
             
             setProjectsTotal(response);
             
@@ -120,7 +109,7 @@ const Home = () => {
 
                 {isMobile && (
                     <SliderContainer isOpen={isSliderOpen}>
-                        <FilterOptions />
+                        <FilterOptions locale={locale} isFilterBar={false} />
                         <KeywordsContainer />
                     </SliderContainer>
                 )}
@@ -131,67 +120,5 @@ const Home = () => {
     );
 };
 
-
-
-
-
-const FilterOptions = () => {
-    
-    return (
-        <>
-            <div className="filter-options">
-                <p><FormattedMessage id="state" /></p>
-                <div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="planning" name="state" value="Planning" />
-                        <label className="radio-label" htmlFor="planning"><FormattedMessage id="PLANNING" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="ready" name="state" value="Ready" />
-                        <label className="radio-label" htmlFor="ready"><FormattedMessage id="READY" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="approved" name="state" value="Approved" />
-                        <label className="radio-label" htmlFor="approved"><FormattedMessage id="APPROVED" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="inProgress" name="state" value="InProgress" />
-                        <label className="radio-label" htmlFor="inProgress"><FormattedMessage id="IN_PROGRESS" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="finished" name="state" value="Finished" />
-                        <label className="radio-label" htmlFor="finished"><FormattedMessage id="FINISHED" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="cancelled" name="state" value="Cancelled" />
-                        <label className="radio-label" htmlFor="cancelled"><FormattedMessage id="CANCELLED" /></label>
-                    </div>
-                </div>
-            </div>
-            
-            <div className="filter-options">
-                <p><FormattedMessage id="sortBy" /></p>
-                <div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="newest" name="sort" value="Newest" />
-                        <label className="radio-label" htmlFor="newest"><FormattedMessage id="newest" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="oldest" name="sort" value="Oldest" />
-                        <label className="radio-label" htmlFor="oldest"><FormattedMessage id="oldest" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="vacanciesLow" name="sort" value="VacanciesLow" />
-                        <label className="radio-label" htmlFor="vacanciesLow"><FormattedMessage id="vacancies" /> : <FormattedMessage id="lowToHigh" /></label>
-                    </div>
-                    <div className="radio-wrapper">
-                        <input className="radio-input" type="radio" id="vacanciesHigh" name="sort" value="VacanciesHigh" />
-                        <label className="radio-label" htmlFor="vacanciesHigh"><FormattedMessage id="vacancies" /> : <FormattedMessage id="highToLow" /></label>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-};
 
 export default Home;
