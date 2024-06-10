@@ -15,6 +15,7 @@ import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import AddNewSkill from './AddNewSkill';
 import EditProfile from "./modalEditProfile";
+import { useParams } from 'react-router-dom';
 
 function Profile() {
   // Get the locale from the userStore
@@ -27,6 +28,7 @@ function Profile() {
   momentDurationFormatSetup(moment);
 
   const intl = useIntl();
+  const { userId } = useParams(); 
 
   //State variables
   const [user, setUser] = useState(null);
@@ -70,13 +72,13 @@ function Profile() {
       console.log(data);
       setUser(data);
 
-      const skillsData = await getUserSkills(token, data.id);
+      const skillsData = await getUserSkills(token, userId);
       setSkills(skillsData);
 
-      const interestsData = await getUserInterests(token, data.id);
+      const interestsData = await getUserInterests(token, userId);
       setInterests(interestsData);
 
-      const projectsData = await ProjectService.getUserProjects(token, data.id);
+      const projectsData = await ProjectService.getUserProjects(token, userId);
       setProjects(projectsData);
 
       // Update the userId in the userStore

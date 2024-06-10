@@ -141,9 +141,15 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    padding: 20px;
-    margin: 20px 0;
     box-sizing: border-box;
     border: var(--grey-color);
     border-radius: 10px;
+    position: relative;
+    top:40%;
+
+}
+.edit-biography{
+    position: relative;
+  margin-bottom: 20px;
+  width: 60%;
 }

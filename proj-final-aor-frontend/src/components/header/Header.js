@@ -65,15 +65,20 @@ const Header = () => {
         setShowComponentsMenu(false);
     }
 
-    
+    const handleClickNotificationsPage = () => {
+        navigate("/notifications");
+    }
+
     
 
     const logoToRender = isMobile ? logoSmall : logo;
     const logoWidth = isMobile ? '50px' : '200px';
 
     function handleClickProfile() {
-        navigate("/profile")
+        navigate(`/profile/${userId}`);
     }
+
+    
     const handleClickLogout = async() => {
         const response = await logoutUser(token);
         if(response===200){
@@ -155,7 +160,7 @@ const Header = () => {
                                         <BiSolidMessageSquareDots className="icon" />
                                         <p className="icon-subtitle"><FormattedMessage id="messages"/></p>
                                     </div>
-                                    <div className="icon-container">
+                                    <div className="icon-container" onClick={handleClickNotificationsPage}>
                                         <IoNotifications className="icon" />
                                         <p className="icon-subtitle"><FormattedMessage id="notifications"/></p>
                                     </div>
