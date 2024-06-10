@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import "./Home.css";
 import languages from "../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
@@ -10,19 +11,46 @@ import ProjectService from "../services/ProjectService";
 import SliderContainer from "../components/SliderContainer";
 import {userStore} from "../stores/UserStore";
 import { useActionsStore } from "../stores/ActionStore";
+import { getCountProjectFromUser } from "../services/users";
 
 const Home = () => {
-    const {locale} = userStore();
+    const navigate = useNavigate();
+    const {locale, token} = userStore();
     const {isSliderOpen} = useActionsStore();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [projectsTotal, setProjectsTotal] = useState(0);
-    
     const [projectsData, setProjectsData] = useState([]);
+    const { userId } = useParams();
 
     useEffect(() => {
-        fetchProjectsData();
-        featchCountProjects();
-    }, []);
+        if (!token) {
+            navigate("/");
+        }
+    }, [token, navigate]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (userId) {
+                try {
+                    const userProjectData = await ProjectService.getUserProjectsFullInfo(token, userId);
+                    console.log(userProjectData);
+                    setProjectsData(userProjectData);
+                    const projectCount = await getCountProjectFromUser(userId);
+                    setProjectsTotal(projectCount);
+                } catch (error) {
+                    console.error('Error fetching user projects:', error);
+                }
+            } else {
+                fetchProjectsData();
+                fetchCountProjects();
+            }
+        };
+    
+        fetchData();
+    }, [userId, token]);
+    
+
+    
 
     useEffect(() => {
         const handleResize = () => {
@@ -31,6 +59,17 @@ const Home = () => {
 
         window.addEventListener('resize', handleResize);
     }, []);
+
+    const fetchUserProjects = async (token, userId) => {
+        try {
+            const response = await ProjectService.getUserProjects(token, userId);
+            
+            setProjectsData(response);
+            
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const fetchProjectsData = async () => {
         try {
@@ -43,7 +82,7 @@ const Home = () => {
         }
     };
 
-    const featchCountProjects = async () => {
+    const fetchCountProjects = async () => {
         try {
             const response = await ProjectService.count();
             

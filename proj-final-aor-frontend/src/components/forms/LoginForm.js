@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {login} from "../../services/users";
+import {login, getUserInfo} from "../../services/users";
 import { toast } from 'react-toastify';
 import {userStore} from "../../stores/UserStore";
 import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
@@ -14,12 +14,10 @@ function LoginForm() {
     const [newUser, setNewUser] = useState({});
     const navigate = useNavigate();
     const intl = useIntl();
+    const {updateUserId} = userStore();
 
     // Get the locale from the userStore
    const locale = userStore((state) => state.locale);
-
-   
-
 
 
     // Get the updateToken function from the userStore
@@ -48,7 +46,13 @@ function LoginForm() {
                 toast.error("Invalid email or password");
             } else {
                 updateToken(result);
-                navigate("/home");
+                const data = await getUserInfo(result);
+                if (data === null) {
+                    toast.error("An error occurred while logging in");
+                } else {
+                    updateUserId(data.id);
+                }
+                navigate(`/home/${data.id}`);
             }
         } catch (error) {
             console.error("Error occurred while logging in:", error);

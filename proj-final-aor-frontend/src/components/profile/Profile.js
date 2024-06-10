@@ -10,11 +10,10 @@ import { GoPlusCircle } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
 import KeywordComponent from "../keywords/KeywordComponent";
 import { getUserInterests } from "../../services/interests";
-import { getUserProjects } from "../../services/projects";
+import ProjectService from "../../services/ProjectService";
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import AddNewSkill from './AddNewSkill';
-import modalEditProfile from './modalEditProfile';
 import EditProfile from "./modalEditProfile";
 
 function Profile() {
@@ -68,6 +67,7 @@ function Profile() {
   useEffect(() => {
     async function fetchUser() {
       const data = await getUserInfo(token);
+      console.log(data);
       setUser(data);
 
       const skillsData = await getUserSkills(token, data.id);
@@ -76,7 +76,7 @@ function Profile() {
       const interestsData = await getUserInterests(token, data.id);
       setInterests(interestsData);
 
-      const projectsData = await getUserProjects(token, data.id);
+      const projectsData = await ProjectService.getUserProjects(token, data.id);
       setProjects(projectsData);
 
       // Update the userId in the userStore
