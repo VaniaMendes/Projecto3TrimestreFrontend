@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from '../assets/Logo_CSW-full-redim.png';
 import logoSmall from '../assets/Logo_CSW-small-redim.png';
 import defaultPhoto from "../assets/profile_pic_default.png"
@@ -14,11 +15,11 @@ import './Header.css';
 import {userStore} from "../../stores/UserStore";
 import languages from "../../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
-import { useNavigate } from 'react-router-dom'
+
 
 const Header = () => {
 
-    const {token, userData, locale} = userStore();
+    const {token, userId, locale} = userStore();
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -27,6 +28,7 @@ const Header = () => {
     const [showComponentsMenu, setShowComponentsMenu] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
     
     useEffect(() => {
         const handleResize = () => {
@@ -62,6 +64,9 @@ const Header = () => {
         setShowComponentsMenu(false);
     }
 
+    
+    
+
     const logoToRender = isMobile ? logoSmall : logo;
     const logoWidth = isMobile ? '50px' : '200px';
 
@@ -96,65 +101,71 @@ const Header = () => {
                     </div>
                     {!showSearchBar && (
                         <div className="header-right">
-                            {/*<button><FormattedMessage id="login" /></button>
-                            <button><FormattedMessage id="signup" /></button>*/}
-                            <div className="submenu-container">
-                                <div className={`icon-container ${showProjectsMenu ? 'active-menu' : ''}`} onClick={handleHomeClick}>
-                                    <AiFillHome className="icon" />
-                                    <p className="icon-subtitle">
-                                        <FormattedMessage id="projects"/>
-                                        {showProjectsMenu ? <MdArrowDropUp /> : <MdArrowDropDown/>}
-                                    </p>
-                                </div>
-                                {showProjectsMenu && (
-                                        <div className="submenu">
-                                            <p onClick={() => navigate(`/new-project`)}><FormattedMessage id="create"/></p>
-                                            <p onClick={() => navigate(`/home`)}><FormattedMessage id="seeAll"/></p>
-                                            <p><FormattedMessage id="myProjects"/></p>
+                            {location.pathname === "/" ? (
+                                <>
+                                    <button onClick={()=> navigate("/login")}><FormattedMessage id="login" /></button>
+                                    <button onClick={()=> navigate("/register")}><FormattedMessage id="signup" /></button>
+                                </>
+                            ) : (
+                                <>
+                                    <div className="submenu-container">
+                                        <div className={`icon-container ${showProjectsMenu ? 'active-menu' : ''}`} onClick={handleHomeClick}>
+                                            <AiFillHome className="icon" />
+                                            <p className="icon-subtitle">
+                                                <FormattedMessage id="projects"/>
+                                                {showProjectsMenu ? <MdArrowDropUp /> : <MdArrowDropDown />}
+                                            </p>
                                         </div>
-                                    )}
-                            </div>
-                            <div className="submenu-container">
-                                <div className={`icon-container ${showComponentsMenu ? 'active-menu' : ''}`} onClick={handleComponentsClick}>
-                                    <BiSolidComponent className="icon"/>
-                                    <p className="icon-subtitle component-subtitle">
-                                        <FormattedMessage id="components"/>
-                                        {showComponentsMenu ? <MdArrowDropUp /> : <MdArrowDropDown/>}
-                                    </p>
-                                </div>
-                                {showComponentsMenu && (
-                                        <div className="submenu component-submemu">
-                                            <p><FormattedMessage id="create"/></p>
-                                            <p><FormattedMessage id="seeAll"/></p>
-                                        </div>
-                                    )}
-                            </div>
-                            <div className="icon-container">
-                                <BiSolidMessageSquareDots className="icon"/>
-                                <p className="icon-subtitle"><FormattedMessage id="messages"/></p>
-                            </div>
-                            <div className="icon-container">
-                                <IoNotifications className="icon"/>
-                                <p className="icon-subtitle"><FormattedMessage id="notifications"/></p>
-                            </div>
-                            <div className="submenu-container">
-                                <div className={`icon-container ${showProfileMenu ? 'active-menu' : ''}`} onClick={handleProfileClick}>
-                                    <div className="photo-container">
-                                        <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
+                                        {showProjectsMenu && (
+                                            <div className="submenu">
+                                                <p onClick={() => navigate(`/new-project`)}><FormattedMessage id="create"/></p>
+                                                <p onClick={() => navigate(`/home`)}><FormattedMessage id="seeAll"/></p>
+                                                <p onClick={() => navigate(`/home/${userId}`)}><FormattedMessage id="myProjects"/></p>
+                                            </div>
+                                        )}
                                     </div>
-                                    <p className="icon-subtitle">
-                                        <FormattedMessage id="profile"/>
-                                        {showProfileMenu ? <MdArrowDropUp /> : <MdArrowDropDown/>}
-                                    </p>
-                                </div>
-                                {showProfileMenu && (
-                                        <div className="submenu">
-                                            <p onClick={handleClickProfile}><FormattedMessage id="myProfile"/></p>
-                                            <p><FormattedMessage id="logout"/></p>
+                                    <div className="submenu-container">
+                                        <div className={`icon-container ${showComponentsMenu ? 'active-menu' : ''}`} onClick={handleComponentsClick}>
+                                            <BiSolidComponent className="icon" />
+                                            <p className="icon-subtitle component-subtitle">
+                                                <FormattedMessage id="components"/>
+                                                {showComponentsMenu ? <MdArrowDropUp /> : <MdArrowDropDown />}
+                                            </p>
                                         </div>
-                                    )}
-                            </div>
-
+                                        {showComponentsMenu && (
+                                            <div className="submenu component-submemu">
+                                                <p><FormattedMessage id="create"/></p>
+                                                <p><FormattedMessage id="seeAll"/></p>
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="icon-container">
+                                        <BiSolidMessageSquareDots className="icon" />
+                                        <p className="icon-subtitle"><FormattedMessage id="messages"/></p>
+                                    </div>
+                                    <div className="icon-container">
+                                        <IoNotifications className="icon" />
+                                        <p className="icon-subtitle"><FormattedMessage id="notifications"/></p>
+                                    </div>
+                                    <div className="submenu-container">
+                                        <div className={`icon-container ${showProfileMenu ? 'active-menu' : ''}`} onClick={handleProfileClick}>
+                                            <div className="photo-container">
+                                                <img src={headerPhoto} alt="Profile Pic" /> {/* Show profile picture */}
+                                            </div>
+                                            <p className="icon-subtitle">
+                                                <FormattedMessage id="profile"/>
+                                                {showProfileMenu ? <MdArrowDropUp /> : <MdArrowDropDown />}
+                                            </p>
+                                        </div>
+                                        {showProfileMenu && (
+                                            <div className="submenu">
+                                                <p onClick={()=> handleClickProfile()}><FormattedMessage id="myProfile"/></p>
+                                                <p><FormattedMessage id="logout"/></p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </>
+                            )}
                         </div>
                     )}
                 </div>
