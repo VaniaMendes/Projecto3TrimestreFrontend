@@ -15,6 +15,7 @@ import './Header.css';
 import {userStore} from "../../stores/UserStore";
 import languages from "../../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
+import { logoutUser } from "../../services/users";
 
 
 const Header = () => {
@@ -72,6 +73,17 @@ const Header = () => {
 
     function handleClickProfile() {
         navigate("/profile")
+    }
+    const handleClickLogout = async() => {
+        const response = await logoutUser(token);
+        if(response===200){
+            navigate("/login");
+        }
+        else{
+            console.error("Failed to logout user");
+        }
+
+
     }
 
     return (
@@ -160,7 +172,7 @@ const Header = () => {
                                         {showProfileMenu && (
                                             <div className="submenu">
                                                 <p onClick={()=> handleClickProfile()}><FormattedMessage id="myProfile"/></p>
-                                                <p><FormattedMessage id="logout"/></p>
+                                                <p onClick={()=>handleClickLogout()}><FormattedMessage id="logout"/></p>
                                             </div>
                                         )}
                                     </div>

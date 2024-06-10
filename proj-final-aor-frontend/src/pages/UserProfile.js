@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Header from "../components/header/Header";
-import Profile from "../components/Profile";
+import Profile from "../components/profile/Profile";
 import { IntlProvider } from "react-intl";
 import languages from "../translations";
 import {userStore} from "../stores/UserStore";

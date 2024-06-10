@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { IntlProvider, useIntl } from "react-intl";
-import languages from "../translations";
-import { userStore } from "../stores/UserStore";
+import languages from "../../translations";
+import { userStore } from "../../stores/UserStore";
 import "./AddNewSkill.css";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { getAllSkills, createNewSkill, associateSkillToUser } from "../services/skills";
-import { getAllInterests, createNewInterest, associateInterestToUser} from "../services/interests";
+import { getAllSkills, createNewSkill, associateSkillToUser } from "../../services/skills";
+import { getAllInterests, createNewInterest, associateInterestToUser} from "../../services/interests";
 import SkillComponent from "./SkillComponent";
 import { toast } from "react-toastify";
 
@@ -50,7 +50,7 @@ function AddNewSkill({ onClose, modalType }) {
     setInterest({ ...interest, name: event.target.value });
   };
 
-  const handleNewSkill = async () => {
+  const handleNewItem = async () => {
 
     if(modalType === "skill") {
     if (!skill.name || !skill.type) {
@@ -161,10 +161,10 @@ function AddNewSkill({ onClose, modalType }) {
                 {" "}
                 {intl.formatMessage({ id: "pleaseSelectOneSkill" })}
               </option>
-              <option value="CONHECIMENTO">Conhecimento</option>
-              <option value="SOFTWARE">Software</option>
-              <option value="HARDWARE">Hardware</option>
-              <option value="FERRAMENTAS">Ferramentas</option>
+              <option value="CONHECIMENTO"> {intl.formatMessage({ id: "conhecimento" })}</option>
+              <option value="SOFTWARE">{intl.formatMessage({ id: "software" })}</option>
+              <option value="HARDWARE">{intl.formatMessage({ id: "hardware" })}</option>
+              <option value="FERRAMENTAS"> {intl.formatMessage({ id: "ferramentas" })}</option>
             </select>
           )}
 
@@ -180,7 +180,7 @@ function AddNewSkill({ onClose, modalType }) {
             value={modalType === "skill" ? skill.name : interest.name}
           />
 
-          <button className="create-button" onClick={handleNewSkill}>
+          <button className="create-button" onClick={handleNewItem}>
             {intl.formatMessage({ id: "create" })}
           </button>
         </div>

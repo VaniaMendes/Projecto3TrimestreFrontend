@@ -1,5 +1,5 @@
 import React from "react";
-import "./keywords/Keywords.css";
+import "../keywords/Keywords.css";
 
 const SkillComponent = (props) => {
     const {keyword, isProjectInfo, onClick} = props;

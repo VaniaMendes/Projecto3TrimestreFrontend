@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
-import logo from "./assets/profile_pic_default.png";
+import logo from "../assets/profile_pic_default.png";
 import { IntlProvider, useIntl } from "react-intl";
-import languages from "../translations";
-import { userStore } from "../stores/UserStore";
-import { getUserInfo } from "../services/users";
-import { getUserSkills } from "../services/skills";
+import languages from "../../translations";
+import { userStore } from "../../stores/UserStore";
+import { getUserInfo } from "../../services/users";
+import { getUserSkills } from "../../services/skills";
 import { GoPlusCircle } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
-import KeywordComponent from "./keywords/KeywordComponent";
-import { getUserInterests } from "../services/interests";
-import ProjectService from "../services/ProjectService";
+import KeywordComponent from "../keywords/KeywordComponent";
+import { getUserInterests } from "../../services/interests";
+import ProjectService from "../../services/ProjectService";
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import AddNewSkill from './AddNewSkill';
+import EditProfile from "./modalEditProfile";
 
 function Profile() {
   // Get the locale from the userStore
@@ -35,6 +36,7 @@ function Profile() {
 
   //Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openEditModal, setEditModal] = useState(false);
   //Modal type
   const [modalType, setModalType] = useState(""); 
 
@@ -50,6 +52,16 @@ function Profile() {
 
   const handleCloseModal = () => {
       setIsModalOpen(false);
+      setEditModal(false);
+  };
+
+  const handleEditModal = () => {
+    setEditModal(true);
+    setModalType("biography");
+  };
+  const handleEditModalProfile = () => {
+    setEditModal(true);
+    setModalType("profile");
   };
 
   useEffect(() => {
@@ -73,14 +85,15 @@ function Profile() {
       }
     }
     fetchUser();
-  }, [token]);
+  }, [token, modalType, isModalOpen, openEditModal]);
 
   console.log(interests);
 
   return (
     <div className="profile-container">
       <IntlProvider locale={locale} messages={languages[locale]}>
-      <div>{isModalOpen && <AddNewSkill onClose={handleCloseModal} modalType={modalType}/>}</div>
+      <div>{isModalOpen && <AddNewSkill onClose={handleCloseModal} modalType={modalType}/>}
+      {openEditModal && <EditProfile onClose={handleCloseModal} modalType={modalType}/>}</div>
         <div className="profile-header">
           <div className="profile-image">
             {user && user.photo ? (
@@ -88,6 +101,9 @@ function Profile() {
             ) : (
               <img src={logo} alt="Logo" />
             )}
+             {user && user.nickname && (
+      <div className="user-nickname">{user.nickname}</div>
+    )}
           </div>
           <div className="profile-info">
             {user && (
@@ -98,7 +114,7 @@ function Profile() {
             {user && <div className="user-email">{user.email}</div>}
             {user && <div className="user-lab">{user.lab.name}</div>}
           </div>
-          <div className="add-keywords">
+          <div className="add-keywords" onClick={handleEditModalProfile}>
             <FiEdit3 />
           </div>
         </div>
@@ -109,7 +125,7 @@ function Profile() {
               {intl.formatMessage({ id: "biography" })}
             </label>
           </div>
-          <div className="add-keywords">
+          <div className="add-keywords" onClick={handleEditModal}>
             <FiEdit3 />
           </div>
           {user && <div>{user.biography}</div>}

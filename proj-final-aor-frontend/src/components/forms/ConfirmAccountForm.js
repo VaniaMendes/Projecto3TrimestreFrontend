@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import queryString from "query-string";
 import './FormStyle.css';
 import logo from '../assets/profile_pic_default.png';
+import LabSelection from "../LabSelection";
 
 
 function Confirmation() {
@@ -178,37 +179,7 @@ const handleChangePhoto = (event) => {
             </div>
 </div>
        {/* Workplace input */}
-<div className="radio-buttonsConfirm">
-  <div className="radio-item">
-    <input type="radio" id="option1" name="lab" value="LISBOA" onChange={handleChangeLab} />
-    <label className="radio-description" htmlFor="option1">Lisboa</label>
-  </div>
-  
-  <div className="radio-item">
-    <input type="radio" id="option2" name="lab" value="COIMBRA" onChange={handleChangeLab} />
-    <label className="radio-description" htmlFor="option2">Coimbra</label>
-  </div>
-  
-  <div className="radio-item">
-    <input type="radio" id="option3" name="lab" value="PORTO" onChange={handleChangeLab} />
-    <label className="radio-description" htmlFor="option3">Porto</label>
-  </div>
-  
-  <div className="radio-item">
-    <input type="radio" id="option4" name="lab" value="TOMAR" onChange={handleChangeLab} />
-    <label className="radio-description" htmlFor="option4">Tomar</label>
-  </div>
-  
-  <div className="radio-item">
-    <input type="radio" id="option5" name="lab" value="VISEU" onChange={handleChangeLab} />
-    <label className="radio-description" htmlFor="option5">Viseu</label>
-  </div>
-  
-  <div className="radio-item">
-    <input type="radio" id="option6" name="lab" value="VILA_REAL" onChange={handleChangeLab} />
-    <label className="radio-description" htmlFor="option6">Vila-Real</label>
-  </div>
-</div>
+       <LabSelection selectedLab={lab} handleChangeLab={handleChangeLab} />
 
           {/* Biography input */}
           <div className="biography">
