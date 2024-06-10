@@ -22,10 +22,16 @@ function Routing() {
     <div>
       <ToastContainer />
       <Routes>
+        <Route path="/" element={<>
+          <Home />
+        </>} />
         <Route path="/login" element={<>
           <Login />
         </>} />
         <Route path="/home" element={<>
+          <Home />
+        </>} />
+        <Route path="/home/:userId" element={<>
           <Home />
         </>} />
         <Route path="/forgot-password" element={<>

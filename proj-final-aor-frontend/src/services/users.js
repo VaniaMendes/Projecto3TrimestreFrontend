@@ -189,3 +189,30 @@ export async function getUserInfo(token){
 
 }
 
+export async function getCountProjectFromUser(userId){
+    try{
+
+        const response = await fetch(url + `/${userId}/projects/count`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            }
+        })
+
+        if(response.ok){
+            const data = await response.json();
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Login failed:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
