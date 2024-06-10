@@ -172,7 +172,7 @@ const Header = () => {
                                         {showProfileMenu && (
                                             <div className="submenu">
                                                 <p onClick={()=> handleClickProfile()}><FormattedMessage id="myProfile"/></p>
-                                                <p><FormattedMessage id="logout"/></p>
+                                                <p onClick={()=>handleClickLogout()}><FormattedMessage id="logout"/></p>
                                             </div>
                                         )}
                                     </div>

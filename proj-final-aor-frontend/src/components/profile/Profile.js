@@ -10,12 +10,10 @@ import { GoPlusCircle } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
 import KeywordComponent from "../keywords/KeywordComponent";
 import { getUserInterests } from "../../services/interests";
-import { getUserProjects } from "../../services/projects";
-import ProjectService from "../services/ProjectService";
+import ProjectService from "../../services/ProjectService";
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 import AddNewSkill from './AddNewSkill';
-import modalEditProfile from './modalEditProfile';
 import EditProfile from "./modalEditProfile";
 
 function Profile() {
