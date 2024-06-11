@@ -30,3 +30,30 @@ export async function getUserNotifications(token, userId){
 }
 
 }
+
+export async function markeAsRead(token, notificationId){
+    try{
+
+        const response = await fetch(`${url}/${notificationId}`,  {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+            return 200;
+        }
+        else{
+            return 400;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}

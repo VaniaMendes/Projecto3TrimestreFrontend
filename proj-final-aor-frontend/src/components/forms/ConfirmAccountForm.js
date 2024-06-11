@@ -21,6 +21,7 @@ function Confirmation() {
     visibilityState: "",
     photo: null
   });
+  
   const [lab, setLab] = useState({});
   const navigate = useNavigate();
   const [tokenConfirmation, setTokenConfirmation] = useState("");
@@ -45,6 +46,10 @@ function Confirmation() {
     event.preventDefault();
 
 
+    if(!user.firstName || !user.lastName || !user.nickname || !lab){
+      toast.warning("Por favor, preencha todos os campos.");
+      return;
+    }
 
     try {
       const responseStatus = await confirmAccount(tokenConfirmation, user, lab);
