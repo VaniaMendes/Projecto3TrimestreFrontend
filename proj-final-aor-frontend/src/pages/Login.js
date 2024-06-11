@@ -1,6 +1,5 @@
 import React from "react";
 import logo from '../components/assets/Logo_CSW-full-redim.png';
-import './Login.css';
 import LoginForm from "../components/forms/LoginForm";
 import {userStore} from "../stores/UserStore";
 import { IntlProvider } from "react-intl";
