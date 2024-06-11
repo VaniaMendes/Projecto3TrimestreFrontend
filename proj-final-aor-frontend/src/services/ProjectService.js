@@ -52,6 +52,30 @@ const ProjectService = {
 
     },
 
+    register: async (token, project) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/register`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+                body: JSON.stringify(project)
+            });
+
+            if (response.ok) {
+                return response;
+            } else {
+                const errorText = await response.text(); 
+                console.error(`Request failed: ${response.status} ${response.statusText} - ${errorText}`);
+                return null; 
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     getUserProjects: async(token, userId) => {
         try{
     

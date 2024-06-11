@@ -112,7 +112,7 @@ function Profile() {
               </div>
             )}
             {user && <div className="user-email">{user.email}</div>}
-            {user && <div className="user-lab">{user.lab.name}</div>}
+            {user && <div className="user-lab">{intl.formatMessage({ id: user.lab.name })}</div>}
           </div>
           <div className="add-keywords" onClick={handleEditModalProfile}>
             <FiEdit3 />
@@ -193,7 +193,7 @@ function Profile() {
     })()}
 </div>
 
-            <div className="project-lab"> {project.lab.name}</div>
+    <div className="project-lab"> {intl.formatMessage({ id: project.lab.name })} </div>
         </div>
     ))}
 </div>

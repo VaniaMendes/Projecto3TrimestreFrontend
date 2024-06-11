@@ -12,7 +12,6 @@ const SkillComponent = (props) => {
     return (
         <div className={isProjectInfo ? "kw-info" : "keyword-single-container"} onClick={handleClick}>
             <p>{keyword}</p>
-
         </div>
     );
 }
