@@ -189,10 +189,10 @@ export async function getUserInfo(token){
 
 }
 
-export async function getCountProjectFromUser(userId){
+export async function getCountProjectFromUser(userId, state){
     try{
 
-        const response = await fetch(url + `/${userId}/projects/count`, {
+        const response = await fetch(url + `/${userId}/projects/count?state=${state}`, {
             method: "GET",
             headers: {
                 Accept: "application/json",

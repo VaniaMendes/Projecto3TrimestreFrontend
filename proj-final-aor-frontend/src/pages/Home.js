@@ -34,9 +34,9 @@ const Home = () => {
         const fetchData = async () => {
             if (userId) {
                 try {
-                    const userProjectData = await ProjectService.getUserProjectsFullInfo(token, userId);
+                    const userProjectData = await ProjectService.getUserProjectsFullInfo(token, userId, sortBy, vacancies, stateId);
                     setProjectsData(userProjectData);
-                    const projectCount = await getCountProjectFromUser(userId);
+                    const projectCount = await getCountProjectFromUser(userId, stateId);
                     setProjectsTotal(projectCount);
                 } catch (error) {
                     console.error('Error fetching user projects:', error);
