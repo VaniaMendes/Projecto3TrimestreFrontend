@@ -81,10 +81,10 @@ const ProjectService = {
         }
     },
 
-    getUserProjectsFullInfo: async(token, userId) => {
+    getUserProjectsFullInfo: async(token, userId, order, vacancies, state) => {
         try{
     
-            const response = await fetch(`${API_BASE_URL}/${userId}/info/full`,  {
+            const response = await fetch(`${API_BASE_URL}/${userId}/info/full?order=${order}&vacancies=${vacancies}&state=${state}`,  {
                 method: "GET",
                 headers: {
                     Accept: "application/json",

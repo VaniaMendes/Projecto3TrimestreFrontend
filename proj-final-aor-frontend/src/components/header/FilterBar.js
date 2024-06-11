@@ -28,7 +28,7 @@ const FilterBar = (props) => {
         <div className="filter-bar-container roboto-medium">
             <IntlProvider locale={locale} messages={languages[locale]}>
                 {projectsTotal > -1 && (
-                    <p>{projectsTotal} <FormattedMessage id="projects"/></p>
+                    <p>{projectsTotal} <FormattedMessage id={projectsTotal === 1 ? "project" : "projects"}/></p>
                 )}
                 {componentsTotal > 0 && (
                     <p>{componentsTotal} <FormattedMessage id="components"/></p>
