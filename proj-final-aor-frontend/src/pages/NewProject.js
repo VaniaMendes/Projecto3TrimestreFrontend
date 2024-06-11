@@ -1,13 +1,19 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './NewProject.css';
+import { toast } from 'react-toastify';
 import Header from "../components/header/Header";
+import { GoPlusCircle } from "react-icons/go";
+import { FiEdit3 } from "react-icons/fi";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import {userStore} from "../stores/UserStore";
 import languages from "../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
 import KeywordComponent from "../components/keywords/KeywordComponent";
+import { getAllInterests } from "../services/interests";
+import ProjectService from "../services/ProjectService";
 
 const NewProject = () => {
-    const {locale} = userStore();
+    const {locale, token} = userStore();
     const [inputs, setInputs] = useState({
         name: '',
         description: '',
@@ -15,15 +21,14 @@ const NewProject = () => {
         lab: ''
     });
 
+    const [description, setDescription] = useState("");
     const [keywords, setKeywords] = useState([]);
-    const [skills, setSkills] = useState([]);
-    const [resources, setResources] = useState([]);
+    const [needs, setNeeds] = useState([]);
     
-    const [newKeyword, setNewKeyword] = useState('');
-    const [newSkill, setNewSkill] = useState('');
-    const [newResource, setNewResource] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [openEditModal, setEditModal] = useState(false);
+    const [modalType, setModalType] = useState(""); 
 
-    const [isAddOpen, setIsAddOpen] = useState(false);
 
     const labOptions = {
         LISBOA: "Lisboa",
@@ -34,49 +39,63 @@ const NewProject = () => {
         VILA_REAL: "Vila Real"
     };
 
-    const handleAddClick = () => {
-        setIsAddOpen(!isAddOpen);
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setEditModal(false);
     };
 
-    const handleAddKeyword = () => {
-        if (newKeyword.trim() !== '') {
-        setKeywords([...keywords, newKeyword.trim()]);
-        setNewKeyword('');
-        }
+    const handleOpenModalDescription = () => {
+        setEditModal(true);
+        setModalType("description");
     };
 
-    const handleAddSkill = () => {
-        if (newSkill.trim() !== '') {
-        setSkills([...skills, newSkill.trim()]);
-        setNewSkill('');
-        }
+    const handleOpenModalKeywords = () => {
+        setIsModalOpen(true);
+        setModalType("keyword");
     };
 
-    const handleAddResource = () => {
-        if (newResource.trim() !== '') {
-        setResources([...resources, newResource.trim()]);
-        setNewResource('');
-        }
-    };
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setInputs(inputs => ({ ...inputs, [name]: value }));
+    const handleOpenModalNeeds = () => {
+        setIsModalOpen(true);
+        setModalType("need");
     };
 
     
-    const handleSubmit = (event) => {
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        let parsedValue = value;
+        if (name === 'maxMembers') {
+            parsedValue = isNaN(parseInt(value, 10)) ? '' : parseInt(value, 10);
+        }
+        setInputs(inputs => ({ ...inputs, [name]: parsedValue }));
+    };
+
+    
+    const handleSubmit = async (event) => {
         event.preventDefault();
         
         const projectData = {
             name: inputs.name,
-            description: inputs.description,
+            description: description,
             keywords: keywords.join(', '),
-            needs: resources.join(', '),
+            needs: needs.join(', '),
             maxMembers: parseInt(inputs.maxMembers, 10),
             lab: { name: inputs.lab }
         };
         console.log("Submitting project data:", projectData);
+
+        const response = await ProjectService.register(token, projectData);
+        
+        if (response) {
+            toast.success("Project created successfully");
+
+            setInputs({ name: '', lab: '', maxMembers: '' });
+            setDescription('');
+            setKeywords([]);
+            setNeeds([]);
+        } else {
+            toast.error("Error creating project");
+        }
     }
 
     return (
@@ -88,42 +107,41 @@ const NewProject = () => {
                     <div className="project-form-container">
                         <h1>New Project</h1>
                         <form className="form" onSubmit={handleSubmit}>
-                                <div className = "project-inputs-top">
-                                    <div className = "input-container">
-                                    {/* Project Name input */}
+                            <div className = "project-inputs-top">
+                                <div className = "input-container">
+                                {/* Project Name input */}
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Name"
+                                    value={inputs.name}
+                                    onChange={handleChange}
+                                    required
+                                />
+                                <label className="label-description" htmlFor="name">
+                                    <FormattedMessage id="projectName">
+                                        {(message) => <span>{message} *</span>}
+                                    </FormattedMessage>
+                                </label>
+                                </div>
+                                <div className = "input-container">
+                                    {/* Max Members input */}
                                     <input
                                         type="text"
-                                        name="name"
-                                        placeholder="Name"
-                                        value={inputs.name}
+                                        name="maxMembers"
+                                        placeholder="Max Members"
+                                        value={inputs.maxMembers}
                                         onChange={handleChange}
-                                        required
                                     />
-                                    <label className="label-description" htmlFor="name">
-                                        <FormattedMessage id="projectName">
-                                            {(message) => <span>{message} *</span>}
+
+                                    <label className="label-description" htmlFor="members">
+                                        <FormattedMessage id="maxMembers">
+                                            {(message) => <span>{message}</span>}
                                         </FormattedMessage>
                                     </label>
-                                    </div>
-                                    <div className = "input-container">
-                                        {/* Max Members input */}
-                                        <input
-                                            type="text"
-                                            name="members"
-                                            placeholder="Max Members"
-                                            value={inputs.maxMembers}
-                                            onChange={handleChange}
-                                            
-                                        />
-
-                                        <label className="label-description" htmlFor="members">
-                                            <FormattedMessage id="maxMembers">
-                                                {(message) => <span>{message}</span>}
-                                            </FormattedMessage>
-                                        </label>
-                                    </div>
-                                    
                                 </div>
+                                
+                            </div>
                             
                             {/* Workplace input */}
                             <label><FormattedMessage id="lab">
@@ -145,58 +163,93 @@ const NewProject = () => {
                                 ))}
                             </div>
 
-                            {/* Description input */}
-                            <div className="text-area-container">
-                                <textarea 
-                                    name="description"
-                                    placeholder="Description"
-                                />
-                                 <label className="textarea-label-description" htmlFor="description">
+                            {/* Conteúdo da descrição */}
+                            <div className="profile-biography">
+                                <div className="input-profile">
+                                    <label className="label-profile" htmlFor="biography">
                                     <FormattedMessage id="description">
                                         {(message) => <span>{message} *</span>}
                                     </FormattedMessage>
-                                </label>
+                                    </label>
+                                </div>
+                                <div className="add-keywords" onClick={handleOpenModalDescription}>
+                                    <FiEdit3 />
+                                </div>
+                                {description && <div>{description}</div>}
                             </div>
 
                             <div className="sections-container">
-                            <Section
-                                title="Keywords"
-                                items={keywords}
-                                newItem={newKeyword}
-                                setNewItem={setNewKeyword}
-                                handleAddItem={handleAddKeyword}
-                                isAddOpen={isAddOpen}
-                                handleAddClick={handleAddClick}
-                            />
-                            <Section
-                                title="Skills"
-                                items={skills}
-                                newItem={newSkill}
-                                setNewItem={setNewSkill}
-                                handleAddItem={handleAddSkill}
-                                isAddOpen={isAddOpen}
-                                handleAddClick={handleAddClick}
-                            />
-                            <Section
-                                title="Resources"
-                                items={resources}
-                                newItem={newResource}
-                                setNewItem={setNewResource}
-                                handleAddItem={handleAddResource}
-                                isAddOpen={isAddOpen}
-                                handleAddClick={handleAddClick}
-                            />
+                                <div className="profile-keywords">
+                                    {/* Conteúdo das palavras-chave */}
+                                    <div className="input-profile">
+                                        <label className="label-profile" htmlFor="keywords">
+                                            <FormattedMessage id="keywords"/>
+                                        </label>
+                                    </div>
+
+                                    <div className="add-keywords" onClick={handleOpenModalKeywords}>
+                                        <GoPlusCircle />
+                                    </div>
+                                    <div className="list-keywords">
+                                        {keywords.map((keyword, index) => (
+                                            <KeywordComponent key={index} keyword={keyword} isProjectInfo={true} />
+                                        ))}
+                                    </div>
+                                </div>
+
+                                
+
+                                <div className="profile-keywords">
+                                    {/* Conteúdo das necessidades */}
+                                    <div className="input-profile">
+                                        <label className="label-profile" htmlFor="needs">
+                                            <FormattedMessage id="needs"/>
+                                        </label>
+                                    </div>
+
+                                    <div className="add-keywords" onClick={handleOpenModalNeeds}>
+                                        <GoPlusCircle />
+                                    </div>
+                                    <div className="list-keywords">
+                                        {needs.map((need, index) => (
+                                            <KeywordComponent key={index} keyword={need} isProjectInfo={true} />
+                                        ))}
+                                    </div>
+                                </div>
+
+                            
                             </div>
 
-                        {/* Submit button */}
-                        <button type="submit">
-                            <FormattedMessage id="confirm">
-                            {(message) => <span>{message}</span>}
-                            </FormattedMessage>
-                        </button>
-                        {/* Back button */}
+                            {/* Submit button */}
+                            <button type="submit">
+                                <FormattedMessage id="confirm">
+                                {(message) => <span>{message}</span>}
+                                </FormattedMessage>
+                            </button>
+                        
                         </form>
                     </div>
+                </div>
+
+                <div>
+                    {isModalOpen && (
+                        <AddNewKeywordOrNeed 
+                            onClose={handleCloseModal} 
+                            modalType={modalType}
+                            keywords={keywords}
+                            setKeywords={setKeywords}
+                            needs={needs}
+                            setNeeds={setNeeds}
+                        />
+                    )}
+                    {openEditModal && (
+                        <EditProject
+                            onClose={handleCloseModal}
+                            modalType={modalType}
+                            description={description}
+                            setDescription={setDescription}
+                        />
+                    )}
                 </div>
             </IntlProvider>
             
@@ -204,38 +257,160 @@ const NewProject = () => {
     );
 };
 
+function EditProject({ onClose, modalType, description, setDescription }) {
+  
+    const handleEditProject = async (type) => {
+      onClose();
+    };
+        
+    const handleChangeDescription = (event) => {
+        const { value } = event.target;
+        setDescription(value);
+    };
+    
+    return (
+      <div className="modal-skill-container">
 
-const Section = ({ title, items, newItem, setNewItem, handleAddItem, isAddOpen, handleAddClick }) => (
-    <div className="section-wrapper">
-        <div className="section-container">
-        <h3 className="section-label">{title}</h3>
-            <div className="words-container">
-                {items.map((item, index) => (
-                <KeywordComponent key={index} keyword={item} isProjectInfo={true}/>
-                ))}
-            
+          <div className="modal-close" onClick={onClose}>
+            <IoIosCloseCircleOutline />
+          </div>
+          <h1 className="editProfile-title">
+               <FormattedMessage id="editDescription"/>
+          </h1>
+  
+          {modalType === "description" && (
+            <div className="modal-body-biography">
+              <input
+                type="text"
+                id="description"
+                name="description"
+                value={description || ""}
+                onChange={handleChangeDescription}
+              />
             </div>
-            <div>
-                {!isAddOpen && (
-                <span className="add-component-button" onClick={() => handleAddClick()}>+</span>
+          )}
+         <button className="save-button" onClick={() => handleEditProject(modalType)}>
+                <FormattedMessage id="save"/>
+        </button>
+      </div>
+    );
+  }
+
+
+  function AddNewKeywordOrNeed({ onClose, modalType, keywords, setKeywords, needs, setNeeds }) {
+  
+    // State variables
+    const [list, setList] = useState([]);
+    const [inputValue, setInputValue] = useState("");
+    
+  
+    useEffect(() => {
+      async function fetchInterests() {
+        if (modalType === "keyword") {
+            const data = await getAllInterests();
+            setList(data);
+        }
+      }
+      fetchInterests();
+    }, [modalType]);
+  
+    
+    const handleInputChange = (event) => {
+        setInputValue(event.target.value);
+    };
+  
+    const handleAddNewItem = () => {
+        const values = inputValue.split(",").map(value => value.trim().toLowerCase());
+        const existingKeywords = new Set(keywords.map(k => k.toLowerCase()));
+        const existingNeeds = new Set(needs.map(n => n.toLowerCase()));
+
+        let error = "";
+        if (modalType === "keyword") {
+            const newKeywords = [];
+            values.forEach(value => {
+                if (existingKeywords.has(value)) {
+                    error += `Keyword "${value}" already exists. `;
+                } else {
+                    newKeywords.push(value);
+                    existingKeywords.add(value);
+                }
+            });
+            setKeywords([...keywords, ...newKeywords]);
+        } else {
+            const newNeeds = [];
+            values.forEach(value => {
+                if (existingNeeds.has(value)) {
+                    error += `Need "${value}" already exists. `;
+                } else {
+                    newNeeds.push(value);
+                    existingNeeds.add(value);
+                }
+            });
+            setNeeds([...needs, ...newNeeds]);
+        }
+
+        if (error) {
+            toast.warning(error);
+        } else {
+            toast.success(`${modalType === "keyword" ? "Keywords" : "Needs"} updated successfully`);
+            setInputValue("");
+            onClose();
+        }
+    };
+    
+    
+
+    const handleItemClick = (item) => {
+        console.log("Adding keyword:", item);
+        if (modalType === "keyword") {
+            console.log("Adding keyword:", item);
+            setKeywords([...keywords, item]);
+        }
+    };
+    
+    
+
+    return (
+        <div className="modal-skill-container">
+            <div className="modal-close" onClick={onClose}>
+                <IoIosCloseCircleOutline />
+            </div>
+            <h1>
+                {modalType === "keyword"
+                    ? "addNewKeyword"
+                    : "addNewNeed"
+                }
+            </h1>
+  
+            <div className="modal-body">
+                {modalType === "keyword" && (
+                    <div className="list-keywords">
+                        {list.map((item, index) => (
+                            <KeywordComponent key={index} keyword={item.name} onClick={() => handleItemClick(item.id)} />
+                        ))}
+                    </div>
                 )}
             </div>
+            <div className="skill-select-container">
+                <input
+                    className="skill-input"
+                    type="text"
+                    placeholder={
+                        modalType === "keyword"
+                            ? "addNewKeyword"
+                            : "addNewNeed"
+                    }
+                    onChange={handleInputChange}
+                    value={inputValue}
+                />
+                <button className="create-button" onClick={handleAddNewItem}>
+                    <FormattedMessage id="save"/>
+                </button>
+            </div>
+            <button onClick={onClose}><FormattedMessage id="back"/></button>
         </div>
-        
-            
-
-        <div className="input-container">
-            <input
-            type="text"
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
-            placeholder={`Add new ${title.toLowerCase()}`}
-            />
-            <button type="button" onClick={handleAddItem}>+</button>
-        </div>
-        
-    </div>
-  );
+    );
+}
   
 
 export default NewProject;

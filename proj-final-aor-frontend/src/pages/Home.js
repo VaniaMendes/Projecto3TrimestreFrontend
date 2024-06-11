@@ -5,7 +5,7 @@ import languages from "../translations";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import Header from "../components/header/Header";
 import FilterBar from "../components/header/FilterBar";
-import ProjectInfo from "../components/ProjectInfo";
+import ProjectInfo from "../components/projects/ProjectInfo";
 import KeywordsContainer from "../components/keywords/KeywordsContainer";
 import ProjectService from "../services/ProjectService";
 import SliderContainer from "../components/SliderContainer";

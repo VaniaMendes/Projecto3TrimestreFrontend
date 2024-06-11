@@ -1,6 +1,6 @@
 import React from "react";
-import KeywordComponent from "./keywords/KeywordComponent";
-import MemberDisplay from "./MemberDisplay";
+import KeywordComponent from "../keywords/KeywordComponent";
+import MemberDisplay from "../MemberDisplay";
 import "./ProjectInfo.css";
 import { FormattedMessage } from "react-intl";
 

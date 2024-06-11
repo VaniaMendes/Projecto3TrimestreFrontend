@@ -43,14 +43,9 @@
     "editBiography": "Edit Biography",
     "save": "Save",
     "editProfile": "Edit Profile",
+    "editDescription": "Edit Description",
    
   
-
-    
-   
-    
-    
-
     
     "time":"{t, time, short}", 
     "date":"{d, date}",
@@ -61,6 +56,7 @@
     "home": "Home",
     "myProjects": "My Projects",
     "components": "Components",
+    "needs": "Needs",
     "messages": "Messages",
     "notifications": "Notifications",
     "profile": "Profile",
@@ -95,6 +91,13 @@
     "APPROVED": "Approved",
     "IN_PROGRESS": "In Progress",
     "FINISHED": "Finished",
-    "CANCELLED": "Cancelled"
+    "CANCELLED": "Cancelled",
+
+    "LISBOA": "Lisboa",
+    "COIMBRA": "Coimbra",
+    "PORTO": "Porto",
+    "TOMAR": "Tomar",
+    "VISEU": "Viseu",
+    "VILA_REAL": "Vila Real"
 
 } 
