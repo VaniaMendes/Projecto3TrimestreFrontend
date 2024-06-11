@@ -10,6 +10,7 @@
     "forgotPassword": "Forgot my Password",
     "recoveryPAssword" : "Send",
     "back": "Back",
+    "all": "All",
     "changePassword": "Recovery Password",
     "changemypassword": "Change my Password",
     "confirmationAccount": "Confirmation Account",
@@ -42,14 +43,9 @@
     "editBiography": "Edit Biography",
     "save": "Save",
     "editProfile": "Edit Profile",
+    "editDescription": "Edit Description",
    
   
-
-    
-   
-    
-    
-
     
     "time":"{t, time, short}", 
     "date":"{d, date}",
@@ -60,11 +56,13 @@
     "home": "Home",
     "myProjects": "My Projects",
     "components": "Components",
+    "needs": "Needs",
     "messages": "Messages",
     "notifications": "Notifications",
     "profile": "Profile",
     "myProfile": "My Profile",
 
+    "project": "Project",
     "projects": "Projects",
     "projectName": "Project Name",
     "maxMembers": "Max Members",
@@ -109,5 +107,12 @@
     "months": "month (s)",
     "hour": "hour (s)",
     "withTheTitle": " with the title: "
+
+    "LISBOA": "Lisboa",
+    "COIMBRA": "Coimbra",
+    "PORTO": "Porto",
+    "TOMAR": "Tomar",
+    "VISEU": "Viseu",
+    "VILA_REAL": "Vila Real"
 
 } 

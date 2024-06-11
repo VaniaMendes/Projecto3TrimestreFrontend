@@ -9,6 +9,7 @@
     "forgotPassword": "Esqueci a senha",
     "recoveryPAssword": "Enviar",
     "back": "Voltar",
+    "all": "Todos",
     "changePassword": "Recuperar senha",
     "changemypassword": "Alterar a minha senha",
     "confirmationAccount": "Confimação de conta",
@@ -38,6 +39,7 @@
     "editBiography": "Editar Biografia",
     "save": "Guardar",
     "editProfile": "Editar Perfil",
+    "editDescription": "Editar Descrição",
 
 
     "time":"{t, time, short}", 
@@ -49,11 +51,13 @@
     "home": "Início",
     "myProjects": "Meus Projetos",
     "components": "Componentes",
+    "needs": "Necessidades",
     "messages": "Mensagens",
     "notifications": "Notificações",
     "profile": "Perfil",
     "myProfile": "Meu Perfil",
 
+    "project": "Projeto",
     "projects": "Projetos",
     "projectName": "Nome do Projeto",
     "maxMembers": "Máximo de Membros",
@@ -100,5 +104,12 @@
     "months": "mês (s)",
     "hour": "hora (s)",
      "withTheTitle" : " com o títutlo: "
+
+    "LISBOA": "Lisboa",
+    "COIMBRA": "Coimbra",
+    "PORTO": "Porto",
+    "TOMAR": "Tomar",
+    "VISEU": "Viseu",
+    "VILA_REAL": "Vila Real"
 
 }

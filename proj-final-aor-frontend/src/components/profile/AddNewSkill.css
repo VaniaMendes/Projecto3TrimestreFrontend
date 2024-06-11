@@ -75,7 +75,6 @@
     border: var(--grey-color);
     border-radius: 10px;
     background-color: var(--light-color);
-    overflow-y: auto;
 }
 
 .skill-select-container {

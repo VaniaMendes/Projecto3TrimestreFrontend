@@ -2,10 +2,10 @@ const API_BASE_URL = "http://localhost:8080/project_backend/rest/projects";
 
 const ProjectService = {
 
-    getAll: async () => {
+    getProjects: async (order, vacancies, state) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/`, {
+            const response = await fetch(`${API_BASE_URL}/?order=${order}&vacancies=${vacancies}&state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -27,10 +27,10 @@ const ProjectService = {
 
     },
 
-    count: async () => {
+    count: async (state) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/count`, {
+            const response = await fetch(`${API_BASE_URL}/count?state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -50,6 +50,30 @@ const ProjectService = {
             console.error(error);
         }
 
+    },
+
+    register: async (token, project) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/register`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+                body: JSON.stringify(project)
+            });
+
+            if (response.ok) {
+                return response;
+            } else {
+                const errorText = await response.text(); 
+                console.error(`Request failed: ${response.status} ${response.statusText} - ${errorText}`);
+                return null; 
+            }
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     getUserProjects: async(token, userId) => {
@@ -81,10 +105,10 @@ const ProjectService = {
         }
     },
 
-    getUserProjectsFullInfo: async(token, userId) => {
+    getUserProjectsFullInfo: async(token, userId, order, vacancies, state) => {
         try{
     
-            const response = await fetch(`${API_BASE_URL}/${userId}/info/full`,  {
+            const response = await fetch(`${API_BASE_URL}/${userId}/info/full?order=${order}&vacancies=${vacancies}&state=${state}`,  {
                 method: "GET",
                 headers: {
                     Accept: "application/json",

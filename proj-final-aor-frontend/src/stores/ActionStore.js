@@ -7,6 +7,15 @@ export const useActionsStore = create((set) => ({
     isSliderOpen : false,
     updateIsSliderOpen : (isSliderOpen) => set({isSliderOpen}),
 
-    resetUseActionsStore: () => set({ isModalOpen : false, isSliderOpen : false}),
+    stateId: 1,
+    updateStateId: (stateId) => set({ stateId }),
+
+    sortBy: 'desc',
+    updateSortBy: (sortBy) => set({ sortBy }),
+
+    vacancies: false,
+    updateVacancies: (vacancies) => set({ vacancies }),
+
+    resetUseActionsStore: () => set({ isModalOpen : false, isSliderOpen : false, stateId: 1, sortBy: 'desc', vacancies: false}),
 
 }));
