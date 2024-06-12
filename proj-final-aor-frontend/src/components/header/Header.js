@@ -13,6 +13,7 @@ import { MdArrowDropDown } from "react-icons/md";
 import { MdArrowDropUp } from "react-icons/md";
 import './Header.css';
 import {userStore} from "../../stores/UserStore";
+import { useActionsStore } from "../../stores/ActionStore";
 import languages from "../../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { logoutUser } from "../../services/users";
@@ -21,6 +22,7 @@ import { logoutUser } from "../../services/users";
 const Header = () => {
 
     const {token, userId, locale} = userStore();
+    const {updateAreProjectsFromKeyword} = useActionsStore();
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -69,8 +71,6 @@ const Header = () => {
         navigate("/notifications");
     }
 
-    
-
     const logoToRender = isMobile ? logoSmall : logo;
     const logoWidth = isMobile ? '50px' : '200px';
 
@@ -87,8 +87,16 @@ const Header = () => {
         else{
             console.error("Failed to logout user");
         }
+    }
 
+    const handleSeeAllProjects = () => {
+        updateAreProjectsFromKeyword(false);
+        navigate("/home");
+    }
 
+    const handleMyProjects = () => {
+        updateAreProjectsFromKeyword(false);
+        navigate(`/home/${userId}`);
     }
 
     return (
@@ -136,8 +144,8 @@ const Header = () => {
                                         {showProjectsMenu && (
                                             <div className="submenu">
                                                 <p onClick={() => navigate(`/new-project`)}><FormattedMessage id="create"/></p>
-                                                <p onClick={() => navigate(`/home`)}><FormattedMessage id="seeAll"/></p>
-                                                <p onClick={() => navigate(`/home/${userId}`)}><FormattedMessage id="myProjects"/></p>
+                                                <p onClick={handleSeeAllProjects}><FormattedMessage id="seeAll"/></p>
+                                                <p onClick={handleMyProjects}><FormattedMessage id="myProjects"/></p>
                                             </div>
                                         )}
                                     </div>

@@ -16,6 +16,14 @@ export const useActionsStore = create((set) => ({
     vacancies: false,
     updateVacancies: (vacancies) => set({ vacancies }),
 
-    resetUseActionsStore: () => set({ isModalOpen : false, isSliderOpen : false, stateId: 1, sortBy: 'desc', vacancies: false}),
+    areProjectsFromKeyword: false,
+    updateAreProjectsFromKeyword: (areProjectsFromKeyword) => set({ areProjectsFromKeyword }),
+
+    resetUseActionsStore: () => set({ isModalOpen : false, 
+                                        isSliderOpen : false, 
+                                        stateId: 1, 
+                                        sortBy: 'desc', 
+                                        vacancies: false, 
+                                        areProjectsFromKeyword: false}),
 
 }));

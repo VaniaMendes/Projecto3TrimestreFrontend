@@ -7,7 +7,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import {userStore} from "../stores/UserStore";
 import languages from "../translations"; 
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { IntlProvider, FormattedMessage, injectIntl } from "react-intl";
 import KeywordComponent from "../components/keywords/KeywordComponent";
 import { getAllInterests } from "../services/interests";
 import ProjectService from "../services/ProjectService";
@@ -70,6 +70,14 @@ const NewProject = () => {
         setInputs(inputs => ({ ...inputs, [name]: parsedValue }));
     };
 
+    const handleRemoveKeyword = (keyword) => {
+        setKeywords(keywords.filter(kw => kw !== keyword));
+    };
+    
+    const handleRemoveNeed = (need) => {
+        setNeeds(needs.filter(nd => nd !== need));
+    };
+
     
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -105,7 +113,7 @@ const NewProject = () => {
             <IntlProvider locale={locale} messages={languages[locale]}>
                 <div className="new-project-container">
                     <div className="project-form-container">
-                        <h1>New Project</h1>
+                        <h1><FormattedMessage id="create"/> <FormattedMessage id="project"/></h1>
                         <form className="form" onSubmit={handleSubmit}>
                             <div className = "project-inputs-top">
                                 <div className = "input-container">
@@ -192,7 +200,7 @@ const NewProject = () => {
                                     </div>
                                     <div className="list-keywords">
                                         {keywords.map((keyword, index) => (
-                                            <KeywordComponent key={index} keyword={keyword} isProjectInfo={true} />
+                                            <KeywordComponent key={index} keyword={keyword} isProjectInfo={true} isItemRemovable={true} onRemoveClick={handleRemoveKeyword}/>
                                         ))}
                                     </div>
                                 </div>
@@ -212,7 +220,7 @@ const NewProject = () => {
                                     </div>
                                     <div className="list-keywords">
                                         {needs.map((need, index) => (
-                                            <KeywordComponent key={index} keyword={need} isProjectInfo={true} />
+                                            <KeywordComponent key={index} keyword={need} isProjectInfo={true} isItemRemovable={true} onRemoveClick={handleRemoveNeed}/>
                                         ))}
                                     </div>
                                 </div>
@@ -233,7 +241,7 @@ const NewProject = () => {
 
                 <div>
                     {isModalOpen && (
-                        <AddNewKeywordOrNeed 
+                        <InjectedAddNewKeywordOrNeed 
                             onClose={handleCloseModal} 
                             modalType={modalType}
                             keywords={keywords}
@@ -297,7 +305,7 @@ function EditProject({ onClose, modalType, description, setDescription }) {
   }
 
 
-  function AddNewKeywordOrNeed({ onClose, modalType, keywords, setKeywords, needs, setNeeds }) {
+  function AddNewKeywordOrNeed({ onClose, modalType, keywords, setKeywords, needs, setNeeds, intl }) {
   
     // State variables
     const [list, setList] = useState([]);
@@ -320,6 +328,7 @@ function EditProject({ onClose, modalType, description, setDescription }) {
     };
   
     const handleAddNewItem = () => {
+        
         const values = inputValue.split(",").map(value => value.trim().toLowerCase());
         const existingKeywords = new Set(keywords.map(k => k.toLowerCase()));
         const existingNeeds = new Set(needs.map(n => n.toLowerCase()));
@@ -361,10 +370,13 @@ function EditProject({ onClose, modalType, description, setDescription }) {
     
 
     const handleItemClick = (item) => {
-        console.log("Adding keyword:", item);
         if (modalType === "keyword") {
-            console.log("Adding keyword:", item);
-            setKeywords([...keywords, item]);
+            if (!keywords.includes(item)) {
+                setKeywords([...keywords, item]);
+                toast.success(`Keyword "${item}" added successfully`);
+            } else {
+                toast.error(`Keyword "${item}" already added`);
+            }
         }
     };
     
@@ -372,13 +384,13 @@ function EditProject({ onClose, modalType, description, setDescription }) {
 
     return (
         <div className="modal-skill-container">
-            <div className="modal-close" onClick={onClose}>
+            <div className="modal-close" onClick={() => onClose()}>
                 <IoIosCloseCircleOutline />
             </div>
             <h1>
                 {modalType === "keyword"
-                    ? "addNewKeyword"
-                    : "addNewNeed"
+                    ? <FormattedMessage id="addKeyword"/>
+                    : <FormattedMessage id="addNeed"/>
                 }
             </h1>
   
@@ -386,7 +398,7 @@ function EditProject({ onClose, modalType, description, setDescription }) {
                 {modalType === "keyword" && (
                     <div className="list-keywords">
                         {list.map((item, index) => (
-                            <KeywordComponent key={index} keyword={item.name} onClick={() => handleItemClick(item.id)} />
+                            <KeywordComponent key={index} keyword={item.name} onClick={() => handleItemClick(item.name)} />
                         ))}
                     </div>
                 )}
@@ -397,8 +409,8 @@ function EditProject({ onClose, modalType, description, setDescription }) {
                     type="text"
                     placeholder={
                         modalType === "keyword"
-                            ? "addNewKeyword"
-                            : "addNewNeed"
+                            ? intl.formatMessage({ id: "addKeyword" })
+                            : intl.formatMessage({ id: "addNeed" })
                     }
                     onChange={handleInputChange}
                     value={inputValue}
@@ -411,6 +423,9 @@ function EditProject({ onClose, modalType, description, setDescription }) {
         </div>
     );
 }
+
+
+const InjectedAddNewKeywordOrNeed = injectIntl(AddNewKeywordOrNeed);
   
 
 export default NewProject;

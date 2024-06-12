@@ -77,6 +77,9 @@
     "skills": "Competências",
     "teamMembers": "Membros da Equipa",
 
+    "addKeyword": "Adicionar Palavra-chave",
+    "addNeed": "Adicionar Necessidade",
+
     "developer": "Desenvolvedor",
     "CREATOR": "Criador",
     "COLLABORATOR": "Colaborador",
@@ -103,7 +106,7 @@
     "day": "dia (s)",
     "months": "mês (s)",
     "hour": "hora (s)",
-     "withTheTitle" : " com o títutlo: "
+     "withTheTitle" : " com o títutlo: ",
 
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",
