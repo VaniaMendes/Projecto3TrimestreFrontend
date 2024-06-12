@@ -9,15 +9,17 @@ import ProjectInfo from "../components/projects/ProjectInfo";
 import KeywordsContainer from "../components/keywords/KeywordsContainer";
 import ProjectService from "../services/ProjectService";
 import SliderContainer from "../components/SliderContainer";
-import {userStore} from "../stores/UserStore";
+import { userStore } from "../stores/UserStore";
 import { useActionsStore } from "../stores/ActionStore";
+import { useProjectStore } from "../stores/ProjectStore";
 import { getCountProjectFromUser } from "../services/users";
 import FilterOptions from "../components/FilterOptions";
 
 const Home = () => {
     const navigate = useNavigate();
     const {locale, token} = userStore();
-    const { isSliderOpen, stateId, vacancies, sortBy} = useActionsStore();
+    const { isSliderOpen, stateId, vacancies, sortBy, areProjectsFromKeyword} = useActionsStore();
+    const { projectData } = useProjectStore();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [projectsTotal, setProjectsTotal] = useState(0);
     const [projectsData, setProjectsData] = useState([]);
@@ -31,24 +33,33 @@ const Home = () => {
 
 
     useEffect(() => {
+        console.log('isProjectsFromKeyword', areProjectsFromKeyword);
         const fetchData = async () => {
-            if (userId) {
-                try {
-                    const userProjectData = await ProjectService.getUserProjectsFullInfo(token, userId, sortBy, vacancies, stateId);
-                    setProjectsData(userProjectData);
-                    const projectCount = await getCountProjectFromUser(userId, stateId);
-                    setProjectsTotal(projectCount);
-                } catch (error) {
-                    console.error('Error fetching user projects:', error);
+            if (areProjectsFromKeyword) {
+                setProjectsData(projectData);
+            } else{
+                if (userId) {
+                    try {
+                        const userProjectData = await ProjectService.getUserProjectsFullInfo(token, userId, sortBy, vacancies, stateId);
+                        setProjectsData(userProjectData);
+                        const projectCount = await getCountProjectFromUser(userId, stateId);
+                        setProjectsTotal(projectCount);
+                    } catch (error) {
+                        console.error('Error fetching user projects:', error);
+                    }
+                } else {
+                    fetchProjectsData(sortBy, vacancies, stateId);
+                    fetchCountProjects(stateId);
                 }
-            } else {
-                fetchProjectsData(sortBy, vacancies, stateId);
-                fetchCountProjects(stateId);
             }
+
+            console.log('projectsData', projectsData);
         };
 
         fetchData();
-    }, [userId, token, sortBy, vacancies, stateId]);
+    }, [userId, token, sortBy, vacancies, stateId, projectData, areProjectsFromKeyword]);
+
+    
     
 
     useEffect(() => {
@@ -103,14 +114,14 @@ const Home = () => {
                 {!isMobile && (
 
                     <div className="right-side">
-                        <KeywordsContainer />
+                        <KeywordsContainer updateProjectData={setProjectsData}/>
                     </div>
                 )}
 
                 {isMobile && (
                     <SliderContainer isOpen={isSliderOpen}>
                         <FilterOptions locale={locale} isFilterBar={false} />
-                        <KeywordsContainer />
+                        <KeywordsContainer updateProjectData={setProjectsData}/>
                     </SliderContainer>
                 )}
             </div>

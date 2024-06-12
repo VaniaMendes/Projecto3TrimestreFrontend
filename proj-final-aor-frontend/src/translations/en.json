@@ -82,6 +82,9 @@
     "skills": "Skills",
     "teamMembers": "Team Members",
 
+    "addKeyword": "Add Keyword",
+    "addNeed": "Add Need",
+
     "developer": "Developer",
     "CREATOR": "Creator",
     "COLLABORATOR": "Collaborator",
@@ -106,7 +109,7 @@
     "day": "day (s)",
     "months": "month (s)",
     "hour": "hour (s)",
-    "withTheTitle": " with the title: "
+    "withTheTitle": " with the title: ",
 
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",

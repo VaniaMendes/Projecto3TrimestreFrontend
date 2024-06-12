@@ -58,6 +58,13 @@
     }
 }
 
+.keyword-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .kw-info{
     display: inline-block;
     text-align: center;
@@ -66,6 +73,17 @@
     border-radius: 20px;
     margin: 0 10px;
     border: 1px solid var(--light-grey);
+}
+
+.remove-icon {
+    color: var(--light-red);
+    font-size: 10px;
+    cursor: pointer; 
+    margin-left: 5px;
+
+    &:hover{
+        color: var(--red2-color);
+    }
 }
 
 @media (max-width: 768px) {
@@ -81,5 +99,8 @@
         padding: 0;
     }
 
-}
+    .kw-info{
+        margin: 5px 5px;
+    }
 
+}

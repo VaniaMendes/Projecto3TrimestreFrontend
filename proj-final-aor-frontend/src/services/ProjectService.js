@@ -13,8 +13,6 @@ const ProjectService = {
                 },
             });
 
-            console.log(response);
-
             if (response.ok) {
                 const data = await response.json();
                 return data;
@@ -25,6 +23,48 @@ const ProjectService = {
             console.error(error);
         }
 
+    },
+
+    getProjectsByKeyword: async (keyword, order) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/keyword/${keyword}?order=${order}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    getKeywords: async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/keywords`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     count: async (state) => {
