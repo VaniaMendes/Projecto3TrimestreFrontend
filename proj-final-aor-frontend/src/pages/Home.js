@@ -93,7 +93,7 @@ const Home = () => {
             <div className="home-container">
 
                 <div className="left-side">
-                    {projectsData.length > 0 ? (
+                    {projectsData && projectsData.length > 0 ? (
                         <ProjectInfo data={projectsData} />
                     ) : (
                         <div>Loading...</div>

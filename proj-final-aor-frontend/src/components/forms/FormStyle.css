@@ -67,7 +67,14 @@ form {
   height: 40%;
 }
 
+@media screen and (max-width: 768px) {
 
+  .confirmation-container {
+    width: 90%;
+    height: 90%;
+  }
+  
+}
 
 .input-container {
   position: relative;

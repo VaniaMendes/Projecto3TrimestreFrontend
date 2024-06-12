@@ -88,6 +88,23 @@
     "FINISHED": "Finalizado",
     "CANCELLED": "Cancelado",
 
+
+
+
+
+
+
+
+    "messageReceived": "Você recebeu uma mensagem de ",
+    "newProjectNotification":" Um novo projeto foi adicionado por ",
+    "projectStatusNotification": "O status do projeto alterou",
+    "noNotificationsAvailable": "Nenhuma notificação disponível",
+    "year": "ano (s) ",
+    "day": "dia (s)",
+    "months": "mês (s)",
+    "hour": "hora (s)",
+     "withTheTitle" : " com o títutlo: "
+
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",
     "PORTO": "Porto",

@@ -165,7 +165,7 @@ function EditProfile({ onClose, modalType }) {
         )}
 
         {modalType === "biography" && (
-          <div className="modal-body-biography">
+          <div className="edit-biography">
             <input
               type="text"
               id="biography"
@@ -173,6 +173,9 @@ function EditProfile({ onClose, modalType }) {
               value={biography || ""}
               onChange={handleChangeNBiography}
             />
+             <label className="label-description" htmlFor="biography">
+                           {intl.formatMessage({ id: "biography" })}
+                        </label>
           </div>
         )}
        <button className="save-button" onClick={() => handleEditProfile(modalType)}>
