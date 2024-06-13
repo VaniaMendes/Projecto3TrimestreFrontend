@@ -13,8 +13,6 @@ const SkillInterestService = {
                 },
             });
 
-            console.log(response);
-
             if (response.ok) {
                 const data = await response.json();
                 return data;
@@ -37,8 +35,6 @@ const SkillInterestService = {
                     "Content-Type": "application/json"
                 },
             });
-
-            console.log(response);
 
             if (response.ok) {
                 const data = await response.json();

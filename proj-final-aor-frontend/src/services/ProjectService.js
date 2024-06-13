@@ -113,6 +113,27 @@ const ProjectService = {
 
     },
 
+    getProjectInfo: async (projectId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${projectId}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     register: async (token, project) => {
         try {
             const response = await fetch(`${API_BASE_URL}/register`, {

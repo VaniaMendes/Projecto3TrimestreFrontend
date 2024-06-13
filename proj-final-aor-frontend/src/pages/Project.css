@@ -1,0 +1,32 @@
+.project-page-container{
+    display: flex;
+    justify-content: center;
+}
+
+.project-page-content{
+    background-color: var(--light-background-color);
+    display: flex;
+    flex-direction: column;
+    margin: 130px 50px 30px 50px;
+    padding: 10px;
+    border: solid 1px var(--light-grey2);
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-height: 80vh;
+}
+
+.project-page-header,
+.project-page-info,
+.project-page-keywords,
+.project-page-skills,
+.project-page-members{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    min-height: 50px;
+    border-radius: 7px;
+    border: solid 1px var(--main-red);
+}

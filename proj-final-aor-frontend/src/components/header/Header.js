@@ -30,8 +30,6 @@ const Header = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
-    const keyword = queryParams.get('keyword');
     
     useEffect(() => {
         const handleResize = () => {

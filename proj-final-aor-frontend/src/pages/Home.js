@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./Home.css";
 import languages from "../translations"; 
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { IntlProvider } from "react-intl";
 import Header from "../components/header/Header";
 import FilterBar from "../components/header/FilterBar";
 import ProjectInfo from "../components/projects/ProjectInfo";
@@ -11,7 +11,6 @@ import ProjectService from "../services/ProjectService";
 import SliderContainer from "../components/SliderContainer";
 import { userStore } from "../stores/UserStore";
 import { useActionsStore } from "../stores/ActionStore";
-import { useProjectStore } from "../stores/ProjectStore";
 import { getCountProjectFromUser } from "../services/users";
 import FilterOptions from "../components/FilterOptions";
 
@@ -110,6 +109,10 @@ const Home = () => {
             console.error('Error fetching data:', error);
         }
     }
+
+    const handleProjectClick = (projectId) => {
+        navigate(`/project/${projectId}`);
+    };
     
 
     return (
@@ -123,7 +126,7 @@ const Home = () => {
 
                 <div className="left-side">
                     {projectsData && projectsData.length > 0 ? (
-                        <ProjectInfo data={projectsData} />
+                        <ProjectInfo data={projectsData} onClick={handleProjectClick}/>
                     ) : (
                         <div>Loading...</div>
                     )}

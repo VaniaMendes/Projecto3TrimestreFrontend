@@ -15,6 +15,7 @@ import ConfirmationAccount from './pages/ConfirmationAccount.js';
 import NewProject from './pages/NewProject.js';
 import UserProfile from './pages/UserProfile.js';
 import NotificationsPage from './pages/NotificationsPage.js';
+import Project from './pages/Project.js';
 
 
 function Routing() {
@@ -34,6 +35,9 @@ function Routing() {
         </>} />
         <Route path="/home/:userId" element={<>
           <Home />
+        </>} />
+        <Route path="/project/:projectId" element={<>
+          <Project />
         </>} />
         <Route path="/forgot-password" element={<>
           <ForgetPassword />
