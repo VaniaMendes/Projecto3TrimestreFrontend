@@ -23,14 +23,13 @@
     &:hover{
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
         cursor: pointer;
-        border: solid 1px var(--grey-color);
+        border: transparent;
         transform: scale(1.02);
     }
 
     &:active{
         background: linear-gradient(to top, #ff0a1e27, var(--light-color) 10%);
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-        cursor: pointer;
         border: transparent;
         transform: scale(1.01);
     }

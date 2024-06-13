@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./Keywords.css";
 import { IoSearch } from "react-icons/io5";
 import { FormattedMessage } from "react-intl";
@@ -13,7 +13,6 @@ const KeywordsContainer = (props) => {
     const [clickedKeyword, setClickedKeyword] = useState(null);
     const [showSearchKeywordBar, setShowSearchKeywordBar] = useState(false);
     const searchContainerRef = useRef(null);
-    const { userId } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
 
