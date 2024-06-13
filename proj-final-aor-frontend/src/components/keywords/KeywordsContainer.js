@@ -1,19 +1,21 @@
 import React, {useState, useEffect, useRef} from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./Keywords.css";
 import { IoSearch } from "react-icons/io5";
 import { FormattedMessage } from "react-intl";
 import KeywordComponent from "./KeywordComponent";
 import SkillInterestService from "../../services/SkillInterestService";
-import { useActionsStore } from "../../stores/ActionStore";
 import ProjectService from "../../services/ProjectService";
 
 const KeywordsContainer = (props) => {
-    const {isMobile, updateProjectData } = props;
-    const {sortBy, updateAreProjectsFromKeyword} = useActionsStore();
+    const {isMobile} = props;
     const [keywords, setKeywords] = useState([]);
     const [clickedKeyword, setClickedKeyword] = useState(null);
     const [showSearchKeywordBar, setShowSearchKeywordBar] = useState(false);
     const searchContainerRef = useRef(null);
+    const { userId } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         fetchKeywords();
@@ -21,9 +23,13 @@ const KeywordsContainer = (props) => {
 
     useEffect(() => {
         if (clickedKeyword) {
-            fetchProjectsByKeyword(clickedKeyword, sortBy);
+            const currentPath = location.pathname;
+            const newSearchParams = new URLSearchParams(location.search);
+            newSearchParams.set('keyword', clickedKeyword);
+    
+            navigate(`${currentPath}?${newSearchParams.toString()}`);
         }
-    }, [clickedKeyword, sortBy]);
+    }, [clickedKeyword]);
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
@@ -43,19 +49,6 @@ const KeywordsContainer = (props) => {
             console.error('Error fetching data:', error);
         }
     };
-
-    const fetchProjectsByKeyword = async (keyword) => {
-        try {
-            updateAreProjectsFromKeyword(true);
-            const projects = await ProjectService.getProjectsByKeyword(keyword, sortBy);
-            await updateProjectData(projects);
-            
-
-            console.log('Projects by keyword:', projects);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    }
 
     const handleSearchIconClick = (event) => {
         event.stopPropagation();

@@ -13,7 +13,6 @@ import { MdArrowDropDown } from "react-icons/md";
 import { MdArrowDropUp } from "react-icons/md";
 import './Header.css';
 import {userStore} from "../../stores/UserStore";
-import { useActionsStore } from "../../stores/ActionStore";
 import languages from "../../translations"; 
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { logoutUser } from "../../services/users";
@@ -21,8 +20,7 @@ import { logoutUser } from "../../services/users";
 
 const Header = () => {
 
-    const {token, userId, locale} = userStore();
-    const {updateAreProjectsFromKeyword} = useActionsStore();
+    const {token, userId, locale, resetUserStore} = userStore();
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -32,6 +30,8 @@ const Header = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const keyword = queryParams.get('keyword');
     
     useEffect(() => {
         const handleResize = () => {
@@ -82,7 +82,8 @@ const Header = () => {
     const handleClickLogout = async() => {
         const response = await logoutUser(token);
         if(response===200){
-            navigate("/login");
+            resetUserStore();
+            navigate("/");
         }
         else{
             console.error("Failed to logout user");
@@ -90,13 +91,15 @@ const Header = () => {
     }
 
     const handleSeeAllProjects = () => {
-        updateAreProjectsFromKeyword(false);
-        navigate("/home");
+        if (location.pathname !== "/home" || location.search !== "") {
+            navigate("/home", { replace: true });
+        }
     }
 
     const handleMyProjects = () => {
-        updateAreProjectsFromKeyword(false);
-        navigate(`/home/${userId}`);
+        if (location.pathname !== `/home/${userId}` || location.search !== "") {
+            navigate(`/home/${userId}`, { replace: true });
+        }
     }
 
     return (
