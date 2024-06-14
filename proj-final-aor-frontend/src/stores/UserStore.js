@@ -5,7 +5,10 @@ export const userStore = create (
     persist (
         (set) => ({
             token:'', //state variable
-            updateToken : (token) => set({token}),  
+            updateToken : (token) => set({token}),
+
+            name:'',
+            updateName : (name) => set({name}),
 
             userData:[],
             updateUserData: (newUserData) => set({ userData: newUserData }),
@@ -16,7 +19,7 @@ export const userStore = create (
             userId: null, 
             updateUserId: (userId) => set({ userId }),
 
-            resetUserStore: () => set({ token: '', userData: [], locale: 'en', userId: null}),
+            resetUserStore: () => set({ token: '', userData: [], locale: 'en', userId: null, name: ''}),
         }),
         {
             name: 'userStore',

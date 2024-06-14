@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Project.css";
+import defaultPhoto from "../components/assets/profile_pic_default.png"
 import Header from "../components/header/Header";
 import { FormattedMessage, IntlProvider } from "react-intl";
 import { userStore } from "../stores/UserStore";
@@ -57,31 +58,61 @@ const Project = () => {
                 <div className="project-page-container">
                     <div className="project-page-content">
                         <div className="project-page-header">
-                            <h1>{projectData.name}</h1>
-                            {projectData.lab && <h2>{projectData.lab.name}</h2>}
-                            <h3>{projectData.stateId}</h3>
+                            <div className="cretor-project-name-container">
+                                <div className="creator-info-container">
+                                    {projectData.usersInfo[0].userType === "CREATOR" && (
+                                        <>
+                                            <div className="photo-container">
+                                                <img src={projectData.usersInfo[0].photo || defaultPhoto} alt="creator" />
+                                            </div>
+                                            <h4><FormattedMessage id={projectData.usersInfo[0].userType}/> </h4>
+                                        </>
+                                    )}
+                                </div>
+                                <h1>{projectData.name}</h1>
+                            </div>
+                            
+                            <button className="project-page-candidate-button"><FormattedMessage id="candidate"/></button>
                         </div>
 
                         <div className="project-page-info">
-                            <h4><FormattedMessage id="description"/>:</h4>
+                            <div className="ppi-cont">
+                                <h4><FormattedMessage id="lab"/> :&nbsp; </h4>
+                                {projectData.lab && <p><FormattedMessage id={projectData.lab.name}/></p>}
+                            </div>
+
+                            <div className="ppi-cont">
+                                <h4><FormattedMessage id="state"/> :&nbsp; </h4>
+                                <p><FormattedMessage id={projectData.stateId}/></p>
+                            </div>
+
+                            <div className="ppi-cont">
+                                <h4><FormattedMessage id="maxMembers"/> :&nbsp; </h4>
+                                <p>{projectData.maxMembers}</p>
+                            </div>
+                        </div>
+
+                        <div className="project-page-description">
+                            <label className="c-label"><FormattedMessage id="description"/>:</label>
                             <p>{projectData.description}</p>
                         </div>
 
                         <div className="project-page-keywords">
-                            <h4><FormattedMessage id="keywords"/>:</h4>
+                            <label className="c-label"><FormattedMessage id="keywords"/>:</label>
                             {projectData.keywords && projectData.keywords.map((keyword, index) => (
                                 <KeywordComponent keyword={keyword.trim()} key={index} isProjectInfo={true} />
                             ))}
                         </div>
 
                         <div className="project-page-skills">
-                            <h4><FormattedMessage id="skills"/>:</h4>
+                            <label className="c-label"><FormattedMessage id="skills"/>:</label>
                                 {projectData.skills.map((skill, index) => (
                                     <KeywordComponent keyword={skill.name} key={index} isProjectInfo={true}/>
                                 ))}
                         </div>
 
                         <div className="project-page-members">
+                            <label className="c-label"><FormattedMessage id="teamMembers"/>:</label>
                             {projectData.usersInfo && projectData.usersInfo.map((user, userIndex) => (
                                 <MemberDisplay
                                     key={userIndex}
@@ -90,6 +121,10 @@ const Project = () => {
                                     role={user.userType}
                                 />
                             ))}   
+                        </div>
+
+                        <div className="project-page-resources">
+                             
                         </div>
                     </div>
                 </div>
