@@ -127,7 +127,7 @@ export async function confirmAccount(tokenConfirmation, user, lab){
     try {
 
          // Construct the URL with query parameters
-       const urlWithParams = new URL(`${url}/confirm`);
+       const urlWithParams = new URL(`${url}/confirm-account`);
        urlWithParams.searchParams.append("lab", lab);
 
 

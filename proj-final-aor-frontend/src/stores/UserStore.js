@@ -19,6 +19,9 @@ export const userStore = create (
             userId: null, 
             updateUserId: (userId) => set({ userId }),
 
+            photo:null,
+            updatePhoto : (photo) => set({ photo }),
+
             resetUserStore: () => set({ token: '', userData: [], locale: 'en', userId: null, name: ''}),
         }),
         {

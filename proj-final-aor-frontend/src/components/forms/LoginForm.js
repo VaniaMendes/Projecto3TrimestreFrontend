@@ -14,7 +14,7 @@ function LoginForm() {
     const [newUser, setNewUser] = useState({});
     const navigate = useNavigate();
     const intl = useIntl();
-    const {updateUserId, updateName} = userStore();
+    const {updateUserId, updateName, updatePhoto} = userStore();
 
     // Get the locale from the userStore
    const locale = userStore((state) => state.locale);
@@ -52,6 +52,7 @@ function LoginForm() {
                 } else {
                     updateUserId(data.id);
                     updateName(data.firstName + " " + data.lastName);
+                    updatePhoto(data.photo);
                 }
                 navigate(`/home/${data.id}`);
             }
