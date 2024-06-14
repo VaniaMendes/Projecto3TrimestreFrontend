@@ -284,3 +284,34 @@ export async function updateBiography(userId, token, biography){
 
     }
 }
+
+export async function getUserById(token, userId){
+    try{
+
+        const response = await fetch(`${url}/profile/${userId}`,  {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Login failed:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}

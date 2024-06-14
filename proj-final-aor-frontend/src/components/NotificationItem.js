@@ -55,7 +55,6 @@ function NotificationItem({ notification, onClick}) {
       notificationMessage = `${intl.formatMessage({ id: "projectStatusNotification" })} ${notification.project.title}`;
   }
 
-  console.log(notification.relatedEntityName);
 
    // Get the current time
    const now = moment();

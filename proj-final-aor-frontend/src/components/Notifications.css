@@ -1,109 +1,113 @@
-
 :root{
-    --grey-color: #8D8D8D;
-    --background-color: #f0f0f0;
-    --light-grey2: #e5e5e5;
-    --light-red: #DA737B;
-    }
+  --grey-color: #8D8D8D;
+  --background-color: #f0f0f0;
+  --light-grey2: #e5e5e5;
+  --light-red: #DA737B;
+}
 
-    .notification-external-container{
-      background-color: var(--light-background-color);
-      position:relative;
-      display: flex;
-      width: 60%;
-      border: solid 1px var(--light-grey2);
-      border-radius: 5px;
-      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-      top:15%;
-      left: 20%;
-  
-  
-    }
-    .notification-image{
-       width: 35px;
-       height: 35px;
-       border-radius: 50%;
-       background-size: cover;
-       background-position: center;
-    }
 
-    .notification-avatar {
-      width: 50px; 
-      height: 50px; 
-      border-radius: 50%;
-  
-      background-size: cover;
-      background-position: center;
+.notification-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 15%;
+  width: 100%;
+}
+
+.notification-external-container{
+  background-color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  border: solid 1px var(--light-grey2);
+  border-radius: 5px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  top: 15%;
+  left: 20%;
+  padding: 20px; 
+  height: auto; 
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .notification-external-container {
+      width: 100%;
+      left: 0;
   }
+}
 
-.notifications-container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    width: 70%;
+.notification-image{
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
 
-    margin:20px auto; 
-    justify-content: space-between; 
-   
- 
-  }
-  @media screen and (max-width: 768px) {
-    .notifications-container {
+.notification-avatar {
+  width: 50px; 
+  height: 50px; 
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+}
+
+@media screen and (max-width: 768px) {
+  .notifications-container {
       width: 100%;
       margin-left: 20px;
       margin-right: 10px;
-    }
-    .notification-external-container{
+  }
+  .notification-external-container {
       width: 100%;
       left: 0;
-    }
-    
   }
-  
+}
 
-  .no-notifications {
-    padding: 10px;
-    color: #888;
-    text-align: center;
-  }
+.no-notifications {
+  padding: 10px;
+  color: #888;
+  text-align: center;
+}
 
-  .notification-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    background-color: white;
-    position: relative;
-    top: 130px;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    
-  }
-  .notification-info:hover {
-    background-color:var(--light-grey2);
-    cursor: pointer;
-  }
-  .notification-item{
-    margin-right: 25px;
-    width: 80%;
-  }
-  
-  .notification-timestamp{
-    text-align: right;
-  }
+.notification-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  background-color: white;
+  position: relative;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 15px; /* Adicione padding interno */
+}
 
-  .notification-info.read {
-    background-color: white; 
+.notification-info:hover {
+  background-color: var(--light-grey2);
+  cursor: pointer;
+}
 
+.notification-item {
+  margin-right: 25px;
+  width: 80%;
+}
+
+.notification-timestamp {
+  text-align: right;
+  margin-right: 10px;
+}
+
+.notification-info.read {
+  background-color: white;
 }
 
 .notification-info.unread {
-    background-color: #da737c31; 
-    font-weight: 600; 
+  background-color: #da737c31; 
+  font-weight: 600; 
 }
+
 .notification-badge {
-  background-color: var(--main-red);
+  background-color: red;
   color: white;
   font-weight: 700;
   font-size: 16px;
@@ -120,3 +124,14 @@
   transform: translate(-60%, -10%); 
   z-index: 1;
 }
+
+@media screen and (max-width: 768px) {
+  .notification-badge {
+     transform: translate(10%, 10%);
+     width: 22px;
+     height: 18px;
+     font-size: 14px;
+  }
+  
+}
+
