@@ -61,6 +61,7 @@
     "projects": "Projetos",
     "projectName": "Nome do Projeto",
     "maxMembers": "Máximo de Membros",
+    "candidate": "Candidatar a vaga",
 
     "state": "Estado",
     "sortBy": "Ordenar por",
@@ -76,6 +77,9 @@
     "keywords": "Palavras-chave",
     "skills": "Competências",
     "teamMembers": "Membros da Equipa",
+
+    "addKeyword": "Adicionar Palavra-chave",
+    "addNeed": "Adicionar Necessidade",
 
     "developer": "Desenvolvedor",
     "CREATOR": "Criador",

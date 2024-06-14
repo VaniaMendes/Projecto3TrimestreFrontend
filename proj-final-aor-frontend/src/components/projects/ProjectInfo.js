@@ -5,12 +5,18 @@ import "./ProjectInfo.css";
 import { FormattedMessage } from "react-intl";
 
 const ProjectInfo = (props) => {
-    const {data} = props;
+    const {data, onClick} = props;
+
+    const handleClick = (projectId) => {
+        if (onClick) {
+            onClick(projectId);
+        }
+    };
 
     return (
         <div className="project-cards-container">
             {data.map((project, index) => (
-                <div className="info-container" key={index}>
+                <div className="info-container" key={index} onClick={() => handleClick(project.id)}>
                     
                         <h2>{project.name}</h2>
                         <div className="title-label-container">

@@ -9,8 +9,7 @@ import { AiFillHome } from "react-icons/ai";
 import { BiSolidComponent } from "react-icons/bi";
 import { BiSolidMessageSquareDots } from "react-icons/bi";
 import { IoNotifications } from "react-icons/io5";
-import { MdArrowDropDown } from "react-icons/md";
-import { MdArrowDropUp } from "react-icons/md";
+import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import "./Header.css";
 import { userStore } from "../../stores/UserStore";
 import languages from "../../translations";
@@ -21,13 +20,13 @@ import { getUnreadNotifications } from "../../services/notifications";
 import WebSocketClient from "../../websocket/Websocket";
 
 const Header = () => {
-  const { token, userId, locale } = userStore();
   const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProjectsMenu, setShowProjectsMenu] = useState(false);
   const [showComponentsMenu, setShowComponentsMenu] = useState(false);
+  const { token, userId, name, locale, resetUserStore } = userStore();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,15 +36,12 @@ const Header = () => {
 
   WebSocketClient();
 
-  // Efeito para buscar os dados do usuário ao montar o componente
   useEffect(() => {
     async function fetchData() {
       try {
         if (token) {
-          //Quando cria o componente vai buscar a lista de mensagens não lidas do utilizador e coloca-as na store
           const unreadNotifications = await getUnreadNotifications(token);
           console.log(unreadNotifications);
-
           setNotifications(unreadNotifications);
         }
       } catch (error) {
@@ -61,6 +57,7 @@ const Header = () => {
     };
 
     window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleSearchIconClick = () => {
@@ -69,6 +66,33 @@ const Header = () => {
 
   const handleSearchBarBlur = () => {
     setShowSearchBar(false);
+  };
+
+  const handleProfileClick = () => {
+    setShowProfileMenu(!showProfileMenu);
+    setShowProjectsMenu(false);
+    setShowComponentsMenu(false);
+  };
+
+  const handleClickLogout = async () => {
+    const response = await logoutUser(token);
+    if (response === 200) {
+      resetUserStore();
+      navigate("/");
+    } else {
+      console.error("Failed to logout user");
+    }
+  };
+
+  const handleClickNotificationsPage = () => {
+    clearNotifications();
+    navigate("/notifications");
+  };
+
+  const handleSeeAllProjects = () => {
+    if (location.pathname !== "/home" || location.search !== "") {
+      navigate("/home", { replace: true });
+    }
   };
 
   const handleHomeClick = () => {
@@ -83,30 +107,16 @@ const Header = () => {
     setShowProfileMenu(false);
   };
 
-  const handleProfileClick = () => {
-    setShowProfileMenu(!showProfileMenu);
-    setShowProjectsMenu(false);
-    setShowComponentsMenu(false);
-  };
-
-  const handleClickNotificationsPage = () => {
-    clearNotifications();
-    navigate("/notifications");
-  };
-
   const logoToRender = isMobile ? logoSmall : logo;
   const logoWidth = isMobile ? "50px" : "200px";
 
-  function handleClickProfile() {
+  const handleClickProfile = () => {
     navigate(`/profile/${userId}`);
-  }
+  };
 
-  const handleClickLogout = async () => {
-    const response = await logoutUser(token);
-    if (response === 200) {
-      navigate("/login");
-    } else {
-      console.error("Failed to logout user");
+  const handleMyProjects = () => {
+    if (location.pathname !== `/home/${userId}` || location.search !== "") {
+      navigate(`/home/${userId}`, { replace: true });
     }
   };
 
@@ -170,13 +180,22 @@ const Header = () => {
                     </div>
                     {showProjectsMenu && (
                       <div className="submenu">
-                        <p onClick={() => navigate(`/new-project`)}>
+                        <p
+                          className="submenu-clickable"
+                          onClick={() => navigate(`/new-project`)}
+                        >
                           <FormattedMessage id="create" />
                         </p>
-                        <p onClick={() => navigate(`/home`)}>
+                        <p
+                          className="submenu-clickable"
+                          onClick={handleSeeAllProjects}
+                        >
                           <FormattedMessage id="seeAll" />
                         </p>
-                        <p onClick={() => navigate(`/home/${userId}`)}>
+                        <p
+                          className="submenu-clickable"
+                          onClick={handleMyProjects}
+                        >
                           <FormattedMessage id="myProjects" />
                         </p>
                       </div>
@@ -201,10 +220,10 @@ const Header = () => {
                     </div>
                     {showComponentsMenu && (
                       <div className="submenu component-submemu">
-                        <p>
+                        <p className="submenu-clickable">
                           <FormattedMessage id="create" />
                         </p>
-                        <p>
+                        <p className="submenu-clickable">
                           <FormattedMessage id="seeAll" />
                         </p>
                       </div>
@@ -216,19 +235,13 @@ const Header = () => {
                       <FormattedMessage id="messages" />
                     </p>
                   </div>
-                  <div
-                    className="icon-container"
-                    onClick={handleClickNotificationsPage}
-                  >
+                  <div className="icon-container" onClick={handleClickNotificationsPage}>
                     <IoNotifications className="icon" />
                     <p className="icon-subtitle">
-                      {notifications && notifications.length > 0 && (
-                        <div className="notification-badge">
-                          {notifications.length}
-                        </div>
-                      )}
                       <FormattedMessage id="notifications" />
                     </p>
+                    {notifications && notifications.length > 0 &&(
+                    <div className="notification-badge ">{notifications.length}</div>)}
                   </div>
                   <div className="submenu-container">
                     <div
@@ -239,7 +252,6 @@ const Header = () => {
                     >
                       <div className="photo-container">
                         <img src={headerPhoto} alt="Profile Pic" />{" "}
-                        {/* Show profile picture */}
                       </div>
                       <p className="icon-subtitle">
                         <FormattedMessage id="profile" />
@@ -252,10 +264,17 @@ const Header = () => {
                     </div>
                     {showProfileMenu && (
                       <div className="submenu">
-                        <p onClick={() => handleClickProfile()}>
+                        <p className="submenu-name">{name}</p>
+                        <p
+                          className="submenu-clickable"
+                          onClick={() => handleClickProfile()}
+                        >
                           <FormattedMessage id="myProfile" />
                         </p>
-                        <p onClick={() => handleClickLogout()}>
+                        <p
+                          className="submenu-clickable"
+                          onClick={() => handleClickLogout()}
+                        >
                           <FormattedMessage id="logout" />
                         </p>
                       </div>

@@ -23,8 +23,15 @@
     &:hover{
         box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
         cursor: pointer;
-        border: solid 1px var(--grey-color);
+        border: transparent;
         transform: scale(1.02);
+    }
+
+    &:active{
+        background: linear-gradient(to top, #ff0a1e27, var(--light-color) 10%);
+        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+        border: transparent;
+        transform: scale(1.01);
     }
 
     h2{
@@ -85,7 +92,7 @@
         right: 0;
         width: 20%;
         height: 1.2em;
-        background: linear-gradient(to right, transparent, white 50%);
+        background: linear-gradient(to right, transparent, var(--light-background-color) 40%);
     }
 
     .words-container{

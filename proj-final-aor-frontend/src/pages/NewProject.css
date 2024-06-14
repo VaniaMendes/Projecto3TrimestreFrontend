@@ -118,4 +118,11 @@
     .sections-container {
         width: 100%;
     }
+
+    .list-keywords {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
 }

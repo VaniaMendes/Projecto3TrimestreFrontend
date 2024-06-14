@@ -66,6 +66,7 @@
     "projects": "Projects",
     "projectName": "Project Name",
     "maxMembers": "Max Members",
+    "candidate": "Apply for vacancy",
 
     "state": "State",
     "sortBy": "Sort By",
@@ -81,6 +82,9 @@
     "keywords": "Keywords",
     "skills": "Skills",
     "teamMembers": "Team Members",
+
+    "addKeyword": "Add Keyword",
+    "addNeed": "Add Need",
 
     "developer": "Developer",
     "CREATOR": "Creator",

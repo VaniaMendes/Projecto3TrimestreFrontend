@@ -14,7 +14,7 @@ function LoginForm() {
     const [newUser, setNewUser] = useState({});
     const navigate = useNavigate();
     const intl = useIntl();
-    const {updateUserId} = userStore();
+    const {updateUserId, updateName, updatePhoto} = userStore();
 
     // Get the locale from the userStore
    const locale = userStore((state) => state.locale);
@@ -51,6 +51,8 @@ function LoginForm() {
                     toast.error("An error occurred while logging in");
                 } else {
                     updateUserId(data.id);
+                    updateName(data.firstName + " " + data.lastName);
+                    updatePhoto(data.photo);
                 }
                 navigate(`/home/${data.id}`);
             }

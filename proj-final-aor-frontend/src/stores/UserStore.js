@@ -6,7 +6,9 @@ export const userStore = create (
         (set) => ({
             token:'', //state variable
             updateToken : (token) => set({token}),
-            resetUserStore: () => set({ token: '', userData: [], locale: 'en'}),    
+
+            name:'',
+            updateName : (name) => set({name}),
 
             userData:[],
             updateUserData: (newUserData) => set({ userData: newUserData }),
@@ -14,9 +16,13 @@ export const userStore = create (
             locale:"en",
             updateLocale : (locale) => set({ locale }),
 
-
             userId: null, 
-            updateUserId: (userId) => set({ userId })
+            updateUserId: (userId) => set({ userId }),
+
+            photo:null,
+            updatePhoto : (photo) => set({ photo }),
+
+            resetUserStore: () => set({ token: '', userData: [], locale: 'en', userId: null, name: ''}),
         }),
         {
             name: 'userStore',
