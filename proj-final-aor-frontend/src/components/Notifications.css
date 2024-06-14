@@ -102,3 +102,21 @@
     background-color: #da737c31; 
     font-weight: 600; 
 }
+.notification-badge {
+  background-color: var(--main-red);
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 50%;
+  width: 26px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(-60%, -10%); 
+  z-index: 1;
+}
