@@ -39,13 +39,6 @@ const Header = () => {
         window.addEventListener('resize', handleResize);
     }, []);
 
-    useEffect(() => {
-        if (token) {
-            
-            // setName(response.name);
-        }
-    }, [token]);
-
     const handleSearchIconClick = () => {
         setShowSearchBar(true);
     }
