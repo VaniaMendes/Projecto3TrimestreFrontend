@@ -93,26 +93,26 @@ const Project = () => {
                         </div>
 
                         <div className="project-page-description">
-                            <label className="c-label"><FormattedMessage id="description"/>:</label>
+                            <label className="c-label"><FormattedMessage id="description"/></label>
                             <p>{projectData.description}</p>
                         </div>
 
                         <div className="project-page-keywords">
-                            <label className="c-label"><FormattedMessage id="keywords"/>:</label>
+                            <label className="c-label"><FormattedMessage id="keywords"/></label>
                             {projectData.keywords && projectData.keywords.map((keyword, index) => (
                                 <KeywordComponent keyword={keyword.trim()} key={index} isProjectInfo={true} />
                             ))}
                         </div>
 
                         <div className="project-page-skills">
-                            <label className="c-label"><FormattedMessage id="skills"/>:</label>
+                            <label className="c-label"><FormattedMessage id="skills"/></label>
                                 {projectData.skills.map((skill, index) => (
                                     <KeywordComponent keyword={skill.name} key={index} isProjectInfo={true}/>
                                 ))}
                         </div>
 
                         <div className="project-page-members">
-                            <label className="c-label"><FormattedMessage id="teamMembers"/>:</label>
+                            <label className="c-label"><FormattedMessage id="teamMembers"/></label>
                             {projectData.usersInfo && projectData.usersInfo.map((user, userIndex) => (
                                 <MemberDisplay
                                     key={userIndex}
@@ -124,7 +124,14 @@ const Project = () => {
                         </div>
 
                         <div className="project-page-resources">
-                             
+                            <label className="c-label"><FormattedMessage id="resources"/></label>
+                            {projectData.resources && projectData.resources.map((skill, index) => (
+                                <KeywordComponent keyword={skill.name} key={index} isProjectInfo={true}/>
+                            ))}
+                        </div>
+
+                        <div className="project-page-plan">
+                            <label className="c-label"><FormattedMessage id="plan"/></label>
                         </div>
                     </div>
                 </div>
