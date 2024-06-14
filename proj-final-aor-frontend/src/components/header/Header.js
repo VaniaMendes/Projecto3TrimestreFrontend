@@ -20,7 +20,7 @@ import { logoutUser } from "../../services/users";
 
 const Header = () => {
 
-    const {token, userId, locale, resetUserStore} = userStore();
+    const {token, userId, name, locale, resetUserStore} = userStore();
     const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [showSearchBar, setShowSearchBar] = useState(false);
@@ -38,6 +38,13 @@ const Header = () => {
 
         window.addEventListener('resize', handleResize);
     }, []);
+
+    useEffect(() => {
+        if (token) {
+            
+            // setName(response.name);
+        }
+    }, [token]);
 
     const handleSearchIconClick = () => {
         setShowSearchBar(true);
@@ -144,9 +151,9 @@ const Header = () => {
                                         </div>
                                         {showProjectsMenu && (
                                             <div className="submenu">
-                                                <p onClick={() => navigate(`/new-project`)}><FormattedMessage id="create"/></p>
-                                                <p onClick={handleSeeAllProjects}><FormattedMessage id="seeAll"/></p>
-                                                <p onClick={handleMyProjects}><FormattedMessage id="myProjects"/></p>
+                                                <p className="submenu-clickable" onClick={() => navigate(`/new-project`)}><FormattedMessage id="create"/></p>
+                                                <p className="submenu-clickable" onClick={handleSeeAllProjects}><FormattedMessage id="seeAll"/></p>
+                                                <p className="submenu-clickable" onClick={handleMyProjects}><FormattedMessage id="myProjects"/></p>
                                             </div>
                                         )}
                                     </div>
@@ -160,8 +167,8 @@ const Header = () => {
                                         </div>
                                         {showComponentsMenu && (
                                             <div className="submenu component-submemu">
-                                                <p><FormattedMessage id="create"/></p>
-                                                <p><FormattedMessage id="seeAll"/></p>
+                                                <p className="submenu-clickable"><FormattedMessage id="create"/></p>
+                                                <p className="submenu-clickable"><FormattedMessage id="seeAll"/></p>
                                             </div>
                                         )}
                                     </div>
@@ -185,8 +192,9 @@ const Header = () => {
                                         </div>
                                         {showProfileMenu && (
                                             <div className="submenu">
-                                                <p onClick={()=> handleClickProfile()}><FormattedMessage id="myProfile"/></p>
-                                                <p onClick={()=>handleClickLogout()}><FormattedMessage id="logout"/></p>
+                                                <p className="submenu-name">{name}</p>
+                                                <p className="submenu-clickable" onClick={()=> handleClickProfile()}><FormattedMessage id="myProfile"/></p>
+                                                <p className="submenu-clickable" onClick={()=>handleClickLogout()}><FormattedMessage id="logout"/></p>
                                             </div>
                                         )}
                                     </div>

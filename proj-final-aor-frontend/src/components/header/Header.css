@@ -148,6 +148,9 @@ BOTTOM HEADER
 
 .submenu {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     top: 100%;
     width: 89px;
     color: var(--grey-color);
@@ -165,13 +168,30 @@ BOTTOM HEADER
         font-style: normal;
         padding: 0.6em;
         font-size: 0.8rem;
-        cursor: pointer;
         transition: all 0.3s ease;
+        width: 100%;
     }
 
-    p:hover{
+    .submenu-clickable:hover{
         color: var(--main-red);
         background-color: var(--light-grey);
+        cursor: pointer;
+    }
+
+    .submenu-name {
+        position: relative;
+        text-align: center;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+    
+    .submenu-name::after {
+        content: "";
+        position: absolute;
+        left: 10%;
+        bottom: 0;
+        width: 80%;
+        border-bottom: 1px solid #ccc;
     }
 }
 
