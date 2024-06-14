@@ -36,8 +36,20 @@ function NotificationItem({ notification, onClick}) {
       notificationMessage =  `${intl.formatMessage({ id: "newProjectNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
       notificationImage = projectIcon;
       break;
-    case 'PROJECT_STATUS':
-      notificationMessage = `${intl.formatMessage({ id: "projectStatusNotification" })} ${notification.project.title}`;
+    case 'PROJECT_STATE_CHANGE':
+      notificationMessage = `${intl.formatMessage({ id: "projectStatusNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`;
+      break;
+      case 'MESSAGE_PROJECT':
+        notificationMessage =  `${intl.formatMessage({ id: "messageReceivedProject" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
+        notificationImage = projectIcon;
+      break;
+      case 'NEW_MEMBER':
+        notificationMessage =  `${intl.formatMessage({ id: "newMemberNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
+        if(notification.sender.photo){
+          notificationImage = notification.sender.photo;
+        }else{
+          notificationImage = logoUser;
+        }
       break;
     default:
       notificationMessage = `${intl.formatMessage({ id: "projectStatusNotification" })} ${notification.project.title}`;

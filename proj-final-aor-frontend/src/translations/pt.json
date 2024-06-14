@@ -108,6 +108,9 @@
     "months": "mês (s)",
     "hour": "hora (s)",
      "withTheTitle" : " com o títutlo: ",
+     "messageReceivedProject": "Uma nova mensagem foi enviada pelo utilizador ",
+     "forProject": " para o projecto com o nome ",
+     "newMemberNotification": "Um novo membro foi adicionado ao projeto com o título ",
 
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",

@@ -104,13 +104,17 @@
    
     "messageReceived": "You have received a new message from ",
     "newProjectNotification": " A new project was created by ",
-    "projectStatusNotification": "Project status has changed",
+    "projectStatusNotification": "Project status has changed with the title",
     "noNBotificationsAvailable": "No notifications available",
     "year": "year (s) ",
     "day": "day (s)",
     "months": "month (s)",
     "hour": "hour (s)",
     "withTheTitle": " with the title: ",
+    "messageReceivedProject": "A new message was sent by ",
+    "forProject": " for project with name ",
+    "newMemberNotification": "A new member has joined the project with name",
+ 
 
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",
