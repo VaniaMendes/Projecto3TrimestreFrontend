@@ -38,12 +38,12 @@ function Notifications() {
     }
   };
 
-  console.log(notifications);
+  
   return (
     <div >
          <IntlProvider locale={locale} messages={languages[locale]}>
-          <div className = "notification-external-container">
-      <div className="notifications-container">
+         <div className="notification-container">
+         <div className="notification-external-container">
         {notifications && notifications.length > 0 ? (
           notifications.map((notification) => (
            
