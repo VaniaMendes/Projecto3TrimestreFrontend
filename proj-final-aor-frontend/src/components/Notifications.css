@@ -103,7 +103,7 @@
     font-weight: 600; 
 }
 .notification-badge {
-  background-color: red;
+  background-color: var(--main-red);
   color: white;
   font-weight: 700;
   font-size: 16px;

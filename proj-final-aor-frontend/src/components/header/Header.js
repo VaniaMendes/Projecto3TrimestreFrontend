@@ -18,6 +18,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { logoutUser } from "../../services/users";
 import { notificationStore } from "../../stores/NotificationStore";
 import { getUnreadNotifications } from "../../services/notifications";
+import WebSocketClient from "../../websocket/Websocket";
 
 const Header = () => {
   const { token, userId, locale } = userStore();
@@ -33,6 +34,8 @@ const Header = () => {
 
   const { clearNotifications, setNotifications } = notificationStore();
   const notifications = notificationStore((state) => state.notifications);
+
+  WebSocketClient();
 
   // Efeito para buscar os dados do usuário ao montar o componente
   useEffect(() => {
@@ -87,6 +90,7 @@ const Header = () => {
   };
 
   const handleClickNotificationsPage = () => {
+    clearNotifications();
     navigate("/notifications");
   };
 
