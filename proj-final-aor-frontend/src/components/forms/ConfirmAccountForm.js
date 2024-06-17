@@ -11,6 +11,7 @@ import logo from '../assets/profile_pic_default.png';
 import LabSelection from "../LabSelection";
 
 
+
 function Confirmation() {
   //State variables
   const [user, setUser] = useState({
@@ -28,6 +29,7 @@ function Confirmation() {
   const location = useLocation();
   const [photo, setPhoto]= useState(null);
   const intl = useIntl();
+  const [photoFile, setPhotoFile] = useState(null);
 
 
   // Get the locale from the userStore
@@ -42,26 +44,39 @@ function Confirmation() {
     }
   }, [location.search]);
 
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-
-    if(!user.firstName || !user.lastName || !user.nickname || !lab){
-      toast.warning("Por favor, preencha todos os campos.");
+    if (!user.firstName || !user.lastName || !user.nickname || !lab || !photoFile) {
+      toast.warning("Por favor, preencha todos os campos e selecione uma foto.");
       return;
     }
 
     try {
-      const responseStatus = await confirmAccount(tokenConfirmation, user, lab);
+      // Upload the photo and get the URL
+      const photoUrl = await uploadPhoto(photoFile);
+      console.log(photoUrl);
+      if (photoUrl) {
+
+       
+        // Update user state with photo URL
+        const updatedUser = { ...user, photo: photoUrl };
+
+
+      // Confirmar conta com dados do usuário e da foto
+      const responseStatus = await confirmAccount(tokenConfirmation, updatedUser, lab);
+   
       if (responseStatus === 200) {
         toast.success("Conta confirmada com sucesso!");
         navigate("/login");
       } else {
-        toast.warning(" Falha ao confirmar conta.");
+        toast.warning("Falha ao confirmar conta.");
       }
+    }
     } catch (error) {
       console.error("Erro ao confirmar usuário:", error);
-      
+      toast.error("Erro ao confirmar usuário.");
     }
   };
 
@@ -90,7 +105,8 @@ const handleChangePhoto = (event) => {
     const file = event.target.files[0];
     const photoURL = URL.createObjectURL(file);
     setPhoto(photoURL);
-    user.photo = photoURL;
+    setPhotoFile(file);
+    
   }
 };
   
@@ -99,6 +115,36 @@ const handleChangePhoto = (event) => {
     const { value } = event.target;
     setLab(value);
   };
+  
+ 
+  const uploadPhoto = async (photoFile) => {
+    const url = 'http://localhost:8080/project_backend/upload';    
+  
+    const formData = new FormData();
+    formData.append('photo', photoFile);
+  
+    const options = {
+      method: 'POST',
+      body: formData 
+    };
+  
+    try {
+      const response = await fetch(url, options);
+      console.log(response.status); // Exibe a resposta do servidor no console
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+   
+      return data.photoUrl; // Retorne os dados recebidos, se necessário
+    } catch (error) {
+      console.error('Erro ao fazer upload da foto:', error);
+      throw new Error('Erro ao fazer upload da foto.'); // Lança o erro novamente para tratamento externo, se necessário
+    }
+  };
+  
 
   return (
     <div className="confirmation-container">

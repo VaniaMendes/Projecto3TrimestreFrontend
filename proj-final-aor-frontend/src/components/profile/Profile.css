@@ -184,8 +184,8 @@
 
  .user-nickname{
     display: flex;
-    position: absolute;
-    top: -40%;
+    position: relative;
+    
     left:-10%;
  }
   

@@ -10,6 +10,8 @@ const Login = () => {
 
    // Get the locale from the userStore
    const locale = userStore((state) => state.locale);
+
+   
   return (
     <div>
        <IntlProvider locale={locale} messages={languages[locale]}> 

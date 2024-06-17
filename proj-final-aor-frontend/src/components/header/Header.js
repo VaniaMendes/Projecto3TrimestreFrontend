@@ -20,13 +20,15 @@ import { getUnreadNotifications } from "../../services/notifications";
 import WebSocketClient from "../../websocket/Websocket";
 
 const Header = () => {
-  const [headerPhoto, setHeaderPhoto] = useState(defaultPhoto);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProjectsMenu, setShowProjectsMenu] = useState(false);
   const [showComponentsMenu, setShowComponentsMenu] = useState(false);
-  const { token, userId, name, locale, resetUserStore } = userStore();
+  const { token, userId, name, locale, resetUserStore , photo} = userStore();
+
+  console.log(photo);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,6 +44,7 @@ const Header = () => {
         if (token) {
           const unreadNotifications = await getUnreadNotifications(token);
           setNotifications(unreadNotifications);
+         
         }
       } catch (error) {
         console.log("Error fetching user data:", error);
@@ -118,6 +121,10 @@ const Header = () => {
       navigate(`/home/${userId}`, { replace: true });
     }
   };
+
+  const handleMessages = () => {
+    navigate(`/messages/${userId}`, { replace: true });
+}
 
   return (
     <header>
@@ -228,7 +235,7 @@ const Header = () => {
                       </div>
                     )}
                   </div>
-                  <div className="icon-container">
+                  <div className="icon-container" onClick={handleMessages}>
                     <BiSolidMessageSquareDots className="icon" />
                     <p className="icon-subtitle">
                       <FormattedMessage id="messages" />
@@ -250,7 +257,7 @@ const Header = () => {
                       onClick={handleProfileClick}
                     >
                       <div className="photo-container">
-                        <img src={headerPhoto} alt="Profile Pic" />{" "}
+                        <img src={photo} alt="Profile Pic" />{" "}
                       </div>
                       <p className="icon-subtitle">
                         <FormattedMessage id="profile" />

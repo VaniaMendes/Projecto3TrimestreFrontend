@@ -16,9 +16,12 @@ import NewProject from './pages/NewProject.js';
 import UserProfile from './pages/UserProfile.js';
 import NotificationsPage from './pages/NotificationsPage.js';
 import Project from './pages/Project.js';
+import MessagesPage from './pages/MessagesPage.js';
 
 
 function Routing() {
+
+ 
   
   return (
     <div>
@@ -56,6 +59,7 @@ function Routing() {
         </>} />
         <Route path="/profile/:userId" element={<> <UserProfile /> </>} />
         <Route path="/notifications" element={<> <NotificationsPage /> </>} />
+        <Route path="/messages/:userId" element={<> <MessagesPage /> </>} />
       </Routes>
     </div>
   );

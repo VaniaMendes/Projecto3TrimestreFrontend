@@ -89,7 +89,7 @@ function Profile() {
   }, [token, modalType, isModalOpen, openEditModal]);
 
 
-
+console.log(user);
   return (
    
       <div className="notification-container">
