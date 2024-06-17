@@ -53,6 +53,7 @@ function LoginForm() {
                     updateUserId(data.id);
                     updateName(data.firstName + " " + data.lastName);
                     updatePhoto(data.photo);
+
                 }
                 navigate(`/home/${data.id}`);
             }
