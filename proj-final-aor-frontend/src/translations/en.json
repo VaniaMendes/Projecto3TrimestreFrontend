@@ -28,7 +28,7 @@
     "messageAboutPassword": "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.",
     "newPassword": "Confirm Password",
     "interests": "Interests",
-    "name": "Name: ",
+    "name": "Name",
     "initialData": "Initial Date:",
     "finalData": "Final Date:",
     "addNewSkill": "Add New Skill",
@@ -45,7 +45,7 @@
     "editProfile": "Edit Profile",
     "editDescription": "Edit Description",
    
-  
+
     
     "time":"{t, time, short}", 
     "date":"{d, date}",
@@ -83,7 +83,11 @@
     "skills": "Skills",
     "teamMembers": "Team Members",
     "resources": "Resources",
+    "noResources": "No associated resources",
+    "brand": "Brand",
+    "quantity": "Quantity",
     "plan": "Plan",
+    "activityLog": "Activity Log",
 
     "addKeyword": "Add Keyword",
     "addNeed": "Add Need",

@@ -139,12 +139,24 @@
     margin: 0 95px; /* Adiciona uma margem de 10px à esquerda e à direita de cada elemento */
 }
 .add-keywords {
-    align-self: flex-end;
-    padding: 5px 10px;
+    position: absolute;
+    background-color: var(--light-background-color);
+    top: -8px;
+    right: 10px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    top:50%;
-    transform: translateY(-90%);
+    color: var(--main-red);
+    border-radius: 50%;
+    padding: 0 3px;
+
+    &:hover{
+        font-weight: bold;
+        color: var(--dark-red);
+    }
+
+    &:active{
+        color: var(--dark-red);
+        transform: scale(0.9);
+    }
 }
 
 

@@ -161,7 +161,7 @@ const ProjectService = {
     getUserProjects: async(token, userId) => {
         try{
     
-            const response = await fetch(`${API_BASE_URL}/${userId}`,  {
+            const response = await fetch(`${API_BASE_URL}/user/${userId}`,  {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -169,7 +169,6 @@ const ProjectService = {
                     "token": token
                 }
             })
-    
     
             if(response.ok){
                 const data = await response.json();
@@ -215,6 +214,62 @@ const ProjectService = {
             return null;
         }
     },
+
+    getProjectResources: async(token, projectId) => {
+        try{
+    
+            const response = await fetch(`${API_BASE_URL}/${projectId}/resources`,  {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                }
+            })
+    
+            if(response.ok){
+                const data = await response.json();
+                return data;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to retrieve the projects of user:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    updateDescription: async(token, projectId, description) => {
+        try{
+    
+            const response = await fetch(`${API_BASE_URL}/${projectId}/description`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "description": description
+                },
+            })
+    
+            if(response.ok){
+                return response;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    }
 
 };
 
