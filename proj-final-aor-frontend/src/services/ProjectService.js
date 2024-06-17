@@ -161,7 +161,7 @@ const ProjectService = {
     getUserProjects: async(token, userId) => {
         try{
     
-            const response = await fetch(`${API_BASE_URL}/${userId}`,  {
+            const response = await fetch(`${API_BASE_URL}/user/${userId}`,  {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
