@@ -41,7 +41,6 @@ const Header = () => {
       try {
         if (token) {
           const unreadNotifications = await getUnreadNotifications(token);
-          console.log(unreadNotifications);
           setNotifications(unreadNotifications);
         }
       } catch (error) {
