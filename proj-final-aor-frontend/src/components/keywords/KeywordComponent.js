@@ -1,4 +1,5 @@
 import React from "react";
+import { IoClose } from "react-icons/io5";
 import "./Keywords.css";
 
 const KeywordComponent = (props) => {
@@ -21,7 +22,7 @@ const KeywordComponent = (props) => {
         <div className={`${isProjectInfo ? "kw-info" : "keyword-single-container"} ${isItemRemovable ? "removable" : ""}`} onClick={handleClick}>
             <div className="keyword-container">
                 <p>{keyword}</p>
-                {isItemRemovable && <span className="remove-icon" onClick={handleRemoveClick}>x</span>}
+                {isItemRemovable && <span className="remove-icon" onClick={handleRemoveClick}><IoClose /></span>}
             </div>
         </div>
     );

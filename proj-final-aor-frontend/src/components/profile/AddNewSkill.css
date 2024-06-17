@@ -28,6 +28,7 @@
     /* Sobreposição */
     z-index: 1000; /* Valor alto para garantir a sobreposição */
 }
+
 @media screen and (max-width: 768px) {
     .modal-skill-container {
         width: 100%;
@@ -45,6 +46,14 @@
     color: var(--main-red);
     cursor: pointer;
     align-items: right;
+
+    &:hover{
+        color: var(--dark-red);
+    }
+
+    &:active{
+        transform: scale(0.9);
+    }
 
 }
 
