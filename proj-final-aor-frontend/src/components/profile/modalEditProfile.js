@@ -16,6 +16,7 @@ function EditProfile({ onClose, modalType }) {
   const userId = userStore((state) => state.userId);
 
   // State variables
+  const { updateName} = userStore();
   const [editUser, setEditUser] = useState({});
 
   const [photo, setPhoto] = useState(null);

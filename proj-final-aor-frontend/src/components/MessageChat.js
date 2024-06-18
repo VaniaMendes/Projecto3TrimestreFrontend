@@ -1,118 +1,171 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
-import { userStore } from '../stores/UserStore';
+import { userStore } from "../stores/UserStore";
 import { useIntl } from "react-intl";
-import {sendMessage, getMessages} from "../services/messages";
-import {getUserById} from "../services/users";
-import { toast } from 'react-toastify';
-import styles from "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
-import {
+import { sendMessage, getMessages, getPageCountBetweenTwoUsers } from "../services/messages";
+import { getUserById } from "../services/users";
+import { toast } from "react-toastify";
+import moment from "moment";
+import './Messages.css'
 
-  MessageList,
-  Message,
-} from "@chatscope/chat-ui-kit-react";
+function MessageChat({ receiverId }) {
 
 
-function MessageChat ({receiverId}){
+  const intl = useIntl();
+  
+  const userId = userStore((state) => state.userId);
+  const token = userStore((state) => state.token);
 
-   // Get the locale from the userStore
-   const intl = useIntl();
-   const userId = userStore((state) => state.userId);
-   const token = userStore((state) => state.token);
-
-   const [messages, setMessages] = useState([]);
-   const [user, setUser] = useState({});
-
-
-   const [message, setMessage] = useState({
-    receiver: {
-      id: 2
-    },
-    subject: '',
-    content: '',
-    sender: {
-        id: userId
-      },
+const[pages, setPages] = useState(0);
+const [currentPage, setCurrentPage] = useState(1);
+  const [messages, setMessages] = useState([]);
+  const [user, setUser] = useState({});
+  const [message, setMessage] = useState({
+    receiver: { id: receiverId },
+    subject: "",
+    content: "",
+    sender: { id: userId }
   });
 
- 
+
+
+  const [showButton, setShowButton] = useState(false);
+  console.log("receiver" + receiverId);
 
   useEffect(() => {
-
     const fetchMessages = async () => {
-        const response = await getMessages(token, 2);
-        setMessages(response);
-        
+      try {
 
-        //const user = await getUserById(token, receiverId);
-        setUser(user);
+        setMessage({
+          receiver: { id: receiverId },
+          subject: "",
+          content: "",
+          sender: { id: userId },
+        });
+        setCurrentPage(0);
+        setPages(0);
+        const response = await getMessages(token, receiverId,currentPage);
+        setMessages(response);
+  
+        const userData = await getUserById(token, receiverId);
+        setUser(userData);
+
+        const numberOfPages = await getPageCountBetweenTwoUsers(token, receiverId);
+        setPages(numberOfPages);
+
+        setShowButton(numberOfPages > 1);
+      } catch (error) {
+        toast.error("Failed to fetch messages or user details");
+      }
     };
     fetchMessages();
-    }, []);
-    
-    console.log(user)
-
-    const handleChange = (e) => {
-        setMessage({ ...message, [e.target.name]: e.target.value });
-      };
-
-      const handleSendMessage = async () => {
+  }, [token, receiverId]);
 
 
-         // Check if the fields are empty
-  if (!message.content.trim() || !message.subject.trim()) {
-    toast.error("Please enter a subject or a content");
-    return;
-  }
-        const result = await sendMessage(token, message)
-        if(result === 200 ){
-            toast.success("Message sent successfully")
-          setMessage(message);
-        }else{
-            toast.error("Something went wrong. Please try again")
-        }
 
-      };
+  console.log(pages);
+  console.log(currentPage);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setMessage((prevMessage) => ({
+      ...prevMessage,
+      [name]: value,
+    }));
+  };
 
-    return (
-      
-             <div className="detail-message">
-            <h1 className="sender-name">Nome do destinatário</h1>
-            <MessageList>
-  {messages && messages.map((msg, index) => (
-    <Message className = "format-message"
-      key={index}
-      model={{
-        message: msg.content,
+  const handleSendMessage = async () => {
+    if (!message.content.trim()) {
+      toast.error("Please enter content for the message");
+      return;
+    }
+    try {
+      const result = await sendMessage(token, message);
+      if (result === 200) {
+        setMessages((prevMessages) => [...prevMessages, message]);
+        toast.success("Message sent successfully");
+        setMessage((prevMessage) => ({
+          ...prevMessage,
+          
+        }));
+      } else {
+        toast.error("Something went wrong. Please try again");
+      }
+    } catch (error) {
+      toast.error("Failed to send message");
+    }
+  };
+
+
+  const loadMessages = async (page) => {
+    try {
+      const response = await getMessages(token, receiverId, page);
+      if (response && typeof response[Symbol.iterator] === 'function') {
+        setMessages((prevMessages) => [...prevMessages, ...response]);
+        setCurrentPage(page);
+      } else {
+        setShowButton(false);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch messages");
+    }
+  };
+
+  const handleShowMore = () => {
+    if (currentPage < pages) {
+      loadMessages(currentPage + 1);
+    }
+  };
+
+  console.log(message);
+  console.log(receiverId);
+
+
+  return (
+    <div className="detail-message">
+      <h1 className="sender-name">
+        {user?.firstName} {user?.lastName}
+      </h1>
+      <div className="message-body">
+      {messages && messages.map((msg, index) => (
+          <div
+            className={`message ${msg.sender.id === userId ? "sender-message" : "receiver-message"}`}
+            key={index}
+          >
         
-      }}
-    />
-  ))}
-</MessageList>
-            <input
-              className="subject-input"
-              type="text"
-              name="subject"
-              value={message.subject}
-              placeholder={intl.formatMessage({ id: "subject" })}
-              onChange={handleChange}
-            />
-            <div className="message-input-container">
-              <textarea
-              value={message.content}
-              name = "content"
-              type="text"
-                className="message-input"
-                placeholder={intl.formatMessage({ id: "writeYourMessage" })}
-                onChange={handleChange}
-              ></textarea>
-              <span className="send-icon" onClick={handleSendMessage}>
-                <FiSend />
-              </span>
-            </div>
+            <p className="subject">{msg.subject}</p>
+            <p>{msg.content}</p>
+            <span className="timestamp"> {moment(msg.sendTimestamp).fromNow()}</span>
+       
           </div>
-
-    )
+        ))}
+</div>
+{showButton && currentPage < pages && (
+        <span className="show-more-message" onClick={handleShowMore}>
+          {intl.formatMessage({ id: "showMore" })}
+        </span>
+      )}
+      <input
+        className="subject-input"
+        type="text"
+        name="subject"
+        value={message.subject}
+        placeholder={intl.formatMessage({ id: "subject" })}
+        onChange={handleChange}
+      />
+      <div className="message-input-container">
+        <textarea
+          value={message.content}
+          name="content"
+          className="message-input"
+          placeholder={intl.formatMessage({ id: "writeYourMessage" })}
+          onChange={handleChange}
+        />
+        <span className="send-icon" onClick={handleSendMessage}>
+          <FiSend />
+        </span>
+      </div>
+    </div>
+  );
 }
 
 export default MessageChat;

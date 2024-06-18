@@ -16,6 +16,21 @@
   --light-background-color: #fdfdfd;
 }
 
+.profile-external-container{
+    background-color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  border: solid 1px var(--light-grey2);
+  border-radius: 5px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+  top: 15%;
+  left: 20%;
+  padding: 20px; 
+  height: auto; 
+}
+
 
 .profile-header,
 .profile-biography,
@@ -36,6 +51,9 @@
     position: relative;
     margin-top: 20px;
     
+}
+.profile-header{
+    margin-top: 50px;
 }
 
 .profile-image {
@@ -82,7 +100,7 @@
     .profile-keywords,
     .profile-interests,
     .profile-projects {
-        width: 100%;
+        width: 90%;
         padding: 10px;
         position: relative;
 
@@ -123,9 +141,10 @@
 
 .profile-info {
     display: flex;
+    margin-bottom: 10px;
     
-    gap: -10px;
-    margin-top: 20px;
+  
+   
 }
 
 /* Quando a tela for menor que 768px (tamanho típico de um tablet), altere a direção do flex para column */
@@ -134,9 +153,17 @@
         flex-direction: column;
         justify-content: flex-start;
     }
+    .profile-external-container{
+        width: 100%;
+        left: 0;
+        top: 0;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 .user-name, .user-email, .user-lab {
-    margin: 0 95px; /* Adiciona uma margem de 10px à esquerda e à direita de cada elemento */
+    margin: 0 45px; /* Adiciona uma margem de 10px à esquerda e à direita de cada elemento */
 }
 .add-keywords {
     position: absolute;
@@ -197,7 +224,7 @@
  .user-nickname{
     display: flex;
     position: relative;
-    
-    left:-10%;
+        left:-10%;
+        transform: translate(12%, -80%);
  }
   
