@@ -20,7 +20,7 @@ function EditProfile({ onClose, modalType }) {
   const [editUser, setEditUser] = useState({});
 
   const [photo, setPhoto] = useState(null);
-  const [biography, setBiography] = useState(null);
+ 
  
   const intl = useIntl();
 
@@ -34,7 +34,7 @@ function EditProfile({ onClose, modalType }) {
         toast.warning("This nickname already exists. Please choose another one.");
       }
     } else if (type === "biography") {
-      const result = await updateBiography(userId, token, biography);
+      const result = await updateBiography(userId, token, editUser);
       if (result === 200) {
         toast.success("Biography updated successfully");
         onClose();
@@ -78,13 +78,17 @@ function EditProfile({ onClose, modalType }) {
         }
       };
       
-
       const handleChangeNBiography = (event) => {
         const { value } = event.target;
-        setBiography(value);
+        setEditUser(prevState => ({
+          ...prevState,
+          biography: value
+        }));
       };
   
   return (
+    <div>
+      <div className="modal-backdrop" onClick={onClose}></div>
     <div className="modal-skill-container">
       <IntlProvider locale={locale} messages={languages[locale]}>
         <div className="modal-close" onClick={onClose}>
@@ -167,22 +171,21 @@ function EditProfile({ onClose, modalType }) {
 
         {modalType === "biography" && (
           <div className="edit-biography">
-            <input
+            <textarea className="biography-champ"
               type="text"
               id="biography"
               name="biography"
-              value={biography || ""}
+              value={editUser.biography || ""}
               onChange={handleChangeNBiography}
             />
-             <label className="label-description" htmlFor="biography">
-                           {intl.formatMessage({ id: "biography" })}
-                        </label>
+            
           </div>
         )}
        <button className="save-button" onClick={() => handleEditProfile(modalType)}>
   {intl.formatMessage({ id: "save" })}
 </button>
       </IntlProvider>
+    </div>
     </div>
   );
 }

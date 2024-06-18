@@ -261,7 +261,7 @@ export async function updateUser(token, userId, editUser) {
         }
 }
 
-export async function updateBiography(userId, token, biography){
+export async function updateBiography(userId, token, editUser){
     try{
         
         const response = await fetch(`${url}/${userId}/biography`, {
@@ -271,7 +271,7 @@ export async function updateBiography(userId, token, biography){
                 "Content-Type": "application/json",
                 'token': token
             },
-            body: JSON.stringify(biography),
+            body: JSON.stringify(editUser),
         
         });
         if(response.ok) {

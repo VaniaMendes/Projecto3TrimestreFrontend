@@ -66,11 +66,7 @@ function Messages() {
         <div className="message-container">
           <div className="message-internal-container">
             
-          <div className="input-profile">
-                <label className="label-profile-message" htmlFor="messages">
-                  {intl.formatMessage({ id: "messages" })}
-                </label>
-              </div>
+        
             <div className="bottom-menu-message">
               <input
                 className="search-bar-message"

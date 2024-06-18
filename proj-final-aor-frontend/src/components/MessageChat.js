@@ -17,8 +17,8 @@ function MessageChat({ receiverId }) {
   const token = userStore((state) => state.token);
 
 const[pages, setPages] = useState(0);
-const [currentPage, setCurrentPage] = useState(1);
-  const [messages, setMessages] = useState([]);
+const [currentPage, setCurrentPage] = useState(0);
+const [messages, setMessages] = useState([]);
   const [user, setUser] = useState({});
   const [message, setMessage] = useState({
     receiver: { id: receiverId },
@@ -42,6 +42,8 @@ const [currentPage, setCurrentPage] = useState(1);
           content: "",
           sender: { id: userId },
         });
+        
+  
         setCurrentPage(0);
         setPages(0);
         const response = await getMessages(token, receiverId,currentPage);
@@ -59,12 +61,10 @@ const [currentPage, setCurrentPage] = useState(1);
       }
     };
     fetchMessages();
-  }, [token, receiverId]);
+  }, [token, receiverId, userId]);
 
 
 
-  console.log(pages);
-  console.log(currentPage);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setMessage((prevMessage) => ({
@@ -81,12 +81,19 @@ const [currentPage, setCurrentPage] = useState(1);
     try {
       const result = await sendMessage(token, message);
       if (result === 200) {
-        setMessages((prevMessages) => [...prevMessages, message]);
-        toast.success("Message sent successfully");
-        setMessage((prevMessage) => ({
-          ...prevMessage,
-          
-        }));
+        setMessages((prevMessages) => {
+        if (Array.isArray(prevMessages)) {
+          return [message, ...prevMessages]; 
+        } else {
+          return [message]; 
+                }
+      });
+        setMessage({
+          receiver: { id: receiverId },
+          subject: "",
+          content: "",
+          sender: { id: userId }
+        });
       } else {
         toast.error("Something went wrong. Please try again");
       }
@@ -116,14 +123,20 @@ const [currentPage, setCurrentPage] = useState(1);
     }
   };
 
-  console.log(message);
-  console.log(receiverId);
 
 
   return (
     <div className="detail-message">
+        <div className="input-profile">
+                <label className="label-profile-message" htmlFor="messages">
+                  {intl.formatMessage({ id: "messages" })}
+                </label>
+              </div>
+
+              
       <h1 className="sender-name">
-        {user?.firstName} {user?.lastName}
+      {!receiverId ? intl.formatMessage({ id: "chooseUserToSendFirstMessage"}) : `${user?.firstName} ${user?.lastName}`}
+
       </h1>
       <div className="message-body">
       {messages && messages.map((msg, index) => (
