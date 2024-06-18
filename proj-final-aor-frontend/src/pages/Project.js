@@ -18,12 +18,24 @@ const Project = () => {
     const navigate = useNavigate();
     const [projectData, setProjectData] = useState([]);
     const [resources, setResources] = useState([]);
+    const [activityRecord, setActivityRecord] = useState([]);
     const [input, setInput] = useState("");
+    const [currentState, setCurrentState] = useState(null);
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isEditStateOpen, setIsEditStateOpen] = useState(false);
     const [modalType, setModalType] = useState(""); 
     const { projectId } = useParams();
 
+    const states = [
+        { id: 100, name: 'PLANNING' },
+        { id: 200, name: 'READY' },
+        { id: 300, name: 'APPROVED' },
+        { id: 400, name: 'IN_PROGRESS' },
+        { id: 500, name: 'FINISHED' },
+        { id: 600, name: 'CANCELLED' },
+    ];
+    
     useEffect(() => {
         if (!token) {
             navigate("/");
@@ -41,7 +53,8 @@ const Project = () => {
             try {
                 const response = await ProjectService.getProjectInfo(projectId);
                 const responseResources = await ProjectService.getProjectResources(token, projectId);
-                console.log(response);
+                const responseActivity = await ProjectService.getProjectActivity(token, projectId);
+                console.log(responseActivity);
 
                 // Assuming keywords are a comma-separated string
                 if (response.keywords) {
@@ -50,12 +63,18 @@ const Project = () => {
 
                 setProjectData(response);
                 setResources(responseResources);
+                setActivityRecord(responseActivity);
+
+                const state = states.find(state => state.name === response.stateId);
+                if (state) {
+                    setCurrentState(state.id);
+                }
             } catch (error) {
                 console.error('Error fetching project:', error);
             }
         };
         fetchData();
-    }, [projectId]);
+    }, [projectId, token]);
 
     const isUserInProject = () => {
         if (projectData.usersInfo) {
@@ -89,7 +108,6 @@ const Project = () => {
     const handleNewDescription = async (description) => {
         try {
             const response = await ProjectService.updateDescription(token, projectId, description);
-            console.log(response);
 
             // Update the projectData state with the new description
             setProjectData(prevProjectData => ({
@@ -101,6 +119,28 @@ const Project = () => {
             console.error('Error editing project description:', error);
         }
     }
+
+    const handleClickEditState = () => {
+        setIsEditStateOpen(!isEditStateOpen);
+    }
+
+    const handleStateChange = async (event) => {
+        const selectedStateId = event.target.value;
+        const selectedStateName = states.find(state => state.id === parseInt(selectedStateId)).name;
+        const userConfirmed = window.confirm('Are you sure you want to save this selection?');
+
+        if (userConfirmed) {
+            const response = await ProjectService.updateState(token, projectId, selectedStateId);
+            if  (response) {
+                setProjectData(prevProjectData => ({
+                    ...prevProjectData,
+                    stateId: selectedStateName
+                }));
+                setCurrentState(selectedStateId);
+                setIsEditStateOpen(false);
+            }
+        }
+    };
 
     const handleCloseModal = () => {
         setIsEditModalOpen(false);
@@ -139,7 +179,17 @@ const Project = () => {
 
                             <div className="ppi-cont">
                                 <h4><FormattedMessage id="state"/> :&nbsp; </h4>
-                                {projectData.stateId && <p><FormattedMessage id={projectData.stateId}/></p>}
+                                {isEditStateOpen ? (
+                                    <select value={currentState} onChange={handleStateChange}>
+                                        {states.map((state) => (
+                                            <option key={state.id} value={state.id}>
+                                                <FormattedMessage id={state.name}/>
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    projectData.stateId && <p><FormattedMessage id={projectData.stateId}/></p>
+                                )}
                             </div>
 
                             <div className="ppi-cont">
@@ -148,7 +198,13 @@ const Project = () => {
                             </div>
 
                             {isUserInProject() && (
-                                <span className="ppi-btn"><FiEdit3 /></span>
+                                <>
+                                {isEditStateOpen ? (
+                                    <span className="ppi-btn" onClick={handleClickEditState}><IoIosCloseCircleOutline /></span>
+                                ) : (
+                                    <span className="ppi-btn" onClick={handleClickEditState}><FiEdit3 /></span>
+                                )}
+                                </>
                             )}
                         </div>
 
@@ -163,7 +219,7 @@ const Project = () => {
                         <div className="project-page-keywords">
                             <label className="c-label"><FormattedMessage id="keywords"/></label>
                             {projectData.keywords && projectData.keywords.map((keyword, index) => (
-                                !isCollaborator() ?
+                                !isCollaborator() && isUserInProject() ?
                                 <KeywordComponent keyword={keyword.trim()} key={index} isProjectInfo={true} isItemRemovable={true}/> :
                                 <KeywordComponent keyword={keyword.trim()} key={index} isProjectInfo={true} />
                             ))}
@@ -175,22 +231,10 @@ const Project = () => {
                         <div className="project-page-skills">
                             <label className="c-label"><FormattedMessage id="skills"/></label>
                             {projectData.skills && projectData.skills.map((skill, index) => (
-                                !isCollaborator() ? 
+                                !isCollaborator() && isUserInProject() ? 
                                 <KeywordComponent keyword={skill.name} key={index} isProjectInfo={true} isItemRemovable={true}/> :
                                 <KeywordComponent keyword={skill.name} key={index} isProjectInfo={true}/>
                             ))}
-
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            <KeywordComponent keyword="wwwwwwasnfladmad" isProjectInfo={true} isItemRemovable={true}/>
-                            
                             {isUserInProject() && (
                                 <span className="ppi-btn"><GoPlusCircle /></span>
                             )}
@@ -215,7 +259,7 @@ const Project = () => {
                             <label className="c-label"><FormattedMessage id="resources"/></label>
                             {resources.length<1 && <p><FormattedMessage id="noResources"/></p>}
                             {resources.length>0 && 
-                                <table className="resources-table">
+                                <table className="table">
                                     <thead>
                                         <tr>
                                             <th><FormattedMessage id="name"/></th>
@@ -246,6 +290,27 @@ const Project = () => {
                                 </div>
                                 <div className="project-page-activity-historic">
                                     <label className="c-label"><FormattedMessage id="activityLog"/></label>
+                                    {activityRecord.length<1 && <p><FormattedMessage id="noActivities"/></p>}
+                                    {activityRecord.length>0 && 
+                                        <table className="table">
+                                            <thead>
+                                                <tr>
+                                                    <th><FormattedMessage id="type"/></th>
+                                                    <th><FormattedMessage id="author"/></th>
+                                                    <th><FormattedMessage id="dateRegisted"/></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {activityRecord.map((activity, index) => (
+                                                    <tr key={index}>
+                                                        <td><FormattedMessage id={activity.type}/></td>
+                                                        <td>{activity.author.name}</td>
+                                                        <td>{new Date(activity.createdAt).toLocaleString()}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    }
                                 </div>
                             </>
                         )}

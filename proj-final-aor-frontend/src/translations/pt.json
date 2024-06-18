@@ -84,6 +84,13 @@
     "quantity": "Quantidade",
     "plan": "Planeamento",
     "activityLog": "Registo de Atividades",
+    "noActivities": "Sem registo de atividades",
+    "type": "Tipo",
+    "author": "Autor",
+    "dateRegisted": "Data",
+
+    "EDIT_PROJECT_STATE": "Estado Editado",
+    "EDIT_PROJECT_DATA": "Informação Geral Editada",
 
     "addKeyword": "Adicionar Palavra-chave",
     "addNeed": "Adicionar Necessidade",
