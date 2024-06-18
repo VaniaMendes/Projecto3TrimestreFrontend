@@ -30,10 +30,19 @@ export async function sendMessage(token, message){
 
 }
 
-export async function getMessages(token, userId){
+export async function getMessages(token, userId, page){
     try{
 
-        const response = await fetch(`${url}/${userId}`,  {
+        // Create a URL object
+        let urlObj = new URL(`${url}/${userId}`);
+
+        // Create a URLSearchParams object
+        let params = new URLSearchParams();
+        params.append('page', page);
+
+        // Append the parameters to the URL
+        urlObj.search = params;
+        const response = await fetch(urlObj,  {
             
             method: "GET",
             headers: {
@@ -59,4 +68,60 @@ export async function getMessages(token, userId){
         return null;
 }
 
+}
+
+export async function getUsersWithMessage(token){
+    try{
+
+        const response = await fetch(url + "/messagedUsers",  {
+            
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            },
+
+        })
+
+        if(response.ok){
+            const data = await response.json();
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Failed to retrieve the users wtih messages:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
+
+export async function getPageCountBetweenTwoUsers(token, userId) {
+    try {
+        const response = await fetch(`${url}/${userId}/pageCount`, {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            },
+        });
+
+        if (response.ok) {
+            const pageCount = await response.json();
+            return pageCount;
+        } else {
+            const errorData = await response.text();
+            console.error("Failed to retrieve the page count between two users:", response.status, errorData);
+            return null;
+        }
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
