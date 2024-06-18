@@ -189,7 +189,7 @@ const ProjectService = {
     getUserProjectsFullInfo: async(token, userId, order, vacancies, state) => {
         try{
     
-            const response = await fetch(`${API_BASE_URL}/${userId}/info/full?order=${order}&vacancies=${vacancies}&state=${state}`,  {
+            const response = await fetch(`${API_BASE_URL}/user/${userId}/info/full?order=${order}&vacancies=${vacancies}&state=${state}`,  {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -243,6 +243,35 @@ const ProjectService = {
         }
     },
 
+    getProjectActivity: async(token, projectId) => {
+        try{
+    
+            const response = await fetch(`${API_BASE_URL}/${projectId}/activity/all`,  {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                }
+            })
+    
+            if(response.ok){
+                const data = await response.json();
+                return data;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to retrieve the projects of user:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+
     updateDescription: async(token, projectId, description) => {
         try{
     
@@ -269,7 +298,169 @@ const ProjectService = {
             console.error(error);
             return null;
         }
-    }
+    },
+
+    updateState: async(token, projectId, stateId) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/state`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "stateId": stateId
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    joinSkill: async(token, projectId, skillId) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/skill`,  {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "skillId": skillId
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    addSkill: async(token, projectId, skillId) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/skill/add`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "skillId": skillId
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    removeSkill: async(token, projectId, skillId) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/skill/remove`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "skillId": skillId
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    addKeyword: async(token, projectId, keyword) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/keyword/add`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "keyword": keyword
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    removeKeyword: async(token, projectId, keyword) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/keyword/remove`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "keyword": keyword
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
 
 };
 

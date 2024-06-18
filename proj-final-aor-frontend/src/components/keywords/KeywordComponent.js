@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import "./Keywords.css";
 
 const KeywordComponent = (props) => {
-    const {keyword, isProjectInfo, isItemRemovable, onClick, onRemoveClick} = props;
+    const {id, keyword, isProjectInfo, isItemRemovable, onClick, onRemoveClick} = props;
 
     const handleClick = () => {
         if (onClick) {
@@ -14,7 +14,7 @@ const KeywordComponent = (props) => {
     const handleRemoveClick = (event) => {
         event.stopPropagation();
         if (onRemoveClick) {
-            onRemoveClick(keyword);
+            onRemoveClick(keyword, id);
         }
     };
 

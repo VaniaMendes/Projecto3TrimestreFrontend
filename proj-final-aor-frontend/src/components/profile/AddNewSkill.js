@@ -8,13 +8,14 @@ import { getAllSkills, createNewSkill, associateSkillToUser } from "../../servic
 import { getAllInterests, createNewInterest, associateInterestToUser} from "../../services/interests";
 import SkillComponent from "./SkillComponent";
 import { toast } from "react-toastify";
+import SkillInterestService from "../../services/SkillInterestService";
+import ProjectService from "../../services/ProjectService";
 
 
-function AddNewSkill({ onClose, modalType }) {
+function AddNewSkill(props) {
   // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
-  const token = userStore((state) => state.token);
-  const userId = userStore((state) => state.userId);
+  const { onClose, modalType, isUser, handleAdd, projectId, setNewKeyword } = props;
+  const {locale, token, userId} = userStore();
 
   //State variables
   const [list, setList] = useState([]);
@@ -26,26 +27,32 @@ function AddNewSkill({ onClose, modalType }) {
   //Get the list of skills available with the useEffect
   useEffect(() => {
     async function fetchSkills() {
-      // Get the list of skills from the backend
-      if (modalType === "skill") {
-        const data = await getAllSkills();
+      try {
+        let data = [];
+        if (modalType === "skill") {
+          if (!isUser) {
+            data = await SkillInterestService.getSkillsNotInProject(token, projectId);
+          } else {
+            data = await getAllSkills();
+          }
+        } else if (modalType === "interest"){
+          data = await getAllInterests();
+        } else if (modalType === "keyword") {
+          data = await getAllInterests();
+        }
         setList(data);
-      } else {
-        // Get the list of interests from the backend
-        const data = await getAllInterests();
-        setList(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
     }
     fetchSkills();
   }, [modalType]);
-
-  const handleSelectChange = (event) => {
-    setSkill({ ...skill, type: event.target.value });
-  };
+  
 
   const handleInputChange = (event) => {
     setSkill({ ...skill, name: event.target.value });
   };
+
   const handleInterestInputChange = (event) => {
     setInterest({ ...interest, name: event.target.value });
   };
@@ -53,72 +60,97 @@ function AddNewSkill({ onClose, modalType }) {
   const handleNewItem = async () => {
 
     if(modalType === "skill") {
-    if (!skill.name || !skill.type) {
-      toast.error("Please fill out both the skill name and type.");
-      return;
-    }
-    try {
-      const response = await createNewSkill(token, skill);
-      if (response === 200) {
-        toast.success("Skill created successfully");
-        // Update the skills list locally
-        setList([...list, skill]);
-        // Reset the skill input fields
-        setSkill({ name: "", type: "" });
-        
-      } else {
-        toast.error("Failed to create skill");
-      }
-    } catch (error) {
-      toast.error("An error occurred");
-    }
-}else{
-    if(!interest.name){
-        toast.error("Please fill out the interest name.");
-        return;
-    }
-    try{
-        const response = await createNewInterest(token, interest);
-        if(response === 200){
-            toast.success("Interest created successfully");
-            // Update the interests list locally
-            setList([...list, interest]);
-            // Reset the interest input fields
-            setInterest({ name: "" });
-        }else{
-            toast.error("Failed to create interest");
+        if (!skill.name || !skill.type) {
+          toast.error("Please fill out both the skill name and type.");
+          return;
         }
+        try {
+          const response = await createNewSkill(token, skill);
+          if (response === 200) {
+            toast.success("Skill created successfully");
+            // Update the skills list locally
+            setList([...list, skill]);
+            // Reset the skill input fields
+            setSkill({ name: "", type: "" });
+            
+          } else {
+            toast.error("Failed to create skill");
+          }
+        } catch (error) {
+          toast.error("An error occurred");
+        }
+    }else if (modalType === "interest"){
+        if(!interest.name){
+            toast.error("Please fill out the interest name.");
+            return;
+        }
+        try{
+            const response = await createNewInterest(token, interest);
+            if(response === 200){
+                toast.success("Interest created successfully");
+                // Update the interests list locally
+                setList([...list, interest]);
+                // Reset the interest input fields
+                setInterest({ name: "" });
+            }else{
+                toast.error("Failed to create interest");
+            }
+        }
+        catch(error){
+            toast.error("An error occurred");
+        }
+    }else if (modalType === "keyword") {
+      if(!interest.name){
+          toast.error("Please fill out the interest name.");
+          return;
+      }
+      try{
+          const response = await ProjectService.addKeyword(token, projectId, interest.name);
+          if(response){
+              toast.success("Keyword added successfully!");
+              setInterest({ name: "" });
+              setNewKeyword(interest.name);
+              onClose();
+          }else{
+              toast.error("Failed to add keyword");
+          }
+      }
+      catch(error){
+          toast.error("An error occurred");
+      }
     }
-    catch(error){
-        toast.error("An error occurred");
-    }
-}
   }
 
-  const handleItemClick = async (id) => {
-    console.log('handleItemClick was called with id:', id);
+  const handleItemClick = async (item) => {
+    console.log('handleItemClick was called with id:', item.id);
     console.log('handleItemClick was called with userId:', userId);
 
-    try {
-        if (modalType === "skill") {
-            const response = await associateSkillToUser(token, userId, id);
-            if(response === 200){
-                toast.success("Skill associated successfully");
-            }else{
-                toast.error("You already have this skill associated");
-            }
-        } else {
-            const response = await associateInterestToUser(token, userId, id);
-            if(response === 200){
-                toast.success("Interest associated successfully");
-            }else{
-                toast.error("You already have this interest associated");
-            }
-        }
-       
-    } catch (error) {
-        console.log(error);
+    if(isUser){
+      try {
+          if (modalType === "skill") {
+              const response = await associateSkillToUser(token, userId, item.id);
+              if(response === 200){
+                  toast.success("Skill associated successfully");
+              }else{
+                  toast.error("You already have this skill associated");
+              }
+          } else {
+              const response = await associateInterestToUser(token, userId, item.id);
+              if(response === 200){
+                  toast.success("Interest associated successfully");
+              }else{
+                  toast.error("You already have this interest associated");
+              }
+          }
+        
+      } catch (error) {
+          console.log(error);
+      }
+    }else{
+      handleAdd(modalType, item);
+      onClose();
     }
+    
 };
 
 
@@ -135,14 +167,15 @@ function AddNewSkill({ onClose, modalType }) {
           {" "}
           {modalType === "skill"
             ? intl.formatMessage({ id: "addNewSkill" })
-            : intl.formatMessage({ id: "addNewInterest" })}
+            : modalType === "interest"
+            ? intl.formatMessage({ id: "addNewInterest" })
+            : intl.formatMessage({ id: "addNewKeyword" })}
         </h1>
 
         <div className="modal-boby">
           <div className="list-keywords">
-            {list.map((item, index) => (
-              <SkillComponent key={index} keyword={item.name} 
-              onClick={() => handleItemClick(item.id)} />
+            {list && list.map((item, index) => (
+              <SkillComponent key={index} keyword={item.name} onClick={() => handleItemClick(item)} />
             ))}
           </div>
         </div>
@@ -150,14 +183,16 @@ function AddNewSkill({ onClose, modalType }) {
           <p>
             {modalType === "skill"
               ? intl.formatMessage({ id: "ifNoSkillFound" })
-              : intl.formatMessage({ id: "ifNoIntesrestFound" })}
+              : modalType === "interest"
+              ? intl.formatMessage({ id: "ifNoIntesrestFound" })
+              : intl.formatMessage({ id: "ifNoKeywordFound" })}
           </p>
         </div>
         <div className="skill-select-container">
           {modalType === "skill" && (
             <select
               className="skill-select"
-              onChange={handleSelectChange}
+              onChange={handleInputChange}
               value={skill.type}
             >
               <option value="">
@@ -177,14 +212,16 @@ function AddNewSkill({ onClose, modalType }) {
             placeholder={
               modalType === "skill"
                 ? intl.formatMessage({ id: "addNewSkill" })
-                : intl.formatMessage({ id: "addNewInterest" })
+                : modalType === "interest"
+                ? intl.formatMessage({ id: "addNewInterest" })
+                : intl.formatMessage({ id: "addNewKeyword" })
             }
             onChange={modalType === "skill" ? handleInputChange : handleInterestInputChange}
             value={modalType === "skill" ? skill.name : interest.name}
           />
 
           <button className="create-button" onClick={handleNewItem}>
-            {intl.formatMessage({ id: "create" })}
+            {modalType === "keyword" ? intl.formatMessage({ id: "add" }) : intl.formatMessage({ id: "create" })}
           </button>
         </div>
         <button onClick={onClose}>{intl.formatMessage({ id: "back" })}</button>
