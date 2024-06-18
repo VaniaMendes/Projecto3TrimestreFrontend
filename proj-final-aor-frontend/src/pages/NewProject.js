@@ -398,7 +398,7 @@ function EditProject({ onClose, modalType, description, setDescription }) {
                 {modalType === "keyword" && (
                     <div className="list-keywords">
                         {list.map((item, index) => (
-                            <KeywordComponent key={index} keyword={item.name} onClick={() => handleItemClick(item.name)} />
+                            <KeywordComponent key={index} id={item.id} keyword={item.name} onClick={() => handleItemClick(item.name)} />
                         ))}
                     </div>
                 )}

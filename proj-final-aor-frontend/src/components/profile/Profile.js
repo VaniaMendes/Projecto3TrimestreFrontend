@@ -97,7 +97,7 @@ function Profile() {
           <IntlProvider locale={locale} messages={languages[locale]}>
             <div>
               {isModalOpen && (
-                <AddNewSkill onClose={handleCloseModal} modalType={modalType} />
+                <AddNewSkill onClose={handleCloseModal} modalType={modalType} isUser={true}/>
               )}
               {openEditModal && (
                 <EditProfile onClose={handleCloseModal} modalType={modalType} />
@@ -156,7 +156,7 @@ function Profile() {
               </div>
               <div className="list-keywords">
                 {skills && skills.map((skill, index) => (
-                  <KeywordComponent key={index} keyword={skill.name} />
+                  <KeywordComponent key={index} id={skill.id} keyword={skill.name} />
                 ))}
               </div>
             </div>
@@ -173,7 +173,7 @@ function Profile() {
               </div>
               <div className="list-keywords">
                 {interests && interests.map((interest, index) => (
-                  <KeywordComponent key={index} keyword={interest.name} />
+                  <KeywordComponent key={index} id={interest.id} keyword={interest.name} />
                 ))}
               </div>
             </div>

@@ -49,7 +49,7 @@ const ProjectInfo = (props) => {
                         <div className="words-container">
                             <h4><FormattedMessage id="skills"/>:</h4>
                             {project.skills.slice(0, 4).map((skill, index) => (
-                                <KeywordComponent keyword={skill.name} key={index} isProjectInfo={true}/>
+                                <KeywordComponent id={skill.id} keyword={skill.name} key={index} isProjectInfo={true}/>
                             ))}
                         </div>
                         <h4><FormattedMessage id="teamMembers"/>:</h4>
