@@ -130,6 +130,7 @@
 }
 
 @media screen and (max-width: 768px) {
+  
   .notification-badge {
      transform: translate(10%, 10%);
   }

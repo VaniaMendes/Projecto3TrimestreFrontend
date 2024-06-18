@@ -4,7 +4,7 @@ const url = "http://localhost:8080/project_backend/rest/skills";
 export async function getUserSkills(token, userId){
     try{
 
-        const response = await fetch(`${url}/${userId}`,  {
+        const response = await fetch(`${url}/user/${userId}`,  {
             method: "GET",
             headers: {
                 Accept: "application/json",

@@ -88,7 +88,7 @@ const KeywordsContainer = (props) => {
                 } else if (typeof keyword === 'string') {
                     keywordName = keyword;
                 }
-                return <KeywordComponent key={index} keyword={keywordName} isProjectInfo={false} onClick={handleKeywordClick}/>
+                return <KeywordComponent key={index} id={keyword.id} keyword={keywordName} isProjectInfo={false} onClick={handleKeywordClick}/>
             })}
             </div>
         </div>
