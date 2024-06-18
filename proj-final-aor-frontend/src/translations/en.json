@@ -88,6 +88,13 @@
     "quantity": "Quantity",
     "plan": "Plan",
     "activityLog": "Activity Log",
+    "noActivities": "No activities to show",
+    "type": "Type",
+    "author": "Author",
+    "dateRegisted": "Date",
+
+    "EDIT_PROJECT_STATE": "State Edited",
+    "EDIT_PROJECT_DATA": "Data Edited",
 
     "addKeyword": "Add Keyword",
     "addNeed": "Add Need",

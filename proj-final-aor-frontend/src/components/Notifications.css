@@ -107,30 +107,31 @@
 }
 
 .notification-badge {
-  background-color: red;
-  color: white;
-  font-weight: 700;
-  font-size: 16px;
+  background-color: var(--main-red);
+  color: var(--light-background-color);
+  font-weight: 600;
+  font-size: 0.7em;
   border-radius: 50%;
-  width: 26px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 10px;
+  top: 5px;
   transform: translate(-60%, -10%); 
   z-index: 1;
+
+  &:hover {
+      background-color: var(--dark-red);
+  }
 }
 
 @media screen and (max-width: 768px) {
   .notification-badge {
      transform: translate(10%, 10%);
-     width: 22px;
-     height: 18px;
-     font-size: 14px;
   }
   
 }
