@@ -4,7 +4,7 @@ import logo from "../assets/profile_pic_default.png";
 import { IntlProvider, useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
-import { getUserInfo } from "../../services/users";
+import { getUserInfo, getUserById } from "../../services/users";
 import { getUserSkills } from "../../services/skills";
 import { GoPlusCircle } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
@@ -24,14 +24,15 @@ function Profile() {
   // Get the locale from the userStore
   const locale = userStore((state) => state.locale);
   const token = userStore((state) => state.token);
-  const updateUserId = userStore((state) => state.updateUserId);
+  const userLoggedID = userStore((state) => state.userId);
+  const { userId } = useParams();
   
 
   //Library to format date of projects
   momentDurationFormatSetup(moment);
 
   const intl = useIntl();
-  const { userId } = useParams();
+
 
   //State variables
   const [user, setUser] = useState(null);
@@ -46,25 +47,26 @@ function Profile() {
   //Modal type
   const [modalType, setModalType] = useState("");
 
+  console.log(userId, userLoggedID);
+
   useEffect(() => {
     async function fetchUser() {
-      const data = await getUserInfo(token);
+
+      const effectiveUserId = (userId === undefined || userId === userLoggedID) ? userLoggedID : userId;
+
+      const data = await getUserById(token, effectiveUserId);
       console.log(data);
       setUser(data);
 
-      const skillsData = await getUserSkills(token, userId);
+      const skillsData = await getUserSkills(token, effectiveUserId);
       setSkills(skillsData);
 
-      const interestsData = await getUserInterests(token, userId);
+      const interestsData = await getUserInterests(token, effectiveUserId);
       setInterests(interestsData);
 
-      const projectsData = await ProjectService.getUserProjects(token, userId);
+      const projectsData = await ProjectService.getUserProjects(token, effectiveUserId);
       setProjects(projectsData);
 
-      // Update the userId in the userStore
-      if (data) {
-        updateUserId(data.id);
-      }
     }
     fetchUser();
   }, [token, userId, isModalOpen, openEditModal]);
@@ -116,14 +118,11 @@ function Profile() {
     setModalType("profile");
   };
 
-
-  
-  
     
 console.log(user);
   return (
    
-      <div className="notification-container">
+      <div className="profile-container">
         <div className="profile-external-container">
           <IntlProvider locale={locale} messages={languages[locale]}>
             <div>
@@ -159,10 +158,11 @@ console.log(user);
                   </div>
                 )}
               </div>
+              
               <div className="add-keywords" onClick={handleEditModalProfile}>
                 <FiEdit3 />
               </div>
-            </div>
+                          </div>
             {/* Conteúdo da biografia */}
             <div className="profile-biography">
               <div className="input-profile">
@@ -170,6 +170,7 @@ console.log(user);
                   {intl.formatMessage({ id: "biography" })}
                 </label>
               </div>
+              
               <div className="add-keywords" onClick={handleEditModal}>
                 <FiEdit3 />
               </div>
@@ -182,7 +183,7 @@ console.log(user);
                   {intl.formatMessage({ id: "skills" })}
                 </label>
               </div>
-
+             
               <div className="add-keywords" onClick={handleOpenModalSkill}>
                 <GoPlusCircle />
               </div>
@@ -200,11 +201,11 @@ console.log(user);
                   {intl.formatMessage({ id: "interests" })}
                 </label>
               </div>
-
+             
               <div className="add-keywords" onClick={handleOpenModalInterest}>
                 <GoPlusCircle />
               </div>
-              <div className="list-keywords">
+                           <div className="list-keywords">
                 {interests && interests.map((interest, index) => (
                   <KeywordComponent key={index} id={interest.id} keyword={interest.name} isItemRemovable={true}
                   interestId={interest.id} isInterest={true} onRemoveInterest={() => handleRemoveInterestFromUser(userId, interest.id)} />

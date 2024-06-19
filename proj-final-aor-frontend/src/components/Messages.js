@@ -75,12 +75,8 @@ function Messages() {
                 placeholder="Search user..."
                 onChange={handleFilterUser}
               />
-              <div className="filter-icon-message">
-                <GoFilter />
-              </div>
-              <div className="plus-icon-message">
-                <GoPlusCircle />
-              </div>
+             
+              
             </div>
             <div className="print-messages">
 

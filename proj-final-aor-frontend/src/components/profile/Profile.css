@@ -16,17 +16,27 @@
   --light-background-color: #fdfdfd;
 }
 
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    top:15%;
+
+   
+  }
+  
 .profile-external-container{
     background-color: white;
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 70%;
   border: solid 1px var(--light-grey2);
   border-radius: 5px;
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
-  top: 15%;
-  left: 20%;
+
   padding: 20px; 
   height: auto; 
 }
@@ -238,7 +248,7 @@ height: 150px;
     bottom: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.655);
-    z-index: 999;
+    z-index:1000;
   }
   
   .modal-content {
