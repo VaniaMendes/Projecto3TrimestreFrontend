@@ -161,7 +161,7 @@ export async function confirmAccount(tokenConfirmation, user, lab){
 export async function getUserInfo(token){
     try{
 
-        const response = await fetch(url + "/profile", {
+        const response = await fetch(url + "/user", {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -261,7 +261,7 @@ export async function updateUser(token, userId, editUser) {
         }
 }
 
-export async function updateBiography(userId, token, biography){
+export async function updateBiography(userId, token, editUser){
     try{
         
         const response = await fetch(`${url}/${userId}/biography`, {
@@ -271,7 +271,7 @@ export async function updateBiography(userId, token, biography){
                 "Content-Type": "application/json",
                 'token': token
             },
-            body: JSON.stringify(biography),
+            body: JSON.stringify(editUser),
         
         });
         if(response.ok) {
@@ -285,10 +285,41 @@ export async function updateBiography(userId, token, biography){
     }
 }
 
-export async function getUserById(token, userId){
+export async function getUserById(token, receiverId){
     try{
 
-        const response = await fetch(`${url}/profile/${userId}`,  {
+        const response = await fetch(`${url}/${receiverId}`,  {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Get user info failed:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
+
+export async function getFilterUsers(token, prefix){
+    try{
+
+        const response = await fetch(`${url}/filterByName?prefix=${prefix}`,  {
             method: "GET",
             headers: {
                 Accept: "application/json",

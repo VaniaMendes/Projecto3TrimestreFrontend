@@ -155,7 +155,10 @@ function AddNewSkill(props) {
 
 
   return (
+    <div>
+      <div className="modal-backdrop" onClick={onClose}></div>
     <div className="modal-skill-container">
+      
       <IntlProvider locale={locale} messages={languages[locale]}>
         <div className="modal-close" onClick={onClose}>
           <IoIosCloseCircleOutline />
@@ -223,6 +226,7 @@ function AddNewSkill(props) {
         </div>
         <button onClick={onClose}>{intl.formatMessage({ id: "back" })}</button>
       </IntlProvider>
+    </div>
     </div>
   );
 }

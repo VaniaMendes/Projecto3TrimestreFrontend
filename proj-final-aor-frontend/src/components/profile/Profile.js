@@ -89,11 +89,11 @@ function Profile() {
   }, [token, modalType, isModalOpen, openEditModal]);
 
 
-
+console.log(user);
   return (
    
       <div className="notification-container">
-        <div className="notification-external-container">
+        <div className="profile-external-container">
           <IntlProvider locale={locale} messages={languages[locale]}>
             <div>
               {isModalOpen && (
@@ -103,10 +103,11 @@ function Profile() {
                 <EditProfile onClose={handleCloseModal} modalType={modalType} />
               )}
             </div>
+           
             <div className="profile-header">
               <div className="profile-image">
                 {user && user.photo ? (
-                  <img src={user.photo} alt=" Photo" />
+                  <img src={logo} alt=" Photo" />
                 ) : (
                   <img src={logo} alt="Logo" />
                 )}

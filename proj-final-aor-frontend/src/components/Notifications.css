@@ -35,6 +35,11 @@
       left: 0;
   }
 }
+.label-profile{
+  background-color: white;
+  z-index: 1000;
+
+}
 
 .notification-image{
   width: 35px;
@@ -82,8 +87,8 @@
   padding: 15px; /* Adicione padding interno */
 }
 
-.notification-info:hover {
-  background-color: var(--light-grey2);
+.notification-info.read:hover {
+  background-color: #da737c31;;
   cursor: pointer;
 }
 
