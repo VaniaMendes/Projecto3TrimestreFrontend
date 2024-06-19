@@ -45,6 +45,9 @@
     "editProfile": "Editar Perfil",
     "editDescription": "Editar Descrição",
 
+    "usersAvailable": "Utilizadores Disponíveis",
+    "usersPending": "Utilizadores Pendentes",
+
 
     "time":"{t, time, short}", 
     "date":"{d, date}",

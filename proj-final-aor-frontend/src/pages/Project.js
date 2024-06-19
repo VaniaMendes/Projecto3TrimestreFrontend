@@ -28,6 +28,7 @@ const Project = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditStateOpen, setIsEditStateOpen] = useState(false);
+    const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
     const [modalType, setModalType] = useState(""); 
     const { projectId } = useParams();
 
@@ -127,6 +128,10 @@ const Project = () => {
     const handleOpenModalSkill = () => {
         setIsAddModalOpen(true);
         setModalType("skill");
+    };
+
+    const handleOpenModalMember = () => {
+        setIsMemberModalOpen(true);
     };
 
     const handleOpenModalKeyword = () => {
@@ -241,7 +246,10 @@ const Project = () => {
             setIsEditModalOpen(false);
         } else if(isAddModalOpen){
             setIsAddModalOpen(false);
+        } else if(isMemberModalOpen){
+            setIsMemberModalOpen(false);
         }
+
     };
 
     return (
@@ -349,7 +357,7 @@ const Project = () => {
                                 />
                             ))}
                             {isUserInProject() && !isCollaborator() && (
-                                <span className="ppi-btn"><GoPlusCircle /></span>
+                                <span className="ppi-btn" onClick={handleOpenModalMember}><GoPlusCircle /></span>
                             )}
                         </div>
 
@@ -435,6 +443,13 @@ const Project = () => {
                             setNewKeyword={setNewKeyword}
                         />
                     )}
+                    {isMemberModalOpen && (
+                        <AddTeamMembers
+                            onClose={handleCloseModal}
+                            projectId={projectId}
+                            token={token}
+                        />
+                    )}
                 </div>
 
             </IntlProvider>
@@ -457,30 +472,107 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
     };
     
     return (
-      <div className="modal-skill-container">
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal-skill-container">
 
-          <div className="modal-close" onClick={onClose}>
-            <IoIosCloseCircleOutline />
-          </div>
-          <h1 className="editProfile-title">
-               <FormattedMessage id="editDescription"/>
-          </h1>
-  
-          {modalType === "description" && (
-            <div className="modal-body-biography">
-              <input
-                type="text"
-                id="description"
-                name="description"
-                value={input || ""}
-                onChange={handleChangeDescription}
-              />
+                <div className="modal-close" onClick={onClose}>
+                    <IoIosCloseCircleOutline />
+                </div>
+                <h1 className="editProfile-title">
+                    <FormattedMessage id="editDescription"/>
+                </h1>
+        
+                {modalType === "description" && (
+                    <div className="modal-body-biography">
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                        value={input || ""}
+                        onChange={handleChangeDescription}
+                    />
+                    </div>
+                )}
+                <button className="save-button" onClick={() => handleEditProject(modalType)}>
+                        <FormattedMessage id="save"/>
+                </button>
             </div>
-          )}
-         <button className="save-button" onClick={() => handleEditProject(modalType)}>
-                <FormattedMessage id="save"/>
-        </button>
-      </div>
+        </>
+    );
+  }
+
+  function AddTeamMembers({ onClose, projectId, token }) {
+
+    const [candidates, setCandidates] = useState([]);
+    const [available, setAvailable] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const responseAvailable = await ProjectService.getUsersAvailable(token, projectId);
+                const responseCandidates = await ProjectService.getCandidates(token, projectId);
+
+                if (responseAvailable) {
+                    setAvailable(responseAvailable);
+                }
+                if (responseCandidates) {
+                    setCandidates(responseCandidates);
+                }
+                
+                console.log('Users available:', responseAvailable);
+                console.log('Candidates:', responseCandidates);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+        fetchData();
+    }, [token, projectId]);
+    
+    return (
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal-skill-container">
+
+                <div className="modal-close" onClick={onClose}>
+                    <IoIosCloseCircleOutline />
+                </div>
+                
+                <div className="modal-members-container">
+                    <div className="add-members-users-container">
+                        <h4>
+                            <FormattedMessage id="usersAvailable"/>
+                        </h4>
+                        {available.map((user, index) => (
+                            <MemberDisplay
+                                key={index}
+                                photo={user.photo}
+                                name={user.firstName + " " + user.lastName}
+                            />
+                        ))}
+
+                    </div>
+                    <div className="add-members-users-container">
+                        <h4>
+                            <FormattedMessage id="usersPending"/>
+                        </h4>
+                        {candidates.map((candidate, index) => (
+                            <MemberDisplay
+                                key={index}
+                                photo={candidate.photo}
+                                name={candidate.firstName + " " + candidate.lastName}
+                                isCandidate={true}
+                            />
+                        ))}
+
+                    </div>
+                </div>
+
+                <button className="save-button">
+                        <FormattedMessage id="save"/>
+                </button>
+            </div>
+        </>
     );
   }
 
