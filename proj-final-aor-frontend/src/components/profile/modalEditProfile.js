@@ -3,7 +3,7 @@ import { IntlProvider, useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { updateUser, updateBiography } from "../../services/users";
+import { updateUser, updateBiography, uploadPhoto } from "../../services/users";
 import { toast } from "react-toastify";
 import logo from "../assets/profile_pic_default.png";
 import LabSelection from "../LabSelection";
@@ -16,18 +16,28 @@ function EditProfile({ onClose, modalType }) {
   const userId = userStore((state) => state.userId);
 
   // State variables
-  const { updateName} = userStore();
+  const { updateName, updatePhoto} = userStore();
+
   const [editUser, setEditUser] = useState({});
 
+  const [photoFile, setPhotoFile] = useState(null);
   const [photo, setPhoto] = useState(null);
- 
  
   const intl = useIntl();
 
   const handleEditProfile = async (type) => {
     if (type === "profile") {
-      const result = await updateUser(token, userId, editUser);
+      let photoUrl = editUser.photo; // Preserve the existing photo URL
+
+      // Upload the photo and get the URL if a new photo is selected
+      if (photoFile) {
+        photoUrl = await uploadPhoto(photoFile);
+      }
+  
+      const updatedUser = { ...editUser, photo: photoUrl };
+      const result = await updateUser(token, userId, updatedUser);
       if (result === 200) {
+        updatePhoto(photoUrl);
         toast.success("User updated successfully");
         onClose();
       } else {
@@ -70,13 +80,19 @@ function EditProfile({ onClose, modalType }) {
     };
     
     const handleChangePhoto = (event) => {
-        if (event.target.files && event.target.files[0]) {
-          const file = event.target.files[0];
-          const photoURL = URL.createObjectURL(file);
-          setPhoto(photoURL);
-          editUser.photo = photoURL;
-        }
-      };
+      if (event.target.files && event.target.files[0]) {
+        const file = event.target.files[0];
+        const photoURL = URL.createObjectURL(file);
+        setPhoto(photoURL);
+        setPhotoFile(file);
+    
+        setEditUser(prevState => ({
+          ...prevState,
+          photo: photoURL
+        }));
+      }
+    };
+    
       
       const handleChangeNBiography = (event) => {
         const { value } = event.target;
@@ -105,7 +121,7 @@ function EditProfile({ onClose, modalType }) {
               <div className="inputs-editPhoto">
                 {/* Photo display */}
                 <div className="confirm-photo">
-                  <img src={logo} alt="Logo" />
+                {photo ? <img src={photo} alt="User Photo" /> : <img src={logo} alt="Logo" />}
                 </div>
 
                 {/* Photo input*/}

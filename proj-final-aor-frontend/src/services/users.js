@@ -346,3 +346,28 @@ export async function getFilterUsers(token, prefix){
 }
 
 }
+
+export async function uploadPhoto (photoFile) {
+    const url = 'http://localhost:8080/project_backend/upload';    
+
+    const formData = new FormData();
+    formData.append('photo', photoFile);
+
+    const options = {
+        method: 'POST',
+        body: formData 
+    };
+
+    try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        return data.photoUrl; // Retorna a URL da foto
+    } catch (error) {
+        console.error('Erro ao fazer upload da foto:', error);
+        throw new Error('Erro ao fazer upload da foto.');
+    }
+};

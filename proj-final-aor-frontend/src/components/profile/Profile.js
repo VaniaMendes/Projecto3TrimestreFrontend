@@ -22,6 +22,7 @@ function Profile() {
   const locale = userStore((state) => state.locale);
   const token = userStore((state) => state.token);
   const updateUserId = userStore((state) => state.updateUserId);
+  
 
   //Library to format date of projects
   momentDurationFormatSetup(moment);
@@ -34,6 +35,7 @@ function Profile() {
   const [skills, setSkills] = useState([]);
   const [interests, setInterests] = useState([]);
   const [projects, setProjects] = useState([]);
+
 
   //Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,6 +91,7 @@ function Profile() {
   }, [token, modalType, isModalOpen, openEditModal]);
 
 
+    
 console.log(user);
   return (
    
@@ -107,7 +110,7 @@ console.log(user);
             <div className="profile-header">
               <div className="profile-image">
                 {user && user.photo ? (
-                  <img src={logo} alt=" Photo" />
+                  <img src={user.photo} alt=" Photo" />
                 ) : (
                   <img src={logo} alt="Logo" />
                 )}
