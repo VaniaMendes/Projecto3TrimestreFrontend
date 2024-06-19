@@ -47,7 +47,9 @@
     "save": "Save",
     "editProfile": "Edit Profile",
     "editDescription": "Edit Description",
-   
+
+    "usersAvailable": "Users Available",
+    "usersPending": "Users Pending",
 
     
     "time":"{t, time, short}", 

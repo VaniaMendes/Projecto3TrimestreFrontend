@@ -257,7 +257,7 @@ const Header = () => {
                       onClick={handleProfileClick}
                     >
                       <div className="photo-container">
-                        <img src={photo} alt="Profile Pic" />{" "}
+                        <img src={photo || defaultPhoto} alt="Profile Pic" />{" "}
                       </div>
                       <p className="icon-subtitle">
                         <FormattedMessage id="profile" />
