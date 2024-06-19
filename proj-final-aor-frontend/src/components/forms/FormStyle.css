@@ -238,6 +238,9 @@ textarea:not(:placeholder-shown) + .textarea-label-description {
   align-items: center;
   margin-right: 20px;
 }
+.lab-title{
+  color: var(--red2-color);
+}
 
 
 

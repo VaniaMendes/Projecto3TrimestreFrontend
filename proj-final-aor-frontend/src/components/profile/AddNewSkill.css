@@ -37,6 +37,11 @@
     
 }
 
+.title-modal{
+    font-size: 22px;
+    font-weight: 700;
+}
+
 .modal-close{
     position: absolute;
     top: 10px;

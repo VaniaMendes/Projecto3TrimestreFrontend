@@ -199,6 +199,8 @@ const handleChangePhoto = (event) => {
             </div>
 </div>
        {/* Workplace input */}
+       <p className="lab-title" htmlFor="lab">
+          {intl.formatMessage({ id: "lab"})}*</p>
        <LabSelection selectedLab={lab} handleChangeLab={handleChangeLab} />
 
           {/* Biography input */}

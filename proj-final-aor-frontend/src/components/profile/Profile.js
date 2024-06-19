@@ -16,6 +16,9 @@ import momentDurationFormatSetup from "moment-duration-format";
 import AddNewSkill from "./AddNewSkill";
 import EditProfile from "./modalEditProfile";
 import { useParams } from "react-router-dom";
+import { softDeleteInterestUser } from "../../services/interests";
+import { softDeleteSkillUser } from "../../services/skills";
+import { toast } from "react-toastify";
 
 function Profile() {
   // Get the locale from the userStore
@@ -43,6 +46,52 @@ function Profile() {
   //Modal type
   const [modalType, setModalType] = useState("");
 
+  useEffect(() => {
+    async function fetchUser() {
+      const data = await getUserInfo(token);
+      console.log(data);
+      setUser(data);
+
+      const skillsData = await getUserSkills(token, userId);
+      setSkills(skillsData);
+
+      const interestsData = await getUserInterests(token, userId);
+      setInterests(interestsData);
+
+      const projectsData = await ProjectService.getUserProjects(token, userId);
+      setProjects(projectsData);
+
+      // Update the userId in the userStore
+      if (data) {
+        updateUserId(data.id);
+      }
+    }
+    fetchUser();
+  }, [token, userId, isModalOpen, openEditModal]);
+
+
+  const handleRemoveInterestFromUser = async (userId, interestId) => {
+    const result = await softDeleteInterestUser(token, userId, interestId);
+    if (result === 200) {
+      toast.success("Interesse removido com sucesso");
+      setInterests((prevInterests) =>
+        prevInterests.filter((interest) => interest.id!== interestId)
+      );
+      
+    } else {
+      toast.error("Erro ao remover interesse");
+    }
+  };
+
+  const handleRemoveSkillFromUser = async (userId, skillId) => {
+    const result = await softDeleteSkillUser(token, userId, skillId);
+    if (result === 200) {
+      toast.success("skill removido com sucesso");
+      setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== skillId));
+    } else {
+      toast.error("Erro ao remover skill");
+    }
+  };
   const handleOpenModalSkill = () => {
     setIsModalOpen(true);
     setModalType("skill");
@@ -66,31 +115,10 @@ function Profile() {
     setEditModal(true);
     setModalType("profile");
   };
+
+
   
-  useEffect(() => {
-    async function fetchUser() {
-      const data = await getUserInfo(token);
-      console.log(data);
-      setUser(data);
-
-      const skillsData = await getUserSkills(token, userId);
-      setSkills(skillsData);
-
-      const interestsData = await getUserInterests(token, userId);
-      setInterests(interestsData);
-
-      const projectsData = await ProjectService.getUserProjects(token, userId);
-      setProjects(projectsData);
-
-      // Update the userId in the userStore
-      if (data) {
-        updateUserId(data.id);
-      }
-    }
-    fetchUser();
-  }, [token, modalType, isModalOpen, openEditModal]);
-
-
+  
     
 console.log(user);
   return (
@@ -160,7 +188,8 @@ console.log(user);
               </div>
               <div className="list-keywords">
                 {skills && skills.map((skill, index) => (
-                  <KeywordComponent key={index} id={skill.id} keyword={skill.name} />
+                  <KeywordComponent key={index} id={skill.id} keyword={skill.name}
+                  skillId={skill.id} isItemRemovable={true} isSkill={true} onRemoveSkill={() => handleRemoveSkillFromUser(userId, skill.id)}/>
                 ))}
               </div>
             </div>
@@ -177,7 +206,8 @@ console.log(user);
               </div>
               <div className="list-keywords">
                 {interests && interests.map((interest, index) => (
-                  <KeywordComponent key={index} id={interest.id} keyword={interest.name} />
+                  <KeywordComponent key={index} id={interest.id} keyword={interest.name} isItemRemovable={true}
+                  interestId={interest.id} isInterest={true} onRemoveInterest={() => handleRemoveInterestFromUser(userId, interest.id)} />
                 ))}
               </div>
             </div>

@@ -21,6 +21,7 @@ function AddNewSkill(props) {
   const [list, setList] = useState([]);
   const intl = useIntl();
   const [skill, setSkill] = useState({ name: "", type: "" });
+
   const [interest, setInterest] = useState({ name: ""});
 
 
@@ -163,14 +164,14 @@ function AddNewSkill(props) {
         <div className="modal-close" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
-        <h1>
+        <p className="title-modal">
           {" "}
           {modalType === "skill"
             ? intl.formatMessage({ id: "addNewSkill" })
             : modalType === "interest"
             ? intl.formatMessage({ id: "addNewInterest" })
             : intl.formatMessage({ id: "addNewKeyword" })}
-        </h1>
+        </p>
 
         <div className="modal-boby">
           <div className="list-keywords">
@@ -192,7 +193,8 @@ function AddNewSkill(props) {
           {modalType === "skill" && (
             <select
               className="skill-select"
-              onChange={handleInputChange}
+              onChange={(event) => setSkill({ ...skill, type: event.target.value })}
+
               value={skill.type}
             >
               <option value="">
@@ -223,8 +225,9 @@ function AddNewSkill(props) {
           <button className="create-button" onClick={handleNewItem}>
             {modalType === "keyword" ? intl.formatMessage({ id: "add" }) : intl.formatMessage({ id: "create" })}
           </button>
+          <button className="back" onClick={onClose}>{intl.formatMessage({ id: "back" }) }</button>
         </div>
-        <button onClick={onClose}>{intl.formatMessage({ id: "back" })}</button>
+        
       </IntlProvider>
     </div>
     </div>

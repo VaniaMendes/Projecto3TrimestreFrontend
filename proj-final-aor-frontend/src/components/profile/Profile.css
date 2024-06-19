@@ -244,3 +244,7 @@ height: 150px;
   .modal-content {
     z-index: 1000;
   }
+  .editProfile-title{
+    font-size: 22px;
+    font-weight: 700;
+  }

@@ -110,11 +110,11 @@ function EditProfile({ onClose, modalType }) {
         <div className="modal-close" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
-        <h1 className="editProfile-title">
+        <p className="editProfile-title">
           {modalType === "biography"
             ? intl.formatMessage({ id: "editBiography" })
             : intl.formatMessage({ id: "editProfile" })}
-        </h1>
+        </p>
         {modalType === "profile" && (
           <div className="edit-profile">
             <div className="edit-photo">
