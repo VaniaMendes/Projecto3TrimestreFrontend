@@ -44,6 +44,8 @@
     "save": "Guardar",
     "editProfile": "Editar Perfil",
     "editDescription": "Editar Descrição",
+    "private": "Privado",
+    "public": "Público",
 
 
     "time":"{t, time, short}", 

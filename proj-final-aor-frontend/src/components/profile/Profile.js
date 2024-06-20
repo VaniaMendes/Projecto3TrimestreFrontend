@@ -4,7 +4,7 @@ import logo from "../assets/profile_pic_default.png";
 import { IntlProvider, useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
-import { getUserInfo, getUserById } from "../../services/users";
+import { updatevisibility, getUserById } from "../../services/users";
 import { getUserSkills } from "../../services/skills";
 import { GoPlusCircle } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
@@ -19,6 +19,7 @@ import { useParams } from "react-router-dom";
 import { softDeleteInterestUser } from "../../services/interests";
 import { softDeleteSkillUser } from "../../services/skills";
 import { toast } from "react-toastify";
+import Visibility from "./Visibility";
 
 function Profile() {
   // Get the locale from the userStore
@@ -26,6 +27,7 @@ function Profile() {
   const token = userStore((state) => state.token);
   const userLoggedID = userStore((state) => state.userId);
   const { userId } = useParams();
+  const [editUser, setEditUser] = useState({});
   
 
   //Library to format date of projects
@@ -118,8 +120,22 @@ function Profile() {
     setModalType("profile");
   };
 
-    
-console.log(user);
+
+  const onChangeVisibility = async () => {
+ 
+    try {
+      const response = await updatevisibility(token, userId);
+      if (response === 200) {
+        toast.success("Visibility updated");
+      } else {
+        toast.error("Error updating visibility");
+      }
+    } catch (error) {
+      toast.error("Error updating visibility");
+    }
+  }
+
+
   return (
    
       <div className="profile-container">
@@ -130,7 +146,7 @@ console.log(user);
                 <AddNewSkill onClose={handleCloseModal} modalType={modalType} isUser={true}/>
               )}
               {openEditModal && (
-                <EditProfile onClose={handleCloseModal} modalType={modalType} />
+                <EditProfile onClose={handleCloseModal} modalType={modalType} user={user} />
               )}
             </div>
            
@@ -157,6 +173,11 @@ console.log(user);
                     {intl.formatMessage({ id: user.lab.name })}
                   </div>
                 )}
+{user && (
+                <div className="user-email">
+                  <Visibility visibility={user.visibilityState} onChangeVisibility={onChangeVisibility} />
+                </div>)}
+         
               </div>
               
               <div className="add-keywords" onClick={handleEditModalProfile}>

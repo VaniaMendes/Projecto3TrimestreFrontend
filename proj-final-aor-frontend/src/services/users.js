@@ -284,6 +284,29 @@ export async function updateBiography(userId, token, editUser){
 
     }
 }
+export async function updatevisibility(token, userId){
+    try{
+        
+        const response = await fetch(`${url}/${userId}/visibility`, {
+            method: 'PUT',
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                'token': token
+            }
+          
+        
+        });
+        if(response.ok) {
+            return 200;
+        } else {
+            return 400;
+        }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation: ', error);
+
+    }
+}
 
 export async function getUserById(token, receiverId){
     try{

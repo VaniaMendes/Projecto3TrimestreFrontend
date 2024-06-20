@@ -20,9 +20,9 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "uploadPhoto": "Upload Photo",
-    "firstName": "First Name *",
-    "lastName": "Last Name *",
-    "nickname": "Nickname *",
+    "firstName": "First Name ",
+    "lastName": "Last Name ",
+    "nickname": "Nickname ",
     "biography": "Biography",
     "perfilVisibility": "Profile Visibility",
     "messageRecoveryPassword": "Enter your email and we will send you a link to reset your password",
@@ -47,6 +47,8 @@
     "save": "Save",
     "editProfile": "Edit Profile",
     "editDescription": "Edit Description",
+    "private": "Private",
+    "public": "Public",
    
 
     

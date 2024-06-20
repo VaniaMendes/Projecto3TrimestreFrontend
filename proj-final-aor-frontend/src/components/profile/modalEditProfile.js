@@ -9,11 +9,12 @@ import logo from "../assets/profile_pic_default.png";
 import LabSelection from "../LabSelection";
 
 
-function EditProfile({ onClose, modalType }) {
+const EditProfile = (props) =>{
+
+const {onClose, modalType, user} = props;
+
   // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
-  const token = userStore((state) => state.token);
-  const userId = userStore((state) => state.userId);
+  const {locale, token, userId} = userStore();
 
   // State variables
   const { updateName, updatePhoto} = userStore();
@@ -23,6 +24,7 @@ function EditProfile({ onClose, modalType }) {
   const [photoFile, setPhotoFile] = useState(null);
   const [photo, setPhoto] = useState(null);
  
+  console.log(user.photo);
   const intl = useIntl();
 
   const handleEditProfile = async (type) => {
@@ -150,10 +152,11 @@ function EditProfile({ onClose, modalType }) {
                 type="text"
                 id="firstName"
                 name="firstName"
+                placeholder= {user.firstName}
                 value={editUser.firstName || ""}
                 onChange={handleChange}
               />
-               <label className="label-description" htmlFor="firstName">
+               <label className="label-description-editProfile" htmlFor="firstName">
                            {intl.formatMessage({ id: "firstName" })}
                         </label>
             </div>
@@ -162,10 +165,11 @@ function EditProfile({ onClose, modalType }) {
                 type="text"
                 id="lastName"
                 name="lastName"
+                placeholder = {user.lastName}
                 value={editUser.lastName || ""}
                 onChange={handleChange}
               />
-               <label className="label-description" htmlFor="lastName">
+               <label className="label-description-editProfile" htmlFor="lastName">
                            {intl.formatMessage({ id: "lastName" })}
                         </label>
             </div>
@@ -175,9 +179,10 @@ function EditProfile({ onClose, modalType }) {
                 id="nickname"
                 name="nickname"
                 value={editUser.nickname || ""}
+                placeholder={user.nickname || ""}
                 onChange={handleChange}
               />
-               <label className="label-description" htmlFor="nickname">
+               <label className="label-description-editProfile" htmlFor="nickname">
                            {intl.formatMessage({ id: "nickname" })}
                         </label>
             </div>

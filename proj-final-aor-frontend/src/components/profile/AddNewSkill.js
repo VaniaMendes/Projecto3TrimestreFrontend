@@ -123,8 +123,6 @@ function AddNewSkill(props) {
   }
 
   const handleItemClick = async (item) => {
-    console.log('handleItemClick was called with id:', item.id);
-    console.log('handleItemClick was called with userId:', userId);
 
     if(isUser){
       try {

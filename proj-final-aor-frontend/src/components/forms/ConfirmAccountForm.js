@@ -141,7 +141,7 @@ const handleChangePhoto = (event) => {
           />
           <label className="label-description" htmlFor="firstName">
                             <FormattedMessage id="firstName">
-                                {(message) => <span>{message}</span>}
+                                {(message) => <span>{message}*</span>}
                             </FormattedMessage>
                         </label>
           </div>
@@ -158,7 +158,7 @@ const handleChangePhoto = (event) => {
 
 <label className="label-description" htmlFor="lastName">
                             <FormattedMessage id="lastName">
-                                {(message) => <span>{message}</span>}
+                                {(message) => <span>{message}*</span>} 
                             </FormattedMessage>
                         </label>
           </div>
@@ -173,7 +173,7 @@ const handleChangePhoto = (event) => {
           />
           <label className="label-description" htmlFor="nickname">
                             <FormattedMessage id="nickname">
-                                {(message) => <span>{message}</span>}
+                                {(message) => <span>{message}*</span>}
                             </FormattedMessage>
                         </label>
           </div>
