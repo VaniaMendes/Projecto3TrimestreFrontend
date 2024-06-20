@@ -98,15 +98,26 @@
     "author": "Author",
     "dateRegisted": "Date",
 
+    "ADDED_MEMBER": "Added Member",
     "EDIT_PROJECT_STATE": "State Edited",
     "EDIT_PROJECT_DATA": "Data Edited",
 
     "addKeyword": "Add Keyword",
     "addNeed": "Add Need",
+    "addToProject": "Add to Project",
+    "addCandidate": "Add Candidate",
+    "removeCandidate": "Remove Candidate",
+    "selectRole": "Select Role",
+
+    "confirmAddMember": "Confirm Add Member",
+    "sureConfirmAddMember" : "Are you sure you want to add this member?",
+    "confirmCandidate": "Confirm Candidate",
+    "sureConfirmCandidate" : "Are you sure you want to add this candidate?",
 
     "developer": "Developer",
     "CREATOR": "Creator",
     "COLLABORATOR": "Collaborator",
+    "MANAGER": "Manager",
 
     "PLANNING": "Planning",
     "READY": "Ready",

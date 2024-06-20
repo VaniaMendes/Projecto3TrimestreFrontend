@@ -28,8 +28,6 @@ const Header = () => {
   const [showComponentsMenu, setShowComponentsMenu] = useState(false);
   const { token, userId, name, locale, resetUserStore , photo} = userStore();
 
-  console.log(photo);
-
   const navigate = useNavigate();
   const location = useLocation();
 

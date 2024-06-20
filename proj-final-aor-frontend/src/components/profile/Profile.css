@@ -240,7 +240,3 @@ height: 150px;
     background-color: rgba(0, 0, 0, 0.655);
     z-index: 999;
   }
-  
-  .modal-content {
-    z-index: 1000;
-  }
