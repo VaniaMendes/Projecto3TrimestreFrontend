@@ -95,15 +95,27 @@
     "author": "Autor",
     "dateRegisted": "Data",
 
+    "ADDED_MEMBER": "Membro Adicionado",
     "EDIT_PROJECT_STATE": "Estado Editado",
     "EDIT_PROJECT_DATA": "Informação Geral Editada",
 
     "addKeyword": "Adicionar Palavra-chave",
     "addNeed": "Adicionar Necessidade",
+    "addToProject": "Adicionar ao Projeto",
+    "addCandidate": "Adicionar Candidato",
+    "removeCandidate": "Remover Candidato",
+    "selectRole": "Selecionar Função",
+
+    "confirmAddMember": "Confirmar Adição de Membro",
+    "sureConfirmAddMember": "Tem a certeza que deseja adicionar este membro ao projeto?",
+    "confirmCandidate": "Confirmar Candidato",
+    "sureConfirmCandidate": "Tem a certeza que deseja adicionar este candidato ao projeto?",
+
 
     "developer": "Desenvolvedor",
     "CREATOR": "Criador",
     "COLLABORATOR": "Colaborador",
+    "MANAGER": "Gestor",
 
     "PLANNING": "Em Planeamento",
     "READY": "Pronto",

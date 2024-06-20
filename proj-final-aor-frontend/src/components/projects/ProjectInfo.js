@@ -57,6 +57,7 @@ const ProjectInfo = (props) => {
                             {project.usersInfo.map((user, userIndex) => (
                                 <MemberDisplay
                                     key={userIndex}
+                                    id={user.userId}
                                     photo={user.photo}
                                     name={user.firstName + " " + user.lastName}
                                     role={user.userType}
