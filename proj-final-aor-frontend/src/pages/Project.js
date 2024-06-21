@@ -60,7 +60,6 @@ const Project = () => {
             try {
                 const response = await ProjectService.getProjectInfo(projectId);
                 const responseResources = await ProjectService.getProjectResources(token, projectId);
-                const responseActivity = await ProjectService.getProjectActivity(token, projectId);
 
                 if (response.keywords) {
                     response.keywords = response.keywords.split(',');
@@ -68,7 +67,6 @@ const Project = () => {
 
                 setProjectData(response);
                 setResources(responseResources);
-                setActivityRecord(responseActivity);
 
                 const state = states.find(state => state.name === response.stateId);
                 if (state) {
@@ -80,6 +78,25 @@ const Project = () => {
         };
         fetchData();
     }, [projectId, token]);
+
+    useEffect(() => {
+
+        const fetchActivities = async () => {
+            if (!projectId || !token) {
+                console.error('Missing projectId or token');
+                return;
+            }
+
+            try {
+                const responseActivity = await ProjectService.getProjectActivity(token, projectId);
+                setActivityRecord(responseActivity);
+
+            } catch (error) {
+                console.error('Error fetching project:', error);
+            }
+        };
+        fetchActivities();
+    }, [projectId, token, projectData]);
 
     
     useEffect(() => {
@@ -314,6 +331,38 @@ const Project = () => {
         }
     };
 
+    const handleChangeMemberRole = async (userId, userType) => {
+        const response = await ProjectService.updateMemberRole(token, projectId, userId, userType);
+
+        if (response) {
+            toast.success('Member role changed successfully!');
+
+            setProjectData(prevProjectData => ({
+                ...prevProjectData,
+                usersInfo: prevProjectData.usersInfo.map(user => {
+                    if (user.userId === userId) {
+                        user.userType = userType;
+                    }
+                    return user;
+                })
+            }));
+        }
+    };
+
+    const handleRemoveMember = async (userId) => {
+        console.log('Removing member:', userId);
+        const response = await ProjectService.removeMember(token, projectId, userId);
+
+        if (response) {
+            toast.success('Member removed successfully!');
+
+            setProjectData(prevProjectData => ({
+                ...prevProjectData,
+                usersInfo: prevProjectData.usersInfo.filter(user => user.userId !== userId)
+            }));
+        }
+    };
+
     const handleCloseModal = () => {
         if(isEditModalOpen){
             setIsEditModalOpen(false);
@@ -429,6 +478,8 @@ const Project = () => {
                                     name={user.firstName + " " + user.lastName}
                                     role={user.userType}
                                     isInsideProject={true}
+                                    onMemberRoleChange={handleChangeMemberRole}
+                                    handleRemoveMember={handleRemoveMember}
                                 />
                             ))}
                             {isUserInProject() && !isCollaborator() && (

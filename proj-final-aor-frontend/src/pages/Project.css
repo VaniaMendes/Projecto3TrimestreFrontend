@@ -164,7 +164,7 @@
     overflow-y: auto;
 
     h3, h4{
-        padding: 15px;
+        padding: 10px 0 10px 10px;
         width: 100%;
     }
 }
@@ -189,6 +189,20 @@
         .creator-info-container{
             margin-right: 0;
         }
+    }
+
+    .modal-members-container{
+        flex-direction: column-reverse;
+    }
+
+    .with-border-right{
+        border-top: solid 1px var(--main-red);
+        border-right: transparent;
+    }
+
+    .project-page-members{
+        flex-direction: column;
+        align-items: center;
     }
 
     .add-members-users-container{

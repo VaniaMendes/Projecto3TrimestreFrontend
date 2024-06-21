@@ -1,8 +1,6 @@
 import React from "react";
 import { IoClose } from "react-icons/io5";
 import "./Keywords.css";
-import { userStore } from "../../stores/UserStore";
-
 
 const KeywordComponent = (props) => {
   const {
