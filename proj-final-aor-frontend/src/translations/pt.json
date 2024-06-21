@@ -44,6 +44,8 @@
     "save": "Guardar",
     "editProfile": "Editar Perfil",
     "editDescription": "Editar Descrição",
+    "private": "Privado",
+    "public": "Público",
 
     "usersAvailable": "Utilizadores Disponíveis",
     "usersPending": "Utilizadores Pendentes",
@@ -147,6 +149,8 @@
      "writeYourMessage": "Escreva a sua mensagem",
      "showMore": "Mostrar mais...",
      "chooseUserToSendFirstMessage": "Escolha um utilizador para enviar a primeira mensagem",
+     "next": "Próximo",
+     "previous": "Anterior",
 
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",

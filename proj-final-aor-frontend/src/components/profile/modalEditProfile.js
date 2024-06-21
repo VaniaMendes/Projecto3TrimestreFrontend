@@ -3,31 +3,44 @@ import { IntlProvider, useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { updateUser, updateBiography } from "../../services/users";
+import { updateUser, updateBiography, uploadPhoto } from "../../services/users";
 import { toast } from "react-toastify";
 import logo from "../assets/profile_pic_default.png";
 import LabSelection from "../LabSelection";
 
 
-function EditProfile({ onClose, modalType }) {
+const EditProfile = (props) =>{
+
+const {onClose, modalType, user} = props;
+
   // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
-  const token = userStore((state) => state.token);
-  const userId = userStore((state) => state.userId);
+  const {locale, token, userId} = userStore();
 
   // State variables
-  const { updateName} = userStore();
+  const { updateName, updatePhoto} = userStore();
+
   const [editUser, setEditUser] = useState({});
 
+  const [photoFile, setPhotoFile] = useState(null);
   const [photo, setPhoto] = useState(null);
  
- 
+  console.log(user.photo);
   const intl = useIntl();
 
   const handleEditProfile = async (type) => {
     if (type === "profile") {
-      const result = await updateUser(token, userId, editUser);
+      let photoUrl = editUser.photo; // Preserve the existing photo URL
+
+      // Upload the photo and get the URL if a new photo is selected
+      if (photoFile) {
+        photoUrl = await uploadPhoto(photoFile);
+      }
+  
+      const updatedUser = { ...editUser, photo: photoUrl };
+      const result = await updateUser(token, userId, updatedUser);
       if (result === 200) {
+        updatePhoto(photoUrl);
+  
         toast.success("User updated successfully");
         onClose();
       } else {
@@ -70,13 +83,19 @@ function EditProfile({ onClose, modalType }) {
     };
     
     const handleChangePhoto = (event) => {
-        if (event.target.files && event.target.files[0]) {
-          const file = event.target.files[0];
-          const photoURL = URL.createObjectURL(file);
-          setPhoto(photoURL);
-          editUser.photo = photoURL;
-        }
-      };
+      if (event.target.files && event.target.files[0]) {
+        const file = event.target.files[0];
+        const photoURL = URL.createObjectURL(file);
+        setPhoto(photoURL);
+        setPhotoFile(file);
+    
+        setEditUser(prevState => ({
+          ...prevState,
+          photo: photoURL
+        }));
+      }
+    };
+    
       
       const handleChangeNBiography = (event) => {
         const { value } = event.target;
@@ -94,18 +113,18 @@ function EditProfile({ onClose, modalType }) {
         <div className="modal-close" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
-        <h1 className="editProfile-title">
+        <p className="editProfile-title">
           {modalType === "biography"
             ? intl.formatMessage({ id: "editBiography" })
             : intl.formatMessage({ id: "editProfile" })}
-        </h1>
+        </p>
         {modalType === "profile" && (
           <div className="edit-profile">
             <div className="edit-photo">
               <div className="inputs-editPhoto">
                 {/* Photo display */}
                 <div className="confirm-photo">
-                  <img src={logo} alt="Logo" />
+                {photo ? <img src={photo} alt="User Photo" /> : <img src={logo} alt="Logo" />}
                 </div>
 
                 {/* Photo input*/}
@@ -134,10 +153,11 @@ function EditProfile({ onClose, modalType }) {
                 type="text"
                 id="firstName"
                 name="firstName"
+                placeholder= {user.firstName}
                 value={editUser.firstName || ""}
                 onChange={handleChange}
               />
-               <label className="label-description" htmlFor="firstName">
+               <label className="label-description-editProfile" htmlFor="firstName">
                            {intl.formatMessage({ id: "firstName" })}
                         </label>
             </div>
@@ -146,10 +166,11 @@ function EditProfile({ onClose, modalType }) {
                 type="text"
                 id="lastName"
                 name="lastName"
+                placeholder = {user.lastName}
                 value={editUser.lastName || ""}
                 onChange={handleChange}
               />
-               <label className="label-description" htmlFor="lastName">
+               <label className="label-description-editProfile" htmlFor="lastName">
                            {intl.formatMessage({ id: "lastName" })}
                         </label>
             </div>
@@ -159,9 +180,10 @@ function EditProfile({ onClose, modalType }) {
                 id="nickname"
                 name="nickname"
                 value={editUser.nickname || ""}
+                placeholder={user.nickname || ""}
                 onChange={handleChange}
               />
-               <label className="label-description" htmlFor="nickname">
+               <label className="label-description-editProfile" htmlFor="nickname">
                            {intl.formatMessage({ id: "nickname" })}
                         </label>
             </div>

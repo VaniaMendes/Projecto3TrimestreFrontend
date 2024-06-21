@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 import moment from "moment";
 import './Messages.css'
 
-function MessageChat({ receiverId }) {
+const MessageChat = (props) => {
+  const { receiverId  } = props;
 
 
   const intl = useIntl();
