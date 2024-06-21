@@ -317,7 +317,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to update the state of the project:", response.status, errorData);
                 return null;
             }
     
@@ -344,7 +344,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to join skill to project:", response.status, errorData);
                 return null;
             }
     
@@ -371,7 +371,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to add skill to the project:", response.status, errorData);
                 return null;
             }
     
@@ -398,7 +398,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to remove skill of project:", response.status, errorData);
                 return null;
             }
     
@@ -425,7 +425,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to add keyword to project:", response.status, errorData);
                 return null;
             }
     
@@ -452,7 +452,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to remove keyword of the project:", response.status, errorData);
                 return null;
             }
     
@@ -479,7 +479,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to get users available:", response.status, errorData);
                 return null;
             }
     
@@ -506,7 +506,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to get the candidates:", response.status, errorData);
                 return null;
             }
     
@@ -532,7 +532,7 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to approve the candidate:", response.status, errorData);
                 return null;
             }
     
@@ -559,7 +559,59 @@ const ProjectService = {
             }
             else{
                 const errorData = await response.text();
-                console.error("Failed to update the description of the project:", response.status, errorData);
+                console.error("Failed to add member to the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    updateMemberRole: async(token, projectId, userId, userType) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/user/${userId}/update/${userType}`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the role of the member:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    removeMember: async(token, projectId, userId) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/user/${userId}/remove`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to remove user of the project:", response.status, errorData);
                 return null;
             }
     
