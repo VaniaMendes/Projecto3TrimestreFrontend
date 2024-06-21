@@ -108,20 +108,8 @@ function AddNewSkill(props) {
           toast.error("Please fill out the interest name.");
           return;
       }
-      try{
-          const response = await ProjectService.addKeyword(token, projectId, interest.name);
-          if(response){
-              toast.success("Keyword added successfully!");
-              setInterest({ name: "" });
-              setNewKeyword(interest.name);
-              onClose();
-          }else{
-              toast.error("Failed to add keyword");
-          }
-      }
-      catch(error){
-          toast.error("An error occurred");
-      }
+      handleAdd(modalType, interest);
+      onClose();
     }
   }
 

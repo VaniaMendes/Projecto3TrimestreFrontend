@@ -5,10 +5,11 @@ import {FormattedMessage, useIntl } from "react-intl";
 import { MdAddCircle } from "react-icons/md";
 import { MdRemoveCircle } from "react-icons/md";
 import { RiArrowGoBackLine } from "react-icons/ri";
+import { FaUserEdit } from "react-icons/fa";
 import CustomModal from "./CustomModal";
 
 const MemberDisplay = (props) => {
-    const {id, photo, name, role, isCandidate, handleAddMember, handleApproveCandidate} = props;
+    const {id, photo, name, role, isCandidate, isInsideProject, handleAddMember, handleApproveCandidate} = props;
     const intl = useIntl();
 
     const [addColor, setAddColor] = useState('#2bd948');
@@ -18,8 +19,10 @@ const MemberDisplay = (props) => {
     const [userType, setUserType] = useState("");
 
     let className;
-    if (role) {
+    if (role && !isInsideProject) {
         className = "member-display";
+    } else if (isInsideProject) {
+        className = "inside-project-member-display";
     } else {
         className = isCandidate ? "candidate-member" : "available-member";
     }
@@ -67,6 +70,28 @@ const MemberDisplay = (props) => {
                 <h4>{name}</h4>
                 {role ? <p><FormattedMessage id={role} /></p> : null}
             </div>
+            {className === "inside-project-member-display" && role !== "CREATOR" ? (
+                <>
+                 {!showSelect && (
+                    <div>
+                        <FaUserEdit fontSize='0.8em' onClick={handleAddClick}/>
+                    </div>
+                 )}
+                {showSelect && (
+                    <div className="select-member-type-container">
+                        <span onClick={handleBackClick}>
+                            <RiArrowGoBackLine fontSize="0.6em" title={intl.formatMessage({ id: 'back' })}/>
+                        </span>
+                        <select onChange={handleSelectChange}>
+                            <option value="">{intl.formatMessage({ id: 'selectRole' })}</option>
+                            <option value="COLLABORATOR">{intl.formatMessage({ id: 'COLLABORATOR' })}</option>
+                            <option value="MANAGER">{intl.formatMessage({ id: 'MANAGER' })}</option>
+                        </select>
+                    </div>
+                )}
+                </>
+
+                ): null}
             {"available-member" === className ? (
                 <div className="add-remove-pair">
                     {!showSelect && (

@@ -147,7 +147,7 @@
 
 .modal-members-container{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin: 20px 10px;
     width: 100%;
 }
@@ -159,11 +159,13 @@
     margin: 5px;
     width: 100%;
     min-height: 250px;
+    max-height: 60vh;
     border: transparent;
     overflow-y: auto;
 
     h3, h4{
-        margin: 15px;
+        padding: 15px;
+        width: 100%;
     }
 }
 
@@ -187,5 +189,9 @@
         .creator-info-container{
             margin-right: 0;
         }
+    }
+
+    .add-members-users-container{
+        max-height: 80vh;
     }
 }
