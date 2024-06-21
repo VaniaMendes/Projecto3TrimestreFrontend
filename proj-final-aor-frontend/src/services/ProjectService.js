@@ -462,6 +462,112 @@ const ProjectService = {
         }
     },
 
+    getUsersAvailable: async(token, projectId) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/users/available`,  {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+    
+            if(response.ok){
+                const data = await response.json();
+                return data;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    getCandidates: async(token, projectId) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/candidates`,  {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+    
+            if(response.ok){
+                const data = await response.json();
+                return data;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    approveCandidate: async(token, projectId, userId, userType) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/user/${userId}/approve/${userType}`,  {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    addMember: async(token, projectId, userId, userType) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/user/${userId}/add/${userType}`,  {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to update the description of the project:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
 };
 
 export default ProjectService;

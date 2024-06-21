@@ -50,8 +50,12 @@ function AddNewSkill(props) {
   }, [modalType]);
   
 
-  const handleInputChange = (event) => {
-    setSkill({ ...skill, name: event.target.value });
+  const handleSkillInputChange = (event) => {
+    const { name, value } = event.target;
+    setSkill((prevSkill) => ({
+      ...prevSkill,
+      [name]: value,
+    }));
   };
 
   const handleInterestInputChange = (event) => {
@@ -191,8 +195,8 @@ function AddNewSkill(props) {
           {modalType === "skill" && (
             <select
               className="skill-select"
-              onChange={(event) => setSkill({ ...skill, type: event.target.value })}
-
+              name="type"
+              onChange={handleSkillInputChange}
               value={skill.type}
             >
               <option value="">
@@ -216,7 +220,10 @@ function AddNewSkill(props) {
                 ? intl.formatMessage({ id: "addNewInterest" })
                 : intl.formatMessage({ id: "addNewKeyword" })
             }
-            onChange={modalType === "skill" ? handleInputChange : handleInterestInputChange}
+            name={modalType === "skill" ? "name" : "name"}
+            onChange={
+              modalType === "skill" ? handleSkillInputChange : handleInterestInputChange
+            }
             value={modalType === "skill" ? skill.name : interest.name}
           />
 

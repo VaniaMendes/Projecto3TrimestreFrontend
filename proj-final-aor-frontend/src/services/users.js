@@ -370,6 +370,36 @@ export async function getFilterUsers(token, prefix){
 
 }
 
+export async function getUserProjectStatus(token, userId, projectId){
+    try{
+
+        const response = await fetch(`${url}/profile/${userId}/project/${projectId}/status`,  {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Get user info failed:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
+
 export async function uploadPhoto (photoFile) {
     const url = 'http://localhost:8080/project_backend/upload';    
 

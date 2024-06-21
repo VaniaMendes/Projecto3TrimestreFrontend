@@ -14,6 +14,7 @@ import MemberDisplay from "../components/MemberDisplay";
 import KeywordComponent from "../components/keywords/KeywordComponent";
 import AddNewSkill from "../components/profile/AddNewSkill";
 import { toast } from "react-toastify";
+import { getUserProjectStatus } from "../services/users";
 
 const Project = () => {
     const {locale, token, userId} = userStore();
@@ -24,10 +25,12 @@ const Project = () => {
     const [input, setInput] = useState("");
     const [currentState, setCurrentState] = useState(null);
     const [newKeyword, setNewKeyword] = useState("");
+    const [hasApplied, setHasApplied] = useState(false);
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditStateOpen, setIsEditStateOpen] = useState(false);
+    const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
     const [modalType, setModalType] = useState(""); 
     const { projectId } = useParams();
 
@@ -59,10 +62,11 @@ const Project = () => {
                 const responseResources = await ProjectService.getProjectResources(token, projectId);
                 const responseActivity = await ProjectService.getProjectActivity(token, projectId);
 
-                // Assuming keywords are a comma-separated string
                 if (response.keywords) {
                     response.keywords = response.keywords.split(',');
                 }
+
+                console.log('Project data:', response);
 
                 setProjectData(response);
                 setResources(responseResources);
@@ -88,6 +92,23 @@ const Project = () => {
             }));
         }
     }, [newKeyword]);
+
+    useEffect(() => {
+
+        const fetchUserProjectStatus = async () => {
+            try {
+                const response = await getUserProjectStatus(token, projectId, userId);
+
+                if (response) {
+                    setHasApplied(true);
+                }
+            } catch (error) {
+                console.error('Error fetching user project status:', error);
+            }
+        }
+
+        fetchUserProjectStatus();
+    }, [hasApplied, token, projectId]);
 
     const toTitleCase = (str) => {
         return str.replace(/\w\S*/g, function(txt){
@@ -127,6 +148,10 @@ const Project = () => {
     const handleOpenModalSkill = () => {
         setIsAddModalOpen(true);
         setModalType("skill");
+    };
+
+    const handleOpenModalMember = () => {
+        setIsMemberModalOpen(true);
     };
 
     const handleOpenModalKeyword = () => {
@@ -175,7 +200,6 @@ const Project = () => {
     };
 
     const handleAddKeyword = async (keyword) => {
-        console.log('Adding keyword:', keyword);
         const response = await ProjectService.addKeyword(token, projectId, keyword.name);
 
         if (response) {
@@ -226,7 +250,6 @@ const Project = () => {
     };
 
     const handleAdd = async (modalType, item) => {
-        console.log('handleAdd was called with modalType:', modalType);
         if (modalType === "keyword") {
             await handleAddKeyword(item);
         } else if (modalType === "skill") {
@@ -236,12 +259,76 @@ const Project = () => {
         }
     }
 
+    const handleApplyToProject = async () => {
+        const response = await ProjectService.addMember(token, projectId, userId, "CANDIDATE");
+
+        if (response) {
+            setHasApplied(true);
+            toast.success('Application sent successfully!');
+        }
+    }
+
+    const handleApproveCandidate = async (candidateId, userType, photo, name) => {
+        console.log('Approving candidate:', candidateId, userType);
+        const response = await ProjectService.approveCandidate(token, projectId, candidateId, userType);
+
+        if (response) {
+            toast.success('Candidate approved successfully!');
+
+            const nameParts = name.split(' ');
+            const firstName = nameParts[0];
+            const lastName = nameParts.length > 1 ? nameParts[1] : '';
+
+            const mockUser = {
+                firstName: firstName,
+                lastName: lastName,
+                photo: photo,
+                userId: userId,
+                userType: userType
+            };
+            
+            setProjectData(prevProjectData => ({
+                ...prevProjectData,
+                usersInfo: [...prevProjectData.usersInfo, mockUser]
+            }));
+        }
+    };
+
+    const handleAddMember = async (userId, userType, photo, name) => {
+        console.log('Adding member:', userId, userType);
+        const response = await ProjectService.addMember(token, projectId, userId, userType);
+
+        if (response) {
+            toast.success('Member added successfully!');
+
+            const nameParts = name.split(' ');
+            const firstName = nameParts[0];
+            const lastName = nameParts.length > 1 ? nameParts[1] : '';
+
+            const mockUser = {
+                firstName: firstName,
+                lastName: lastName,
+                photo: photo,
+                userId: userId,
+                userType: userType
+            };
+
+            setProjectData(prevProjectData => ({
+                ...prevProjectData,
+                usersInfo: [...prevProjectData.usersInfo, mockUser]
+            }));
+        }
+    };
+
     const handleCloseModal = () => {
         if(isEditModalOpen){
             setIsEditModalOpen(false);
         } else if(isAddModalOpen){
             setIsAddModalOpen(false);
+        } else if(isMemberModalOpen){
+            setIsMemberModalOpen(false);
         }
+
     };
 
     return (
@@ -266,7 +353,7 @@ const Project = () => {
                                 </div>
                                 <h1>{projectData.name}</h1>
                             </div>
-                            {!isUserInProject() && projectData.vacancyNumber>0 && <button className="project-page-candidate-button"><FormattedMessage id="candidate"/></button>}
+                            {!hasApplied && !isUserInProject() && projectData.vacancyNumber>0 && <button className="project-page-candidate-button" onClick={handleApplyToProject}><FormattedMessage id="candidate"/></button>}
                         </div>
 
                         <div className="project-page-info">
@@ -343,13 +430,14 @@ const Project = () => {
                             {projectData.usersInfo && projectData.usersInfo.map((user, userIndex) => (
                                 <MemberDisplay
                                     key={userIndex}
+                                    id={user.userId}
                                     photo={user.photo}
                                     name={user.firstName + " " + user.lastName}
                                     role={user.userType}
                                 />
                             ))}
                             {isUserInProject() && !isCollaborator() && (
-                                <span className="ppi-btn"><GoPlusCircle /></span>
+                                <span className="ppi-btn" onClick={handleOpenModalMember}><GoPlusCircle /></span>
                             )}
                         </div>
 
@@ -435,6 +523,16 @@ const Project = () => {
                             setNewKeyword={setNewKeyword}
                         />
                     )}
+                    {isMemberModalOpen && (
+                        <AddTeamMembers
+                            onClose={handleCloseModal}
+                            projectId={projectId}
+                            token={token}
+                            handleAddMember={handleAddMember}
+                            handleApproveCandidate={handleApproveCandidate}
+                        />
+                    )}
+                    
                 </div>
 
             </IntlProvider>
@@ -457,30 +555,109 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
     };
     
     return (
-      <div className="modal-skill-container">
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal-skill-container">
 
-          <div className="modal-close" onClick={onClose}>
-            <IoIosCloseCircleOutline />
-          </div>
-          <h1 className="editProfile-title">
-               <FormattedMessage id="editDescription"/>
-          </h1>
-  
-          {modalType === "description" && (
-            <div className="modal-body-biography">
-              <input
-                type="text"
-                id="description"
-                name="description"
-                value={input || ""}
-                onChange={handleChangeDescription}
-              />
+                <div className="modal-close" onClick={onClose}>
+                    <IoIosCloseCircleOutline />
+                </div>
+                <h1 className="editProfile-title">
+                    <FormattedMessage id="editDescription"/>
+                </h1>
+        
+                {modalType === "description" && (
+                    <div className="modal-body-biography">
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                        value={input || ""}
+                        onChange={handleChangeDescription}
+                    />
+                    </div>
+                )}
+                <button className="save-button" onClick={() => handleEditProject(modalType)}>
+                        <FormattedMessage id="save"/>
+                </button>
             </div>
-          )}
-         <button className="save-button" onClick={() => handleEditProject(modalType)}>
-                <FormattedMessage id="save"/>
-        </button>
-      </div>
+        </>
+    );
+  }
+
+  function AddTeamMembers({ onClose, projectId, token, handleApproveCandidate, handleAddMember }) {
+
+    const [candidates, setCandidates] = useState([]);
+    const [available, setAvailable] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const responseAvailable = await ProjectService.getUsersAvailable(token, projectId);
+                const responseCandidates = await ProjectService.getCandidates(token, projectId);
+
+                if (responseAvailable) {
+                    setAvailable(responseAvailable);
+                }
+                if (responseCandidates) {
+                    setCandidates(responseCandidates);
+                }
+                
+                console.log('Users available:', responseAvailable);
+                console.log('Candidates:', responseCandidates);
+            } catch (error) {
+                console.error('Error fetching users:', error);
+            }
+        };
+        fetchData();
+    }, [token, projectId, handleApproveCandidate, handleAddMember]);
+
+    
+    
+    return (
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal-skill-container">
+
+                <div className="modal-close" onClick={onClose}>
+                    <IoIosCloseCircleOutline />
+                </div>
+                
+                <div className="modal-members-container">
+                    <div className="add-members-users-container with-border-right">
+                        <h3>
+                            <FormattedMessage id="usersAvailable"/>
+                        </h3>
+                        {available.map((user, index) => (
+                            <MemberDisplay
+                                key={index}
+                                id={user.userId}
+                                photo={user.photo}
+                                name={user.firstName + " " + user.lastName}
+                                handleAddMember={handleAddMember}
+                            />
+                        ))}
+
+                    </div>
+                    <div className="add-members-users-container">
+                        <h3>
+                            <FormattedMessage id="usersPending"/>
+                        </h3>
+                        {candidates.map((candidate, index) => (
+                            <MemberDisplay
+                                key={index}
+                                id={candidate.userId}
+                                photo={candidate.photo}
+                                name={candidate.firstName + " " + candidate.lastName}
+                                isCandidate={true}
+                                handleApproveCandidate={handleApproveCandidate}
+                            />
+                        ))}
+
+                    </div>
+                </div>
+            </div>
+        </>
     );
   }
 

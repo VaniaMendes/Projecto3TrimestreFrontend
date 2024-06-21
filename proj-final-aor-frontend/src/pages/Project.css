@@ -145,6 +145,32 @@
     }
 }
 
+.modal-members-container{
+    display: flex;
+    align-items: center;
+    margin: 20px 10px;
+    width: 100%;
+}
+
+.add-members-users-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 5px;
+    width: 100%;
+    min-height: 250px;
+    border: transparent;
+    overflow-y: auto;
+
+    h3, h4{
+        margin: 15px;
+    }
+}
+
+.with-border-right{
+    border-right: solid 1px var(--main-red);
+}
+
 @media (max-width: 768px){
     .project-page-header,
     .project-page-info{

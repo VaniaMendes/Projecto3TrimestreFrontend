@@ -28,8 +28,6 @@ const Header = () => {
   const [showComponentsMenu, setShowComponentsMenu] = useState(false);
   const { token, userId, name, locale, resetUserStore , photo} = userStore();
 
-  console.log(photo);
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -257,7 +255,7 @@ const Header = () => {
                       onClick={handleProfileClick}
                     >
                       <div className="photo-container">
-                        <img src={photo} alt="Profile Pic" />{" "}
+                        <img src={photo || defaultPhoto} alt="Profile Pic" />{" "}
                       </div>
                       <p className="icon-subtitle">
                         <FormattedMessage id="profile" />
