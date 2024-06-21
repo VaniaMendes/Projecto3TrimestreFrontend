@@ -113,3 +113,30 @@ export async function associateInterestToUser(token, userId, interestId) {
     }
   }
   
+  export async function softDeleteInterestUser(token, userId, interestId) {
+    const urlWithParams = `${url}/${interestId}/users/${userId}/soft-delete`;
+   
+    try {
+      const response = await fetch(urlWithParams, {
+        method: 'PUT',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          'token': token
+        }
+      });
+      console.log(response.status);
+  
+      if (response.ok) {
+        console.log('Interest deleted successfully:');
+    return 200;
+      } else {
+        console.error('Failed to delete interest:');
+        return 400;
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting interest:', error);
+      return null;
+    }
+  }
+  

@@ -4,7 +4,7 @@ import logo from "../assets/profile_pic_default.png";
 import { IntlProvider, useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
-import { getUserInfo } from "../../services/users";
+import { updatevisibility, getUserById } from "../../services/users";
 import { getUserSkills } from "../../services/skills";
 import { GoPlusCircle } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
@@ -16,18 +16,25 @@ import momentDurationFormatSetup from "moment-duration-format";
 import AddNewSkill from "./AddNewSkill";
 import EditProfile from "./modalEditProfile";
 import { useParams } from "react-router-dom";
+import { softDeleteInterestUser } from "../../services/interests";
+import { softDeleteSkillUser } from "../../services/skills";
+import { toast } from "react-toastify";
+import Visibility from "./Visibility";
 
 function Profile() {
   // Get the locale from the userStore
   const locale = userStore((state) => state.locale);
   const token = userStore((state) => state.token);
-  const updateUserId = userStore((state) => state.updateUserId);
+  const userLoggedID = userStore((state) => state.userId);
+  const { userId } = useParams();
+  const [editUser, setEditUser] = useState({});
+  
 
   //Library to format date of projects
   momentDurationFormatSetup(moment);
 
   const intl = useIntl();
-  const { userId } = useParams();
+
 
   //State variables
   const [user, setUser] = useState(null);
@@ -35,12 +42,60 @@ function Profile() {
   const [interests, setInterests] = useState([]);
   const [projects, setProjects] = useState([]);
 
+
   //Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openEditModal, setEditModal] = useState(false);
   //Modal type
   const [modalType, setModalType] = useState("");
 
+  const isOwner = userId === undefined || userId === userLoggedID;
+
+  useEffect(() => {
+    async function fetchUser() {
+
+      const effectiveUserId = isOwner ? userLoggedID : userId;
+
+      const data = await getUserById(token, effectiveUserId);
+      console.log(data);
+      setUser(data);
+
+      const skillsData = await getUserSkills(token, effectiveUserId);
+      setSkills(skillsData);
+
+      const interestsData = await getUserInterests(token, effectiveUserId);
+      setInterests(interestsData);
+
+      const projectsData = await ProjectService.getUserProjects(token, effectiveUserId);
+      setProjects(projectsData);
+
+    }
+    fetchUser();
+  }, [token, userId, isModalOpen, openEditModal]);
+
+
+  const handleRemoveInterestFromUser = async (userId, interestId) => {
+    const result = await softDeleteInterestUser(token, userId, interestId);
+    if (result === 200) {
+      toast.success("Interesse removido com sucesso");
+      setInterests((prevInterests) =>
+        prevInterests.filter((interest) => interest.id!== interestId)
+      );
+      
+    } else {
+      toast.error("Erro ao remover interesse");
+    }
+  };
+
+  const handleRemoveSkillFromUser = async (userId, skillId) => {
+    const result = await softDeleteSkillUser(token, userId, skillId);
+    if (result === 200) {
+      toast.success("skill removido com sucesso");
+      setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== skillId));
+    } else {
+      toast.error("Erro ao remover skill");
+    }
+  };
   const handleOpenModalSkill = () => {
     setIsModalOpen(true);
     setModalType("skill");
@@ -64,35 +119,26 @@ function Profile() {
     setEditModal(true);
     setModalType("profile");
   };
-  
-  useEffect(() => {
-    async function fetchUser() {
-      const data = await getUserInfo(token);
-      console.log(data);
-      setUser(data);
 
-      const skillsData = await getUserSkills(token, userId);
-      setSkills(skillsData);
 
-      const interestsData = await getUserInterests(token, userId);
-      setInterests(interestsData);
-
-      const projectsData = await ProjectService.getUserProjects(token, userId);
-      setProjects(projectsData);
-
-      // Update the userId in the userStore
-      if (data) {
-        updateUserId(data.id);
+  const onChangeVisibility = async () => {
+ 
+    try {
+      const response = await updatevisibility(token, userId);
+      if (response === 200) {
+        toast.success("Visibility updated");
+      } else {
+        toast.error("Error updating visibility");
       }
+    } catch (error) {
+      toast.error("Error updating visibility");
     }
-    fetchUser();
-  }, [token, modalType, isModalOpen, openEditModal]);
+  }
 
 
-console.log(user);
   return (
    
-      <div className="notification-container">
+      <div className="profile-container">
         <div className="profile-external-container">
           <IntlProvider locale={locale} messages={languages[locale]}>
             <div>
@@ -100,14 +146,14 @@ console.log(user);
                 <AddNewSkill onClose={handleCloseModal} modalType={modalType} isUser={true}/>
               )}
               {openEditModal && (
-                <EditProfile onClose={handleCloseModal} modalType={modalType} />
+                <EditProfile onClose={handleCloseModal} modalType={modalType} user={user} />
               )}
             </div>
            
             <div className="profile-header">
               <div className="profile-image">
                 {user && user.photo ? (
-                  <img src={logo} alt=" Photo" />
+                  <img src={user.photo} alt=" Photo" />
                 ) : (
                   <img src={logo} alt="Logo" />
                 )}
@@ -127,11 +173,17 @@ console.log(user);
                     {intl.formatMessage({ id: user.lab.name })}
                   </div>
                 )}
+{user && (
+                <div className="user-email">
+                  <Visibility visibility={user.visibilityState} onChangeVisibility={onChangeVisibility} />
+                </div>)}
+         
               </div>
+              
               <div className="add-keywords" onClick={handleEditModalProfile}>
                 <FiEdit3 />
               </div>
-            </div>
+                          </div>
             {/* Conteúdo da biografia */}
             <div className="profile-biography">
               <div className="input-profile">
@@ -139,6 +191,7 @@ console.log(user);
                   {intl.formatMessage({ id: "biography" })}
                 </label>
               </div>
+              
               <div className="add-keywords" onClick={handleEditModal}>
                 <FiEdit3 />
               </div>
@@ -151,13 +204,14 @@ console.log(user);
                   {intl.formatMessage({ id: "skills" })}
                 </label>
               </div>
-
+             
               <div className="add-keywords" onClick={handleOpenModalSkill}>
                 <GoPlusCircle />
               </div>
               <div className="list-keywords">
                 {skills && skills.map((skill, index) => (
-                  <KeywordComponent key={index} id={skill.id} keyword={skill.name} />
+                  <KeywordComponent key={index} id={skill.id} keyword={skill.name}
+                  skillId={skill.id} isItemRemovable={true} isSkill={true} onRemoveSkill={() => handleRemoveSkillFromUser(userId, skill.id)}/>
                 ))}
               </div>
             </div>
@@ -168,13 +222,14 @@ console.log(user);
                   {intl.formatMessage({ id: "interests" })}
                 </label>
               </div>
-
+             
               <div className="add-keywords" onClick={handleOpenModalInterest}>
                 <GoPlusCircle />
               </div>
-              <div className="list-keywords">
+                           <div className="list-keywords">
                 {interests && interests.map((interest, index) => (
-                  <KeywordComponent key={index} id={interest.id} keyword={interest.name} />
+                  <KeywordComponent key={index} id={interest.id} keyword={interest.name} isItemRemovable={true}
+                  interestId={interest.id} isInterest={true} onRemoveInterest={() => handleRemoveInterestFromUser(userId, interest.id)} />
                 ))}
               </div>
             </div>
