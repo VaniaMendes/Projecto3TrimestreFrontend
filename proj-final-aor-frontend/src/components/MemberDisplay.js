@@ -1,35 +1,57 @@
-import React, { useState }  from "react";
+import React, { useEffect, useState }  from "react";
 import "./MemberDisplay.css";
 import defaultPhoto from "./assets/profile_pic_default.png"
 import {FormattedMessage, useIntl } from "react-intl";
 import { MdAddCircle } from "react-icons/md";
 import { MdRemoveCircle } from "react-icons/md";
-import { RiArrowGoBackLine } from "react-icons/ri";
+import { PiCaretCircleRightFill } from "react-icons/pi";
+import { PiUserCircleGearFill } from "react-icons/pi";
+import { PiUserCircleMinusFill } from "react-icons/pi";
+import { PiUserSwitchFill } from "react-icons/pi";
+
 import CustomModal from "./CustomModal";
 
 const MemberDisplay = (props) => {
-    const {id, photo, name, role, isCandidate, handleAddMember, handleApproveCandidate} = props;
+    const {id, photo, name, role, isCandidate, isInsideProject, handleAddMember, handleApproveCandidate, handleRemoveMember, onMemberRoleChange} = props;
     const intl = useIntl();
 
     const [addColor, setAddColor] = useState('#2bd948');
     const [removeColor, setRemoveColor] = useState('#dd7973');
-    const [showSelect, setShowSelect] = useState(false);
+    const [iconEditColor, setIconEditColor] = useState('#8D8D8D');
+    const [iconMinusColor, setIconMinusColor] = useState('#8D8D8D');
+    const [iconSwitchColor, setIconSwitchColor] = useState('#8D8D8D');
+    const [showHiddenContent, setShowHiddenContent] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [userType, setUserType] = useState("");
+    const [newRole, setNewRole] = useState(role);
 
     let className;
-    if (role) {
+    if (role && !isInsideProject) {
         className = "member-display";
+    } else if (isInsideProject) {
+        className = "inside-project-member-display";
     } else {
         className = isCandidate ? "candidate-member" : "available-member";
     }
 
+    const nextRole = role === 'COLLABORATOR'
+    ? intl.formatMessage({ id: 'MANAGER' })
+    : intl.formatMessage({ id: 'COLLABORATOR' });
+
+    useEffect(() => {
+        if (role === 'COLLABORATOR') {
+            setNewRole('MANAGER');
+        } else {
+            setNewRole('COLLABORATOR');
+        }
+    }, [role]);
+
     const handleAddClick = () => {
-        setShowSelect(true);
+        setShowHiddenContent(true);
     };
 
     const handleBackClick = () => {
-        setShowSelect(false);
+        setShowHiddenContent(false);
     };
 
     const handleSelectChange = (event) => {
@@ -42,20 +64,53 @@ const MemberDisplay = (props) => {
 
     const confirmAddMember = () => {
         handleAddMember(id, userType, photo, name);
-        setShowSelect(false);
+        setShowHiddenContent(false);
         setShowModal(false);
     };
 
     const confirmApproveCandidate = () => {
         handleApproveCandidate(id, userType, photo, name);
-        setShowSelect(false);
+        setShowHiddenContent(false);
         setShowModal(false);
     }
 
-    const onCloseModal = () => {
-        setShowSelect(false);
+    const confirmRemoveMember = () => {
+        handleRemoveMember(id);
+        setShowHiddenContent(false);
         setShowModal(false);
     };
+
+    const handleRoleChange = () => {
+        onMemberRoleChange(id, newRole);
+        setShowHiddenContent(false);
+    };
+
+    const onRemoveClick = () => {
+        setShowModal(true);
+    };
+
+    const onCloseModal = () => {
+        setShowHiddenContent(false);
+        setShowModal(false);
+    };
+
+    const modalTitle = isInsideProject 
+    ? <FormattedMessage id="confirmRemoveMember"/> 
+    : isCandidate 
+        ? <FormattedMessage id="confirmCandidate"/> 
+        : <FormattedMessage id="confirmAddMember"/>;
+
+    const modalLabel = isInsideProject 
+        ? <FormattedMessage id="sureConfirmRemoveMember"/> 
+        : isCandidate 
+            ? <FormattedMessage id="sureConfirmCandidate"/> 
+            : <FormattedMessage id="sureConfirmAddMember"/>;
+
+    const onConfirmModal = isInsideProject 
+        ? confirmRemoveMember 
+        : isCandidate 
+            ? confirmApproveCandidate 
+            : confirmAddMember;
 
 
     return (
@@ -67,9 +122,54 @@ const MemberDisplay = (props) => {
                 <h4>{name}</h4>
                 {role ? <p><FormattedMessage id={role} /></p> : null}
             </div>
+            {className === "inside-project-member-display" && role !== "CREATOR" ? (
+                <>
+                 {!showHiddenContent && (
+                    <div className="user-circle-gear-icon">
+                        <PiUserCircleGearFill 
+                            fontSize='1.2em' 
+                            onClick={handleAddClick}
+                            color={iconEditColor}
+                            onMouseEnter={() => setIconEditColor('#282828')}
+                            onMouseLeave={() => setIconEditColor('#8D8D8D')}
+                            title={intl.formatMessage({ id: 'edit' })}
+                        />
+                    </div>
+                 )}
+                
+                    <div className={`select-member-type-container ${showHiddenContent ? 'show' : ''}`}>
+                        <span onClick={handleBackClick}>
+                            <PiCaretCircleRightFill title={intl.formatMessage({ id: 'back' })}/>
+                        </span>
+                        <div className="remove-edit-role-icons-cont">
+                            <PiUserCircleMinusFill 
+                                fontSize='1.1em'
+                                onClick={onRemoveClick}
+                                color={iconMinusColor}
+                                onMouseEnter={() => setIconMinusColor('#A0000C')}
+                                onMouseLeave={() => setIconMinusColor('#8D8D8D')}
+                                title={intl.formatMessage({ id: 'remove' })}
+                            />
+                            <PiUserSwitchFill
+                                fontSize='1.1em'
+                                onClick={handleRoleChange}
+                                color={iconSwitchColor}
+                                onMouseEnter={() => setIconSwitchColor('#282828')}
+                                onMouseLeave={() => setIconSwitchColor('#8D8D8D')}
+                                title={intl.formatMessage(
+                                    { id: 'switchRole', defaultMessage: 'Switch to {role}' },
+                                    { role: nextRole }
+                                  )}
+                            />
+                        </div>
+                    </div>
+                
+                </>
+
+                ): null}
             {"available-member" === className ? (
                 <div className="add-remove-pair">
-                    {!showSelect && (
+                    {!showHiddenContent && (
                         <span onClick={handleAddClick}>
                             <MdAddCircle
                                 color={addColor}
@@ -79,10 +179,10 @@ const MemberDisplay = (props) => {
                             />
                         </span>
                     )}
-                    {showSelect && (
-                        <div className="select-member-type-container">
+                    
+                        <div className={`select-member-type-container ${showHiddenContent ? 'show' : ''}`}>
                             <span onClick={handleBackClick}>
-                                <RiArrowGoBackLine fontSize="0.6em" title={intl.formatMessage({ id: 'back' })}/>
+                                <PiCaretCircleRightFill  fontSize="0.8em" title={intl.formatMessage({ id: 'back' })}/>
                             </span>
                             <select onChange={handleSelectChange}>
                                 <option value="">{intl.formatMessage({ id: 'selectRole' })}</option>
@@ -90,12 +190,12 @@ const MemberDisplay = (props) => {
                                 <option value="MANAGER">{intl.formatMessage({ id: 'MANAGER' })}</option>
                             </select>
                         </div>
-                    )}
+                    
                 </div>
             ) : null}
             {"candidate-member" === className ? (
                 <div className="add-remove-pair">
-                    {!showSelect && (
+                    {!showHiddenContent && (
                         <span>
                             <MdRemoveCircle
                                 color={removeColor}
@@ -105,7 +205,7 @@ const MemberDisplay = (props) => {
                             />
                         </span>
                     )}
-                    {!showSelect && (
+                    {!showHiddenContent && (
                         <span onClick={handleAddClick}>
                             <MdAddCircle
                                 color={addColor}
@@ -115,10 +215,9 @@ const MemberDisplay = (props) => {
                             />
                         </span>
                     )}
-                    {showSelect && (
-                        <div className="select-member-type-container">
+                        <div className={`select-member-type-container ${showHiddenContent ? 'show' : ''}`}>
                             <span onClick={handleBackClick}>
-                                <RiArrowGoBackLine fontSize="0.6em" title={intl.formatMessage({ id: 'back' })}/>
+                                <PiCaretCircleRightFill  fontSize="0.9em" title={intl.formatMessage({ id: 'back' })}/>
                             </span>
                             <select onChange={handleSelectChange}>
                                 <option value="">{intl.formatMessage({ id: 'selectRole' })}</option>
@@ -126,16 +225,16 @@ const MemberDisplay = (props) => {
                                 <option value="MANAGER">{intl.formatMessage({ id: 'MANAGER' })}</option>
                             </select>
                         </div>
-                    )}
+                    
                 </div>
             ) : null}
             <div>
             <CustomModal
-                title={isCandidate ? <FormattedMessage id="confirmCandidate"/> : <FormattedMessage id="confirmAddMember"/>}
-                label={isCandidate ? <FormattedMessage id="sureConfirmCandidate"/> : <FormattedMessage id="sureConfirmAddMember"/>}
+                title={modalTitle}
+                label={modalLabel}
                 show={showModal}
                 onClose={onCloseModal}
-                onConfirm={isCandidate ? confirmApproveCandidate : confirmAddMember}
+                onConfirm={onConfirmModal}
             />
             </div>
         </div>

@@ -11,6 +11,9 @@
     "back": "Voltar",
     "all": "Todos",
     "add": "Adicionar",
+    "remove": "Remover",
+    "edit": "Editar",
+    "switchRole": "Mudar para {role}",
     "changePassword": "Recuperar senha",
     "changemypassword": "Alterar a minha senha",
     "confirmationAccount": "Confimação de conta",
@@ -98,8 +101,12 @@
     "dateRegisted": "Data",
 
     "ADDED_MEMBER": "Membro Adicionado",
+    "ADDED_CANDIDATE": "Candidato Adicionado",
     "EDIT_PROJECT_STATE": "Estado Editado",
     "EDIT_PROJECT_DATA": "Informação Geral Editada",
+    "REMOVED_MEMBER": "Membro Removido",
+    "UPDATED_MEMBER_ROLE": "Função do Membro Atualizada",
+
 
     "addKeyword": "Adicionar Palavra-chave",
     "addNeed": "Adicionar Necessidade",
@@ -112,6 +119,8 @@
     "sureConfirmAddMember": "Tem a certeza que deseja adicionar este membro ao projeto?",
     "confirmCandidate": "Confirmar Candidato",
     "sureConfirmCandidate": "Tem a certeza que deseja adicionar este candidato ao projeto?",
+    "confirmRemoveMember": "Confirmar Remoção de Membro",
+    "sureConfirmRemoveMember" : "Tem a certeza que deseja remover este membro do projeto?",
 
 
     "developer": "Desenvolvedor",

@@ -60,17 +60,13 @@ const Project = () => {
             try {
                 const response = await ProjectService.getProjectInfo(projectId);
                 const responseResources = await ProjectService.getProjectResources(token, projectId);
-                const responseActivity = await ProjectService.getProjectActivity(token, projectId);
 
                 if (response.keywords) {
                     response.keywords = response.keywords.split(',');
                 }
 
-                console.log('Project data:', response);
-
                 setProjectData(response);
                 setResources(responseResources);
-                setActivityRecord(responseActivity);
 
                 const state = states.find(state => state.name === response.stateId);
                 if (state) {
@@ -84,20 +80,30 @@ const Project = () => {
     }, [projectId, token]);
 
     useEffect(() => {
-        if (newKeyword) {
-            const formattedKeyword = toTitleCase(newKeyword);
-            setProjectData(prevProjectData => ({
-                ...prevProjectData,
-                keywords: [...prevProjectData.keywords, formattedKeyword]
-            }));
-        }
-    }, [newKeyword]);
 
+        const fetchActivities = async () => {
+            if (!projectId || !token) {
+                console.error('Missing projectId or token');
+                return;
+            }
+
+            try {
+                const responseActivity = await ProjectService.getProjectActivity(token, projectId);
+                setActivityRecord(responseActivity);
+
+            } catch (error) {
+                console.error('Error fetching project:', error);
+            }
+        };
+        fetchActivities();
+    }, [projectId, token, projectData]);
+
+    
     useEffect(() => {
 
         const fetchUserProjectStatus = async () => {
             try {
-                const response = await getUserProjectStatus(token, projectId, userId);
+                const response = await getUserProjectStatus(token, userId, projectId);
 
                 if (response) {
                     setHasApplied(true);
@@ -200,14 +206,19 @@ const Project = () => {
     };
 
     const handleAddKeyword = async (keyword) => {
-        const response = await ProjectService.addKeyword(token, projectId, keyword.name);
+        const keywords = keyword.name.split(',');
 
-        if (response) {
-            toast.success('Keyword added successfully!');
-            setProjectData(prevProjectData => ({
-                ...prevProjectData,
-                keywords: [...prevProjectData.keywords, keyword.name]
-            }));
+        for (let i = 0; i < keywords.length; i++) {
+            const response = await ProjectService.addKeyword(token, projectId, keywords[i].trim());
+
+            if (response) {
+                const formattedKeyword = toTitleCase(keywords[i].trim());
+                toast.success(`Keyword ${formattedKeyword} added successfully!`);
+                setProjectData(prevProjectData => ({
+                    ...prevProjectData,
+                    keywords: [...prevProjectData.keywords, formattedKeyword]
+                }));
+            }
         }
     }
 
@@ -316,6 +327,38 @@ const Project = () => {
             setProjectData(prevProjectData => ({
                 ...prevProjectData,
                 usersInfo: [...prevProjectData.usersInfo, mockUser]
+            }));
+        }
+    };
+
+    const handleChangeMemberRole = async (userId, userType) => {
+        const response = await ProjectService.updateMemberRole(token, projectId, userId, userType);
+
+        if (response) {
+            toast.success('Member role changed successfully!');
+
+            setProjectData(prevProjectData => ({
+                ...prevProjectData,
+                usersInfo: prevProjectData.usersInfo.map(user => {
+                    if (user.userId === userId) {
+                        user.userType = userType;
+                    }
+                    return user;
+                })
+            }));
+        }
+    };
+
+    const handleRemoveMember = async (userId) => {
+        console.log('Removing member:', userId);
+        const response = await ProjectService.removeMember(token, projectId, userId);
+
+        if (response) {
+            toast.success('Member removed successfully!');
+
+            setProjectData(prevProjectData => ({
+                ...prevProjectData,
+                usersInfo: prevProjectData.usersInfo.filter(user => user.userId !== userId)
             }));
         }
     };
@@ -434,6 +477,9 @@ const Project = () => {
                                     photo={user.photo}
                                     name={user.firstName + " " + user.lastName}
                                     role={user.userType}
+                                    isInsideProject={true}
+                                    onMemberRoleChange={handleChangeMemberRole}
+                                    handleRemoveMember={handleRemoveMember}
                                 />
                             ))}
                             {isUserInProject() && !isCollaborator() && (
@@ -625,7 +671,7 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
                 
                 <div className="modal-members-container">
                     <div className="add-members-users-container with-border-right">
-                        <h3>
+                        <h3 style={{ position: 'sticky',top: 0 , backgroundColor: '#fdfdfd'}}>
                             <FormattedMessage id="usersAvailable"/>
                         </h3>
                         {available.map((user, index) => (
@@ -637,7 +683,6 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
                                 handleAddMember={handleAddMember}
                             />
                         ))}
-
                     </div>
                     <div className="add-members-users-container">
                         <h3>

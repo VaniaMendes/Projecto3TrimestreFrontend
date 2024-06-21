@@ -12,6 +12,9 @@
     "back": "Back",
     "all": "All",
     "add": "Add",
+    "remove": "Remove",
+    "edit": "Edit",
+    "switchRole": "Switch to {role}",
     "changePassword": "Recovery Password",
     "changemypassword": "Change my Password",
     "confirmationAccount": "Confirmation Account",
@@ -102,8 +105,11 @@
     "dateRegisted": "Date",
 
     "ADDED_MEMBER": "Added Member",
+    "ADDED_CANDIDATE": "Added Candidate",
     "EDIT_PROJECT_STATE": "State Edited",
     "EDIT_PROJECT_DATA": "Data Edited",
+    "REMOVED_MEMBER": "Removed Member",
+    "UPDATED_MEMBER_ROLE": "Updated Member Role",
 
     "addKeyword": "Add Keyword",
     "addNeed": "Add Need",
@@ -116,6 +122,8 @@
     "sureConfirmAddMember" : "Are you sure you want to add this member?",
     "confirmCandidate": "Confirm Candidate",
     "sureConfirmCandidate" : "Are you sure you want to add this candidate?",
+    "confirmRemoveMember": "Confirm Remove Member",
+    "sureConfirmRemoveMember" : "Are you sure you want to remove this member?",
 
     "developer": "Developer",
     "CREATOR": "Creator",
