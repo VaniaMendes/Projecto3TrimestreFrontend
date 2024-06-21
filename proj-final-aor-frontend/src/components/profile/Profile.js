@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import logo from "../assets/profile_pic_default.png";
-import { IntlProvider, useIntl } from "react-intl";
+import { IntlProvider, useIntl, FormattedMessage } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
 import { updatevisibility, getUserById } from "../../services/users";
@@ -27,7 +27,6 @@ function Profile() {
   const token = userStore((state) => state.token);
   const userLoggedID = userStore((state) => state.userId);
   const { userId } = useParams();
-  const [editUser, setEditUser] = useState({});
   
 
   //Library to format date of projects
@@ -49,15 +48,15 @@ function Profile() {
   //Modal type
   const [modalType, setModalType] = useState("");
 
-  const isOwner = userId === undefined || userId === userLoggedID;
+  const [isOwner, setIsOwner] = useState(false);
+
 
   useEffect(() => {
     async function fetchUser() {
-
+      setIsOwner(userId === userLoggedID);
       const effectiveUserId = isOwner ? userLoggedID : userId;
 
       const data = await getUserById(token, effectiveUserId);
-      console.log(data);
       setUser(data);
 
       const skillsData = await getUserSkills(token, effectiveUserId);
@@ -69,6 +68,7 @@ function Profile() {
       const projectsData = await ProjectService.getUserProjects(token, effectiveUserId);
       setProjects(projectsData);
 
+
     }
     fetchUser();
   }, [token, userId, isModalOpen, openEditModal]);
@@ -77,23 +77,24 @@ function Profile() {
   const handleRemoveInterestFromUser = async (userId, interestId) => {
     const result = await softDeleteInterestUser(token, userId, interestId);
     if (result === 200) {
-      toast.success("Interesse removido com sucesso");
+      toast.success(intl.formatMessage({ id: "profile1" }));
       setInterests((prevInterests) =>
         prevInterests.filter((interest) => interest.id!== interestId)
       );
       
     } else {
-      toast.error("Erro ao remover interesse");
+      toast.error(intl.formatMessage({ id: "profile2" }));
+      
     }
   };
 
   const handleRemoveSkillFromUser = async (userId, skillId) => {
     const result = await softDeleteSkillUser(token, userId, skillId);
     if (result === 200) {
-      toast.success("skill removido com sucesso");
+      toast.success(intl.formatMessage({ id: "profile3" }));
       setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== skillId));
     } else {
-      toast.error("Erro ao remover skill");
+      toast.error(intl.formatMessage({ id: "profile4" }));
     }
   };
   const handleOpenModalSkill = () => {
@@ -126,7 +127,7 @@ function Profile() {
     try {
       const response = await updatevisibility(token, userId);
       if (response === 200) {
-        toast.success("Visibility updated");
+        toast.success(intl.formatMessage({ id: "profile5" }));
       } else {
         toast.error("Error updating visibility");
       }
@@ -173,16 +174,16 @@ function Profile() {
                     {intl.formatMessage({ id: user.lab.name })}
                   </div>
                 )}
-{user && (
+{user && user.id === userLoggedID && (
                 <div className="user-email">
                   <Visibility visibility={user.visibilityState} onChangeVisibility={onChangeVisibility} />
                 </div>)}
          
               </div>
-              
+              {user && user.id === userLoggedID && (
               <div className="add-keywords" onClick={handleEditModalProfile}>
                 <FiEdit3 />
-              </div>
+              </div>)}
                           </div>
             {/* Conteúdo da biografia */}
             <div className="profile-biography">
@@ -191,10 +192,10 @@ function Profile() {
                   {intl.formatMessage({ id: "biography" })}
                 </label>
               </div>
-              
+              {user && user.id === userLoggedID && ( 
               <div className="add-keywords" onClick={handleEditModal}>
                 <FiEdit3 />
-              </div>
+              </div> )}
               {user && <div>{user.biography}</div>}
             </div>
             <div className="profile-keywords">
@@ -204,10 +205,10 @@ function Profile() {
                   {intl.formatMessage({ id: "skills" })}
                 </label>
               </div>
-             
+              {user && user.id === userLoggedID && (
               <div className="add-keywords" onClick={handleOpenModalSkill}>
                 <GoPlusCircle />
-              </div>
+              </div>)}
               <div className="list-keywords">
                 {skills && skills.map((skill, index) => (
                   <KeywordComponent key={index} id={skill.id} keyword={skill.name}
@@ -222,10 +223,10 @@ function Profile() {
                   {intl.formatMessage({ id: "interests" })}
                 </label>
               </div>
-             
+              {user && user.id === userLoggedID && (
               <div className="add-keywords" onClick={handleOpenModalInterest}>
                 <GoPlusCircle />
-              </div>
+              </div> )}
                            <div className="list-keywords">
                 {interests && interests.map((interest, index) => (
                   <KeywordComponent key={index} id={interest.id} keyword={interest.name} isItemRemovable={true}

@@ -323,7 +323,7 @@ export async function getUserById(token, receiverId){
 
         if(response.ok){
             const data = await response.json();
-            console.log(data);
+
             return data;
         }
         else{
@@ -354,7 +354,6 @@ export async function getFilterUsers(token, prefix){
 
         if(response.ok){
             const data = await response.json();
-            console.log(data);
             return data;
         }
         else{
