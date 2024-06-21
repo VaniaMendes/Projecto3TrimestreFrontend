@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import logo from "../assets/profile_pic_default.png";
-import { IntlProvider, useIntl } from "react-intl";
+import { IntlProvider, useIntl, FormattedMessage } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
 import { updatevisibility, getUserById } from "../../services/users";
@@ -50,7 +50,6 @@ function Profile() {
 
   const [isOwner, setIsOwner] = useState(false);
 
-  
 
   useEffect(() => {
     async function fetchUser() {
@@ -78,23 +77,24 @@ function Profile() {
   const handleRemoveInterestFromUser = async (userId, interestId) => {
     const result = await softDeleteInterestUser(token, userId, interestId);
     if (result === 200) {
-      toast.success("Interesse removido com sucesso");
+      toast.success(intl.formatMessage({ id: "profile1" }));
       setInterests((prevInterests) =>
         prevInterests.filter((interest) => interest.id!== interestId)
       );
       
     } else {
-      toast.error("Erro ao remover interesse");
+      toast.error(intl.formatMessage({ id: "profile2" }));
+      
     }
   };
 
   const handleRemoveSkillFromUser = async (userId, skillId) => {
     const result = await softDeleteSkillUser(token, userId, skillId);
     if (result === 200) {
-      toast.success("skill removido com sucesso");
+      toast.success(intl.formatMessage({ id: "profile3" }));
       setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== skillId));
     } else {
-      toast.error("Erro ao remover skill");
+      toast.error(intl.formatMessage({ id: "profile4" }));
     }
   };
   const handleOpenModalSkill = () => {
@@ -127,7 +127,7 @@ function Profile() {
     try {
       const response = await updatevisibility(token, userId);
       if (response === 200) {
-        toast.success("Visibility updated");
+        toast.success(intl.formatMessage({ id: "profile5" }));
       } else {
         toast.error("Error updating visibility");
       }

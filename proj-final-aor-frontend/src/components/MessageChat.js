@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { userStore } from "../stores/UserStore";
-import { useIntl } from "react-intl";
+import { useIntl, FormattedMessage  } from "react-intl";
 import { sendMessage, getMessages, getPageCountBetweenTwoUsers, markMessageAsRead } from "../services/messages";
 import { getUserById } from "../services/users";
 import { toast } from "react-toastify";
@@ -37,7 +37,7 @@ const [messages, setMessages] = useState([]);
 
 
   const [showButton, setShowButton] = useState(false);
-  console.log("receiver" + receiverId);
+
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -64,7 +64,7 @@ const [messages, setMessages] = useState([]);
 
         setShowButton(numberOfPages > 1);
       } catch (error) {
-        toast.error("Failed to fetch messages or user details");
+   
       }
     };
     fetchMessages();
@@ -82,7 +82,8 @@ const [messages, setMessages] = useState([]);
 
   const handleSendMessage = async () => {
     if (!message.content.trim()) {
-      toast.error("Please enter content for the message");
+      const errorMessage = intl.formatMessage({ id: "pleaseEnterConstentforMessage" });
+      toast.warning(errorMessage);
       return;
     }
     try {
@@ -102,10 +103,12 @@ const [messages, setMessages] = useState([]);
           sender: { id: userId }
         });
       } else {
-        toast.error("Something went wrong. Please try again");
+        const errorMessage = intl.formatMessage({ id: "messageChat2" });
+        toast.error(errorMessage);
+     
       }
     } catch (error) {
-      toast.error("Failed to send message");
+      
     }
   };
 
@@ -120,7 +123,7 @@ const [messages, setMessages] = useState([]);
         setShowButton(false);
       }
     } catch (error) {
-      toast.error("Failed to fetch messages");
+      
     }
   };
 
@@ -143,7 +146,8 @@ const [messages, setMessages] = useState([]);
         
       }
     } catch (error) {
-      toast.error("Failed to mark message as read");
+      const message = intl.formatMessage({ id:"messageChat3"})
+      toast.error(message);
     }
   };
 
@@ -151,7 +155,7 @@ const [messages, setMessages] = useState([]);
     if(visibility){
     navigate(`/profile/${userId}`);
   }else{
-    toast.error("This user has a private profile");
+    toast.error(intl.formatMessage({ id:"messageChat4"}));
   }
 }
 

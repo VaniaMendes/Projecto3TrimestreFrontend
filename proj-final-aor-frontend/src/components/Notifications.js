@@ -11,30 +11,26 @@ import Pagination from './Pagination';
 
 function Notifications() {
 
-        // Get the locale from the userStore
-        const locale = userStore((state) => state.locale);
-        const intl = useIntl();
+  // Get the locale from the userStore
+  const locale = userStore((state) => state.locale);
+  const intl = useIntl();
 
   const [notifications, setNotifications] = useState([]);
 
- 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   
   const token = userStore((state) => state.token);
   const userId = userStore((state) => state.userId);
 
-  async function fetchNotifications(page) {
+  async function fetchNotifications() {
     try {
       const response = await getUserNotifications(token, userId, currentPage);
       setNotifications(response);
       const notificationPage = await totalPagesNotifications(token, userId);
       setTotalPages(notificationPage);
 
-      console.log(notifications);
     } catch (error) {
-      console.error("Error fetching notifications:", error);
-      toast.error("Failed to fetch notifications");
     }
   }
 
@@ -42,8 +38,7 @@ function Notifications() {
     fetchNotifications(currentPage);
   }, [currentPage]);
   
-  console.log(totalPages);
-  console.log(currentPage);
+
 
   const markAsRead = async (notificationId) => {
     const result = await markeAsRead(token, notificationId);
