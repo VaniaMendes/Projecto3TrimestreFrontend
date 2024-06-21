@@ -49,12 +49,12 @@ function Profile() {
   //Modal type
   const [modalType, setModalType] = useState("");
 
-  console.log(userId, userLoggedID);
+  const isOwner = userId === undefined || userId === userLoggedID;
 
   useEffect(() => {
     async function fetchUser() {
 
-      const effectiveUserId = (userId === undefined || userId === userLoggedID) ? userLoggedID : userId;
+      const effectiveUserId = isOwner ? userLoggedID : userId;
 
       const data = await getUserById(token, effectiveUserId);
       console.log(data);

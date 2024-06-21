@@ -40,6 +40,7 @@ const {onClose, modalType, user} = props;
       const result = await updateUser(token, userId, updatedUser);
       if (result === 200) {
         updatePhoto(photoUrl);
+  
         toast.success("User updated successfully");
         onClose();
       } else {
