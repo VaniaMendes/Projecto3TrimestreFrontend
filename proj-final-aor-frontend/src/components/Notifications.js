@@ -24,17 +24,23 @@ function Notifications() {
   const token = userStore((state) => state.token);
   const userId = userStore((state) => state.userId);
 
-  async function fetchNotifications(){
-    const response = await getUserNotifications(token, userId);
-    setNotifications(response);
-    const notificationPage = await totalPagesNotifications(token, userId);
-    setTotalPages(notificationPage);
+  async function fetchNotifications(page) {
+    try {
+      const response = await getUserNotifications(token, userId, currentPage);
+      setNotifications(response);
+      const notificationPage = await totalPagesNotifications(token, userId);
+      setTotalPages(notificationPage);
 
+      console.log(notifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      toast.error("Failed to fetch notifications");
+    }
+  }
 
-  };
   useEffect(() => {
-    fetchNotifications();
-  }, []);
+    fetchNotifications(currentPage);
+  }, [currentPage]);
   
   console.log(totalPages);
   console.log(currentPage);

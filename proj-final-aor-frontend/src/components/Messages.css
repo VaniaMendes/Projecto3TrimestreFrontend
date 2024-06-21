@@ -19,7 +19,13 @@
     }
     
 }
+.header-messageChat{
+    display: flex;
+    flex-direction: flex-start;
+    width: 100%;
+    border-bottom: 2px solid var(--main-red);
 
+}
 .message-external-container {
     display: flex;
     align-items: center;
@@ -153,14 +159,13 @@
     position: relative;
    
     height: 600px;
-   
   
 }
 
 .sender-name {
-    margin-bottom: 10px;
+    margin-top: 15px;
     font-size: 20px;
-    border-bottom: 2px solid var(--main-red);
+    margin-left: 15px;
     align-self: start;
    
 }
@@ -297,21 +302,21 @@
     border-radius: 10px;
     padding: 10px;
     margin: 10px 0;
-    max-width: 70%;
+    max-width: 80%;
     word-wrap: break-word;
     position: relative;
 
   }
   
   .sender-message {
-    background-color: #a8d8d231;
+    background-color: #da737c31;
     margin-left: auto;
     text-align: right;
 
   }
   
   .receiver-message {
-   background-color: rgb(241, 241, 180);
+   background-color: var(--light-grey2);
     margin-right: auto;
     text-align: left;
   }
@@ -363,4 +368,19 @@
 
 .show-more-message:hover {
     background-color:  #da737c31; 
+}
+.unread-message {
+    border-left: 6px solid black;
+   cursor: pointer;
+  }
+
+.read-message{
+    border-left:none;
+
+}
+
+.ckeck-message{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

@@ -84,7 +84,7 @@ function Messages() {
                 <div className = "info-user-message-external" key={index} onClick={() => handleSaveReceiver(user.id)}>
                   <div className="info-user-message">
                  <div className="photo-message">
-                  <img src={userLogo} alt="user-photo" />
+                  <img src={user.photo} alt="user-photo" />
                  </div>
                   <p className="user-firstName">{user.firstName} {user.lastName}</p>
                   </div>
