@@ -66,8 +66,6 @@ const Project = () => {
                     response.keywords = response.keywords.split(',');
                 }
 
-                console.log('Project data:', response);
-
                 setProjectData(response);
                 setResources(responseResources);
                 setActivityRecord(responseActivity);
@@ -83,21 +81,12 @@ const Project = () => {
         fetchData();
     }, [projectId, token]);
 
-    useEffect(() => {
-        if (newKeyword) {
-            const formattedKeyword = toTitleCase(newKeyword);
-            setProjectData(prevProjectData => ({
-                ...prevProjectData,
-                keywords: [...prevProjectData.keywords, formattedKeyword]
-            }));
-        }
-    }, [newKeyword]);
-
+    
     useEffect(() => {
 
         const fetchUserProjectStatus = async () => {
             try {
-                const response = await getUserProjectStatus(token, projectId, userId);
+                const response = await getUserProjectStatus(token, userId, projectId);
 
                 if (response) {
                     setHasApplied(true);
@@ -200,14 +189,19 @@ const Project = () => {
     };
 
     const handleAddKeyword = async (keyword) => {
-        const response = await ProjectService.addKeyword(token, projectId, keyword.name);
+        const keywords = keyword.name.split(',');
 
-        if (response) {
-            toast.success('Keyword added successfully!');
-            setProjectData(prevProjectData => ({
-                ...prevProjectData,
-                keywords: [...prevProjectData.keywords, keyword.name]
-            }));
+        for (let i = 0; i < keywords.length; i++) {
+            const response = await ProjectService.addKeyword(token, projectId, keywords[i].trim());
+
+            if (response) {
+                const formattedKeyword = toTitleCase(keywords[i].trim());
+                toast.success(`Keyword ${formattedKeyword} added successfully!`);
+                setProjectData(prevProjectData => ({
+                    ...prevProjectData,
+                    keywords: [...prevProjectData.keywords, formattedKeyword]
+                }));
+            }
         }
     }
 
@@ -434,6 +428,7 @@ const Project = () => {
                                     photo={user.photo}
                                     name={user.firstName + " " + user.lastName}
                                     role={user.userType}
+                                    isInsideProject={true}
                                 />
                             ))}
                             {isUserInProject() && !isCollaborator() && (
@@ -625,7 +620,7 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
                 
                 <div className="modal-members-container">
                     <div className="add-members-users-container with-border-right">
-                        <h3>
+                        <h3 style={{ position: 'sticky',top: 0 , backgroundColor: '#fdfdfd'}}>
                             <FormattedMessage id="usersAvailable"/>
                         </h3>
                         {available.map((user, index) => (
@@ -637,7 +632,6 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
                                 handleAddMember={handleAddMember}
                             />
                         ))}
-
                     </div>
                     <div className="add-members-users-container">
                         <h3>

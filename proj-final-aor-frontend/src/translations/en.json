@@ -20,9 +20,9 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "uploadPhoto": "Upload Photo",
-    "firstName": "First Name *",
-    "lastName": "Last Name *",
-    "nickname": "Nickname *",
+    "firstName": "First Name ",
+    "lastName": "Last Name ",
+    "nickname": "Nickname ",
     "biography": "Biography",
     "perfilVisibility": "Profile Visibility",
     "messageRecoveryPassword": "Enter your email and we will send you a link to reset your password",
@@ -47,6 +47,9 @@
     "save": "Save",
     "editProfile": "Edit Profile",
     "editDescription": "Edit Description",
+    "private": "Private",
+    "public": "Public",
+   
 
     "usersAvailable": "Users Available",
     "usersPending": "Users Pending",
@@ -99,6 +102,7 @@
     "dateRegisted": "Date",
 
     "ADDED_MEMBER": "Added Member",
+    "ADDED_CANDIDATE": "Added Candidate",
     "EDIT_PROJECT_STATE": "State Edited",
     "EDIT_PROJECT_DATA": "Data Edited",
 
@@ -147,6 +151,8 @@
     "writeYourMessage": "Write your message",
     "showMore": "Show More...",
     "chooseUserToSendFirstMessage": "Choose a user to send your first message",
+    "next": "Next",
+    "previous": "Previous",
 
  
 
