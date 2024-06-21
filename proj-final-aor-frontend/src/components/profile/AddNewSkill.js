@@ -21,6 +21,7 @@ function AddNewSkill(props) {
   const [list, setList] = useState([]);
   const intl = useIntl();
   const [skill, setSkill] = useState({ name: "", type: "" });
+
   const [interest, setInterest] = useState({ name: ""});
 
 
@@ -108,26 +109,12 @@ function AddNewSkill(props) {
           toast.error("Please fill out the interest name.");
           return;
       }
-      try{
-          const response = await ProjectService.addKeyword(token, projectId, interest.name);
-          if(response){
-              toast.success("Keyword added successfully!");
-              setInterest({ name: "" });
-              setNewKeyword(interest.name);
-              onClose();
-          }else{
-              toast.error("Failed to add keyword");
-          }
-      }
-      catch(error){
-          toast.error("An error occurred");
-      }
+      handleAdd(modalType, interest);
+      onClose();
     }
   }
 
   const handleItemClick = async (item) => {
-    console.log('handleItemClick was called with id:', item.id);
-    console.log('handleItemClick was called with userId:', userId);
 
     if(isUser){
       try {
@@ -167,14 +154,14 @@ function AddNewSkill(props) {
         <div className="modal-close" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
-        <h1>
+        <p className="title-modal">
           {" "}
           {modalType === "skill"
             ? intl.formatMessage({ id: "addNewSkill" })
             : modalType === "interest"
             ? intl.formatMessage({ id: "addNewInterest" })
             : intl.formatMessage({ id: "addNewKeyword" })}
-        </h1>
+        </p>
 
         <div className="modal-boby">
           <div className="list-keywords">
@@ -231,8 +218,9 @@ function AddNewSkill(props) {
           <button className="create-button" onClick={handleNewItem}>
             {modalType === "keyword" ? intl.formatMessage({ id: "add" }) : intl.formatMessage({ id: "create" })}
           </button>
+          <button className="back" onClick={onClose}>{intl.formatMessage({ id: "back" }) }</button>
         </div>
-        <button onClick={onClose}>{intl.formatMessage({ id: "back" })}</button>
+        
       </IntlProvider>
     </div>
     </div>

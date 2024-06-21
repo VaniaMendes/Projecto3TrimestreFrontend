@@ -113,4 +113,30 @@ export async function associateSkillToUser(token, userId, skillId) {
       return null;
     }
   }
+
+  export async function softDeleteSkillUser(token, userId, skillId) {
+    const urlWithParams = `${url}/${skillId}/users/${userId}/soft-delete`;
+   
+    try {
+      const response = await fetch(urlWithParams, {
+        method: 'PUT',
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          'token': token
+        }
+      });
+      console.log(response.status);
   
+      if (response.ok) {
+        console.log('skill deleted successfully:');
+    return 200;
+      } else {
+        console.error('Failed to delete skill:');
+        return 400;
+      }
+    } catch (error) {
+      console.error('An error occurred while deleting skill:', error);
+      return null;
+    }
+  }

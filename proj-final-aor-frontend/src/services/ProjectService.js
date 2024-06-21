@@ -543,6 +543,7 @@ const ProjectService = {
     },
 
     addMember: async(token, projectId, userId, userType) => {
+        console.log("addMember", token, projectId, userId, userType);
         try{
             const response = await fetch(`${API_BASE_URL}/${projectId}/user/${userId}/add/${userType}`,  {
                 method: "POST",

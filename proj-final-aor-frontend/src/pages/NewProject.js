@@ -329,9 +329,9 @@ function EditProject({ onClose, modalType, description, setDescription }) {
   
     const handleAddNewItem = () => {
         
-        const values = inputValue.split(",").map(value => value.trim().toLowerCase());
-        const existingKeywords = new Set(keywords.map(k => k.toLowerCase()));
-        const existingNeeds = new Set(needs.map(n => n.toLowerCase()));
+        const values = inputValue.split(",").map(value => value.trim().charAt(0).toUpperCase() + value.slice(1).toLowerCase());
+        const existingKeywords = new Set(keywords.map(k => k.charAt(0).toUpperCase() + k.slice(1).toLowerCase()));
+        const existingNeeds = new Set(needs.map(n => n.charAt(0).toUpperCase() + n.slice(1).toLowerCase()));
 
         let error = "";
         if (modalType === "keyword") {

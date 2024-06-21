@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IntlProvider, FormattedMessage,  useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
-import { confirmAccount } from "../../services/users";
+import { confirmAccount, uploadPhoto } from "../../services/users";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import queryString from "query-string";
@@ -44,42 +44,7 @@ function Confirmation() {
     }
   }, [location.search]);
 
-  // Handle form submission
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!user.firstName || !user.lastName || !user.nickname || !lab || !photoFile) {
-      toast.warning("Por favor, preencha todos os campos e selecione uma foto.");
-      return;
-    }
-
-    try {
-      // Upload the photo and get the URL
-      const photoUrl = await uploadPhoto(photoFile);
-      console.log(photoUrl);
-      if (photoUrl) {
-
-       
-        // Update user state with photo URL
-        const updatedUser = { ...user, photo: photoUrl };
-
-
-      // Confirmar conta com dados do usuário e da foto
-      const responseStatus = await confirmAccount(tokenConfirmation, updatedUser, lab);
-   
-      if (responseStatus === 200) {
-        toast.success("Conta confirmada com sucesso!");
-        navigate("/login");
-      } else {
-        toast.warning("Falha ao confirmar conta.");
-      }
-    }
-    } catch (error) {
-      console.error("Erro ao confirmar usuário:", error);
-      toast.error("Erro ao confirmar usuário.");
-    }
-  };
-
+ 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setUser(prevState => ({
@@ -117,34 +82,38 @@ const handleChangePhoto = (event) => {
   };
   
  
-  const uploadPhoto = async (photoFile) => {
-    const url = 'http://localhost:8080/project_backend/upload';    
-  
-    const formData = new FormData();
-    formData.append('photo', photoFile);
-  
-    const options = {
-      method: 'POST',
-      body: formData 
-    };
-  
-    try {
-      const response = await fetch(url, options);
-      console.log(response.status); // Exibe a resposta do servidor no console
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-   
-      return data.photoUrl; // Retorne os dados recebidos, se necessário
-    } catch (error) {
-      console.error('Erro ao fazer upload da foto:', error);
-      throw new Error('Erro ao fazer upload da foto.'); // Lança o erro novamente para tratamento externo, se necessário
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!user.firstName || !user.lastName || !user.nickname || !lab || !photoFile) {
+        toast.warning("Por favor, preencha todos os campos e selecione uma foto.");
+        return;
     }
-  };
-  
+
+    try {
+        // Upload the photo and get the URL
+        const photoUrl = await uploadPhoto(photoFile);
+        if (photoUrl) {
+            // Update user state with photo URL
+            const updatedUser = { ...user, photo: photoUrl };
+
+            // Confirm account with user data and photo URL
+            const responseStatus = await confirmAccount(tokenConfirmation, updatedUser, lab);
+            if (responseStatus === 200) {
+                toast.success("Conta confirmada com sucesso!");
+                navigate("/login");
+            } else {
+                toast.warning("Falha ao confirmar conta.");
+            }
+        }
+    } catch (error) {
+        console.error("Erro ao confirmar usuário:", error);
+        toast.error("Erro ao confirmar usuário.");
+    }
+};
+
+
+
 
   return (
     <div className="confirmation-container">
@@ -172,7 +141,7 @@ const handleChangePhoto = (event) => {
           />
           <label className="label-description" htmlFor="firstName">
                             <FormattedMessage id="firstName">
-                                {(message) => <span>{message}</span>}
+                                {(message) => <span>{message}*</span>}
                             </FormattedMessage>
                         </label>
           </div>
@@ -189,7 +158,7 @@ const handleChangePhoto = (event) => {
 
 <label className="label-description" htmlFor="lastName">
                             <FormattedMessage id="lastName">
-                                {(message) => <span>{message}</span>}
+                                {(message) => <span>{message}*</span>} 
                             </FormattedMessage>
                         </label>
           </div>
@@ -204,7 +173,7 @@ const handleChangePhoto = (event) => {
           />
           <label className="label-description" htmlFor="nickname">
                             <FormattedMessage id="nickname">
-                                {(message) => <span>{message}</span>}
+                                {(message) => <span>{message}*</span>}
                             </FormattedMessage>
                         </label>
           </div>
@@ -230,6 +199,8 @@ const handleChangePhoto = (event) => {
             </div>
 </div>
        {/* Workplace input */}
+       <p className="lab-title" htmlFor="lab">
+          {intl.formatMessage({ id: "lab"})}*</p>
        <LabSelection selectedLab={lab} handleChangeLab={handleChangeLab} />
 
           {/* Biography input */}

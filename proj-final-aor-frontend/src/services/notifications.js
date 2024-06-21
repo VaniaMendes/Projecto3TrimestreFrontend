@@ -87,3 +87,33 @@ export async function getUnreadNotifications(token){
 }
 
 }
+
+export async function totalPagesNotifications(token){
+    try{
+
+        const response = await fetch( url + "/pageCount",  {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+            const data = await response.json();
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Failed to retrieve the notifications for user:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
