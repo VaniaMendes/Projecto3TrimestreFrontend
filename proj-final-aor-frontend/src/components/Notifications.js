@@ -18,10 +18,13 @@ function Notifications() {
   const [notifications, setNotifications] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   
   const token = userStore((state) => state.token);
   const userId = userStore((state) => state.userId);
+
+  console.log("current page: " + currentPage)
+  console.log("total pages: " + totalPages)
 
   async function fetchNotifications() {
     try {
@@ -74,7 +77,7 @@ function Notifications() {
       <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageChange={(page) => setCurrentPage(page)}
+              onPageChange={(currentPage) => setCurrentPage(currentPage)}
             />
       </div>
       </div>
