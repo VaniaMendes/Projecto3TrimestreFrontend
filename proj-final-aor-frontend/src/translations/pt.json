@@ -93,10 +93,13 @@
     "noResources": "Sem recursos associados",
     "brand": "Marca",
     "quantity": "Quantidade",
+    "supplier": "Fornecedor",
     "plan": "Planeamento",
     "activityLog": "Registo de Atividades",
     "noActivities": "Sem registo de atividades",
     "type": "Tipo",
+    "digital": "Digital",
+    "physical": "Físico",
     "author": "Autor",
     "dateRegisted": "Data",
 

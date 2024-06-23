@@ -97,10 +97,13 @@
     "noResources": "No associated resources",
     "brand": "Brand",
     "quantity": "Quantity",
+    "supplier": "Supplier",
     "plan": "Plan",
     "activityLog": "Activity Log",
     "noActivities": "No activities to show",
     "type": "Type",
+    "digital": "Digital",
+    "physical": "Physical",
     "author": "Author",
     "dateRegisted": "Date",
 

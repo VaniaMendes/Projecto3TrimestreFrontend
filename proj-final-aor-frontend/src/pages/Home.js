@@ -141,7 +141,7 @@ const Home = () => {
 
                 {isMobile && (
                     <SliderContainer isOpen={isSliderOpen}>
-                        <FilterOptions locale={locale} isFilterBar={false} />
+                        <FilterOptions locale={locale} isProjectsMobileFilter={true}/>
                         <KeywordsContainer/>
                     </SliderContainer>
                 )}

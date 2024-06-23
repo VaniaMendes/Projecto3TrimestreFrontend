@@ -122,7 +122,7 @@ const Header = () => {
 
   const handleMessages = () => {
     navigate(`/messages/${userId}`, { replace: true });
-}
+  }
 
   return (
     <header>
@@ -227,7 +227,7 @@ const Header = () => {
                         <p className="submenu-clickable">
                           <FormattedMessage id="create" />
                         </p>
-                        <p className="submenu-clickable">
+                        <p className="submenu-clickable" onClick={() => navigate("/resources")}>
                           <FormattedMessage id="seeAll" />
                         </p>
                       </div>
