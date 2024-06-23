@@ -125,3 +125,26 @@ export async function getPageCountBetweenTwoUsers(token, userId) {
         return null;
     }
 }
+
+export async function markMessageAsRead(token, messageId) {
+    try {
+        const response = await fetch(`${url}/${messageId}`, {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            },
+        });
+
+        if (response.ok) {
+           
+            return 200;
+        } else {
+           return 400;
+        }
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}

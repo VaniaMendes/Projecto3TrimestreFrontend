@@ -9,7 +9,7 @@ import logoUser from './assets/profile_pic_default.png';
 
 function NotificationItem({ notification, onClick}) {
 
-      // Get the locale from the userStore
+  // Get the locale from the userStore
   const locale = userStore((state) => state.locale);
   const intl = useIntl();
 

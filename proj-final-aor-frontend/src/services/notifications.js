@@ -1,10 +1,11 @@
 //Define the base URL for the backend API
 const url = "http://localhost:8080/project_backend/rest/notifications";
 
-export async function getUserNotifications(token, userId){
+export async function getUserNotifications(token, userId, page){
     try{
 
-        const response = await fetch(`${url}/${userId}`,  {
+        const queryParams = new URLSearchParams({ page: page });
+        const response = await fetch(`${url}/${userId}?${queryParams}`, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -16,6 +17,7 @@ export async function getUserNotifications(token, userId){
 
         if(response.ok){
             const data = await response.json();
+            console.log(data);
             return data;
         }
         else{

@@ -168,6 +168,20 @@
     "PORTO": "Porto",
     "TOMAR": "Tomar",
     "VISEU": "Viseu",
-    "VILA_REAL": "Vila Real"
+    "VILA_REAL": "Vila Real",
+
+
+
+
+
+    "pleaseEnterConstentforMessage": "Please enter content for the message",
+    "messageChat2": "Something went wrong. Please try again",
+    "messageChat3": "Failed to mark message as read",
+    "messageChat4": "Sorry, this user has a private profile.",
+    "profile1": "Interest removed with success",
+    "profile2": "It was not possible to remove the interest.",
+    "profile3": "Skill removed with sucess",
+    "profile4": "It was not possible to remove the skill",
+    "profile5":" You change the visibility of your profile"
 
 } 

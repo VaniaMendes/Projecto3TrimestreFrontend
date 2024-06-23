@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { userStore } from "../stores/UserStore";
-import { useIntl } from "react-intl";
-import { sendMessage, getMessages, getPageCountBetweenTwoUsers } from "../services/messages";
+import { useIntl, FormattedMessage  } from "react-intl";
+import { sendMessage, getMessages, getPageCountBetweenTwoUsers, markMessageAsRead } from "../services/messages";
 import { getUserById } from "../services/users";
 import { toast } from "react-toastify";
 import moment from "moment";
 import './Messages.css'
+import userLogo from './assets/profile_pic_default.png';
+import { RiCheckDoubleLine } from "react-icons/ri";
+import {useNavigate} from 'react-router-dom';
 
 const MessageChat = (props) => {
   const { receiverId  } = props;
 
 
   const intl = useIntl();
+  const navigate = useNavigate();
   
   const userId = userStore((state) => state.userId);
   const token = userStore((state) => state.token);
+ 
+
 
 const[pages, setPages] = useState(0);
 const [currentPage, setCurrentPage] = useState(0);
@@ -31,7 +37,7 @@ const [messages, setMessages] = useState([]);
 
 
   const [showButton, setShowButton] = useState(false);
-  console.log("receiver" + receiverId);
+
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -58,7 +64,7 @@ const [messages, setMessages] = useState([]);
 
         setShowButton(numberOfPages > 1);
       } catch (error) {
-        toast.error("Failed to fetch messages or user details");
+   
       }
     };
     fetchMessages();
@@ -76,7 +82,8 @@ const [messages, setMessages] = useState([]);
 
   const handleSendMessage = async () => {
     if (!message.content.trim()) {
-      toast.error("Please enter content for the message");
+      const errorMessage = intl.formatMessage({ id: "pleaseEnterConstentforMessage" });
+      toast.warning(errorMessage);
       return;
     }
     try {
@@ -96,10 +103,12 @@ const [messages, setMessages] = useState([]);
           sender: { id: userId }
         });
       } else {
-        toast.error("Something went wrong. Please try again");
+        const errorMessage = intl.formatMessage({ id: "messageChat2" });
+        toast.error(errorMessage);
+     
       }
     } catch (error) {
-      toast.error("Failed to send message");
+      
     }
   };
 
@@ -114,7 +123,7 @@ const [messages, setMessages] = useState([]);
         setShowButton(false);
       }
     } catch (error) {
-      toast.error("Failed to fetch messages");
+      
     }
   };
 
@@ -124,7 +133,31 @@ const [messages, setMessages] = useState([]);
     }
   };
 
+  const handleMarkAsRead = async (messageId) => {
+    try {
+      const result = await markMessageAsRead(token, messageId);
+      if (result===200) {
+        setMessages((prevMessages) =>
+          prevMessages.map((msg) =>
+            msg.id === messageId ? { ...msg, readStatus: true } : msg
+          )
+        );
+      } else {
+        
+      }
+    } catch (error) {
+      const message = intl.formatMessage({ id:"messageChat3"})
+      toast.error(message);
+    }
+  };
 
+  const handleSeeProfile = (visibility,userId) =>{
+    if(visibility){
+    navigate(`/profile/${userId}`);
+  }else{
+    toast.error(intl.formatMessage({ id:"messageChat4"}));
+  }
+}
 
   return (
     <div className="detail-message">
@@ -133,22 +166,32 @@ const [messages, setMessages] = useState([]);
                   {intl.formatMessage({ id: "messages" })}
                 </label>
               </div>
-
-              
+<div className="header-messageChat">
+              <div className="photo-message"  onClick={() => handleSeeProfile(user.visibilityState, user.id)}> 
+              {user && user.photo ? (
+                  <img src={user.photo} alt=" Photo" />
+                ) : (
+                  <img src={userLogo} alt="Logo"  />
+                )}
+                 </div>
       <h1 className="sender-name">
       {!receiverId ? intl.formatMessage({ id: "chooseUserToSendFirstMessage"}) : `${user?.firstName} ${user?.lastName}`}
 
-      </h1>
+
+      </h1></div>
       <div className="message-body">
       {messages && messages.map((msg, index) => (
           <div
-            className={`message ${msg.sender.id === userId ? "sender-message" : "receiver-message"}`}
+          className={`message ${msg.sender.id === userId ? "sender-message" : "receiver-message"} ${!msg.readStatus ? "unread-message" : "read-message"}`}
             key={index}
+            onClick={() => handleMarkAsRead(msg.id)}
           >
         
             <p className="subject">{msg.subject}</p>
             <p>{msg.content}</p>
+            <div className="ckeck-message">
             <span className="timestamp"> {moment(msg.sendTimestamp).fromNow()}</span>
+            {msg.readStatus && <RiCheckDoubleLine />} </div>
        
           </div>
         ))}

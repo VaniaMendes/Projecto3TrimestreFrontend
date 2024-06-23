@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from "react";
 import "./Messages.css";
 import { useIntl } from "react-intl";
-import { GoFilter } from "react-icons/go";
-import { GoPlusCircle } from "react-icons/go";
 import MessageChat from "./MessageChat";
 import {getUsersWithMessage} from "../services/messages";
 import { userStore } from "../stores/UserStore";
@@ -47,7 +45,6 @@ function Messages() {
       if(e.target.value !== ""){
         const filteredUsers = await getFilterUsers(token, e.target.value);
         setUsers(filteredUsers); 
-        console.log(filteredUsers);
       
     }else{
       fecthUsers();
@@ -84,7 +81,7 @@ function Messages() {
                 <div className = "info-user-message-external" key={index} onClick={() => handleSaveReceiver(user.id)}>
                   <div className="info-user-message">
                  <div className="photo-message">
-                  <img src={userLogo} alt="user-photo" />
+                  <img src={user.photo} alt="user-photo" />
                  </div>
                   <p className="user-firstName">{user.firstName} {user.lastName}</p>
                   </div>
@@ -93,7 +90,7 @@ function Messages() {
 
             </div>
           </div>
-          {/* Container das mensagens indivisuais*/}
+          {/* Container das mensagens individuais*/}
           {!isMobile && (<MessageChat receiverId={receiverId}/>)}
          
         </div>

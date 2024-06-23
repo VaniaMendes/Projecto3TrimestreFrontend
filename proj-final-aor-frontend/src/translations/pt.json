@@ -166,6 +166,17 @@
     "PORTO": "Porto",
     "TOMAR": "Tomar",
     "VISEU": "Viseu",
-    "VILA_REAL": "Vila Real"
+    "VILA_REAL": "Vila Real",
+
+
+    "pleaseEnterConstentforMessage": "Por favor insira o conteúdo da mensagem",
+    "messageChat2": "Algo deu errado, por favor tente de novo",
+    "messageChat3": "não foi possível marcar a mensagem como lida",
+    "messageChat4": "Desculpe, mas este utilizador tem um perfil privado",
+    "profile1": "Interesse removido com sucesso",
+    "profile2": "Não foi possível remover o interesse",
+    "profile3": "Competência removida com sucesso",
+    "profile4": "Não foi possível remover a competência",
+     "profile5":" A visibilidade do perfil foi alterada com sucesso"
 
 }

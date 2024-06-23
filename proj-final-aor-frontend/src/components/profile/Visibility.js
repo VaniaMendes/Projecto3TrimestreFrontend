@@ -8,7 +8,6 @@ const Visibility = (props) => {
     const [isPrivate, setIsPrivate] = useState(false);
     const intl = useIntl();
 
-    console.log(visibility);
     useEffect(() => {
         setIsPrivate(visibility);
     }, [visibility]);
