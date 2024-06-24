@@ -3,7 +3,7 @@ import { userStore } from "../stores/UserStore";
 import { notificationStore } from "../stores/NotificationStore";
 
 function WebSocketClient() {
-  const { addNotification } = notificationStore.getState();
+  const { incrementNotification } = notificationStore.getState();
   const token = userStore.getState().token;
   const [websocket, setWebsocket] = useState(null);
 
@@ -16,9 +16,9 @@ function WebSocketClient() {
     };
 
     ws.onmessage = (event) => {
-      const notification = event.data;
-      console.log("Received a new notification:", notification);
-      addNotification(notification);
+           incrementNotification();
+
+    
     };
 
     ws.onclose = () => {
@@ -37,7 +37,7 @@ function WebSocketClient() {
         console.log("WebSocket connection closed");
       }
     };
-  }, [addNotification, token]);
+  }, [incrementNotification, token]);
 
   return websocket;
 }

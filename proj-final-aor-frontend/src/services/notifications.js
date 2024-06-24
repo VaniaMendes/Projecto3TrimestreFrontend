@@ -17,12 +17,9 @@ export async function getUserNotifications(token, userId, page){
 
         if(response.ok){
             const data = await response.json();
-            console.log(data);
             return data;
         }
         else{
-            const errorData = await response.text();
-            console.error("Failed to retrieve the notifications for user:", response.status, errorData);
             return null;
         }
 
@@ -78,8 +75,6 @@ export async function getUnreadNotifications(token){
             return data;
         }
         else{
-            const errorData = await response.text();
-            console.error("Failed to retrieve the notifications for user:", response.status, errorData);
             return null;
         }
 
@@ -108,8 +103,8 @@ export async function totalPagesNotifications(token){
             return data;
         }
         else{
-            const errorData = await response.text();
-            console.error("Failed to retrieve the notifications for user:", response.status, errorData);
+           
+            
             return null;
         }
 

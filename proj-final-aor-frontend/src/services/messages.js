@@ -148,3 +148,64 @@ export async function markMessageAsRead(token, messageId) {
         return null;
     }
 }
+
+
+export async function sendMessageToProject(token, message, projectId){
+    try{
+
+        const response = await fetch(`${url}/send/${projectId}` , {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            },
+
+            body: JSON.stringify(message)
+        })
+
+        if(response.ok){
+            return 200;
+        }
+        else{
+            return 400;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
+
+export async function getMessagesForProject(token, projectId){
+    try{
+
+    
+        const response = await fetch(`${url}/project/${projectId}` ,   {
+            
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            },
+
+        })
+
+        if(response.ok){
+            const data = await response.json();
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Failed to retrieve the messages for project:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}

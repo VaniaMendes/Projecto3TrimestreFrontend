@@ -10,9 +10,11 @@ import './Messages.css'
 import userLogo from './assets/profile_pic_default.png';
 import { RiCheckDoubleLine } from "react-icons/ri";
 import {useNavigate} from 'react-router-dom';
+import { notificationStore } from "../stores/NotificationStore";
 
 const MessageChat = (props) => {
   const { receiverId  } = props;
+  const { incrementNotification } = notificationStore.getState();
 
 
   const intl = useIntl();
@@ -33,7 +35,6 @@ const [messages, setMessages] = useState([]);
     content: "",
     sender: { id: userId }
   });
-
 
 
   const [showButton, setShowButton] = useState(false);
@@ -60,7 +61,7 @@ const [messages, setMessages] = useState([]);
         setUser(userData);
 
         const numberOfPages = await getPageCountBetweenTwoUsers(token, receiverId);
-        setPages(numberOfPages);
+        setPages(numberOfPages-1);
 
         setShowButton(numberOfPages > 1);
       } catch (error) {
@@ -70,7 +71,29 @@ const [messages, setMessages] = useState([]);
     fetchMessages();
   }, [token, receiverId, userId]);
 
-
+  useEffect(() => {
+    const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
+    const ws = new WebSocket(WS_URL + token);
+  
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+  
+      // Verifica o tipo da mensagem recebida
+      if (data.type === 'message') {
+        // Processa uma nova mensagem
+        console.log("Received a new message:", data.message);
+        setMessages((prevMessages) => [...prevMessages, data.message]);
+      } else if (data.type === 'notification') {
+        // Processa uma nova notificação
+        console.log("Received a new notification:", data.notification);
+        // Aqui você pode atualizar o estado das notificações ou fazer qualquer outra ação necessária
+      }
+    };
+  
+    return () => {
+      ws.close();
+    };
+  }, [token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -159,6 +182,19 @@ const [messages, setMessages] = useState([]);
   }
 }
 
+const formatTimestamp = (timestamp) => {
+  const now = moment();
+  const messageTime = moment(timestamp);
+  const diffInHours = now.diff(messageTime, 'hours');
+  if (diffInHours < 24) {
+    return messageTime.fromNow();
+  } else {
+    return messageTime.format('DD/MM/YYYY HH:mm');
+  }
+};
+
+
+
   return (
     <div className="detail-message">
         <div className="input-profile">
@@ -190,7 +226,7 @@ const [messages, setMessages] = useState([]);
             <p className="subject">{msg.subject}</p>
             <p>{msg.content}</p>
             <div className="ckeck-message">
-            <span className="timestamp"> {moment(msg.sendTimestamp).fromNow()}</span>
+            <span className="timestamp">{formatTimestamp(msg.sendTimestamp)}</span>
             {msg.readStatus && <RiCheckDoubleLine />} </div>
        
           </div>
