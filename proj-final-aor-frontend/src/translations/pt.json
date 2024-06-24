@@ -62,6 +62,7 @@
 
     "home": "Início",
     "myProjects": "Meus Projetos",
+    "component": "Componente",
     "components": "Componentes",
     "needs": "Necessidades",
     "messages": "Mensagens",
@@ -102,6 +103,7 @@
     "physical": "Físico",
     "author": "Autor",
     "dateRegisted": "Data",
+    "projectsNumber": "Número de Projetos",
 
     "ADDED_MEMBER": "Membro Adicionado",
     "ADDED_CANDIDATE": "Candidato Adicionado",

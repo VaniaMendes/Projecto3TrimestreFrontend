@@ -4,26 +4,54 @@ const ResourceService = {
 
     getAllResources: async () => {
             
-            try {
-                const response = await fetch(`${API_BASE_URL}/`, {
-                    method: "GET",
-                    headers: {
-                        Accept: "application/json",
-                        "Content-Type": "application/json"
-                    },
-                });
-    
-                if (response.ok) {
-                    const data = await response.json();
-                    return data;
-                } else {
-                    throw new Error(response.statusText);
-                }
-            } catch (error) {
-                console.error(error);
+        try {
+            const response = await fetch(`${API_BASE_URL}/`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
             }
-    
-        },
+        } catch (error) {
+            console.error(error);
+        }
+
+    },
+
+    getResourcesFiltered: async (type, brand, supplier) => {
+        const queryParams = new URLSearchParams({
+            ...(type ? { type } : {}),
+            ...(brand ? { brand } : {}),
+            ...(supplier ? { supplier } : {}),
+          }).toString();
+          
+        try {
+            const response = await fetch(`${API_BASE_URL}/filter?${queryParams}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+    },
 
     getAllBrands: async () => {
             

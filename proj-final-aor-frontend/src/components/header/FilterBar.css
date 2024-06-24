@@ -9,7 +9,8 @@
     margin-top: 100px;
     width: 100%;
     border-bottom: #ccc 1px solid;
-    z-index: 500;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1400;
 
     .right-side{
         display: flex;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useActionsStore } from '../stores/ActionStore';
 import { IntlProvider, FormattedMessage } from 'react-intl';
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
@@ -7,6 +7,7 @@ import languages from '../translations';
 
 const FilterOptions = (props) => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { locale, suppliers, brands, isProjectsFilterBar, isProjectsMobileFilter, isResourcesFilter } = props;
     const { stateId, sortBy, vacancies, updateStateId, updateSortBy, updateVacancies, resetUseActionsStore } = useActionsStore();
     const [selectedState, setSelectedState] = useState(1);
@@ -34,6 +35,33 @@ const FilterOptions = (props) => {
         setSelectedState(stateId);
         setSelectedSort(sortBy);
     }, [stateId, sortBy]);
+
+    useEffect(() => {
+        
+        const currentPath = location.pathname;
+        const newSearchParams = new URLSearchParams(location.search);
+
+        if (selectedType) {
+            newSearchParams.set('type', selectedType);
+        } else {
+            newSearchParams.delete('type');
+        }
+
+        if (selectedBrand) {
+            newSearchParams.set('brand', selectedBrand);
+        } else {
+            newSearchParams.delete('brand');
+        }
+
+        if (selectedSupplier) {
+            newSearchParams.set('supplier', selectedSupplier);
+        } else {
+            newSearchParams.delete('supplier');
+        }
+
+        navigate(`${currentPath}?${newSearchParams.toString()}`);
+        
+    }, [selectedType, selectedBrand, selectedSupplier]);
 
     const handleStateChange = (event) => {
         const value = parseInt(event.target.value, 10);
@@ -64,7 +92,15 @@ const FilterOptions = (props) => {
     };
 
     const handleTypeChange = (event) => {
-        setSelectedType(event.target.value);
+        console.log(event.target.value);
+        const value = event.target.value;
+       
+        if (value === selectedType) {
+            setSelectedType(''); 
+            document.getElementById('type-none').checked = true;
+        } else {
+            setSelectedType(value);
+        }
     };
 
     const handleBrandChange = (event) => {
@@ -80,7 +116,8 @@ const FilterOptions = (props) => {
     };
 
     const handleSupplierChange = (event) => {
-        console.log(event.target.value);
+        console.log("id", event.target.value);
+        
         const value = event.target.value;
         
         if (value === selectedSupplier) {
@@ -226,22 +263,57 @@ const FilterOptions = (props) => {
         return (
             <>
                 <p className='resource-filter-label'>
-                    <FormattedMessage id="type" />
+                <FormattedMessage id="type" />
                 </p>
-                    <div>
-                        <div className="radio-wrapper">
-                            <input className="radio-input" type="radio" id="digital" name="type" value={1} onChange={handleTypeChange} checked={selectedType === 1} />
-                            <label className="radio-label" htmlFor="digital"><FormattedMessage id="digital" /></label>
-                        </div>
-                        <div className="radio-wrapper">
-                            <input className="radio-input" type="radio" id="physical" name="type" value={2} onChange={handleTypeChange} checked={selectedType === 2} />
-                            <label className="radio-label" htmlFor="physical"><FormattedMessage id="physical" /></label>
-                        </div>
+                <div className='resource-filter-type-container'>
+                    <input
+                        type="radio"
+                        id="type-none"
+                        name="type"
+                        value=""
+                        onChange={handleTypeChange}
+                        style={{ display: 'none' }}
+                        checked={selectedType === ''}
+                    />
+                    <div className="radio-wrapper">
+                        <input 
+                            className="radio-input" 
+                            type="radio" 
+                            id="digital" 
+                            name="type" 
+                            value={"DIGITAL"} 
+                            onChange={handleTypeChange}
+                            onClick={(e) => {
+                                if (selectedType === "DIGITAL") {
+                                    handleTypeChange(e);
+                                }
+                            }}
+                            checked={selectedType === "DIGITAL"} 
+                        />
+                        <label className="radio-label" htmlFor="digital"><FormattedMessage id="digital" /></label>
                     </div>
+                    <div className="radio-wrapper">
+                        <input 
+                            className="radio-input" 
+                            type="radio" 
+                            id="physical" 
+                            name="type" 
+                            value={"MATERIAL"} 
+                            onChange={handleTypeChange}
+                            onClick={(e) => {
+                                if (selectedType === "MATERIAL") {
+                                    handleTypeChange(e);
+                                }
+                            }}
+                            checked={selectedType === "MATERIAL"} 
+                        />
+                        <label className="radio-label" htmlFor="physical"><FormattedMessage id="physical" /></label>
+                    </div>
+                </div>
                 <p className='resource-filter-label'>
                     <FormattedMessage id="brand" />
                 </p>
-                <div>
+                <div className='resource-filter-brand-container'>
                     <input
                         type="radio"
                         id="brand-none"
@@ -260,6 +332,11 @@ const FilterOptions = (props) => {
                                 name="brand"
                                 value={brand}
                                 onChange={handleBrandChange}
+                                onClick={(e) => {
+                                    if (selectedBrand === brand) {
+                                        handleBrandChange(e);
+                                    }
+                                }}
                                 checked={selectedBrand === brand}
                             />
                             <label className="radio-label" htmlFor={`brand-${index}`}>
@@ -272,7 +349,7 @@ const FilterOptions = (props) => {
                 <p className='resource-filter-label'>
                     <FormattedMessage id="supplier" />
                 </p>
-                <div>
+                <div className='resource-filter-supplier-container'>
                     <input
                         type="radio"
                         id="supplier-none"

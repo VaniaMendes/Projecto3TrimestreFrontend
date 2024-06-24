@@ -31,7 +31,7 @@ const FilterBar = (props) => {
                     <p>{projectsTotal} <FormattedMessage id={projectsTotal === 1 ? "project" : "projects"}/></p>
                 )}
                 {componentsTotal > -1 && (
-                    <p>{componentsTotal} <FormattedMessage id={projectsTotal === 1 ? "component" : "components"}/></p>
+                    <p>{componentsTotal} <FormattedMessage id={componentsTotal === 1 ? "component" : "components"}/></p>
                 )}
                 
                 <div className="right-side">
