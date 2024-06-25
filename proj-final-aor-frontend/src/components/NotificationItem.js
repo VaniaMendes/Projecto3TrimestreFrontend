@@ -41,10 +41,14 @@ function NotificationItem({ notification, onClick}) {
       break;
       case 'MESSAGE_PROJECT':
         notificationMessage =  `${intl.formatMessage({ id: "messageReceivedProject" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
-        notificationImage = projectIcon;
+        if(notification.sender.photo){
+          notificationImage = notification.sender.photo;
+        }else{
+          notificationImage = logoUser;
+        }
       break;
       case 'NEW_MEMBER':
-        notificationMessage =  `${intl.formatMessage({ id: "newMemberNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
+        notificationMessage =  `${notification.sender.firstName} ${notification.sender.lastName} ${intl.formatMessage({ id: "newMemberNotification" })} ${notification.relatedEntityName}`; 
         if(notification.sender.photo){
           notificationImage = notification.sender.photo;
         }else{

@@ -8,6 +8,7 @@ import { IntlProvider, useIntl } from "react-intl";
 import languages from "../translations";
 import { toast } from 'react-toastify';
 import Pagination from './Pagination';
+import { notificationStore } from "../stores/NotificationStore";
 
 function Notifications() {
 
@@ -16,9 +17,10 @@ function Notifications() {
   const intl = useIntl();
 
   const [notifications, setNotifications] = useState([]);
+  const { incrementNotification } = notificationStore.getState();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   
   const token = userStore((state) => state.token);
   const userId = userStore((state) => state.userId);
@@ -38,6 +40,46 @@ function Notifications() {
     fetchNotifications(currentPage);
   }, [currentPage]);
   
+  useEffect(() => {
+    const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
+    const ws = new WebSocket(WS_URL + token);
+
+    ws.onmessage = (event) => {
+      const newNotification = JSON.parse(event.data);
+      newNotification.sendTimestamp = formatDateFromArray(newNotification.sendTimestamp);
+      
+       if(newNotification.type === "MESSAGE_RECEIVED"){
+         setNotifications(prevList => {
+          const filteredList = prevList.filter(notification => notification.sender.id !== newNotification.sender.id);
+          return[newNotification, ...filteredList];
+         });
+       }else{
+        setNotifications(prevList => [newNotification, ...prevList]);
+
+       }
+       
+    };
+
+   
+  }, [token]);
+
+  
+  function formatDateFromArray(dateArray) {
+    // Cria um objeto Date usando os valores do array
+    const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
+  
+    // Formata a data e hora
+    const year = date.getFullYear().toString().slice(-2); // Pega os dois últimos dígitos do ano
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda se necessário
+    const day = date.getDate().toString().padStart(2, '0');
+    const hour = date.getHours().toString().padStart(2, '0');
+    const minute = date.getMinutes().toString().padStart(2, '0');
+  
+    // Retorna a data formatada
+    return `${day}/${month}/${year} ${hour}:${minute}`;
+  }
+
+
 
 
   const markAsRead = async (notificationId) => {
@@ -74,7 +116,7 @@ function Notifications() {
       <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageChange={(page) => setCurrentPage(page)}
+              onPageChange={(currentPage) => setCurrentPage(currentPage)}
             />
       </div>
       </div>

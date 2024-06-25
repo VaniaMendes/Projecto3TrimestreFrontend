@@ -16,7 +16,6 @@ import languages from "../../translations";
 import { IntlProvider, FormattedMessage } from "react-intl";
 import { logoutUser } from "../../services/users";
 import { notificationStore } from "../../stores/NotificationStore";
-import { getUnreadNotifications } from "../../services/notifications";
 import WebSocketClient from "../../websocket/Websocket";
 
 const Header = () => {
@@ -31,26 +30,10 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { clearNotifications, setNotifications } = notificationStore();
-  const notifications = notificationStore((state) => state.notifications);
-
+  const { clearNotifications, notifications } = notificationStore();
   WebSocketClient();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        if (token) {
-          const unreadNotifications = await getUnreadNotifications(token);
-          setNotifications(unreadNotifications);
-         
-        }
-      } catch (error) {
-        console.log("Error fetching user data:", error);
-      }
-    }
-    fetchData();
-  }, [setNotifications, token]);
-
+ 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -244,8 +227,8 @@ const Header = () => {
                     <p className="icon-subtitle">
                       <FormattedMessage id="notifications" />
                     </p>
-                    {notifications && notifications.length > 0 &&(
-                    <div className="notification-badge ">{notifications.length}</div>)}
+                    {notifications > 0 &&(
+                    <div className="notification-badge ">{notifications}</div>)}
                   </div>
                   <div className="submenu-container">
                     <div
