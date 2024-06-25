@@ -73,7 +73,7 @@ export async function getMessages(token, userId, page){
 export async function getUsersWithMessage(token){
     try{
 
-        const response = await fetch(url + "/messagedUsers",  {
+        const response = await fetch(url + "/users",  {
             
             method: "GET",
             headers: {

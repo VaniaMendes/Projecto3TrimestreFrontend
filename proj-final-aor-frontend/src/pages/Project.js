@@ -148,6 +148,7 @@ const Project = () => {
         return false;
     };
 
+    
     const handleOpenModalDescription = () => {
         setIsEditModalOpen(true);
         setModalType("description");
@@ -582,7 +583,8 @@ const Project = () => {
                     )}
                     
                 </div>
-                <ProjectChat projectId={projectId}/>
+
+                {isUserInProject() && <ProjectChat projectId={projectId}/>}
             </IntlProvider>
           
         </>

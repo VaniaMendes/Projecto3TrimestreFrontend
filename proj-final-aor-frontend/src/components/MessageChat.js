@@ -71,29 +71,7 @@ const [messages, setMessages] = useState([]);
     fetchMessages();
   }, [token, receiverId, userId]);
 
-  useEffect(() => {
-    const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
-    const ws = new WebSocket(WS_URL + token);
   
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-  
-      // Verifica o tipo da mensagem recebida
-      if (data.type === 'message') {
-        // Processa uma nova mensagem
-        console.log("Received a new message:", data.message);
-        setMessages((prevMessages) => [...prevMessages, data.message]);
-      } else if (data.type === 'notification') {
-        // Processa uma nova notificação
-        console.log("Received a new notification:", data.notification);
-        // Aqui você pode atualizar o estado das notificações ou fazer qualquer outra ação necessária
-      }
-    };
-  
-    return () => {
-      ws.close();
-    };
-  }, [token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
