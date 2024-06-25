@@ -15,6 +15,8 @@ import KeywordComponent from "../components/keywords/KeywordComponent";
 import AddNewSkill from "../components/profile/AddNewSkill";
 import { toast } from "react-toastify";
 import { getUserProjectStatus } from "../services/users";
+import ProjectChat from '../components/ProjectChat'
+
 
 const Project = () => {
     const {locale, token, userId} = userStore();
@@ -146,6 +148,7 @@ const Project = () => {
         return false;
     };
 
+    
     const handleOpenModalDescription = () => {
         setIsEditModalOpen(true);
         setModalType("description");
@@ -581,7 +584,9 @@ const Project = () => {
                     
                 </div>
 
+                {isUserInProject() && <ProjectChat projectId={projectId}/>}
             </IntlProvider>
+          
         </>
     );
 };
