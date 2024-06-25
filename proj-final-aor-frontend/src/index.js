@@ -18,6 +18,7 @@ import NotificationsPage from './pages/NotificationsPage.js';
 import Project from './pages/Project.js';
 import MessagesPage from './pages/MessagesPage.js';
 import ResourcesHome from './pages/ResourcesHome.js';
+import NewResource from './pages/NewResource.js';
 
 
 function Routing() {
@@ -60,6 +61,9 @@ function Routing() {
         </>} />
         <Route path="/resources" element={<>
           <ResourcesHome />
+        </>} />
+        <Route path="/new-resource" element={<>
+          <NewResource />
         </>} />
         <Route path="/profile/:userId" element={<> <UserProfile /> </>} />
         <Route path="/notifications" element={<> <NotificationsPage /> </>} />

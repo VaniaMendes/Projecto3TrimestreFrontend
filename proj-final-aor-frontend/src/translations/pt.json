@@ -84,6 +84,10 @@
     "vacancies": "Vagas",
     "lowToHigh": "Ascendente",
     "highToLow": "Descendente",
+    "asc": "Ascendente",
+    "desc": "Descendente",
+    "aToZ": "A-Z",
+    "zToA": "Z-A",
 
     "lab": "Laboratório",
     "description": "Descrição",

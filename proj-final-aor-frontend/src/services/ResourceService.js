@@ -2,10 +2,18 @@ const API_BASE_URL = "http://localhost:8080/project_backend/rest/resources";
 
 const ResourceService = {
 
-    getAllResources: async () => {
+    getAllResources: async (sort, name, projects) => {
             
+        const queryParams = new URLSearchParams({
+            ...(sort ? { sort } : {}),
+            ...(name ? { name } : {}),
+            ...(projects ? { projects } : {}),
+        }).toString();
+
+        console.log(`${API_BASE_URL}/?${queryParams}`);
+
         try {
-            const response = await fetch(`${API_BASE_URL}/`, {
+            const response = await fetch(`${API_BASE_URL}/?${queryParams}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -25,12 +33,17 @@ const ResourceService = {
 
     },
 
-    getResourcesFiltered: async (type, brand, supplier) => {
+    getResourcesFiltered: async (type, brand, supplier, sort, name, projects) => {
         const queryParams = new URLSearchParams({
             ...(type ? { type } : {}),
             ...(brand ? { brand } : {}),
             ...(supplier ? { supplier } : {}),
-          }).toString();
+            ...(sort ? { sort } : {}),
+            ...(name ? { name } : {}),
+            ...(projects ? { projects } : {}),
+        }).toString();
+
+        
           
         try {
             const response = await fetch(`${API_BASE_URL}/filter?${queryParams}`, {
