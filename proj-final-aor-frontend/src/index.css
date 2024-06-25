@@ -203,13 +203,14 @@ input[type="radio"]:checked {
 input[type="radio"]:checked::after {
   content: '';
   display: block;
-  width: 8px;
-  height: 8px;
+  width: 55%;
+  height: 55%;
   border-radius: 50%;
   background-color: var(--grey-color);
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* Change the background color of the entire div when the radio button is checked */

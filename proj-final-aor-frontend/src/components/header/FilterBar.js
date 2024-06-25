@@ -35,9 +35,16 @@ const FilterBar = (props) => {
                 )}
                 
                 <div className="right-side">
-                    {isMobile ? <BiSliderAlt className={isSliderOpen ? "slider-icon-active" : 'slider-icon'} onClick={handleClickSliderIcon}/> : (
+                    {isMobile ? (
+                        <BiSliderAlt className={isSliderOpen ? "slider-icon-active" : 'slider-icon'} onClick={handleClickSliderIcon}/>
+                    ) : (
                         <>
-                            <FilterOptions isProjectsFilterBar={true} />
+                            {projectsTotal > -1 && (
+                                <FilterOptions isProjectsFilterBar={true} />
+                            )}
+                            {componentsTotal > -1 && (
+                                <FilterOptions isResourcesFilterBar={true} />
+                            )}
                         </>
                     )}
                 </div>

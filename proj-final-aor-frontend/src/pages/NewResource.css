@@ -1,0 +1,14 @@
+.new-resource-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-resource-form-container{
+    min-height: 70vh;
+    min-width: 60vw;
+    margin: 160px 50px 0 50px;
+    padding: 30px;
+    background-color: var(--light-background-color);
+    
+}

@@ -25,6 +25,9 @@ const ResourcesHome = () => {
     const type = queryParams.get('type');
     const brand = queryParams.get('brand');
     const supplier = queryParams.get('supplier');
+    const sort = queryParams.get('sort');
+    const nameSort = queryParams.get('name');
+    const projectsSort = queryParams.get('projects');
 
     useEffect(() => {
         const handleResize = () => {
@@ -39,7 +42,6 @@ const ResourcesHome = () => {
         const fetchData = async () => {
             const responseSuppliers = await SupplierService.getAllSuppliers();
             const responseBrands = await ResourceService.getAllBrands();
-            const responseResources = await ResourceService.getAllResources();
 
             if (responseSuppliers) {
                 setSuppliers(responseSuppliers);
@@ -49,39 +51,31 @@ const ResourcesHome = () => {
                 setBrands(responseBrands);
             }
 
-            if (responseResources) {
-                setResourcesData(responseResources);
-                setComponentsTotal(responseResources.length);
-            }
-
-            console.log(responseResources);
         }
         fetchData();
     }, [token]);
 
     useEffect(() => {
-        console.log("Type: ", type);
-        console.log("Brand: ", brand);
-        console.log("Supplier: ", supplier);
-    
+        console.log(type, brand, supplier, sort, nameSort, projectsSort);
         const fetchData = async () => {
             let responseResources;
-            
-            if (!type && !brand && !supplier) {
-                responseResources = await ResourceService.getAllResources();
+
+            if (!sort && !nameSort && !projectsSort){
+                responseResources = await ResourceService.getAllResources("desc", null, null);
+            } else if (!type && !brand && !supplier) {
+                responseResources = await ResourceService.getAllResources(sort, nameSort, projectsSort);
             } else {
-                responseResources = await ResourceService.getResourcesFiltered(type, brand, supplier);
+                responseResources = await ResourceService.getResourcesFiltered(type, brand, supplier, sort, nameSort, projectsSort);
             }
-    
+
             if (responseResources) {
                 setResourcesData(responseResources);
                 setComponentsTotal(responseResources.length);
             }
-    
             console.log(responseResources);
         }
         fetchData();
-    }, [type, brand, supplier]);
+    }, [type, brand, supplier, sort, nameSort, projectsSort, location.search]);
 
     return (
         <div>
@@ -94,7 +88,7 @@ const ResourcesHome = () => {
                     <div className="resources-home-left-container">
                         <FilterOptions
                         locale={locale}
-                        isResourcesFilter={true}
+                        isResourcesSideFilter={true}
                         suppliers={suppliers}
                         brands={brands}
                         />

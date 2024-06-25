@@ -88,6 +88,10 @@
     "vacancies": "Vacancies",
     "lowToHigh": "Low to High",
     "highToLow": "High to Low",
+    "asc": "Ascending",
+    "desc": "Descending",
+    "aToZ": "A to Z",
+    "zToA": "Z to A",
 
     "lab": "Lab",
     "description": "Description",
