@@ -10,6 +10,9 @@ import {
 import { toast } from "react-toastify";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import moment from "moment";
+import { MdOutlineKeyboardArrowUp } from "react-icons/md";
+import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
+
 
 function ProjectChat(props) {
   const { projectId } = props;
@@ -45,13 +48,14 @@ function ProjectChat(props) {
     const result = await sendMessageToProject(token, message, projectId);
     if (result === 200) {
       toast.success(intl.formatMessage({ id: "messageSent" }));
-      // Adicionar a nova mensagem à lista de mensagens
+     // Adicionar a nova mensagem à lista de mensagens
+     
+      setMessage({ ...message, content: "" });
    
-      setMessage({ content: "" });
-      
     }
   };
 
+ 
   useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/message/";
     const websocket = new WebSocket(WS_URL + token);
@@ -62,15 +66,41 @@ function ProjectChat(props) {
 
     websocket.onmessage = (event) => {
       const message = JSON.parse(event.data);
+      console.log(message);
+      console.log(message.projectId)
+      console.log(projectId)
+
+      const messageProjectId = parseInt(message.projectId, 10);
+      const currentProjectId = parseInt(projectId, 10);
+      console.log("Converted messageProjectId:", messageProjectId);
+      console.log("Converted currentProjectId:", currentProjectId);
+
+
+  if(messageProjectId === currentProjectId) {
       
-      
-      if( message.receiver === null) {
-      // Formatar o timestamp para ser adicionado ao chat
-const [year, month, day, hour, minute] = message.sendTimestamp;
-const date = new Date(year, month - 1, day, hour, minute);
-message.sendTimestamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Extract the sendTimestamp array
+    const [year, month, day, hour, minute, second] = message.sendTimestamp;
+
+    // Create a Date object. Note: month is 0-indexed in JavaScript Date, hence the -1 adjustment.
+    const date = new Date(year, month - 1, day, hour, minute, second);
+
+    // Format the date into a readable string. Adjust the format as needed.
+    const formattedDate = date.toLocaleString('en-US', {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
+    });
+
+    // Update the message's timestamp with the formatted date
+    message.sendTimestamp = formattedDate;
+           
+   
+    if (messagesList && messagesList.length > 0) {
       setMessagesList(prevMessages => [message, ...prevMessages]);
-      }
+    } else {
+      setMessagesList([message]);
+    }
+}
      
     };
 
@@ -94,24 +124,29 @@ message.sendTimestamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeStrin
     }
   };
   
-
   const isSender = (senderId) => {
-    if(senderId === userId){
+    if (senderId && senderId === userId) {
       return true;
     }
     return false;
-  }
+  };
+  
 
 
   return (
     <div>
+      
       <IntlProvider locale={locale} messages={languages[locale]}>
+      <div className={`modal-backdrop-project ${showMessages ? 'active' : 'inative'}`}>
         <div
           className={`project-chat-bar ${showMessages ? "expanded" : ""}`}
           onClick={toggleMessages}
         >
-          <span>Project Chat</span>
-          <MdOutlineKeyboardArrowDown className="icon-expand" />
+         <div className="chat-container">
+  <HiOutlineChatBubbleOvalLeftEllipsis className="icon-chat"/>
+  <span className="project-title">{intl.formatMessage({ id: "messages" })}</span>
+  {showMessages ? (<MdOutlineKeyboardArrowDown className="icon-expand" />) : (<MdOutlineKeyboardArrowUp className="icon-expand" />)}
+</div>
         </div>
         {showMessages && (
           <div className="project-messages">
@@ -152,7 +187,9 @@ message.sendTimestamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeStrin
             </div>
           </div>
         )}
+         </div>
       </IntlProvider>
+     
     </div>
   );
 }

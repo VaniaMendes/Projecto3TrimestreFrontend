@@ -52,6 +52,7 @@
     "editDescription": "Edit Description",
     "private": "Private",
     "public": "Public",
+    "messageSent": "Message successfully sent",
    
 
     "usersAvailable": "Users Available",
@@ -159,10 +160,10 @@
     "day": "day (s)",
     "months": "month (s)",
     "hour": "hour (s)",
-    "withTheTitle": " for project: ",
+    "withTheTitle": " with the following title: ",
     "messageReceivedProject": "A new message was sent by ",
     "forProject": " for project with name ",
-    "newMemberNotification": " was added to the project: ",
+    "newMemberNotification": " A new member was added to the project: ",
     "subject": "Subject",
     "writeYourMessage": "Write your message",
     "showMore": "Show More...",

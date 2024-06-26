@@ -89,19 +89,32 @@ const [messages, setMessages] = useState([]);
       
     };
 
+   
     websocket.onmessage = (event) => {
       const message = JSON.parse(event.data);
-      console.log(message.receiver.id);
-      console.log(receiverId);
-      
-      if(message.sender.id === receiverId && message.receiver !== null) {
-      // Formatar o timestamp para ser adicionado ao chat
-const [year, month, day, hour, minute] = message.sendTimestamp;
-const date = new Date(year, month - 1, day, hour, minute);
-message.sendTimestamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      setMessages(prevMessages => [message, ...prevMessages]);
+      console.log(message);
+    
+      if (message.receiver && message.receiver.id !== null && message.sender.id === receiverId) {
+       
+      // Extract the sendTimestamp array
+    const [year, month, day, hour, minute, second] = message.sendTimestamp;
+
+    // Create a Date object. Note: month is 0-indexed in JavaScript Date, hence the -1 adjustment.
+    const date = new Date(year, month - 1, day, hour, minute, second);
+
+    // Format the date into a readable string. Adjust the format as needed.
+    const formattedDate = date.toLocaleString('en-US', {
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
+    });
+
+    // Update the message's timestamp with the formatted date
+    message.sendTimestamp = formattedDate;
+           
+        // Update the state with the new message
+        setMessages(prevMessages => [message, ...prevMessages]);
       }
-     
     };
 
     return () => {
