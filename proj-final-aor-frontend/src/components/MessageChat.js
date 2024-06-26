@@ -11,9 +11,11 @@ import userLogo from './assets/profile_pic_default.png';
 import { RiCheckDoubleLine } from "react-icons/ri";
 import {useNavigate} from 'react-router-dom';
 import { notificationStore } from "../stores/NotificationStore";
+import { IoChevronBackCircleSharp } from "react-icons/io5";
 
 const MessageChat = (props) => {
-  const { receiverId  } = props;
+  const { receiverId, handleBackToUsers  } = props;
+  
   const { incrementNotification } = notificationStore.getState();
 
 
@@ -22,7 +24,8 @@ const MessageChat = (props) => {
   
   const userId = userStore((state) => state.userId);
   const token = userStore((state) => state.token);
- 
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+
 
 
 const[pages, setPages] = useState(0);
@@ -64,6 +67,13 @@ const [messages, setMessages] = useState([]);
         setPages(numberOfPages-1);
 
         setShowButton(numberOfPages > 1);
+
+        const handleResize = () => {
+          setIsMobile(window.innerWidth <= 768);
+        };
+    
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
       } catch (error) {
    
       }
@@ -188,11 +198,14 @@ const formatTimestamp = (timestamp) => {
                   <img src={userLogo} alt="Logo"  />
                 )}
                  </div>
-      <h1 className="sender-name">
+     <div className="sender-name-container" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+    <h1 className="sender-name">
       {!receiverId ? intl.formatMessage({ id: "chooseUserToSendFirstMessage"}) : `${user?.firstName} ${user?.lastName}`}
-
-
-      </h1></div>
+    </h1>
+    {isMobile && (<IoChevronBackCircleSharp className="icon-back" onClick={handleBackToUsers} />)}
+  </div>
+     
+     </div>
       <div className="message-body">
       {messages && messages.map((msg, index) => (
           <div
