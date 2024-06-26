@@ -104,8 +104,10 @@
     "noActivities": "Sem registo de atividades",
     "type": "Tipo",
     "digital": "Digital",
-    "physical": "Físico",
+    "material": "Físico",
+    "sourceId": "ID da Fonte",
     "author": "Autor",
+    "contact": "Contacto",
     "dateRegisted": "Data",
     "projectsNumber": "Número de Projetos",
 

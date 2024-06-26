@@ -343,7 +343,7 @@ const FilterOptions = (props) => {
                         <input 
                             className="radio-input" 
                             type="radio" 
-                            id="physical" 
+                            id="material" 
                             name="type" 
                             value={"MATERIAL"} 
                             onChange={handleTypeChange}
@@ -354,7 +354,7 @@ const FilterOptions = (props) => {
                             }}
                             checked={selectedType === "MATERIAL"} 
                         />
-                        <label className="radio-label" htmlFor="physical"><FormattedMessage id="physical" /></label>
+                        <label className="radio-label" htmlFor="material"><FormattedMessage id="material" /></label>
                     </div>
                 </div>
                 <p className='resource-filter-label'>

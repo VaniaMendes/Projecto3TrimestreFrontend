@@ -108,8 +108,10 @@
     "noActivities": "No activities to show",
     "type": "Type",
     "digital": "Digital",
-    "physical": "Physical",
+    "material": "Material",
+    "sourceId": "Source Id",
     "author": "Author",
+    "contact": "Contact",
     "dateRegisted": "Date",
     "projectsNumber": "Number of Projects",
 

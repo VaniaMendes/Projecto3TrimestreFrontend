@@ -2,13 +2,125 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    padding-top: 60px;
 }
 
 .new-resource-form-container{
     min-height: 70vh;
     min-width: 60vw;
-    margin: 160px 50px 0 50px;
     padding: 30px;
     background-color: var(--light-background-color);
-    
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.new-resource-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+
+}
+
+.new-resource-form-top-container{
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.nrftc-right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-resource-photo-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.new-resource-photo-preview{
+    width: 150px;
+    height: 150px;
+    border: 1px solid var(--main-red);
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.suppliers-input-container{
+    display: flex;
+    justify-content: space-between;
+    width: 70%;
+    border: solid 1px var(--main-red);
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+}
+
+.supplier-label{
+    position: absolute;
+    top: -13px;
+    left: 43%;
+    background-color: var(--light-background-color);
+    padding: 0 4px;
+}
+
+.new-resource-input-container{
+    position: relative;
+    margin: 20px 0;
+}
+
+.new-resource-input-label{
+    position: absolute;
+    top: 2px;
+    left: 20px;
+    pointer-events: none;
+    transition: all 0.2s;
+    font-size: 15px;
+    color: var(--red2-color);
+    background-color: white;
+    padding: 0 5px;
+}
+
+input:focus + .new-resource-input-label,
+input:not(:placeholder-shown) + .new-resource-input-label{
+  top: -10px;
+  font-size: 15px;
+  color: var(--dark-red);
+}
+
+.new-resource-input-type-container{
+    display: flex;
+    margin: 0 25px;
+    align-items: center;
+
+    select{
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 0.9rem;
+        background-color: var(--light-background-color);
+        cursor: pointer;
+        border: transparent;
+        padding: 2px 5px 0 10px;
+    }
+}
+
+.new-resource-input-label-type{
+    font-size: 15px;
+    color: var(--red2-color);
+}
+
+.description{
+    width: 80%;
+    word-wrap: break-word;
 }
