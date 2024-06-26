@@ -9,6 +9,7 @@ import languages from "../translations";
 import { toast } from 'react-toastify';
 import Pagination from './Pagination';
 import { notificationStore } from "../stores/NotificationStore";
+import {useNavigate} from 'react-router-dom';
 
 function Notifications() {
 
@@ -18,6 +19,8 @@ function Notifications() {
 
   const [notifications, setNotifications] = useState([]);
   const { incrementNotification } = notificationStore.getState();
+
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -87,11 +90,19 @@ function Notifications() {
     if(result === 200) {
       fetchNotifications();
       toast.success("Notificação marcada como lida com sucesso");
+
+      
     }else{
       toast.warning("Falha ao marcar como lida");
     }
   };
 
+  const handleNotificationClick = (notification) => {
+    markAsRead(notification.id);
+    if (notification.type === "MESSAGE_RECEIVED") {
+      navigate(`/messages/${userId}`);
+    }
+  };
   
   return (
     <div >
@@ -102,8 +113,12 @@ function Notifications() {
           notifications.map((notification) => (
            
             <NotificationItem key={notification.id} notification={notification}
-            onClick={() => markAsRead(notification.id)}
-            />
+            onClick={() => {
+              handleNotificationClick(notification);
+           
+            }}
+/>
+          
             
           
           ))

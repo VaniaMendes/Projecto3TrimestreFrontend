@@ -95,25 +95,33 @@ const [messages, setMessages] = useState([]);
       console.log(message);
     
       if (message.receiver && message.receiver.id !== null && message.sender.id === receiverId) {
-       
-      // Extract the sendTimestamp array
-    const [year, month, day, hour, minute, second] = message.sendTimestamp;
+        if (message.readStatus === true) {
+          // Substitute the message in the list
+          setMessages(prevMessages =>
+            prevMessages.map(msg =>
+              msg.id === message.id ? { ...msg, ...message } : msg
+            )
+          );
+        } else {
+          // Extract the sendTimestamp array
+          const [year, month, day, hour, minute, second] = message.sendTimestamp;
 
-    // Create a Date object. Note: month is 0-indexed in JavaScript Date, hence the -1 adjustment.
-    const date = new Date(year, month - 1, day, hour, minute, second);
+          // Create a Date object. Note: month is 0-indexed in JavaScript Date, hence the -1 adjustment.
+          const date = new Date(year, month - 1, day, hour, minute, second);
 
-    // Format the date into a readable string. Adjust the format as needed.
-    const formattedDate = date.toLocaleString('en-US', {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', second: '2-digit',
-      hour12: false
-    });
+          // Format the date into a readable string. Adjust the format as needed.
+          const formattedDate = date.toLocaleString('en-US', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: false
+          });
 
-    // Update the message's timestamp with the formatted date
-    message.sendTimestamp = formattedDate;
-           
-        // Update the state with the new message
-        setMessages(prevMessages => [message, ...prevMessages]);
+          // Update the message's timestamp with the formatted date
+          message.sendTimestamp = formattedDate;
+
+          // Add the new message to the list
+          setMessages(prevMessages => [message, ...prevMessages]);
+        }
       }
     };
 
