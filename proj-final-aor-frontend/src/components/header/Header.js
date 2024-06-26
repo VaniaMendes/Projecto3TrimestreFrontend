@@ -105,7 +105,7 @@ const Header = () => {
 
   const handleMessages = () => {
     navigate(`/messages/${userId}`, { replace: true });
-}
+  }
 
   return (
     <header>
@@ -207,10 +207,10 @@ const Header = () => {
                     </div>
                     {showComponentsMenu && (
                       <div className="submenu component-submemu">
-                        <p className="submenu-clickable">
+                        <p className="submenu-clickable" onClick={() => navigate("/new-resource")}>
                           <FormattedMessage id="create" />
                         </p>
-                        <p className="submenu-clickable">
+                        <p className="submenu-clickable" onClick={() => navigate("/resources")}>
                           <FormattedMessage id="seeAll" />
                         </p>
                       </div>

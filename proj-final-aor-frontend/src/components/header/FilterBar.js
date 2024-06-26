@@ -30,14 +30,21 @@ const FilterBar = (props) => {
                 {projectsTotal > -1 && (
                     <p>{projectsTotal} <FormattedMessage id={projectsTotal === 1 ? "project" : "projects"}/></p>
                 )}
-                {componentsTotal > 0 && (
-                    <p>{componentsTotal} <FormattedMessage id="components"/></p>
+                {componentsTotal > -1 && (
+                    <p>{componentsTotal} <FormattedMessage id={componentsTotal === 1 ? "component" : "components"}/></p>
                 )}
                 
                 <div className="right-side">
-                    {isMobile ? <BiSliderAlt className={isSliderOpen ? "slider-icon-active" : 'slider-icon'} onClick={handleClickSliderIcon}/> : (
+                    {isMobile ? (
+                        <BiSliderAlt className={isSliderOpen ? "slider-icon-active" : 'slider-icon'} onClick={handleClickSliderIcon}/>
+                    ) : (
                         <>
-                            <FilterOptions isFilterBar={true} />
+                            {projectsTotal > -1 && (
+                                <FilterOptions isProjectsFilterBar={true} />
+                            )}
+                            {componentsTotal > -1 && (
+                                <FilterOptions isResourcesFilterBar={true} />
+                            )}
                         </>
                     )}
                 </div>
