@@ -81,7 +81,36 @@ const [messages, setMessages] = useState([]);
     fetchMessages();
   }, [token, receiverId, userId]);
 
-  
+  useEffect(() => {
+    const WS_URL = "ws://localhost:8080/project_backend/websocket/message/";
+    const websocket = new WebSocket(WS_URL + token);
+    websocket.onopen = () => {
+      console.log("WebSocket connection for chat messages is open");
+      
+    };
+
+    websocket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      console.log(message.receiver.id);
+      console.log(receiverId);
+      
+      if(message.sender.id === receiverId && message.receiver !== null) {
+      // Formatar o timestamp para ser adicionado ao chat
+const [year, month, day, hour, minute] = message.sendTimestamp;
+const date = new Date(year, month - 1, day, hour, minute);
+message.sendTimestamp = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      setMessages(prevMessages => [message, ...prevMessages]);
+      }
+     
+    };
+
+    return () => {
+      websocket.close();
+    };
+
+   
+}, [token, messages]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

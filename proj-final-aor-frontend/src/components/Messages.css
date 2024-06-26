@@ -411,7 +411,7 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 25%; 
+    width: 30%; 
     background-color: var(--main-red); 
     color: white; 
     text-align: center; 
@@ -426,7 +426,7 @@
     position: fixed;
     bottom: 0; 
     right: 0;
-    width: 25%; 
+    width: 30%; 
     height: 75%;
     
     background-color: var(--light-grey2); 
@@ -522,3 +522,25 @@
     justify-content: space-between;
     align-items: center;
   }
+  .project-sender {
+    align-self: flex-end;
+    text-align: right;
+    margin-left: auto;
+    flex-direction: row-reverse;
+}
+.project-sender .photo-message {
+    margin-left: 10px; /* Espaço entre a foto e o conteúdo da mensagem */
+    margin-right: 15px; /* Remove a margem à direita */
+}
+.project-sender .message-project-wrapper {
+    align-items: flex-end;
+    text-align: right; /* Align text inside the wrapper to the right */
+}
+  
+  .project-receiver {
+    align-self: flex-start;
+    
+    text-align: left;
+  }
+
+  
