@@ -20,13 +20,14 @@
     border: solid 1px var(--light-grey2);
     width: 100%;
     max-height: 300px;
-    
+    overflow: hidden;
 }
 
 .resource-photo {
-    height: 100%;
-    width: 100%;
-    aspect-ratio: 1 / 1;
+    width: auto;
+    height: 90%; 
+    object-fit: cover;
+    aspect-ratio: 1 / 1; 
 }
 
 .resource-info-container {

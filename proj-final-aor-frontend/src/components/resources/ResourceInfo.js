@@ -1,25 +1,27 @@
 import React from "react";
 import './ResourceInfo.css';
-import { HiMiniKey } from "react-icons/hi2";
-import { HiMiniWrench } from "react-icons/hi2";
+import { HiMiniKey, HiMiniWrench } from "react-icons/hi2";
 import { FormattedMessage } from "react-intl";
 
 const ResourceInfo = (props) => {
     const {photo, id, name, brand, type, projectsNumber} = props;
 
+    function renderResourceIcon(photo, type) {
+        if (photo) {
+          return <img src={photo} alt="Description of the image" className="resource-photo" />;
+        } else if (type === "DIGITAL") {
+          return <HiMiniKey fontSize='2em'/>;
+        } else if (type === "MATERIAL") {
+          return <HiMiniWrench fontSize='2em'/>;
+        }
+        return null;
+      }
+
     return (
         <div className="resource-container">
             
                 <div className="resource-photo-container">
-                    {
-                        photo ? (
-                        <img src={photo} alt="Description of the image" className="resource-photo" />
-                        ) : type === "DIGITAL" ? (
-                        <HiMiniKey fontSize='2em'/>
-                        ) : type === "MATERIAL" ? (
-                        <HiMiniWrench fontSize='2em'/>
-                        ) : null
-                    }
+                    {renderResourceIcon(photo, type)}
                 </div>
                 <div className="resource-info-container">
                     <div className="label-name-container">
