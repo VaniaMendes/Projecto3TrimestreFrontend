@@ -17,6 +17,7 @@ import { IntlProvider, FormattedMessage } from "react-intl";
 import { logoutUser } from "../../services/users";
 import { notificationStore } from "../../stores/NotificationStore";
 import WebSocketClient from "../../websocket/Websocket";
+import Settings from "./Settings";
 
 const Header = () => {
 
@@ -25,7 +26,10 @@ const Header = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProjectsMenu, setShowProjectsMenu] = useState(false);
   const [showComponentsMenu, setShowComponentsMenu] = useState(false);
-  const { token, userId, name, locale, resetUserStore , photo} = userStore();
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const { token, userId, name, locale, resetUserStore , photo, typeUser} = userStore();
+
+  console.log(typeUser);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -65,6 +69,11 @@ const Header = () => {
     } else {
       console.error("Failed to logout user");
     }
+  };
+
+  const handleClickSettings = () => {
+    setShowProfileMenu(!showProfileMenu);
+    setShowSettingsModal(true);
   };
 
   const handleClickNotificationsPage = () => {
@@ -258,6 +267,13 @@ const Header = () => {
                         >
                           <FormattedMessage id="myProfile" />
                         </p>
+                        {typeUser === "ADMIN" && ( 
+                        <p
+                          className="submenu-clickable"
+                          onClick={() => handleClickSettings()}
+                        >
+                          <FormattedMessage id="settings" />
+                        </p>)}
                         <p
                           className="submenu-clickable"
                           onClick={() => handleClickLogout()}
@@ -267,11 +283,13 @@ const Header = () => {
                       </div>
                     )}
                   </div>
+                  
                 </>
               )}
             </div>
           )}
         </div>
+        {showSettingsModal &&  <Settings onClose={() => setShowSettingsModal(false)} />} 
       </IntlProvider>
     </header>
   );

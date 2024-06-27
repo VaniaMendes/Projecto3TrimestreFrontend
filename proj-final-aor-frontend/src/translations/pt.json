@@ -170,7 +170,12 @@
      "chooseUserToSendFirstMessage": "Escolha um utilizador para enviar a primeira mensagem",
      "next": "Próximo",
      "previous": "Anterior",
+     "settings": "Configuração",
      "noNBotificationsAvailable": "Nenhuma notificação disponível",
+     "sessiontimeout": "Tempo limite da sessão",
+     "maxUserProjects": "Número máximo de utilizadores por projecto",
+     "settingsUpdated": "Configurações atualizadas",
+     "errorUpdatingSettings": "Erro ao atualizar as configurações",
 
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",

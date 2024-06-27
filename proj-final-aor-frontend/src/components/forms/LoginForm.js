@@ -13,7 +13,7 @@ function LoginForm() {
   const [newUser, setNewUser] = useState({});
   const navigate = useNavigate();
   const intl = useIntl();
-  const { updateUserId, updateName, updatePhoto } = userStore();
+  const { updateUserId, updateName, updatePhoto, updateTypeUser } = userStore();
   const { setNotifications } = notificationStore();
 
   // Get the locale from the userStore
@@ -54,6 +54,7 @@ function LoginForm() {
           updateUserId(data.id);
           updateName(data.firstName + " " + data.lastName);
           updatePhoto(data.photo);
+          updateTypeUser(data.userType);
           numberOfnotificationUnread(result);
           navigate(`/home/${data.id}`);
         }

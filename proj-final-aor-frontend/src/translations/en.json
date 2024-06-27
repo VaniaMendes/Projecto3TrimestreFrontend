@@ -170,6 +170,11 @@
     "chooseUserToSendFirstMessage": "Choose a user to send your first message",
     "next": "Next",
     "previous": "Previous",
+    "settings": "Settings",
+    "sessiontimeout": "Session Timeout",
+    "maxUserProjects": "Maximum number of users for project",
+    "settingsUpdated": "Settings updated",
+    "errorUpdatingSettings": "Error updating settings",
 
  
 
