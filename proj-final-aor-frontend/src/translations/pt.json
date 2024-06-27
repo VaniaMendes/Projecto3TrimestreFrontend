@@ -50,6 +50,8 @@
     "private": "Privado",
     "public": "Público",
     "messageSent": "Mensagem enviada com sucesso",
+    "allreadyhaveanaccount": "Já tem uma conta?",
+    "notallreadyhaveanaccount": "Não tem uma conta?",
 
     "usersAvailable": "Utilizadores Disponíveis",
     "usersPending": "Utilizadores Pendentes",
@@ -149,12 +151,9 @@
 
 
 
-
-
-
     "messageReceived": "Você recebeu uma mensagem de ",
     "newProjectNotification":" Um novo projeto foi adicionado por ",
-    "projectStatusNotification": "O status do projeto alterou",
+    "projectStatusNotification": " alterou o estado do projeto",
     "noNotificationsAvailable": "Nenhuma notificação disponível",
     "year": "ano (s) ",
     "day": "dia (s)",

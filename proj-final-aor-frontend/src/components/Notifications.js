@@ -41,7 +41,7 @@ function Notifications() {
 
   useEffect(() => {
     fetchNotifications(currentPage);
-  }, [currentPage]);
+  }, [currentPage, token, userId]);
   
   useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
@@ -98,10 +98,13 @@ function Notifications() {
   };
 
   const handleNotificationClick = (notification) => {
-    markAsRead(notification.id);
     if (notification.type === "MESSAGE_RECEIVED") {
       navigate(`/messages/${userId}`);
     }
+    if(notification.type === "MESSAGE_PROJECT"){
+      navigate(`/project/${notification.relatedIDEntity}`);
+    }
+    markAsRead(notification.id);
   };
   
   return (

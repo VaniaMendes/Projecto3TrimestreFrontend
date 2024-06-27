@@ -316,3 +316,6 @@ input:not(:placeholder-shown) + .label-description-settings{
 .input-settings{
     margin-bottom: 20px;
 }
+.buttons-settings{
+    padding-bottom: 20px;
+}

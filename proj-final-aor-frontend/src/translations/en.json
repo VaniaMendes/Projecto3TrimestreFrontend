@@ -53,6 +53,8 @@
     "private": "Private",
     "public": "Public",
     "messageSent": "Message successfully sent",
+    "allreadyhaveanaccount": "Already have an account?",
+    "notallreadyhaveanaccount": "Don't have an account?",
    
 
     "usersAvailable": "Users Available",
@@ -148,19 +150,16 @@
     "CANCELLED": "Cancelled",
 
 
-
-
-
    
     "messageReceived": "You have received a new message from ",
     "newProjectNotification": " A new project was created by ",
-    "projectStatusNotification": "Project status has changed with the title",
+    "projectStatusNotification": " changed the status os the ptoject ",
     "noNBotificationsAvailable": "No notifications available",
     "year": "year (s) ",
     "day": "day (s)",
     "months": "month (s)",
     "hour": "hour (s)",
-    "withTheTitle": " with the following title: ",
+    "withTheTitle": " with the title ",
     "messageReceivedProject": "A new message was sent by ",
     "forProject": " for project with name ",
     "newMemberNotification": " A new member was added to the project: ",

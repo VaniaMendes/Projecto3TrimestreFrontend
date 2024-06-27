@@ -137,6 +137,9 @@ function LoginForm() {
               {(message) => <span>{message}</span>}
             </FormattedMessage>
           </span>
+          <div className="navigate">
+          <p >{intl.formatMessage({ id: "notallreadyhaveanaccount"})}</p><a className = "link-login" href="/register">{intl.formatMessage({ id: "register"})}</a>
+          </div>
         </form>
       </IntlProvider>
     </div>
