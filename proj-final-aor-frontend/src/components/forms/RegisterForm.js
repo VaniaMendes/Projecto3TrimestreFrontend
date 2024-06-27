@@ -159,7 +159,10 @@ function RegisterForm(){
                     <button type="submit"><FormattedMessage id="register">
                         {(message) => <span>{message}</span>}
                       </FormattedMessage></button>
-                    
+
+                   <div className="navigate">  
+                      <p >{intl.formatMessage({ id: "allreadyhaveanaccount"})}</p><a className="link-login" href="/login">{intl.formatMessage({ id: "login"})}</a>
+                    </div>
             </form>
             </IntlProvider>
 

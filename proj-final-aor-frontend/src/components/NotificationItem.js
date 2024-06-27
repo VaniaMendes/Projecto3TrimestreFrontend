@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { IntlProvider, useIntl } from "react-intl";
 import languages from "../translations";
 import {userStore} from "../stores/UserStore";
 import moment from "moment";
 import projectIcon from './assets/projectIcon.png';
 import logoUser from './assets/profile_pic_default.png';
+import ProjectService from "../services/ProjectService";
 
 
 function NotificationItem({ notification, onClick}) {
@@ -13,6 +14,25 @@ function NotificationItem({ notification, onClick}) {
   const locale = userStore((state) => state.locale);
   const intl = useIntl();
 
+  const [project, setProject] = useState({});
+
+  useEffect(() => {
+   
+      const fetchProject = async () => {
+        try {
+          const projectResponse = await ProjectService.getProjectInfo(notification.relatedIDEntity);
+          setProject(projectResponse);
+        } catch (error) {
+          console.error("Error fetching project:", error);
+        }
+      };
+      fetchProject();
+    
+  }, [notification.relatedIDEntity]);
+
+  
+
+  console.log(project);
   const handleClick = () => {
     if (!notification.readStatus) {
       onClick(notification.id);
@@ -21,6 +41,7 @@ function NotificationItem({ notification, onClick}) {
 
   let notificationMessage;
   let notificationImage;
+  
 
   switch (notification.type) {
     case 'MESSAGE_RECEIVED':
@@ -33,11 +54,14 @@ function NotificationItem({ notification, onClick}) {
       
       break;
     case 'NEW_PROJECT':
+      
       notificationMessage =  `${intl.formatMessage({ id: "newProjectNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
       notificationImage = projectIcon;
       break;
     case 'PROJECT_STATE_CHANGE':
-      notificationMessage = `${intl.formatMessage({ id: "projectStatusNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`;
+      
+      notificationMessage = ` ${notification.sender.firstName}  ${notification.sender.lastName} ${intl.formatMessage({ id: "projectStatusNotification" })} ${project.name}`;
+      notificationImage = projectIcon;
       break;
       case 'MESSAGE_PROJECT':
         notificationMessage =  `${intl.formatMessage({ id: "messageReceivedProject" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
@@ -48,7 +72,7 @@ function NotificationItem({ notification, onClick}) {
         }
       break;
       case 'NEW_MEMBER':
-        notificationMessage =  `${notification.sender.firstName} ${notification.sender.lastName} ${intl.formatMessage({ id: "newMemberNotification" })} ${notification.relatedEntityName}`; 
+        notificationMessage =  `${intl.formatMessage({ id: "newMemberNotification" })} ${notification.relatedEntityName}`; 
         if(notification.sender.photo){
           notificationImage = notification.sender.photo;
         }else{
@@ -56,7 +80,7 @@ function NotificationItem({ notification, onClick}) {
         }
       break;
     default:
-      notificationMessage = `${intl.formatMessage({ id: "projectStatusNotification" })} ${notification.project.title}`;
+      notificationMessage = `${intl.formatMessage({ id: "projectStatusNotification" })}`;
   }
 
 
@@ -89,7 +113,9 @@ function NotificationItem({ notification, onClick}) {
     <div className="notification-avatar">
       <img className="notification-image" src={notificationImage} alt="avatar" />
     </div>
-    <div className={`notification-item ${notification.type}`}>{notificationMessage}</div>
+    <div className={`notification-item ${notification.type}`}>{notificationMessage}
+
+      </div>
     <div className="notification-timestamp">{formattedTimestamp}</div>
     </IntlProvider>
     </div>

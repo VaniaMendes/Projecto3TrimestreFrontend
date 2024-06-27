@@ -9,6 +9,7 @@ import languages from "../translations";
 import { toast } from 'react-toastify';
 import Pagination from './Pagination';
 import { notificationStore } from "../stores/NotificationStore";
+import {useNavigate} from 'react-router-dom';
 
 function Notifications() {
 
@@ -18,6 +19,8 @@ function Notifications() {
 
   const [notifications, setNotifications] = useState([]);
   const { incrementNotification } = notificationStore.getState();
+
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -38,7 +41,7 @@ function Notifications() {
 
   useEffect(() => {
     fetchNotifications(currentPage);
-  }, [currentPage]);
+  }, [currentPage, token, userId]);
   
   useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
@@ -87,11 +90,22 @@ function Notifications() {
     if(result === 200) {
       fetchNotifications();
       toast.success("Notificação marcada como lida com sucesso");
+
+      
     }else{
       toast.warning("Falha ao marcar como lida");
     }
   };
 
+  const handleNotificationClick = (notification) => {
+    if (notification.type === "MESSAGE_RECEIVED") {
+      navigate(`/messages/${userId}`);
+    }
+    if(notification.type === "MESSAGE_PROJECT"){
+      navigate(`/project/${notification.relatedIDEntity}`);
+    }
+    markAsRead(notification.id);
+  };
   
   return (
     <div >
@@ -102,8 +116,12 @@ function Notifications() {
           notifications.map((notification) => (
            
             <NotificationItem key={notification.id} notification={notification}
-            onClick={() => markAsRead(notification.id)}
-            />
+            onClick={() => {
+              handleNotificationClick(notification);
+           
+            }}
+/>
+          
             
           
           ))

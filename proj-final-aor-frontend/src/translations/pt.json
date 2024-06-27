@@ -50,6 +50,9 @@
     "editDescription": "Editar Descrição",
     "private": "Privado",
     "public": "Público",
+    "messageSent": "Mensagem enviada com sucesso",
+    "allreadyhaveanaccount": "Já tem uma conta?",
+    "notallreadyhaveanaccount": "Não tem uma conta?",
 
     "usersAvailable": "Utilizadores Disponíveis",
     "usersPending": "Utilizadores Pendentes",
@@ -156,28 +159,30 @@
 
 
 
-
-
-
     "messageReceived": "Você recebeu uma mensagem de ",
     "newProjectNotification":" Um novo projeto foi adicionado por ",
-    "projectStatusNotification": "O status do projeto alterou",
+    "projectStatusNotification": " alterou o estado do projeto",
     "noNotificationsAvailable": "Nenhuma notificação disponível",
     "year": "ano (s) ",
     "day": "dia (s)",
     "months": "mês (s)",
     "hour": "hora (s)",
-     "withTheTitle" : " para o projeto: ",
+     "withTheTitle" : " com o seguinte título: ",
      "messageReceivedProject": "Uma nova mensagem foi enviada pelo utilizador ",
      "forProject": " para o projecto com o nome ",
-     "newMemberNotification": " foi adicionado(a) ao projecto: ",
+     "newMemberNotification": " Um novo membro foi adicionado(a) ao projecto: ",
      "subject": "Assunto",
      "writeYourMessage": "Escreva a sua mensagem",
      "showMore": "Mostrar mais...",
      "chooseUserToSendFirstMessage": "Escolha um utilizador para enviar a primeira mensagem",
      "next": "Próximo",
      "previous": "Anterior",
+     "settings": "Configuração",
      "noNBotificationsAvailable": "Nenhuma notificação disponível",
+     "sessiontimeout": "Tempo limite da sessão",
+     "maxUserProjects": "Número máximo de utilizadores por projecto",
+     "settingsUpdated": "Configurações atualizadas",
+     "errorUpdatingSettings": "Erro ao atualizar as configurações",
 
     "LISBOA": "Lisboa",
     "COIMBRA": "Coimbra",
