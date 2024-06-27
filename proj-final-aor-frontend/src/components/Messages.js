@@ -8,6 +8,7 @@ import userLogo from './assets/profile_pic_default.png';
 import {getFilterUsers} from "../services/users";
 
 
+
 function Messages() {
   const intl = useIntl();
   const userId = userStore((state) => state.userId);
@@ -17,6 +18,8 @@ function Messages() {
   const [users, setUsers] = useState([]);
   const [prefix, setPrefix] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+  const [showChat, setShowChat] = useState(false);
+  const[showUsers, setShowUsers] = useState(true);
 
   useEffect(() => {
     
@@ -53,14 +56,26 @@ function Messages() {
 
   const handleSaveReceiver = (id) => {
     setReceiverId(id);
+    if (isMobile) {
+      setShowChat(true);
+      setShowUsers(false);
 
+    }
+
+  };
+
+  const handleBackToUsers = () => {
+    setShowChat(false);
+    setShowUsers(true);
   };
 
 
   return (
     <div>
+      
       <div className="message-external-container">
         <div className="message-container">
+        {showUsers &&  (
           <div className="message-internal-container">
             
         
@@ -84,17 +99,19 @@ function Messages() {
                   <img src={user.photo} alt="user-photo" />
                  </div>
                   <p className="user-firstName">{user.firstName} {user.lastName}</p>
+                
                   </div>
                 </div >
               ))}
 
             </div>
           </div>
-          {/* Container das mensagens individuais*/}
-          {!isMobile && (<MessageChat receiverId={receiverId}/>)}
-         
+             ) }  
+          {(!isMobile || showChat) && <MessageChat receiverId={receiverId} handleBackToUsers={handleBackToUsers}/>}
+       
         </div>
       </div>
+     
     </div>
   );
 }
