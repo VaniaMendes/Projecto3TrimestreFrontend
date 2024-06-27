@@ -81,7 +81,57 @@ const [messages, setMessages] = useState([]);
     fetchMessages();
   }, [token, receiverId, userId]);
 
-  
+  useEffect(() => {
+    const WS_URL = "ws://localhost:8080/project_backend/websocket/message/";
+    const websocket = new WebSocket(WS_URL + token);
+    websocket.onopen = () => {
+      console.log("WebSocket connection for chat messages is open");
+      
+    };
+
+   
+    websocket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      console.log(message);
+    
+      if (message.receiver && message.receiver.id !== null && message.sender.id === receiverId) {
+        if (message.readStatus === true) {
+          // Substitute the message in the list
+          setMessages(prevMessages =>
+            prevMessages.map(msg =>
+              msg.id === message.id ? { ...msg, ...message } : msg
+            )
+          );
+        } else {
+          // Extract the sendTimestamp array
+          const [year, month, day, hour, minute, second] = message.sendTimestamp;
+
+          // Create a Date object. Note: month is 0-indexed in JavaScript Date, hence the -1 adjustment.
+          const date = new Date(year, month - 1, day, hour, minute, second);
+
+          // Format the date into a readable string. Adjust the format as needed.
+          const formattedDate = date.toLocaleString('en-US', {
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit', second: '2-digit',
+            hour12: false
+          });
+
+          // Update the message's timestamp with the formatted date
+          message.sendTimestamp = formattedDate;
+
+          // Add the new message to the list
+          setMessages(prevMessages => [message, ...prevMessages]);
+        }
+      }
+    };
+
+    return () => {
+      websocket.close();
+    };
+
+   
+}, [token, messages]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

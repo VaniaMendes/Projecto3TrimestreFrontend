@@ -31,25 +31,13 @@
  
 }
 
-.notification-external-container{
-  background-color: white;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 60%;
-  border: solid 1px var(--light-grey2);
-  border-radius: 5px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
- 
-  padding: 20px; 
-  max-height: 640px;
- 
-}
+
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .notification-external-container {
       width: 100%;
       left: 0;
+    
      
   }
 }
@@ -80,10 +68,13 @@
       width: 100%;
       margin-left: 20px;
       margin-right: 10px;
+      
   }
   .notification-external-container {
       width: 100%;
       left: 0;
+      max-height: auto;
+      overflow-y: scroll;
   }
 }
 

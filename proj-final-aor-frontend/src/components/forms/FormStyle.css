@@ -48,8 +48,8 @@ form {
   margin: 20px;
   border-radius: 10px;
   border: solid 1px var(--main-red);
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   top: 25%;
   position: absolute;
 }
@@ -151,6 +151,7 @@ textarea:not(:placeholder-shown) + .textarea-label-description {
 
     display: flex;
     justify-content: space-between; 
+    padding-top: 40px;
   
 }
 .title-forms{
@@ -216,6 +217,19 @@ textarea:not(:placeholder-shown) + .textarea-label-description {
     left: 0%;
   
    }
+}
+.navigate{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  margin-left: 30px;
+  margin-top: 20px;
+}
+.link-login{
+  color: var(--red2-color);
+  cursor: pointer;
+  margin-left: 15px;
 }
 
 /**--------Radio-buttons

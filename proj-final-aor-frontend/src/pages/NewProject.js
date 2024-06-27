@@ -11,9 +11,10 @@ import { IntlProvider, FormattedMessage, injectIntl } from "react-intl";
 import KeywordComponent from "../components/keywords/KeywordComponent";
 import { getAllInterests } from "../services/interests";
 import ProjectService from "../services/ProjectService";
+import { useNavigate } from "react-router";
 
 const NewProject = () => {
-    const {locale, token} = userStore();
+    const {locale, token, userId} = userStore();
     const [inputs, setInputs] = useState({
         name: '',
         description: '',
@@ -28,6 +29,7 @@ const NewProject = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [openEditModal, setEditModal] = useState(false);
     const [modalType, setModalType] = useState(""); 
+    const navigate = useNavigate();
 
 
     const labOptions = {
@@ -96,6 +98,7 @@ const NewProject = () => {
         
         if (response) {
             toast.success("Project created successfully");
+            navigate(`/home/${userId}?sort=desc`);
 
             setInputs({ name: '', lab: '', maxMembers: '' });
             setDescription('');

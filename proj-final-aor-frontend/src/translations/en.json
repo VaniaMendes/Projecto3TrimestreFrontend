@@ -53,6 +53,9 @@
     "editDescription": "Edit Description",
     "private": "Private",
     "public": "Public",
+    "messageSent": "Message successfully sent",
+    "allreadyhaveanaccount": "Already have an account?",
+    "notallreadyhaveanaccount": "Don't have an account?",
    
 
     "usersAvailable": "Users Available",
@@ -155,28 +158,30 @@
     "CANCELLED": "Cancelled",
 
 
-
-
-
    
     "messageReceived": "You have received a new message from ",
     "newProjectNotification": " A new project was created by ",
-    "projectStatusNotification": "Project status has changed with the title",
+    "projectStatusNotification": " changed the status os the ptoject ",
     "noNBotificationsAvailable": "No notifications available",
     "year": "year (s) ",
     "day": "day (s)",
     "months": "month (s)",
     "hour": "hour (s)",
-    "withTheTitle": " for project: ",
+    "withTheTitle": " with the title ",
     "messageReceivedProject": "A new message was sent by ",
     "forProject": " for project with name ",
-    "newMemberNotification": " was added to the project: ",
+    "newMemberNotification": " A new member was added to the project: ",
     "subject": "Subject",
     "writeYourMessage": "Write your message",
     "showMore": "Show More...",
     "chooseUserToSendFirstMessage": "Choose a user to send your first message",
     "next": "Next",
     "previous": "Previous",
+    "settings": "Settings",
+    "sessiontimeout": "Session Timeout",
+    "maxUserProjects": "Maximum number of users for project",
+    "settingsUpdated": "Settings updated",
+    "errorUpdatingSettings": "Error updating settings",
 
  
 

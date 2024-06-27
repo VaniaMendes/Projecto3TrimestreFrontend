@@ -264,3 +264,58 @@ BOTTOM HEADER
       }
 
   }
+
+  /*-----------
+    SETTINGS
+    ---------*/
+
+.modal-settings{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+    height: 300px;
+    padding: 0.1em 1em;
+    margin: 0.3em 1em;
+    background-color: white;
+    font-size: 0.8em;
+    position: relative;
+    top: 10px;
+    border-radius: 5px;
+}
+.title-modal-settings{
+    margin-top: 20px;
+   
+}
+.input-container-settings{
+    position: relative;
+    margin-bottom: 20px;
+    width: 400px;
+   margin-top: 10px;
+   margin-bottom: 20px;
+    
+}
+.label-description-settings {
+    position: absolute;
+    top: -9px;
+    left: 20px;
+    pointer-events: none;
+    transition: all 0.2s;
+    font-size: 15px;
+    color: var(--red2-color);
+    background-color: white;
+   
+  }
+  input:focus + .label-description-settings,
+input:not(:placeholder-shown) + .label-description-settings{
+  top: -20px;
+  font-size: 15px;
+  color: var(--dark-red);
+}
+.input-settings{
+    margin-bottom: 20px;
+}
+.buttons-settings{
+    padding-bottom: 20px;
+}
