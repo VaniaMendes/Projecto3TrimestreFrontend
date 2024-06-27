@@ -27,6 +27,7 @@
     "lastName": "Last Name ",
     "nickname": "Nickname ",
     "biography": "Biography",
+    "photo": "Photo",
     "perfilVisibility": "Profile Visibility",
     "messageRecoveryPassword": "Enter your email and we will send you a link to reset your password",
     "messageAboutPassword": "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character.",
@@ -114,6 +115,11 @@
     "contact": "Contact",
     "dateRegisted": "Date",
     "projectsNumber": "Number of Projects",
+
+    "noMatchingSuppliers": "No matching suppliers, add new?",
+    "newComponent": "New Component",
+    "componentCreatedSuccess": "Component created successfully",
+    "componentCreatedError": "Error creating component",
 
     "ADDED_MEMBER": "Added Member",
     "ADDED_CANDIDATE": "Added Candidate",

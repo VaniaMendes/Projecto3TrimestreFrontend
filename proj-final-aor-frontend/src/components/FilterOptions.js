@@ -308,7 +308,7 @@ const FilterOptions = (props) => {
 
     if (isResourcesSideFilter) {
         return (
-            <>
+            <div className='resources-side-filter'>
                 <p className='resource-filter-label'>
                 <FormattedMessage id="type" />
                 </p>
@@ -423,7 +423,7 @@ const FilterOptions = (props) => {
                         </div>
                     ))}
                 </div>
-        </>
+        </div>
         );
     }
 

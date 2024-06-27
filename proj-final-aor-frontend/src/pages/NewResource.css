@@ -2,8 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding-top: 60px;
+    padding: 140px 0 50px 0;
 }
 
 .new-resource-form-container{
@@ -36,6 +35,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin: 30px 0;
 }
 
 .new-resource-photo-container{
@@ -81,7 +81,7 @@
 
 .new-resource-input-label{
     position: absolute;
-    top: 2px;
+    top: 0;
     left: 20px;
     pointer-events: none;
     transition: all 0.2s;
@@ -121,6 +121,85 @@ input:not(:placeholder-shown) + .new-resource-input-label{
 }
 
 .description{
-    width: 80%;
+    width: 85%;
     word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+}
+
+.description-label{
+    left: 45px;
+}
+
+.suppliers-search-list{
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    width: 90%;
+    padding: 5px;
+    background-color: white;
+    border: solid 1px var(--grey-color);
+    border-radius: 3px;
+    z-index: 1;
+    max-height: 200px;
+    overflow-y: auto;
+
+    .supplier-item{
+        padding: 5px;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover{
+            background-color: var(--light-grey2);
+            color: var(--main-red);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .new-resource-form-container{
+        min-width: 90vw;
+    }
+
+    .new-resource-form-top-container{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nrftc-left{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nrftc-right{
+        margin: 20px 0;
+    }
+
+    .new-resource-photo-container{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .new-resource-photo-preview{
+        width: 100px;
+        height: 100px;
+    }
+
+    .suppliers-input-container{
+        width: 90%;
+    }
+
+    .new-resource-input-container{
+        margin: 10px 0;
+    }
+
+    .new-resource-input-type-container{
+        margin: 0;
+    }
+
+    .description{
+        width: 95%;
+    }
 }
