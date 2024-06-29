@@ -10,10 +10,13 @@ import SupplierService from "../services/SupplierService";
 import ResourceService from "../services/ResourceService";
 import ResourceInfo from "../components/resources/ResourceInfo";
 import { useLocation } from "react-router";
+import SliderContainer from "../components/SliderContainer";
+import { useActionsStore } from "../stores/ActionStore";
 
 const ResourcesHome = () => {
     const location = useLocation();
     const {locale, token} = userStore();
+    const { isSliderOpen } = useActionsStore();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [componentsTotal, setComponentsTotal] = useState(0);
 
@@ -93,7 +96,7 @@ const ResourcesHome = () => {
                         brands={brands}
                         />
                     </div>
-                    )}
+                )}
                     <div className="resources-home-right-container">
                         {resourcesData.map(resource => (
                             <ResourceInfo 
@@ -107,6 +110,18 @@ const ResourcesHome = () => {
                             />
                         ))}
                     </div>
+
+                {isMobile && (
+                    <SliderContainer isOpen={isSliderOpen} isResourcesPage={true}>
+                        <FilterOptions 
+                            locale={locale}
+                            isResourcesSideFilter={true}
+                            suppliers={suppliers}
+                            brands={brands}
+                        />
+                        
+                    </SliderContainer>
+                )}
                 </div>
             </IntlProvider>
             

@@ -37,6 +37,8 @@ const {onClose, modalType, user} = props;
       }
   
       const updatedUser = { ...editUser, photo: photoUrl };
+
+      console.log(updatedUser);
       const result = await updateUser(token, userId, updatedUser);
       if (result === 200) {
         updatePhoto(photoUrl);

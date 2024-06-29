@@ -2,6 +2,28 @@ const API_BASE_URL = "http://localhost:8080/project_backend/rest/resources";
 
 const ResourceService = {
 
+    register: async (token, data) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/`, {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                return response.ok;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     getAllResources: async (sort, name, projects) => {
             
         const queryParams = new URLSearchParams({
