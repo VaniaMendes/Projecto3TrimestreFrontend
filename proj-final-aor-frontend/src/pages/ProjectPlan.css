@@ -1,0 +1,52 @@
+
+
+.project-plan-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    top: 20%;
+}
+
+.project-plan-exterior-container {
+    background-color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    border: solid 1px var(--light-grey2);
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 600px;
+}
+
+.project-plan-separator {
+    position: absolute;
+    width: 120px;
+    height: 40px; /* Adjust height as necessary */
+    top: -38px; /* Adjust position as necessary */
+    left: calc(20% - 60px); /* Centers the separator horizontally */
+    background-color: #C01722;
+    border: 1px solid var(--light-grey2);
+    border-radius: 0px 15px 0 0; /* Rounds the top corners */
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    display: flex; /* Added */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    color: white;
+}
+
+.separator-description {
+    margin: 0; /* Removes default margin from <p> */
+   font-weight: 700;
+    font-size: 16px; /* Adjust font size as necessary */
+}
+.add-task{
+    display: flex;
+    align-items: center; 
+    gap: 8px;
+    color: #C01722;
+    cursor: pointer;
+}

@@ -53,6 +53,10 @@
     "messageSent": "Mensagem enviada com sucesso",
     "allreadyhaveanaccount": "Já tem uma conta?",
     "notallreadyhaveanaccount": "Não tem uma conta?",
+    "addTask": "Adicionar Tarefa",
+    "taskEdition": "Editar tarefa",
+    "executors": "Executores adicionais",
+    "title": "Título",
 
     "usersAvailable": "Utilizadores Disponíveis",
     "usersPending": "Utilizadores Pendentes",

@@ -19,6 +19,7 @@ import Project from './pages/Project.js';
 import MessagesPage from './pages/MessagesPage.js';
 import ResourcesHome from './pages/ResourcesHome.js';
 import NewResource from './pages/NewResource.js';
+import ProjectPlan from './pages/ProjectPlan.js';
 
 
 function Routing() {
@@ -28,6 +29,7 @@ function Routing() {
   return (
     <div>
       <ToastContainer />
+      
       <Routes>
         <Route path="/" element={<>
           <Home />
@@ -68,6 +70,7 @@ function Routing() {
         <Route path="/profile/:userId" element={<> <UserProfile /> </>} />
         <Route path="/notifications" element={<> <NotificationsPage /> </>} />
         <Route path="/messages/:userId" element={<> <MessagesPage /> </>} />
+        <Route path="/project/:projectId/execution-plan" element={<> <ProjectPlan /> </>} />
       </Routes>
     </div>
   );

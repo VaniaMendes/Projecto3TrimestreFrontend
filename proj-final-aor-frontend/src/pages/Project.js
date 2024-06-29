@@ -15,7 +15,8 @@ import KeywordComponent from "../components/keywords/KeywordComponent";
 import AddNewSkill from "../components/profile/AddNewSkill";
 import { toast } from "react-toastify";
 import { getUserProjectStatus } from "../services/users";
-import ProjectChat from '../components/ProjectChat'
+import ProjectChat from '../components/ProjectChat';
+
 
 
 const Project = () => {

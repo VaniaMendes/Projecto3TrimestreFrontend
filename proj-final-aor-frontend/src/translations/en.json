@@ -56,6 +56,11 @@
     "messageSent": "Message successfully sent",
     "allreadyhaveanaccount": "Already have an account?",
     "notallreadyhaveanaccount": "Don't have an account?",
+    "addTask": "Add Task",
+    "taskEdition": " Edit task",
+    "executors": "Adicional executors",
+    "title": "Title",
+    
    
 
     "usersAvailable": "Users Available",

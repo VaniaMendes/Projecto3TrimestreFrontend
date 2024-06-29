@@ -7,6 +7,7 @@ import languages from "../../translations";
 import { useNavigate } from "react-router-dom";
 import { getUnreadNotifications } from "../../services/notifications";
 import { notificationStore } from "../../stores/NotificationStore";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function LoginForm() {
   // State variables
@@ -15,6 +16,8 @@ function LoginForm() {
   const intl = useIntl();
   const { updateUserId, updateName, updatePhoto, updateTypeUser } = userStore();
   const { setNotifications } = notificationStore();
+  const [isPasswordInputFocused, setIsPasswordInputFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Get the locale from the userStore
   const locale = userStore((state) => state.locale);
@@ -30,6 +33,9 @@ function LoginForm() {
       ...prevState,
       [name]: value,
     }));
+    if (name === "password" && !isPasswordInputFocused) {
+      setIsPasswordInputFocused(true);
+    }
   };
 
   // Handle submit of the form
@@ -112,13 +118,22 @@ function LoginForm() {
           <div className="input-container">
             {/* Password input */}
             <input
-              type="password"
+              type={showPassword ? "text" : "password"}
               name="password"
               value={newUser.password || ""}
               onChange={handleChange}
+              
               placeholder={intl.formatMessage({ id: "password" })}
               required
             />
+             {isPasswordInputFocused && (
+              <span
+                className="password-toggle-icon"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
+            )}
 
             <label className="label-description" htmlFor="password">
               <FormattedMessage id="password">

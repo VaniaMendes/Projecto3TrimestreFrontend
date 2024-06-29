@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import logo from "../assets/profile_pic_default.png";
-import { IntlProvider, useIntl, FormattedMessage } from "react-intl";
+import { IntlProvider, useIntl } from "react-intl";
 import languages from "../../translations";
 import { userStore } from "../../stores/UserStore";
 import { updatevisibility, getUserById } from "../../services/users";
