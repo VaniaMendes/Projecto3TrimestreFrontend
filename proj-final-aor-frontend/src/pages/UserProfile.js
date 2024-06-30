@@ -11,7 +11,7 @@ import {useNavigate} from "react-router-dom";
 
 const UserProfile = () =>{
      // Get the locale from the userStore
-   const{ locale, token} = userStore((state) => state.locale);
+   const{ locale, token} = userStore();
    const navigate = useNavigate();
 
    useEffect(() => {

@@ -60,6 +60,15 @@
     "taskEdition": " Edit task",
     "executors": "Adicional executors",
     "title": "Title",
+    "prerequisiteTasks": "Prerequisite Tasks",
+    "taskCreatedSuccefuly": "Task created successfully",
+    "initialDate": "Initial Date",
+    "finalDate": "Final Date",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "priority": "Priority",
+    "update": "Update",   
     
    
 

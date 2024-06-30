@@ -1,35 +1,95 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { userStore } from "../stores/UserStore";
 import languages from "../translations";
 import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./ModalNewTask.css";
+import {createTask, getProjectTasks} from "../services/TaskService";
+import { useParams } from "react-router-dom";
+import {toast} from 'react-toastify';
 
 function NewTask({ onClose }) {
   // Obtem a linguagem de exibição da página
-  const { locale } = userStore((state) => state.locale);
+  const { locale, token } = userStore();
   const [editTask, setEditTask] = useState(false);
   const intl = useIntl();
 
   // Estados para guardar os dados da task para editar
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [adicionalExecutors, setAdicionalExecutors] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [initialDate, setInitialDate] = useState("");
-  const [priority, setPriority] = useState("");
-  const [categories, setCategories] = useState(null);
+  const [additionalExecutors, setAdicionalExecutors] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [priorityId, setPriorityId] = useState("");
+  const [prerequisiteTasks, setPrerequisiteTasks] = useState([]);
+  const [availableTasks, setAvailableTasks] = useState([]);
+
+  // Obtendo o projectId da URL usando o useParams
+  const { projectId } = useParams();
+
+
+  const task = {
+    title,
+    description,
+    additionalExecutors: additionalExecutors,
+    deadline: deadline,
+    startDate: startDate,
+    priorityId: parseInt(priorityId),
+
+  }
+
   const [priorityColor, setPriorityColor] = useState("");
-  const [idCategory, setIdCategory] = useState("");
+
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const data = await getProjectTasks(token, projectId); 
+        setAvailableTasks(data); 
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+
+    fetchTasks(); 
+  }, [token, projectId]); 
+  
+  const handlePrerequisiteChange = (event) => {
+    const selectedTaskId = parseInt(event.target.value);
+    if (event.target.checked) {
+      setPrerequisiteTasks([...prerequisiteTasks, selectedTaskId]);
+    } else {
+      setPrerequisiteTasks(prerequisiteTasks.filter(id => id !== selectedTaskId));
+    }
+  };
+
+  const handlenewTask = async () => {
+
+    const result = await createTask(token, projectId, task);
+    if(result===200){
+      toast.success(intl.formatMessage({ id: 'taskCreatedSuccefuly' }))
+      onClose();
+      
+    }else{
+      console.error("Error creating new task");
+    }
+   
+  };
+
 
   // Função para mudar a cor da prioridade
   const handlePriorityChange = (event) => {
     setPriorityColor(event.target.value);
-    setPriority(event.target.value);
+    setPriorityId(parseInt(event.target.value)); // Definindo priority como número inteiro
+  };
+  const handleEndDateChange = (event) => {
+    setDeadline(event.target.value + "T23:59:59"); 
+    setStartDate(event.target.value + "T00:00:00");
   };
 
   return (
-    <div className="new-task-external-container">
+    <div className="new-task-external-container" >
+      
       <div className="new-task-container">
         <div className="modal-close-task" onClick={onClose}>
           <IoIosCloseCircleOutline />
@@ -50,7 +110,6 @@ function NewTask({ onClose }) {
             <input
               type="text"
               placeholder= {intl.formatMessage({ id: "title" })}
-              id="title"
               value={title}
               onChange={(event) => setTitle(event.target.value)}
               required
@@ -66,9 +125,8 @@ function NewTask({ onClose }) {
        <div className="input-container">
             <textarea
               cols="30"
-              rows="14"
+              rows="3"
               placeholder= {intl.formatMessage({ id: "description" })}
-              className="description-task"
               value={description}
               onChange={(event) => setDescription(event.target.value)}
             ></textarea>
@@ -83,10 +141,10 @@ function NewTask({ onClose }) {
         <div className="input-container">
             <textarea
               cols="30"
-              rows="14"
+              rows="3"
               placeholder={intl.formatMessage({ id: "executors" })}
-              className="description-task"
-              value={adicionalExecutors}
+              
+              value={additionalExecutors}
               onChange={(event) => setAdicionalExecutors(event.target.value)}
             ></textarea>
              <label htmlFor="description-task" className="label-description-editProfile">
@@ -96,117 +154,122 @@ function NewTask({ onClose }) {
 
 </div>
 
+
+<div className="input-container">
+ 
+<select className="select-task" 
+onChange={handlePrerequisiteChange} value={prerequisiteTasks.length > 0 ? prerequisiteTasks[0] : ''}>
+  {availableTasks.map((task) => (
+    <option key={task.id} value={task.id}>
+      {task.title}
+    </option>
+  ))}
+</select>
+
+  <label htmlFor="description-task" className="label-description-editProfile">
+        {intl.formatMessage({ id: "prerequisiteTasks" })}
+         
+        </label>
+</div>
+
+
+
         <div id="date_section" className="descriptioLabelTask">
           <div>
             <p>
-              <FormattedMessage id="initialDate">
-                {(message) => <span>{message}</span>}
-              </FormattedMessage>
+            {intl.formatMessage({ id: "initialDate" })}
             </p>
             <input
               type="date"
-              id="initial_date"
-              value={initialDate}
-              onChange={(event) => setInitialDate(event.target.value)}
+              id="startDate"
+              value={startDate}
+              onChange={handleEndDateChange}
             />
           </div>
           <div id="end_date">
             <p>
-              <FormattedMessage id="finalDate">
-                {(message) => <span>{message}</span>}
-              </FormattedMessage>
+            {intl.formatMessage({ id: "finalDate" })}
             </p>
             <input
               type="date"
-              id="end_dates"
-              value={endDate}
-              onChange={(event) => setEndDate(event.target.value)}
+              id="deadline"
+              value={deadline}
+              onChange={handleEndDateChange}
             />
           </div>
         </div>
 
-        <div id="color_section">
-          <label id="label_color">
-            <FormattedMessage id="priority">
-              {(message) => <span>{message}</span>}
-            </FormattedMessage>
-          </label>
+<div className="input-container">
+        <div className="color-section">
+        
           <div className="priority_div">
             <input
               type="radio"
-              name="priority"
+              name="priorityId"
               id="low_priority"
-              value="100"
+              value="10"
               onChange={handlePriorityChange}
-              checked={priority === "100"}
+              checked={priorityId === 10}
             />
             <label htmlFor="low_priority">
-              <FormattedMessage id="low">
-                {(message) => <span>{message}</span>}
-              </FormattedMessage>
+            {intl.formatMessage({ id: "low" })}
             </label>
           </div>
           <div className="priority_div">
             <input
               type="radio"
-              name="priority"
+              name="priorityId"
               id="medium_priority"
-              value="200"
+              value="20"
               onChange={handlePriorityChange}
-              checked={priority === "200"}
+              checked={priorityId === 20}
             />
             <label htmlFor="medium_priority">
-              <FormattedMessage id="medium">
-                {(message) => <span>{message}</span>}
-              </FormattedMessage>
+            {intl.formatMessage({ id: "medium" })}
             </label>
           </div>
           <div className="priority_div">
             <input
               type="radio"
-              name="priority"
+              name="priorityId"
               id="high_priority"
-              value="300"
+              value="30"
               onChange={handlePriorityChange}
-              checked={priority === "300"}
+              checked={priorityId === 30}
             />
             <label htmlFor="high_priority">
-              <FormattedMessage id="high">
-                {(message) => <span>{message}</span>}
-              </FormattedMessage>
+            {intl.formatMessage({ id: "high" })}
             </label>
           </div>
           <div
             id="priority_color"
             style={{
               backgroundColor:
-                priorityColor === "100"
+                priorityColor === "10"
                   ? "green"
-                  : priorityColor === "200"
+                  : priorityColor === "20"
                   ? "yellow"
-                  : priorityColor === "300"
+                  : priorityColor === "30"
                   ? "red"
                   : "transparent",
             }}
           ></div>
         </div>
-
+        <label htmlFor="description-task" className="label-description-editProfile">
+        {intl.formatMessage({ id: "priority" })}
+         
+        </label>
+</div>
         <div className="buttons">
-          <button className="btns_task" id="task_save">
+          <button className="btns_task" id="task_save" onClick={handlenewTask}>
             {editTask ? (
-              <FormattedMessage id="update">
-                {(message) => <span>{message}</span>}
-              </FormattedMessage>
+             intl.formatMessage({ id: "update" })
             ) : (
-              <FormattedMessage id="save">
-                {(message) => <span>{message}</span>}
-              </FormattedMessage>
+              intl.formatMessage({ id: "save" })
             )}
           </button>
           <button className="btns_task" id="task_cancel" onClick={onClose}>
-            <FormattedMessage id="back">
-              {(message) => <span>{message}</span>}
-            </FormattedMessage>
+          {intl.formatMessage({ id: "back" })}
           </button>
         </div>
 

@@ -57,6 +57,17 @@
     "taskEdition": "Editar tarefa",
     "executors": "Executores adicionais",
     "title": "Título",
+    "prerequisiteTasks": "Tarefas Prévias",
+    "taskCreatedSuccefuly": "Tarefa criada com sucesso",
+    "initialDate": "Data Inicial",
+    "finalDate": "Data Final",
+    "low": "Baixa",
+    "medium": "Média",
+    "high": "Alta",
+    "priority": "Prioridade",
+    "update": "Alterar",
+
+    
 
     "usersAvailable": "Utilizadores Disponíveis",
     "usersPending": "Utilizadores Pendentes",
