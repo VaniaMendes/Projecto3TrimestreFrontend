@@ -50,3 +50,11 @@
     color: #C01722;
     cursor: pointer;
 }
+.project-plan-chart{
+    width: 100%;
+    height: 800px;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+ 
+}

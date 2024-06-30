@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { userStore } from "../stores/UserStore";
 import languages from "../translations";
-import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./ModalNewTask.css";
 import {createTask, getProjectTasks} from "../services/TaskService";
@@ -32,8 +32,8 @@ function NewTask({ onClose }) {
     title,
     description,
     additionalExecutors: additionalExecutors,
-    deadline: deadline,
-    startDate: startDate,
+    deadline: deadline + "T23:59:59",
+    startDate: startDate + "T00:00:00",
     priorityId: parseInt(priorityId),
 
   }
@@ -75,18 +75,20 @@ function NewTask({ onClose }) {
     }
    
   };
-
+console.log(task);
 
   // Função para mudar a cor da prioridade
   const handlePriorityChange = (event) => {
     setPriorityColor(event.target.value);
     setPriorityId(parseInt(event.target.value)); // Definindo priority como número inteiro
   };
-  const handleEndDateChange = (event) => {
-    setDeadline(event.target.value + "T23:59:59"); 
-    setStartDate(event.target.value + "T00:00:00");
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
   };
 
+  const handleDeadlineChange = (event) => {
+    setDeadline(event.target.value );
+  };
   return (
     <div className="new-task-external-container" >
       
@@ -183,9 +185,11 @@ onChange={handlePrerequisiteChange} value={prerequisiteTasks.length > 0 ? prereq
               type="date"
               id="startDate"
               value={startDate}
-              onChange={handleEndDateChange}
+              onChange={handleStartDateChange}
             />
           </div>
+
+
           <div id="end_date">
             <p>
             {intl.formatMessage({ id: "finalDate" })}
@@ -194,7 +198,7 @@ onChange={handlePrerequisiteChange} value={prerequisiteTasks.length > 0 ? prereq
               type="date"
               id="deadline"
               value={deadline}
-              onChange={handleEndDateChange}
+              onChange={handleDeadlineChange}
             />
           </div>
         </div>
