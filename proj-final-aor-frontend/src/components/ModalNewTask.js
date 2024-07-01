@@ -12,6 +12,7 @@ function NewTask({ onClose }) {
   // Obtem a linguagem de exibição da página
   const { locale, token } = userStore();
   const [editTask, setEditTask] = useState(false);
+  const [showDependencies, setShowDependencies] = useState(false);
   const intl = useIntl();
 
   // Estados para guardar os dados da task para editar
@@ -21,7 +22,7 @@ function NewTask({ onClose }) {
   const [deadline, setDeadline] = useState("");
   const [startDate, setStartDate] = useState("");
   const [priorityId, setPriorityId] = useState("");
-  const [prerequisiteTasks, setPrerequisiteTasks] = useState([]);
+  const [tasksIdList, setTasksIdList] = useState([]);
   const [availableTasks, setAvailableTasks] = useState([]);
 
   // Obtendo o projectId da URL usando o useParams
@@ -54,18 +55,14 @@ function NewTask({ onClose }) {
     fetchTasks(); 
   }, [token, projectId]); 
   
-  const handlePrerequisiteChange = (event) => {
-    const selectedTaskId = parseInt(event.target.value);
-    if (event.target.checked) {
-      setPrerequisiteTasks([...prerequisiteTasks, selectedTaskId]);
-    } else {
-      setPrerequisiteTasks(prerequisiteTasks.filter(id => id !== selectedTaskId));
-    }
-  };
+  const handleAddDependencies = (event) => {
+    setShowDependencies(true);
+    setTasksIdList([]);
+  }
+
 
   const handlenewTask = async () => {
-
-    const result = await createTask(token, projectId, task);
+    const result = await createTask(token, projectId, task, tasksIdList);
     if(result===200){
       toast.success(intl.formatMessage({ id: 'taskCreatedSuccefuly' }))
       onClose();
@@ -75,7 +72,8 @@ function NewTask({ onClose }) {
     }
    
   };
-console.log(task);
+
+
 
   // Função para mudar a cor da prioridade
   const handlePriorityChange = (event) => {
@@ -89,10 +87,15 @@ console.log(task);
   const handleDeadlineChange = (event) => {
     setDeadline(event.target.value );
   };
+  const handleCloseDependencies = (event) => {
+    setShowDependencies(false);
+  };
+
+
   return (
     <div className="new-task-external-container" >
       
-      <div className="new-task-container">
+      <div className={`new-task-container ${showDependencies ? 'shift-left' : ''}`}>
         <div className="modal-close-task" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
@@ -157,21 +160,10 @@ console.log(task);
 </div>
 
 
-<div className="input-container">
- 
-<select className="select-task" 
-onChange={handlePrerequisiteChange} value={prerequisiteTasks.length > 0 ? prerequisiteTasks[0] : ''}>
-  {availableTasks.map((task) => (
-    <option key={task.id} value={task.id}>
-      {task.title}
-    </option>
-  ))}
-</select>
-
-  <label htmlFor="description-task" className="label-description-editProfile">
-        {intl.formatMessage({ id: "prerequisiteTasks" })}
+<div className="dependencies" onClick={handleAddDependencies}>
+        {intl.formatMessage({ id: "addDependys" })}
          
-        </label>
+     
 </div>
 
 
@@ -279,8 +271,48 @@ onChange={handlePrerequisiteChange} value={prerequisiteTasks.length > 0 ? prereq
 
         <div id="error_creating_task"></div>
       </div>
+      {showDependencies && (
+        <div className="dependencies_modal">
+           <div className="modal-close-dependencies" onClick={handleCloseDependencies}>
+          <IoIosCloseCircleOutline />
+        </div>
+          <h2 className= "dependencies-title">{intl.formatMessage({ id: "addDependys" })}</h2>
+          <div className="dependencies_list">
+            {availableTasks &&  availableTasks.map((task) => (
+              <div key={task.id} className="task_item">
+                <div className="checkbox">
+                <input
+                  type="checkbox"
+                  id={task.id}
+                  value={task.id}
+                  onChange={(event) => {
+                    const newPrerequisiteTasks = [...tasksIdList];
+                    if (event.target.checked) {
+                      newPrerequisiteTasks.push(task.id);
+                    } else {
+                      newPrerequisiteTasks.splice(
+                        newPrerequisiteTasks.indexOf(task.id),
+                        1
+                      );
+                    }
+                    setTasksIdList(newPrerequisiteTasks);
+                  }}
+                />
+                </div>
+                <div className="task-title">
+                <label htmlFor={task.id}>{task.title}</label>
+                </div>
+               
+              </div>
+            ))}
+             <button className="btns_task" id="task_save" onClick={handleCloseDependencies}>
+                  {intl.formatMessage ({id: "save"})}
+                </button>
+          </div>
+          </div>
+      )}
     </div>
   );
-}
 
+}
 export default NewTask;

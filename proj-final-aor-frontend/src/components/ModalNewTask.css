@@ -8,6 +8,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    gap: 200px; /* Espaço entre os modais */
     
   }
   
@@ -26,6 +27,10 @@
       top:130px;
     }
     
+  }
+
+  .new-task-container.shift-left {
+    margin-right:500px; /* Ajuste conforme necessário */
   }
   
   #description,
@@ -203,4 +208,79 @@
         transform: scale(0.9);
     }
 
+}
+.modal-close-dependencies{
+  position: absolute;
+  margin-left: 16%;
+  font-size: 30px;
+  font-weight: bold;
+  color: var(--main-red);
+  cursor: pointer;
+  align-items: right;
+  justify-content: flex-end;
+
+  &:hover{
+      color: var(--dark-red);
+  }
+
+  &:active{
+      transform: scale(0.9);
+  }
+
+}
+.dependencies-title{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.dependencies{
+  
+  cursor: pointer;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  background-color: #e5e5e5;
+  border-radius: 5px;
+  width: auto;
+  font-size: 15px;
+  color: var(--red2-color);
+  padding:5px;
+ 
+}
+
+.dependencies_modal {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 20%;
+margin-left: 300px;
+
+}
+
+
+.label-description-editProfile {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Estiliza o container da lista de dependências */
+.dependencies_list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estiliza cada item da tarefa */
+.task_item {
+  display: flex;
+  align-items: center; /* Alinha o checkbox e o label verticalmente */
+  margin-bottom: 8px; /* Espaçamento entre os itens */
+}
+
+/* Estiliza o checkbox */
+.task_item input[type="checkbox"] {
+  accent-color: #C01722; /* Cor do checkbox quando selecionado */
+}
+
+/* Estiliza o label */
+.task_item label {
+  margin-left: 8px; /* Espaçamento entre o checkbox e o label */
 }

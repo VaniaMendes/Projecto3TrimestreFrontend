@@ -8,7 +8,7 @@ import languages from "../translations";
 import ModalNewTask from '../components/ModalNewTask';
 import { useParams } from 'react-router';
 import { getProjectTasks } from '../services/TaskService';
-import GantChart from '../components/GanttChart';
+import GanttComponent from '../components/GanttChart';
 
 const ProjectPlan = () => {
     const {locale, token} = userStore();
@@ -21,18 +21,22 @@ const ProjectPlan = () => {
 
     useEffect(() => {
         const fetchTasks = async () => {
-          try {
-            const data = await getProjectTasks(token, projectId); 
-            setAvailableTasks(data); 
-          } catch (error) {
-            console.error("Error fetching tasks:", error);
-          }
+            try {
+                const data = await getProjectTasks(token, projectId); 
+                setAvailableTasks(data); 
+            } catch (error) {
+                console.error("Error fetching tasks:", error);
+            }
         };
     
         fetchTasks(); 
-      }, [token, projectId]); 
+    }, [token, projectId]); 
+    
+    console.log("Available tasks:", availableTasks);  // Verifique o estado atual de availableTasks
+    
 
     
+      console.log(availableTasks);
 
     return (
         <div>
@@ -43,7 +47,7 @@ const ProjectPlan = () => {
                    
                     <div className="project-plan-exterior-container">
                         <div className="project-plan-chart">
-                        <GantChart availableTasks={availableTasks}
+                        <GanttComponent availableTasks={availableTasks}
                            
                         />
                         </div>

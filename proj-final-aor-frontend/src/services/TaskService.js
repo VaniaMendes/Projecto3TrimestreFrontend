@@ -1,7 +1,12 @@
 const url = "http://localhost:8080/project_backend/rest/project";
 
-export async function createTask(token, projectId, task) {
+export async function createTask(token, projectId, task, tasksIdList) {
     try {
+
+        const requestBody = {
+            task: task,
+            tasksIdList: tasksIdList
+        };
         const response = await fetch(`${url}/${projectId}/add-task`, {
             method: 'POST',
             headers: {
@@ -9,7 +14,7 @@ export async function createTask(token, projectId, task) {
                 "Content-Type": "application/json",
                 'token': token
             },
-            body: JSON.stringify(task),
+            body: JSON.stringify(requestBody),
         });
 
         if (response.ok) {
@@ -43,6 +48,7 @@ export async function getProjectTasks(token, projectId){
 
         if(response.ok){
             const data = await response.json();
+            console.log(data);
 
             return data;
         }
