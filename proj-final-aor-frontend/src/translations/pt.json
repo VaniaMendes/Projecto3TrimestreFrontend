@@ -13,6 +13,7 @@
     "add": "Adicionar",
     "remove": "Remover",
     "edit": "Editar",
+    "close": "Fechar",
     "switchRole": "Mudar para {role}",
     "changePassword": "Recuperar senha",
     "changemypassword": "Alterar a minha senha",

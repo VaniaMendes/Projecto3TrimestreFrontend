@@ -38,7 +38,7 @@
 .resource-filter-brand-container,
 .resource-filter-supplier-container {
     overflow-y: auto;
-    max-height: 250px;
+    max-height: 23vh;
 }
 
 .resource-filter-supplier-container{
@@ -51,7 +51,6 @@
     }
 
     .resources-home-right-container {
-        display: flex;
         margin-top: 160px;
         justify-content: center;
         min-height: 0;

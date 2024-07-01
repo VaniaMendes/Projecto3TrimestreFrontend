@@ -14,6 +14,7 @@
     "add": "Add",
     "remove": "Remove",
     "edit": "Edit",
+    "close": "Close",
     "switchRole": "Switch to {role}",
     "changePassword": "Recovery Password",
     "changemypassword": "Change my Password",

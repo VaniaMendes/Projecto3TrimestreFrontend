@@ -53,13 +53,11 @@ const ResourcesHome = () => {
             if (responseBrands) {
                 setBrands(responseBrands);
             }
-
-        }
+        };
         fetchData();
     }, [token]);
 
     useEffect(() => {
-        console.log(type, brand, supplier, sort, nameSort, projectsSort);
         const fetchData = async () => {
             let responseResources;
 
@@ -75,57 +73,52 @@ const ResourcesHome = () => {
                 setResourcesData(responseResources);
                 setComponentsTotal(responseResources.length);
             }
-            console.log(responseResources);
-        }
+        };
         fetchData();
     }, [type, brand, supplier, sort, nameSort, projectsSort, location.search]);
 
     return (
         <div>
             <Header />
-            <FilterBar locale={locale} componentsTotal={componentsTotal}/>
-
+            <FilterBar locale={locale} componentsTotal={componentsTotal} />
             <IntlProvider locale={locale} messages={languages[locale]}>
                 <div className="resources-home-container">
-                {!isMobile && (
-                    <div className="resources-home-left-container">
-                        <FilterOptions
-                        locale={locale}
-                        isResourcesSideFilter={true}
-                        suppliers={suppliers}
-                        brands={brands}
-                        />
-                    </div>
-                )}
+                    {!isMobile && (
+                        <div className="resources-home-left-container">
+                            <FilterOptions
+                                locale={locale}
+                                isResourcesSideFilter={true}
+                                suppliers={suppliers}
+                                brands={brands}
+                            />
+                        </div>
+                    )}
                     <div className="resources-home-right-container">
                         {resourcesData.map(resource => (
                             <ResourceInfo 
-                                key={resource.id} 
+                                key={resource.id}
                                 photo={resource.photo} 
                                 id={resource.id} 
                                 name={resource.name} 
                                 brand={resource.brand}
                                 type={resource.type}
                                 projectsNumber={resource.projectsNumber}
+                                onClick={() => console.log(resource.id)}
                             />
                         ))}
                     </div>
-
-                {isMobile && (
-                    <SliderContainer isOpen={isSliderOpen} isResourcesPage={true}>
-                        <FilterOptions 
-                            locale={locale}
-                            isResourcesSideFilter={true}
-                            suppliers={suppliers}
-                            brands={brands}
-                        />
-                        
-                    </SliderContainer>
-                )}
+                    {isMobile && (
+                        <SliderContainer isOpen={isSliderOpen} isResourcesPage={true}>
+                            <FilterOptions 
+                                locale={locale}
+                                isResourcesSideFilter={true}
+                                suppliers={suppliers}
+                                brands={brands}
+                            />
+                        </SliderContainer>
+                    )}
                 </div>
             </IntlProvider>
-            
-            
         </div>
     );
 };

@@ -1,0 +1,54 @@
+.edit-resource-modal-overlay {
+    position: fixed; /* Fixed position to cover the entire viewport */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    z-index: 1000; 
+}
+
+
+.edit-resource-modal-container {
+background-color: var(--light-background-color);
+padding: 20px; 
+border-radius: 8px; 
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+width: 60%;
+z-index: 1001;
+margin-top: 140px;
+overflow-y: auto;
+}
+
+.edit-resource-input-container{
+    position: relative;
+}
+
+.edit-resource-form-top-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+}
+
+.suppliers-list-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px;
+    max-height: fit-content;
+    overflow-y: auto;
+    
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+
+        th, td{
+            padding: 5px;
+        }
+    }
+}
