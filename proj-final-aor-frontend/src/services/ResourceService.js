@@ -24,6 +24,30 @@ const ResourceService = {
         }
     },
 
+    getResourceById: async (id, token) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${id}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+    },
+
+
     getAllResources: async (sort, name, projects) => {
             
         const queryParams = new URLSearchParams({
@@ -31,8 +55,6 @@ const ResourceService = {
             ...(name ? { name } : {}),
             ...(projects ? { projects } : {}),
         }).toString();
-
-        console.log(`${API_BASE_URL}/?${queryParams}`);
 
         try {
             const response = await fetch(`${API_BASE_URL}/?${queryParams}`, {
@@ -86,6 +108,50 @@ const ResourceService = {
             console.error(error);
         }
 
+    },
+
+    updateResource: async (token, id, data) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                return response.ok;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    addSupplier: async (token, id, supplier) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${id}/supplier`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                },
+                body: JSON.stringify(supplier)
+            });
+
+            if (response.ok) {
+                return response.ok;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     },
 
     getAllBrands: async () => {
