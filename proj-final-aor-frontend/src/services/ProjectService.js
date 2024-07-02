@@ -462,7 +462,7 @@ const ProjectService = {
         }
     },
 
-    addResource: async(token, projectId, resource, quantity) => {
+    addResource: async(token, projectId, resourceId, quantity) => {
         try{
             const response = await fetch(`${API_BASE_URL}/${projectId}/resource`,  {
                 method: "POST",
@@ -470,10 +470,12 @@ const ProjectService = {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     "token": token,
-                    "quantity": quantity
+                    "quantity": quantity,
+                    "resourceId": resourceId
                 },
-                body: JSON.stringify(resource)
             })
+
+            console.log("addResource", response);
     
             if(response.ok){
                 return response.ok;
