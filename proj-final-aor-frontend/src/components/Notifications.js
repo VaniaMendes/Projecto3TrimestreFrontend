@@ -130,12 +130,13 @@ function Notifications() {
         )}
       </div>
       <div className="pagination">
+        {totalPages > 0 && (
         
       <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
               onPageChange={(currentPage) => setCurrentPage(currentPage)}
-            />
+            />)}
       </div>
       </div>
       </IntlProvider>

@@ -25,7 +25,7 @@ export const userStore = create (
             typeUser:'',
             updateTypeUser : (typeUser) => set({ typeUser }),
 
-            resetUserStore: () => set({ token: '', userData: [], locale: 'en', userId: null, name: '', photo:''}),
+            resetUserStore: () => set({ token: '', userData: [], locale: 'en', userId: null, name: '', photo:'', typeUser: ''}),
         }),
         {
             name: 'userStore',

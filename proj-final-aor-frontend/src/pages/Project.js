@@ -15,7 +15,8 @@ import KeywordComponent from "../components/keywords/KeywordComponent";
 import AddNewSkill from "../components/profile/AddNewSkill";
 import { toast } from "react-toastify";
 import { getUserProjectStatus } from "../services/users";
-import ProjectChat from '../components/ProjectChat'
+import ProjectChat from '../components/ProjectChat';
+
 
 
 const Project = () => {
@@ -166,6 +167,10 @@ const Project = () => {
     const handleOpenModalKeyword = () => {
         setIsAddModalOpen(true);
         setModalType("keyword");
+    };
+  
+    const handlePlanExecution = () => {
+        navigate(`/project/${projectId}/execution-plan`);
     };
 
     const handleNewDescription = async (description) => {
@@ -522,6 +527,7 @@ const Project = () => {
                             <>
                                 <div className="project-page-plan">
                                     <label className="c-label"><FormattedMessage id="plan"/></label>
+                                    <button onClick={handlePlanExecution} ><FormattedMessage id="executionPlan"/></button>
                                 </div>
                                 <div className="project-page-activity-historic">
                                     <label className="c-label"><FormattedMessage id="activityLog"/></label>

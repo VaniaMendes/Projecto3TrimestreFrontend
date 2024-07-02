@@ -57,6 +57,23 @@
     "messageSent": "Message successfully sent",
     "allreadyhaveanaccount": "Already have an account?",
     "notallreadyhaveanaccount": "Don't have an account?",
+    "addTask": "Add Task",
+    "taskEdition": " Edit task",
+    "executors": "Adicional executors",
+    "title": "Title",
+    "prerequisiteTasks": "Prerequisite Tasks",
+    "taskCreatedSuccefuly": "Task created successfully",
+    "initialDate": "Initial Date",
+    "finalDate": "Final Date",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "priority": "Priority",
+    "update": "Update",   
+    "addDependys": "Add Dependencies",
+    "executionPlan": "Execution Plan",
+    "showTaskList": "Show Task List",
+    
    
 
     "usersAvailable": "Users Available",

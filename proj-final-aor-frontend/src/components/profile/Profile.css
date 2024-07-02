@@ -341,3 +341,10 @@ textarea:not(:placeholder-shown) + .textarea-label-description.editProfile {
   color: var(--red2-color);
   background-color: white;
 }
+.project-position{
+    position: absolute;
+    top: -50px;
+    right: 70px;
+    background-color: #f0f0f0;
+    padding: 10px;
+}

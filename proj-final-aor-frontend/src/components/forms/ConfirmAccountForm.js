@@ -173,7 +173,7 @@ const handleChangePhoto = (event) => {
           />
           <label className="label-description" htmlFor="nickname">
                             <FormattedMessage id="nickname">
-                                {(message) => <span>{message}*</span>}
+                                {(message) => <span>{message}</span>}
                             </FormattedMessage>
                         </label>
           </div>
