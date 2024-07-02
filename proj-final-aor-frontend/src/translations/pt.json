@@ -117,9 +117,11 @@
     "keywords": "Palavras-chave",
     "skills": "Competências",
     "teamMembers": "Membros da Equipa",
-    "resources": "Recursos",
-    "noResources": "Sem recursos associados",
-    "resourceUpdated": "Recurso atualizado com sucesso",
+    "resources": "Componentes",
+    "addResource": "Adicionar Componentes",
+    "noResources": "Sem componentes associados",
+    "resourceUpdated": "Componente atualizado com sucesso",
+    "resourceAdded": "{quantity} {name} adicionado com sucesso", 
     "brand": "Marca",
     "quantity": "Quantidade",
     "supplier": "Fornecedor",
@@ -148,7 +150,7 @@
     "EDIT_PROJECT_DATA": "Informação Geral Editada",
     "REMOVED_MEMBER": "Membro Removido",
     "UPDATED_MEMBER_ROLE": "Função do Membro Atualizada",
-    "ADDED_RESOURCE": "Recurso Adicionado",
+    "ADDED_RESOURCE": "Componente Adicionado",
 
 
     "addKeyword": "Adicionar Palavra-chave",
