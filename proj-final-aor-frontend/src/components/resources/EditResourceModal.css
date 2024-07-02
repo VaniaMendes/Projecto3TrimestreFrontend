@@ -39,7 +39,7 @@ overflow-y: auto;
     align-items: center;
     justify-content: flex-start;
     padding: 5px;
-    max-height: fit-content;
+    max-height: 20vh;
     overflow-y: auto;
     
     table{
@@ -47,8 +47,17 @@ overflow-y: auto;
         border-collapse: collapse;
         margin-top: 10px;
 
-        th, td{
+        th{
+            padding: 0 5px 5px 5px;
+        }
+
+        td{
             padding: 5px;
         }
     }
+}
+
+.close-modal-button{
+    display: flex;
+    justify-content: flex-end;
 }

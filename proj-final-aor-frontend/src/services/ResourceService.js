@@ -132,15 +132,16 @@ const ResourceService = {
         }
     },
 
-    addSupplier: async (token, id, supplierId) => {
+    addSupplier: async (token, id, supplier) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/${id}/supplier/${supplierId}`, {
+            const response = await fetch(`${API_BASE_URL}/${id}/supplier`, {
                 method: "PUT",
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     "token": token
                 },
+                body: JSON.stringify(supplier)
             });
 
             if (response.ok) {

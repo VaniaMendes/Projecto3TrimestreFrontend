@@ -9,12 +9,13 @@ import languages from "../translations";
 import SupplierService from "../services/SupplierService";
 import ResourceService from "../services/ResourceService";
 import ResourceInfo from "../components/resources/ResourceInfo";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import SliderContainer from "../components/SliderContainer";
 import { useActionsStore } from "../stores/ActionStore";
 
 const ResourcesHome = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const {locale, token} = userStore();
     const { isSliderOpen } = useActionsStore();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -31,6 +32,12 @@ const ResourcesHome = () => {
     const sort = queryParams.get('sort');
     const nameSort = queryParams.get('name');
     const projectsSort = queryParams.get('projects');
+
+    useEffect(() => {
+        if (!token) {
+            navigate("/");
+        }
+    }, [token, navigate]);
 
     useEffect(() => {
         const handleResize = () => {

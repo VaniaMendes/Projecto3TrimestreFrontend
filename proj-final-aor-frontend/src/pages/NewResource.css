@@ -58,6 +58,7 @@
 .suppliers-input-container{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 70%;
     border: solid 1px var(--main-red);
     border-radius: 3px;

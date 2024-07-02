@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import './EditResourceModal.css';
 import { HiMiniKey, HiMiniWrench } from 'react-icons/hi2';
 import ResourceService from '../../services/ResourceService';
 import { userStore } from '../../stores/UserStore';
 import SupplierService from '../../services/SupplierService';
+import { toast } from 'react-toastify';
 
 const EditResourceModal = (props) => {
+    const intl = useIntl();
     const { id, onClose } = props;
     const { token } = userStore();
     const [searchQuery, setSearchQuery] = useState("");
-    const [suppliersSearchedList, setSuppliersSearchedList] = useState([]);
     const [suppliersList, setSuppliersList] = useState([]);
-
     const [resourceSuppliers, setResourceSuppliers] = useState([]);
+    const [showSuppliersList, setShowSuppliersList] = useState(false);
     
     const [formData, setFormData] = useState({
         name: '',
@@ -21,10 +22,10 @@ const EditResourceModal = (props) => {
         sourceId: '',
         type: '',
         photo: '',
-        description: '',
-        suppliers: [{ name: '', contact: '' }],
+        description: ''
     });
-
+    const [initialFormData, setInitialFormData] = useState({});
+    const [newSupplier, setNewSupplier] = useState({ id: '', name: '', contact: '' });
     const [photoPreview, setPhotoPreview] = useState('');
 
     useEffect(() => {
@@ -34,16 +35,18 @@ const EditResourceModal = (props) => {
                     const response = await ResourceService.getResourceById(id, token);
                     if (response) {
                         setResourceSuppliers(response.suppliers);
-                        setFormData({
+                        const initialData = {
                             name: response.name || '',
                             brand: response.brand || '',
                             sourceId: response.sourceId || '',
                             type: response.type || '',
                             photo: response.photo || '',
-                            description: response.description || '',
-                            suppliers: [{ name: '', contact: '' }],
-                        });
+                            description: response.description || ''
+                        };
+                        setFormData(initialData);
+                        setInitialFormData(initialData);
                         setPhotoPreview(response.photo || '');
+                        setNewSupplier({ id: '', name: '', contact: '' });
                     }
                 } catch (error) {
                     console.error("Error fetching resource:", error);
@@ -85,13 +88,25 @@ const EditResourceModal = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const updatedResource = { ...formData };
-            await ResourceService.updateResource(token, id, updatedResource);
 
-        
-            await ResourceService.addSupplier(token, id, suppliersList[0].id);
-            console.log("Resource updated successfully");
+        const updatedFields = {};
+        Object.keys(formData).forEach(key => {
+            if (formData[key] !== initialFormData[key]) {
+                updatedFields[key] = formData[key];
+            }
+        });
+
+        try {
+            if (Object.keys(updatedFields).length > 0) {
+                await ResourceService.updateResource(token, id, updatedFields);
+                toast.success(intl.formatMessage({ id: "resourceUpdated" }));
+            }
+
+            if (newSupplier.name) {
+                await ResourceService.addSupplier(token, id, newSupplier);
+                toast.success(intl.formatMessage({ id: "supplierAdded" }));
+            }
+
             onClose();
         } catch (error) {
             console.error("Error updating resource:", error);
@@ -101,35 +116,44 @@ const EditResourceModal = (props) => {
     const handleSupplierChange = (e) => {
         const { value } = e.target;
         setSearchQuery(value);
-        setFormData({
-            ...formData,
-            suppliers: [{ ...formData.suppliers[0], name: value }]
-        });
+        setNewSupplier({ id: '', name: value, contact: '' });
+        setShowSuppliersList(true);
     };
 
     const handleSupplierContactChange = (e) => {
         const { value } = e.target;
-        setFormData({
-            ...formData,
-            suppliers: [{ ...formData.suppliers[0], contact: value }]
-        });
+        setNewSupplier({ ...newSupplier, contact: value });
     };
 
     const selectSupplier = (supplier) => {
-        setFormData({
-            ...formData,
-            suppliers: [{ name: supplier.name, contact: supplier.contact }]
-        });
+        setNewSupplier({ id: supplier.id, name: supplier.name, contact: supplier.contact });
         setSearchQuery('');
         setSuppliersList([]);
+        setShowSuppliersList(false);
     };
 
     const renderSearchedSuppliersList = () => {
-        return suppliersList.map((supplier, index) => (
-            <div key={index} className="supplier-item" onClick={() => selectSupplier(supplier)}>
-                <span>{supplier.name} - {supplier.contact}</span>
+        if (!showSuppliersList || !searchQuery) {
+            return null;
+        }
+
+        const filteredSuppliers = suppliersList.filter(supplier =>
+            supplier.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        if (filteredSuppliers.length === 0) {
+            return <div><FormattedMessage id="noMatchingSuppliers"/></div>;
+        }
+
+        return (
+            <div className="suppliers-search-list">
+                {filteredSuppliers.map((supplier, index) => (
+                    <div key={index} className="supplier-item" onClick={() => selectSupplier(supplier)}>
+                        {supplier.name}
+                    </div>
+                ))}
             </div>
-        ));
+        );
     };
 
     const renderThisSuppliersList = () => {
@@ -156,7 +180,10 @@ const EditResourceModal = (props) => {
     return (
         <div className="edit-resource-modal-overlay">
             <div className="edit-resource-modal-container">
-                <button className="close-modal-button" onClick={onClose}><FormattedMessage id="close" /></button>
+                <div className="close-modal-button">
+                    <button onClick={onClose}><FormattedMessage id="close" /></button>
+                </div>
+                
                 <form className="new-resource-form" onSubmit={handleSubmit}>
                     <div className="edit-resource-form-top-container">
                         <div className="nrftc-left">
@@ -214,13 +241,13 @@ const EditResourceModal = (props) => {
                         <div>
                             <div className="new-resource-input-container">
                                 <label className="new-resource-input-label" htmlFor="suppliersName"><FormattedMessage id="name" /> :</label>
-                                <input type="text" id="suppliersName" name="name" placeholder="Supplier Name" required value={formData.suppliers[0].name} onChange={handleSupplierChange} />
+                                <input type="text" id="suppliersName" name="name" placeholder="Supplier Name" value={newSupplier.name} onChange={handleSupplierChange} />
                                 {renderSearchedSuppliersList()}
                             </div>
 
                             <div className="new-resource-input-container">
                                 <label className="new-resource-input-label" htmlFor="suppliersContact"><FormattedMessage id="contact" /> :</label>
-                                <input type="text" id="suppliersContact" name="contact" placeholder="Supplier Contact" required value={formData.suppliers[0].contact} onChange={handleSupplierContactChange} />
+                                <input type="text" id="suppliersContact" name="contact" placeholder="Supplier Contact" value={newSupplier.contact} onChange={handleSupplierContactChange} />
                             </div>
                         </div>
                         
