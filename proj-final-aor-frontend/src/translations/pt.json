@@ -114,6 +114,7 @@
     "material": "Físico",
     "sourceId": "ID da Fonte",
     "author": "Autor",
+    "obs": "Observações",
     "contact": "Contacto",
     "dateRegisted": "Data",
     "projectsNumber": "Número de Projetos",
@@ -129,6 +130,7 @@
     "EDIT_PROJECT_DATA": "Informação Geral Editada",
     "REMOVED_MEMBER": "Membro Removido",
     "UPDATED_MEMBER_ROLE": "Função do Membro Atualizada",
+    "ADDED_RESOURCE": "Recurso Adicionado",
 
 
     "addKeyword": "Adicionar Palavra-chave",

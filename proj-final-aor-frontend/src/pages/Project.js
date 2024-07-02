@@ -532,6 +532,7 @@ const Project = () => {
                                                 <tr>
                                                     <th><FormattedMessage id="type"/></th>
                                                     <th><FormattedMessage id="author"/></th>
+                                                    <th><FormattedMessage id="obs"/></th>
                                                     <th><FormattedMessage id="dateRegisted"/></th>
                                                 </tr>
                                             </thead>
@@ -540,6 +541,7 @@ const Project = () => {
                                                     <tr key={index}>
                                                         <td><FormattedMessage id={activity.type}/></td>
                                                         <td>{activity.author.name}</td>
+                                                        <td>{activity.observation}</td>
                                                         <td>{new Date(activity.createdAt).toLocaleString()}</td>
                                                     </tr>
                                                 ))}

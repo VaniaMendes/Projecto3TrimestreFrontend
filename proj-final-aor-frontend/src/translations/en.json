@@ -118,6 +118,7 @@
     "material": "Material",
     "sourceId": "Source Id",
     "author": "Author",
+    "obs": "Observations",
     "contact": "Contact",
     "dateRegisted": "Date",
     "projectsNumber": "Number of Projects",
@@ -133,6 +134,7 @@
     "EDIT_PROJECT_DATA": "Data Edited",
     "REMOVED_MEMBER": "Removed Member",
     "UPDATED_MEMBER_ROLE": "Updated Member Role",
+    "ADDED_RESOURCE": "Added Resource",
 
     "addKeyword": "Add Keyword",
     "addNeed": "Add Need",

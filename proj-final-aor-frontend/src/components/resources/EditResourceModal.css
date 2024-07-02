@@ -61,3 +61,23 @@ overflow-y: auto;
     display: flex;
     justify-content: flex-end;
 }
+
+@media (max-width: 768px){
+    .edit-resource-modal-container{
+        width: 100%;
+    }
+
+    .edit-resource-form-top-container{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .suppliers-info{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .suppliers-list-container{
+        max-height: 30vh;
+    }
+}

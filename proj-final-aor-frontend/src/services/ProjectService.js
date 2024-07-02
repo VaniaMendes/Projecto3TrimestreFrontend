@@ -462,6 +462,34 @@ const ProjectService = {
         }
     },
 
+    addResource: async(token, projectId, resource, quantity) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/resource`,  {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                    "quantity": quantity
+                },
+                body: JSON.stringify(resource)
+            })
+    
+            if(response.ok){
+                return response.ok;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to add resource to the project:", response.status, errorData);
+                return null;
+            }
+
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
     getUsersAvailable: async(token, projectId) => {
         try{
             const response = await fetch(`${API_BASE_URL}/${projectId}/users/available`,  {
