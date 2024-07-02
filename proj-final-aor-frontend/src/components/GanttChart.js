@@ -2,56 +2,45 @@ import React from "react";
 import { Gantt, ViewMode } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 
-const GanttComponent = ({ availableTasks }) => {
-  
-  // Verifique os dados de entrada
-  console.log(availableTasks);
 
-  // Mapeie os dados de availableTasks para o formato esperado pela biblioteca gantt-task-react
-  let tasks = availableTasks && availableTasks.filter(task => task.startDate).map(task => ({
-    id: task.id.toString(),          // ID da tarefa
-    name: task.title,                // Nome da tarefa
-    start: new Date(task.startDate), // Data de início da tarefa
-    end: new Date(task.deadline),    // Data de término da tarefa
-    progress: 0,                     // Progresso da tarefa (0 a 100)
-   
-    isDisabled: true,
-    styles: { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' }
-  }));
+const GanttComponent = ({ availableTasks, showList }) => {
 
-  const view = new ViewMode({ timeStep: 1, scale: 1, primaryHeader: true, secondaryHeader: true });
 
-  const onTaskChange = (taskId, newStart, newEnd) => {
-    console.log(`Task ${taskId} changed from ${newStart} to ${newEnd}`);
-  };
-  const onTaskDelete = (taskId) => {
-    console.log(`Task ${taskId} deleted`);
-  };
-  const onProgressChange = (taskId, newProgress) => {
-    console.log(`Task ${taskId} progress changed to ${newProgress}`);
-  };
-  const onDblClick = (taskId) => {
-    console.log(`Task ${taskId} double-clicked`);
-  };
-  const onClick = (taskId) => {
-    console.log(`Task ${taskId} clicked`);
-  };
+  let tasks = [];
+  try {
+    tasks = availableTasks
+      .filter(task => task.startDate && task.deadline) // Existing check for startDate and deadline
+      .map(task => {
+        return {
+          id: task.id?.toString() || '',
+          name: task.title || 'Untitled Task',
+          start: new Date(task.startDate), // Convert to Date object
+          end: new Date(task.deadline), // Convert to Date object
+          dependencies: task.dependencies ? task.dependencies.map(dep => dep.id.toString()) : [],
+          isDisabled: true,
+          styles: { progressColor: '#ffbb54', progressSelectedColor: '#ff9e0d' }
+        };
+      })
+      .filter(task => task !== null);
+  } catch (error) {
+    console.error("Error mapping tasks:", error);
+  }
+  console.log("Mapped Tasks:", tasks);
+
+  const view = ViewMode.Week;
+  console.log(showList)
+
 
   return (
-    <div style={{ width: '100%', height: '400px' }}>
-      <Gantt
-        tasks={tasks || []}
-          viewMode={view}
-  onDateChange={onTaskChange}
-  onTaskDelete={onTaskDelete}
-  onProgressChange={onProgressChange}
-  onDoubleClick={onDblClick}
-  onClick={onClick}
-         
+    <div style={{ position: 'relative', width: '100%', height: '400px' }}>
+        <Gantt
+            tasks={tasks}
+            viewMode={view}    
+                 
+        />
        
-      />
     </div>
-  );
+);
 };
 
 export default GanttComponent;

@@ -70,6 +70,8 @@
     "priority": "Priority",
     "update": "Update",   
     "addDependys": "Add Dependencies",
+    "executionPlan": "Execution Plan",
+    "showTaskList": "Show Task List",
     
    
 

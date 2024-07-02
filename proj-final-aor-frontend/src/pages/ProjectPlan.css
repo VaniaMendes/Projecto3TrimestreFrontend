@@ -14,12 +14,12 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 90%;
     border: solid 1px var(--light-grey2);
     border-radius: 5px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     padding: 20px;
-    height: 600px;
+    height: 620px;
 }
 
 .project-plan-separator {

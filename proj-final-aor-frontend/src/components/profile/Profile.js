@@ -176,7 +176,7 @@ function Profile() {
                 )}
 {user && user.id === userLoggedID && (
                 <div className="user-email">
-                  <Visibility visibility={user.visibilityState} onChangeVisibility={onChangeVisibility} />
+                  <Visibility visibility={user.visibilityState} onChangeVisibility={onChangeVisibility} profile={true} />
                 </div>)}
          
               </div>
