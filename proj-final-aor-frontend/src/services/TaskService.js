@@ -63,3 +63,61 @@ export async function getProjectTasks(token, projectId){
         return null;
 }
 }
+
+export async function updateTaskStatus(token, projectId, taskId, status){
+    try{
+
+        const response = await fetch(`${url}/${projectId}/${taskId}/update-status?status=${status}`,  {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+           
+            return 200;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("failed to update task status:", response.status, errorData);
+            return 400;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+}
+
+export async function softDeleteTask(token, projectId, taskId){
+    try{
+
+        const response = await fetch(`${url}/${projectId}/${taskId}/soft-delete`,  {
+            method: "PUT",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+           
+            return 200;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("failed to soft delete task:", response.status, errorData);
+            return 400;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+}

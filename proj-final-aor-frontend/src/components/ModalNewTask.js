@@ -121,7 +121,7 @@ function NewTask({ onClose }) {
             />
           
    
-        <label htmlFor="title" className="label-description-editProfile">
+        <label htmlFor="title" className="label-description-task">
         {intl.formatMessage({ id: "title" })}
         </label>
 
@@ -137,7 +137,7 @@ function NewTask({ onClose }) {
             ></textarea>
           
           
-        <label htmlFor="description-task" className="label-description-editProfile">
+        <label htmlFor="description-task" className="label-description-task">
         {intl.formatMessage({ id: "description" })}
         </label>
        </div>
@@ -152,7 +152,7 @@ function NewTask({ onClose }) {
               value={additionalExecutors}
               onChange={(event) => setAdicionalExecutors(event.target.value)}
             ></textarea>
-             <label htmlFor="description-task" className="label-description-editProfile">
+             <label htmlFor="description-task" className="label-description-task">
         {intl.formatMessage({ id: "executors" })}
          
         </label>
@@ -251,7 +251,7 @@ function NewTask({ onClose }) {
             }}
           ></div>
         </div>
-        <label htmlFor="description-task" className="label-description-editProfile">
+        <label htmlFor="description-task" className="label-description-task">
         {intl.formatMessage({ id: "priority" })}
          
         </label>
@@ -276,7 +276,7 @@ function NewTask({ onClose }) {
            <div className="modal-close-dependencies" onClick={handleCloseDependencies}>
           <IoIosCloseCircleOutline />
         </div>
-          <h2 className= "dependencies-title">{intl.formatMessage({ id: "addDependys" })}</h2>
+          <h2 className= "label-description-task">{intl.formatMessage({ id: "addDependys" })}</h2>
           <div className="dependencies_list">
             {availableTasks &&  availableTasks.map((task) => (
               <div key={task.id} className="task_item">

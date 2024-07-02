@@ -10,6 +10,7 @@ import { useParams } from 'react-router';
 import { getProjectTasks } from '../services/TaskService';
 import GanttComponent from '../components/GanttChart';
 import Visibility from '../components/profile/Visibility';
+import TaskBoard from '../components/TaskBoard';
 
 const ProjectPlan = () => {
     const { locale, token } = userStore();
@@ -17,8 +18,10 @@ const ProjectPlan = () => {
     const { projectId } = useParams();
     const [availableTasks, setAvailableTasks] = useState([]);
     const [isPageLoaded, setIsPageLoaded] = useState(false);
-    const [showList, setShowList] = useState(false);
+    const [showList, setShowList] = useState(true);
     const [viewMode, setViewMode] = useState('Week'); // Estado para controlar o modo de visualização
+    const [showBoard, setShowBoard] = useState(false);
+    const [showGantt, setShowGantt] = useState(false);
 
     const closeModal = () => setIsModalOpen(false);
     const handleNewTask = () => setIsModalOpen(true);
@@ -45,19 +48,32 @@ const ProjectPlan = () => {
     const showTasksList = () => {
         setShowList(!showList);
     }
+    
+    const handleChange = () => {
+        setShowBoard(false);
+        setShowGantt(true);
+    }
+    
+    const handleChangeBoard = () => {
+        setShowBoard(true);
+        setShowGantt(false);
+    }
 
     return (
         <div>
             <IntlProvider locale={locale} messages={languages[locale]}>
                 <div className="project-plan-container">
                     <Header />
-                    <div className="project-plan-separator"><p className="separator-description">GANT</p></div>
-                    {isPageLoaded && (<Visibility project={true} showTasksList={showTasksList}/>)}
-                    <Buttons setViewMode={setViewMode} /> {/* Passar setViewMode como prop */}
+                    <div className="project-plan-separator"><p className="separator-description" onClick={handleChange}>GANT</p></div>
+                    <div className="project-plan-separator-board"><p className="separator-description" onClick={handleChangeBoard}>BOARD</p></div>
+                    {!showBoard && isPageLoaded && (<Visibility project={true} showTasksList={showTasksList}/>)}
+                    {!showBoard && (<Buttons setViewMode={setViewMode} />)}
 
                     <div className="project-plan-exterior-container">
                         <div className="project-plan-chart">
-                            {isPageLoaded && <GanttComponent availableTasks={availableTasks} showList={showList} viewMode={viewMode} />}
+                           
+                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={availableTasks} showList={showList} viewMode={viewMode} />}
+                    {showBoard && <TaskBoard listTasks={availableTasks} />}
                         </div>
                         <TaskAdder handleNewTask={handleNewTask} />
                     </div>
@@ -73,8 +89,8 @@ const TaskAdder = ({ handleNewTask }) => {
     const intl = useIntl();
 
     return (
-        <div className="add-task" onClick={handleNewTask}>
-            <GoPlusCircle /> <p>{intl.formatMessage({ id: "addTask" })}</p>
+        <div className="add-task" >
+            <GoPlusCircle className= "add-task-button" onClick={handleNewTask}/> <p>{intl.formatMessage({ id: "addTask" })}</p>
         </div>
     );
 };

@@ -11,6 +11,7 @@
     gap: 200px; /* Espaço entre os modais */
     
   }
+ 
   
   .new-task-container {
     background-color: white;
@@ -53,6 +54,16 @@
     border-radius: 5px;
     height: 150px;
   }
+  .label-description-task {
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    pointer-events: none;
+    transition: all 0.2s;
+    font-size: 15px;
+    color: var(--red2-color);
+    background-color: white;
+  }
   
   .description-task {
     padding: 8px;
@@ -69,6 +80,8 @@
     border-radius: 5px;
     height: 100px;
     scrollbar-width: thin;
+    color: var(--main-red);
+    
   }
   
   .descriptioLabelTask {
@@ -76,6 +89,7 @@
     margin-bottom: -5px;
     font-weight: bold;
     margin-left: 10px;
+    color: var(--main-red);
   }
 
 
@@ -219,6 +233,7 @@
   align-items: right;
   justify-content: flex-end;
 
+
   &:hover{
       color: var(--dark-red);
   }
@@ -243,7 +258,7 @@
   font-size: 15px;
   color: var(--red2-color);
   padding:5px;
- 
+  text-align: center;
 }
 
 .dependencies_modal {
@@ -252,7 +267,10 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   width: 20%;
+  max-height: 500px;
 margin-left: 300px;
+overflow-y: auto;
+scrollbar-width: thin;
 
 }
 

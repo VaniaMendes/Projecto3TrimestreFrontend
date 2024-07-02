@@ -76,6 +76,9 @@
     "month": "Month",
     "days": "Day",
     "week": "Week",
+    "planned": "Planned",
+    "inProgress": "In Progress",
+    "finished": "Finished",
   
     
    
