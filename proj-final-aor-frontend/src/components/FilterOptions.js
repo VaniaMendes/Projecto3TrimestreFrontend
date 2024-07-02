@@ -309,9 +309,12 @@ const FilterOptions = (props) => {
     if (isResourcesSideFilter) {
         return (
             <div className='resources-side-filter'>
-                <p className='resource-filter-label'>
-                <FormattedMessage id="type" />
-                </p>
+                <div className='resource-filter-label-container'>
+                    <p className='resource-filter-label'>
+                        <FormattedMessage id="type" />
+                    </p>
+                </div>
+                
                 <div className='resource-filter-type-container'>
                     <input
                         type="radio"
@@ -357,9 +360,11 @@ const FilterOptions = (props) => {
                         <label className="radio-label" htmlFor="material"><FormattedMessage id="material" /></label>
                     </div>
                 </div>
-                <p className='resource-filter-label'>
-                    <FormattedMessage id="brand" />
-                </p>
+                <div className='resource-filter-label-container'>
+                    <p className='resource-filter-label'>
+                        <FormattedMessage id="brand" />
+                    </p>
+                </div>
                 <div className='resource-filter-brand-container'>
                     <input
                         type="radio"
@@ -393,9 +398,11 @@ const FilterOptions = (props) => {
                     ))}
                 </div>
 
-                <p className='resource-filter-label'>
-                    <FormattedMessage id="supplier" />
-                </p>
+                <div className='resource-filter-label-container'>
+                    <p className='resource-filter-label'>
+                        <FormattedMessage id="supplier" />
+                    </p>
+                </div>
                 <div className='resource-filter-supplier-container'>
                     <input
                         type="radio"

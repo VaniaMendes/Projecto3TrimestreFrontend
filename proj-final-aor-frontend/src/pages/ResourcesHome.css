@@ -30,19 +30,25 @@
 
 .resource-filter-type-container,
 .resource-filter-brand-container {
-    border-bottom: solid 1px var(--light-grey2);
-    margin: 10px 0;
+    border-bottom: solid 1px var(--grey-color);
+    margin: 5px 0;
     padding-bottom: 10px;
 }
 
 .resource-filter-brand-container,
 .resource-filter-supplier-container {
     overflow-y: auto;
-    max-height: 250px;
+    max-height: 23vh;
 }
 
 .resource-filter-supplier-container{
     margin: 10px 0;
+}
+
+.resource-filter-label{
+    font-size: 1em;
+    font-weight: bold;
+    padding: 3px 5px;
 }
 
 @media (max-width: 768px) {
@@ -51,7 +57,6 @@
     }
 
     .resources-home-right-container {
-        display: flex;
         margin-top: 160px;
         justify-content: center;
         min-height: 0;

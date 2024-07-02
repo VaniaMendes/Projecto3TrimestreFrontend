@@ -35,7 +35,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 30px 0;
+    margin: 30px 0 0 0;
 }
 
 .new-resource-photo-container{
@@ -58,6 +58,7 @@
 .suppliers-input-container{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 70%;
     border: solid 1px var(--main-red);
     border-radius: 3px;
