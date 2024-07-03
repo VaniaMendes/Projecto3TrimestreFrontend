@@ -3,7 +3,7 @@ import { Gantt, ViewMode } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 
 
-const GanttComponent = ({ availableTasks, showList }) => {
+const GanttComponent = ({ availableTasks, showList, viewMode }) => {
 
 
   let tasks = [];
@@ -27,7 +27,7 @@ const GanttComponent = ({ availableTasks, showList }) => {
   }
   console.log("Mapped Tasks:", tasks);
 
-  const view = ViewMode.Week;
+  const view = ViewMode[viewMode] || ViewMode.Week;
   console.log(showList)
 
 
@@ -35,7 +35,8 @@ const GanttComponent = ({ availableTasks, showList }) => {
     <div style={{ position: 'relative', width: '100%', height: '400px' }}>
         <Gantt
             tasks={tasks}
-            viewMode={view}    
+            viewMode={view} 
+            listCellWidth={showList ? undefined : ''}   
                  
         />
        

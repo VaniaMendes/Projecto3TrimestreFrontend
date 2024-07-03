@@ -73,9 +73,14 @@
     "addDependys": "Add Dependencies",
     "executionPlan": "Execution Plan",
     "showTaskList": "Show Task List",
-    
-   
-
+    "month": "Month",
+    "days": "Day",
+    "week": "Week",
+    "planned": "Planned",
+    "inProgress": "In Progress",
+    "finished": "Finished",
+    "editDependys": "Edit Dependencies",
+  
     "usersAvailable": "Users Available",
     "usersPending": "Users Pending",
 
