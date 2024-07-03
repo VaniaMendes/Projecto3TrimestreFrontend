@@ -67,6 +67,27 @@ const ProjectService = {
         }
     },
 
+    searchKeywords: async (keyword) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/keywords/search?keyword=${keyword}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     count: async (state) => {
 
         try {
