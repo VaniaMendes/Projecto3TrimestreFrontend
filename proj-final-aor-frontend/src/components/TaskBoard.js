@@ -6,6 +6,7 @@ import Task from "./Task";
 import { useParams } from "react-router";
 
 import {updateTaskStatus, softDeleteTask} from "../services/TaskService";
+import ModalNewTask from "./ModalNewTask";
 
 
 
@@ -17,11 +18,14 @@ const TaskBoard = ({listTasks})=>{
     const intl = useIntl();
 
     const [tasks, setTasks] = useState(listTasks);
+    const [editTask, setEditTask] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [taskIdEdit, setTaskIdEdit] = useState(false);
 
       
      //Listas de tarefas classificadas pelo estado(state)
-  const todoList = tasks.filter((tasks) => tasks.stateId === 10);
-
+const todoList = tasks.filter((tasks) => tasks.stateId === 10);
 const doingList = tasks.filter((tasks) => tasks.stateId === 20);
 const doneList = tasks.filter((tasks) => tasks.stateId === 30);
 
@@ -69,9 +73,15 @@ const handleDragStart = (event, taskId) => {
       console.error("Failed to delete task:", error);
     }
 }
-const handleEdit = async (taskId) =>{
-    
+const handleEdit = (taskId) =>{
+  setTaskIdEdit(taskId);
+    setEditTask(true);
+    setIsModalOpen(true);
 }
+
+
+const closeModal = () => setIsModalOpen(false);
+
 
     return(
         <div className = "scrumForPhone">
@@ -90,15 +100,12 @@ const handleEdit = async (taskId) =>{
                <Task
                key={task.id}
                task={task}
-               handleEdit={handleEdit}
-            
+               handleEdit={() => handleEdit(task.id)}
                handleDeleteTask={handleDeleteTask}
                handleDragStart={handleDragStart}
-               //handleTaskDoubleClick={handleTaskDoubleClick}
              />
               ))}
             </section>
-            
             
           </div>
           <div
@@ -112,11 +119,10 @@ const handleEdit = async (taskId) =>{
                 <Task
                 key={task.id}
                 task={task}
-                handleEdit={handleEdit}
+                handleEdit={() => handleEdit(task.id)}
                 token={token}
                 handleDragStart={handleDragStart}
                 handleDeleteTask={handleDeleteTask}
-                //handleTaskDoubleClick={handleTaskDoubleClick}
               />
               ))}
             </section>
@@ -132,17 +138,16 @@ const handleEdit = async (taskId) =>{
                  <Task
                  key={task.id}
                  task={task}
-                 
-                 handleEdit={handleEdit}
-               
+                 handleEdit={() => handleEdit(task.id)}
                  handleDragStart={handleDragStart}
                  handleDeleteTask={handleDeleteTask}
-                 //handleTaskDoubleClick={handleTaskDoubleClick}
-               />
+                
+                 />
               ))}
             </section>
           </div>
         </div>
+        {isModalOpen && (<ModalNewTask onClose={closeModal} taskId={taskIdEdit} editTask={true}/> )}
       </IntlProvider>
     </div>
 

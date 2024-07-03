@@ -79,10 +79,8 @@
     "planned": "Planned",
     "inProgress": "In Progress",
     "finished": "Finished",
+    "editDependys": "Edit Dependencies",
   
-    
-   
-
     "usersAvailable": "Users Available",
     "usersPending": "Users Pending",
 
