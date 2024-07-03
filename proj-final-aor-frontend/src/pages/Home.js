@@ -22,6 +22,7 @@ const Home = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [projectsTotal, setProjectsTotal] = useState(0);
     const [projectsData, setProjectsData] = useState([]);
+    const [searchInput, setSearchInput] = useState("");
     const { userId } = useParams();
 
     const queryParams = new URLSearchParams(location.search);
@@ -32,7 +33,6 @@ const Home = () => {
             navigate("/");
         }
     }, [token, navigate]);
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +48,10 @@ const Home = () => {
                     console.error('Error fetching user projects:', error);
                 }
             } else {
-                if (keyword) {
+                if (searchInput) { 
+                    fetchProjectsBySearch(searchInput);
+                    fetchCountProjectsBySearch(searchInput);
+                } else if (keyword) {
                     fetchProjectsByKeyword(keyword);
                     fetchCountProjectsByKeyword(keyword);
                 } else {
@@ -56,12 +59,10 @@ const Home = () => {
                     fetchCountProjects(stateId);
                 }
             }
-    
-            
         }
     
         fetchData();
-    }, [userId, token, sortBy, vacancies, stateId, keyword]);
+    }, [userId, token, sortBy, vacancies, stateId, keyword, searchInput]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -69,13 +70,13 @@ const Home = () => {
         };
 
         window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
     const fetchProjectsData = async (sortBy, vacancies, stateId) => {
         try {
             const response = await ProjectService.getProjects(sortBy, vacancies, stateId);
             setProjectsData(response);
-            
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -85,7 +86,6 @@ const Home = () => {
         try {
             const response = await ProjectService.count(state);
             setProjectsTotal(response);
-            
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -99,11 +99,29 @@ const Home = () => {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-    }
+    };
 
     const fetchCountProjectsByKeyword = async (keyword) => {
         try {
             const count = await ProjectService.countByKeyword(keyword);
+            setProjectsTotal(count);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    
+    const fetchProjectsBySearch = async (searchInput) => {
+        try {
+            const projects = await ProjectService.searchProjectsByName(searchInput, stateId, vacancies, sortBy);
+            setProjectsData(projects);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    const fetchCountProjectsBySearch = async (searchInput) => {
+        try {
+            const count = await ProjectService.countBySearch(searchInput, stateId);
             setProjectsTotal(count);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -114,43 +132,40 @@ const Home = () => {
         navigate(`/project/${projectId}`);
     };
     
-
     return (
         <div>
-            <Header />
+            <Header 
+                searchInput={searchInput} 
+                setSearchInput={setSearchInput}
+            />
             <FilterBar locale={locale} projectsTotal={projectsTotal}/>
 
             <IntlProvider locale={locale} messages={languages[locale]}>
+                <div className="home-container">
+                    <div className="left-side">
+                        {projectsData && projectsData.length > 0 ? (
+                            <ProjectInfo data={projectsData} onClick={handleProjectClick}/>
+                        ) : (
+                            <div>Loading...</div>
+                        )}
+                    </div>
 
-            <div className="home-container">
+                    {!isMobile && (
+                        <div className="right-side">
+                            <KeywordsContainer/>
+                        </div>
+                    )}
 
-                <div className="left-side">
-                    {projectsData && projectsData.length > 0 ? (
-                        <ProjectInfo data={projectsData} onClick={handleProjectClick}/>
-                    ) : (
-                        <div>Loading...</div>
+                    {isMobile && (
+                        <SliderContainer isOpen={isSliderOpen}>
+                            <FilterOptions locale={locale} isProjectsMobileFilter={true}/>
+                            <KeywordsContainer/>
+                        </SliderContainer>
                     )}
                 </div>
-
-                {!isMobile && (
-
-                    <div className="right-side">
-                        <KeywordsContainer/>
-                    </div>
-                )}
-
-                {isMobile && (
-                    <SliderContainer isOpen={isSliderOpen}>
-                        <FilterOptions locale={locale} isProjectsMobileFilter={true}/>
-                        <KeywordsContainer/>
-                    </SliderContainer>
-                )}
-            </div>
-
             </IntlProvider>
         </div>
     );
 };
-
 
 export default Home;

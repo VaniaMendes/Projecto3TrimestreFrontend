@@ -18,9 +18,10 @@ import { logoutUser } from "../../services/users";
 import { notificationStore } from "../../stores/NotificationStore";
 import WebSocketClient from "../../websocket/Websocket";
 import Settings from "./Settings";
+import ProjectService from "../../services/ProjectService";
 
-const Header = () => {
-
+const Header = (props) => {
+  const { searchInput, setSearchInput } = props;
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -29,15 +30,12 @@ const Header = () => {
   const [showSettingsModal, setShowSettingsModal] = useState(false);
   const { token, userId, name, locale, resetUserStore , photo, typeUser} = userStore();
 
-  console.log(typeUser);
-
   const navigate = useNavigate();
   const location = useLocation();
 
   const { clearNotifications, notifications } = notificationStore();
   WebSocketClient();
 
- 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -65,6 +63,7 @@ const Header = () => {
     const response = await logoutUser(token);
     if (response === 200) {
       resetUserStore();
+      setSearchInput("");
       navigate("/");
     } else {
       console.error("Failed to logout user");
@@ -78,11 +77,13 @@ const Header = () => {
 
   const handleClickNotificationsPage = () => {
     clearNotifications();
+    setSearchInput("");
     navigate("/notifications");
   };
 
   const handleSeeAllProjects = () => {
     if (location.pathname !== "/home" || location.search !== "") {
+      setSearchInput("");
       navigate("/home", { replace: true });
     }
   };
@@ -103,18 +104,25 @@ const Header = () => {
   const logoWidth = isMobile ? "50px" : "200px";
 
   const handleClickProfile = () => {
+    setSearchInput("");
     navigate(`/profile/${userId}`);
   };
 
   const handleMyProjects = () => {
     if (location.pathname !== `/home/${userId}` || location.search !== "") {
+      setSearchInput("");
       navigate(`/home/${userId}`, { replace: true });
     }
   };
 
   const handleMessages = () => {
+    setSearchInput("");
     navigate(`/messages/${userId}`, { replace: true });
   }
+
+  const handleSearchInputChange = (event) => {
+    setSearchInput(event.target.value);
+  };
 
   return (
     <header>
@@ -138,7 +146,9 @@ const Header = () => {
               <input
                 className={`search-bar ${isMobile ? "search-bar-mobile" : ""}`}
                 type="search"
-                placeholder="Search..."
+                placeholder="Search Projects..."
+                onChange={handleSearchInputChange}
+                value={searchInput}
                 autoFocus={isMobile}
                 onBlur={isMobile ? handleSearchBarBlur : null}
               />
@@ -178,7 +188,7 @@ const Header = () => {
                       <div className="submenu">
                         <p
                           className="submenu-clickable"
-                          onClick={() => navigate(`/new-project`)}
+                          onClick={() => { setSearchInput(""); navigate(`/new-project`); }}
                         >
                           <FormattedMessage id="create" />
                         </p>
@@ -216,10 +226,10 @@ const Header = () => {
                     </div>
                     {showComponentsMenu && (
                       <div className="submenu component-submemu">
-                        <p className="submenu-clickable" onClick={() => navigate("/new-resource")}>
+                        <p className="submenu-clickable" onClick={() => { setSearchInput(""); navigate(`/new-resource`); }}>
                           <FormattedMessage id="create" />
                         </p>
-                        <p className="submenu-clickable" onClick={() => navigate("/resources")}>
+                        <p className="submenu-clickable" onClick={() => { setSearchInput(""); navigate(`/resources`); }}>
                           <FormattedMessage id="seeAll" />
                         </p>
                       </div>
@@ -283,7 +293,6 @@ const Header = () => {
                       </div>
                     )}
                   </div>
-                  
                 </>
               )}
             </div>
