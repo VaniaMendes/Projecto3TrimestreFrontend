@@ -142,6 +142,9 @@
     "dateRegisted": "Date",
     "projectsNumber": "Number of Projects",
 
+    "searchKeywords": "Search Keywords...",
+    "searchProjects": "Search Projects...",
+
     "noMatchingSuppliers": "No matching suppliers, add new?",
     "newComponent": "New Component",
     "componentCreatedSuccess": "Component created successfully",

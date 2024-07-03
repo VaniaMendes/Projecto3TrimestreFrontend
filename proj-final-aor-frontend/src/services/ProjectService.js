@@ -25,6 +25,34 @@ const ProjectService = {
 
     },
 
+    searchProjectsByName: async (name, state = null, orderByVacancies = null, order) => {
+        try {
+            let queryParams = new URLSearchParams({name});
+            if (state !== null) queryParams.append("state", state);
+            if (orderByVacancies !== null) queryParams.append("orderByVacancies", orderByVacancies);
+            if (order !== null) queryParams.append("order", order);
+
+            console.log(`${API_BASE_URL}/search?${queryParams}`);
+    
+            const response = await fetch(`${API_BASE_URL}/search?${queryParams}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     getProjectsByKeyword: async (keyword, order) => {
         try {
             const response = await fetch(`${API_BASE_URL}/keyword/${keyword}?order=${order}`, {
@@ -67,6 +95,27 @@ const ProjectService = {
         }
     },
 
+    searchKeywords: async (keyword) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/keywords/search?keyword=${keyword}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+            
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     count: async (state) => {
 
         try {
@@ -94,6 +143,28 @@ const ProjectService = {
 
         try {
             const response = await fetch(`${API_BASE_URL}/count?keyword=${keyword}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+    },
+
+    countBySearch: async (searchInput) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/count?search=${searchInput}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",

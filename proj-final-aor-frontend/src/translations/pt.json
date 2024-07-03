@@ -139,6 +139,9 @@
     "dateRegisted": "Data",
     "projectsNumber": "Número de Projetos",
 
+    "searchKeywords": "Pesquisar Palavras-chave...",
+    "searchProjects": "Pesquisar Projetos...",
+
     "noMatchingSuppliers": "Sem fornecedores correspondentes, adicione um novo fornecedor",
     "newComponent": "Novo Componente",
     "componentCreatedSuccess": "Componente criado com sucesso",
