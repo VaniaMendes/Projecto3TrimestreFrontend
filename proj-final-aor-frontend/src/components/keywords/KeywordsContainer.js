@@ -2,16 +2,19 @@ import React, {useState, useEffect, useRef} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Keywords.css";
 import { IoSearch } from "react-icons/io5";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import KeywordComponent from "./KeywordComponent";
 import SkillInterestService from "../../services/SkillInterestService";
 import ProjectService from "../../services/ProjectService";
 
 const KeywordsContainer = (props) => {
+    const intl = useIntl();
     const {isMobile} = props;
     const [keywords, setKeywords] = useState([]);
+    const [filteredKeywords, setFilteredKeywords] = useState([]);
     const [clickedKeyword, setClickedKeyword] = useState(null);
     const [showSearchKeywordBar, setShowSearchKeywordBar] = useState(false);
+    const [searchInput, setSearchInput] = useState("");
     const searchContainerRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -44,6 +47,7 @@ const KeywordsContainer = (props) => {
             const projKeywords = await ProjectService.getKeywords();
 
             setKeywords([...skills, ...projKeywords]);
+            setFilteredKeywords([...skills, ...projKeywords]); // Initialize filtered keywords with all keywords initially
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -65,23 +69,47 @@ const KeywordsContainer = (props) => {
         }
     };
 
+    const handleSearchInputChange = async (event) => {
+        const inputValue = event.target.value;
+        setSearchInput(inputValue);
+
+        if (inputValue.trim() !== "") {
+            try {
+                const searchResults = await ProjectService.searchKeywords(inputValue);
+                setFilteredKeywords(searchResults);
+            } catch (error) {
+                console.error('Error searching keywords:', error);
+            }
+        } else {
+            // If the search input is cleared, show all keywords again
+            setFilteredKeywords(keywords);
+        }
+    };
+
     return (
-        <div className={isMobile ? "kw-full" : "kw-mobile"}>
+        <div className={isMobile ? "kw-mobile" : "kw-full"}>
             <div className="sk-title-container">
                 <h3><FormattedMessage id="skills"/> / </h3>
                 <h3><FormattedMessage id="keywords"/></h3>
                 <div className="search-keyword-container" ref={searchContainerRef}>
                 {!showSearchKeywordBar && (
-                    <IoSearch className="search-keyword-icon" onClick={handleSearchIconClick}/>
+                    <IoSearch className="search-keyword-icon" onClick={handleSearchIconClick} title={intl.formatMessage({id: "searchKeywords"})} />
                 )}
                 {showSearchKeywordBar && (
-                    <input className="search-keyword-input" type="search" placeholder="Search..." autoFocus/>
+                    <input 
+                        className="search-keyword-input" 
+                        type="search" 
+                        placeholder={intl.formatMessage({id: "searchKeywords"})}
+                        onChange={handleSearchInputChange}
+                        value={searchInput}
+                        autoFocus
+                    />
                 )}
                 </div>
             </div>
                         
             <div className="keywords-container">
-            {keywords.map((keyword, index) => {
+            {filteredKeywords.map((keyword, index) => {
                 let keywordName;
                 if (typeof keyword === 'object' && keyword !== null) {
                     keywordName = keyword.name;

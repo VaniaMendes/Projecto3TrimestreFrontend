@@ -5,7 +5,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { GoPlusCircle } from "react-icons/go";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import Header from "../components/header/Header";
-import { FormattedMessage, IntlProvider } from "react-intl";
+import { FormattedMessage, IntlProvider, useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
 import languages from "../translations";
 import { useNavigate, useParams } from "react-router";
@@ -16,6 +16,7 @@ import AddNewSkill from "../components/profile/AddNewSkill";
 import { toast } from "react-toastify";
 import { getUserProjectStatus } from "../services/users";
 import ProjectChat from '../components/ProjectChat';
+import ResourceService from "../services/ResourceService";
 
 
 
@@ -34,6 +35,7 @@ const Project = () => {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditStateOpen, setIsEditStateOpen] = useState(false);
     const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
+    const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
     const [modalType, setModalType] = useState(""); 
     const { projectId } = useParams();
 
@@ -119,6 +121,15 @@ const Project = () => {
         fetchUserProjectStatus();
     }, [hasApplied, token, projectId]);
 
+    const refetchResourceData = async () => {
+        try {
+            const responseResources = await ProjectService.getProjectResources(token, projectId);
+            setResources(responseResources);
+        } catch (error) {
+            console.error('Error refetching data:', error);
+        }
+    };
+
     const toTitleCase = (str) => {
         return str.replace(/\w\S*/g, function(txt){
             return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -168,6 +179,10 @@ const Project = () => {
         setIsAddModalOpen(true);
         setModalType("keyword");
     };
+
+    const handleOpenModalResource = () => {
+        setIsResourceModalOpen(true);
+    }
   
     const handlePlanExecution = () => {
         navigate(`/project/${projectId}/execution-plan`);
@@ -378,6 +393,8 @@ const Project = () => {
             setIsAddModalOpen(false);
         } else if(isMemberModalOpen){
             setIsMemberModalOpen(false);
+        } else if(isResourceModalOpen){
+            setIsResourceModalOpen(false);
         }
 
     };
@@ -519,7 +536,7 @@ const Project = () => {
                                 </table>
                             }
                             {isUserInProject() && (
-                                <span className="ppi-btn"><GoPlusCircle /></span>
+                                <span className="ppi-btn" onClick={handleOpenModalResource}><GoPlusCircle /></span>
                             )}
                         </div>
 
@@ -580,6 +597,7 @@ const Project = () => {
                             setNewKeyword={setNewKeyword}
                         />
                     )}
+
                     {isMemberModalOpen && (
                         <AddTeamMembers
                             onClose={handleCloseModal}
@@ -587,6 +605,15 @@ const Project = () => {
                             token={token}
                             handleAddMember={handleAddMember}
                             handleApproveCandidate={handleApproveCandidate}
+                        />
+                    )}
+
+                    {isResourceModalOpen && (
+                        <AddResources
+                            onClose={handleCloseModal}
+                            token={token}
+                            projectId={projectId}
+                            onResourceAdded={refetchResourceData}
                         />
                     )}
                     
@@ -642,9 +669,9 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
             </div>
         </>
     );
-  }
+}
 
-  function AddTeamMembers({ onClose, projectId, token, handleApproveCandidate, handleAddMember }) {
+function AddTeamMembers({ onClose, projectId, token, handleApproveCandidate, handleAddMember }) {
 
     const [candidates, setCandidates] = useState([]);
     const [available, setAvailable] = useState([]);
@@ -717,6 +744,102 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
             </div>
         </>
     );
-  }
+}
+
+function AddResources({ onClose, token, projectId, onResourceAdded }) {
+
+    const intl = useIntl();
+    const [resources, setResources] = useState([]);
+    const [quantities, setQuantities] = useState({});
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await ResourceService.getAllResources("desc", null, null);
+                
+                console.log('Resources:', response);
+                if (response) {
+                    setResources(response);
+                }
+            } catch (error) {
+                console.error('Error fetching resources:', error);
+            }
+        };
+
+        fetchData();
+
+    }, []);
+
+    const handleQuantityChange = (resourceId, value) => {
+        setQuantities({
+            ...quantities,
+            [resourceId]: value,
+        });
+    };
+
+    const handleAddResource = async (resource) => {
+        const quantity = quantities[resource.id];
+        
+        const response = await ProjectService.addResource(token, projectId, resource.id, quantity);
+
+        if (response) {
+            setQuantities([]);
+            toast.success(intl.formatMessage({ 
+                id: 'resourceAdded', 
+                values: { quantity, name: resource.name } 
+            }));
+            onResourceAdded();
+        }
+    };
+
+    return (
+        <>
+            <div className="modal-backdrop"></div>
+            <div className="modal-resources-container">
+                <div className="modal-close" onClick={onClose}>
+                    <IoIosCloseCircleOutline />
+                </div>
+                <h1 className="editProfile-title">
+                    <FormattedMessage id="addResource"/>
+                </h1>
+                <div className="resource-table-container">
+                    <table className="resource-table">
+                        <thead className="sticky-header">
+                            <tr>
+                                <th><FormattedMessage id="name"/></th>
+                                <th><FormattedMessage id="brand"/></th>
+                                <th><FormattedMessage id="type"/></th>
+                                <th className="minor-th"><FormattedMessage id="quantity"/></th>
+                                <th className="minor-th"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {resources.map((resource) => (
+                                <tr key={resource.id}>
+                                    <td>{resource.name}</td>
+                                    <td>{resource.brand}</td>
+                                    <td>{resource.type}</td>
+                                    <td className="minor-td">
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            value={quantities[resource.id] || ''}
+                                            onChange={(e) => handleQuantityChange(resource.id, e.target.value)}
+                                        />
+                                    </td>
+                                    <td className="minor-td">
+                                        <span className="add-resource-btn" onClick={() => handleAddResource(resource)}>
+                                            <GoPlusCircle/>
+                                        </span>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </>
+    );
+}
 
 export default Project;

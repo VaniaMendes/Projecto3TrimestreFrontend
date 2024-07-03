@@ -126,8 +126,10 @@
     "skills": "Skills",
     "teamMembers": "Team Members",
     "resources": "Resources",
+    "addResource": "Add Resource",
     "noResources": "No associated resources",
     "resourceUpdated": "Resource updated successfully",
+    "resourceAdded": "{quantity} {name} added successfully", 
     "brand": "Brand",
     "quantity": "Quantity",
     "supplier": "Supplier",
@@ -144,6 +146,9 @@
     "contact": "Contact",
     "dateRegisted": "Date",
     "projectsNumber": "Number of Projects",
+
+    "searchKeywords": "Search Keywords...",
+    "searchProjects": "Search Projects...",
 
     "noMatchingSuppliers": "No matching suppliers, add new?",
     "newComponent": "New Component",
