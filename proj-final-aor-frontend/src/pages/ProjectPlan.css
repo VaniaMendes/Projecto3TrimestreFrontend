@@ -19,7 +19,8 @@
     border-radius: 5px;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
     padding: 20px;
-    height: 620px;
+    height: 640px;
+
 }
 
 .project-plan-separator {
@@ -36,6 +37,23 @@
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
     color: white;
+    cursor: pointer;
+}
+.project-plan-separator-board {
+    position: absolute;
+    width: 120px;
+    height: 40px; /* Adjust height as necessary */
+    top: -38px; /* Adjust position as necessary */
+    left: calc(28% - 60px); /* Centers the separator horizontally */
+    background-color: #C01722;
+    border: 1px solid var(--light-grey2);
+    border-radius: 0px 15px 0 0; /* Rounds the top corners */
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
+    display: flex; /* Added */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    color: white;
+    cursor: pointer;
 }
 
 .separator-description {
@@ -48,6 +66,9 @@
     align-items: center; 
     gap: 8px;
     color: #C01722;
+    
+}
+.add-task-button{
     cursor: pointer;
 }
 .project-plan-chart{
@@ -57,4 +78,182 @@
     overflow-y: auto;
     scrollbar-width: thin;
  
+}
+
+.date-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 300px;
+    position:absolute;
+    top: -45px;
+    
+}
+
+.date-button {
+    background-color: var(--main-red);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+   
+}
+
+.date-button:hover {
+    background-color: var(--light-grey2);
+}
+
+
+
+/*--------
+-SCRUM BOARD
+-----------*/
+
+.scrumForPhone {
+    padding: 20px;
+}
+
+.board-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.column {
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 10px;
+    padding: 10px;
+    width: 330px;
+    height: 500px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.title {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: var(--light-grey2);
+    color: var(--main-red);
+    border-radius: 5px;
+}
+
+.task_list {
+    flex-grow: 1;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    overflow-y: auto;
+    max-height: 600px;
+}
+
+.task_list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.task_list::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+.task_list::-webkit-scrollbar-track {
+    background-color: #f4f4f4;
+}
+
+
+/*-------
+--TASK----*/
+
+.task {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+.task-details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+.task:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.priority-bar {
+    height: 4px;
+    height: 4px;
+    border-radius: 50;
+    width: 10%;
+    align-self: flex-end;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.task-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+   
+}
+
+.task-author {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 5px;
+}
+
+.buttons-container {
+    display: flex;
+    align-items: right;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+.buttons_scrum {
+    display: flex;
+    align-self: flex-end;
+}
+
+.task_btnS,
+.delete_btnS {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--light-grey2);
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+.task_btnS:hover,
+.delete_btnS:hover {
+    color: var(--light-red);
+}
+
+.task_btnS:focus,
+.delete_btnS:focus {
+    outline: none;
 }

@@ -70,6 +70,14 @@
     "addDependys": "Adicionar Dependências",
     "executionPlan": "Plano de Execução",
     "showTaskList": "Mostrar Lista de Tarefas",
+    "month": "Mês",
+    "days": "Dia",
+    "years": "Ano",
+    "week": "Semana",
+    "planned": "Planeado",
+    "inProgress": "Em Progresso",
+    "finished": "Finalizado",
+    "editDependys": "Editar Dependências",
 
     
 
