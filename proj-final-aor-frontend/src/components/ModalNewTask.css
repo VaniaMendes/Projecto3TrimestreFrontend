@@ -29,6 +29,9 @@
     }
     
   }
+  .task-title{
+    font-size: 15px;
+  }
 
   .new-task-container.shift-left {
     margin-right:500px; /* Ajuste conforme necessário */

@@ -1,14 +1,21 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Gantt, ViewMode } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
 
 
 const GanttComponent = ({ availableTasks, showList, viewMode }) => {
 
+  const [tasksList, setTasksList]= useState(availableTasks);
+  
+  useEffect(() => {
+    setTasksList(availableTasks); // Atualiza localmente as tarefas quando listTasks (availableTasks) mudar
+}, [availableTasks]);
 
-  let tasks = [];
+
+
+let tasks = [];
   try {
-    tasks = availableTasks
+    tasks = tasksList
       .filter(task => task.startDate && task.deadline) // Existing check for startDate and deadline
       .map(task => {
         return {
@@ -25,10 +32,10 @@ const GanttComponent = ({ availableTasks, showList, viewMode }) => {
   } catch (error) {
     console.error("Error mapping tasks:", error);
   }
-  console.log("Mapped Tasks:", tasks);
+
 
   const view = ViewMode[viewMode] || ViewMode.Week;
-  console.log(showList)
+
 
 
   return (

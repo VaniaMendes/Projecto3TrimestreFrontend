@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { useIntl } from "react-intl";
+import React, { useState, useEffect } from "react";
+import { IntlProvider, useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
 import Task from "./Task";
 import { useParams } from "react-router";
 
 import {updateTaskStatus, softDeleteTask} from "../services/TaskService";
 import ModalNewTask from "./ModalNewTask";
+import { toast } from "react-toastify";
 
 
 
@@ -22,6 +23,10 @@ const TaskBoard = ({listTasks})=>{
 
     const [taskIdEdit, setTaskIdEdit] = useState(false);
 
+    useEffect(() => {
+      setTasks(listTasks); // Atualiza localmente as tarefas quando listTasks (availableTasks) mudar
+  }, [listTasks]);
+  
       
      //Listas de tarefas classificadas pelo estado(state)
 const todoList = tasks.filter((tasks) => tasks.stateId === 10);
@@ -42,14 +47,6 @@ const handleDragStart = (event, taskId) => {
       // Atualiza o estado da tarefa no servidor
      await updateTaskStatus(token, projectId, taskId, newState);
     
-    // Atualiza localmente a lista de tarefas
-    setTasks(tasks.map((task) => {
-        if (task.id === parseInt(taskId)) {
-          return { ...task, stateId: newState };
-        }
-        return task;
-      }));
-      setTaskId("");
     } catch (error) {
       console.error("Failed to update task state:", error);
     }
@@ -64,9 +61,8 @@ const handleDragStart = (event, taskId) => {
     try {
       // Deleta a tarefa no servidor
       const result = await softDeleteTask(token, projectId, taskId);
-      if(result === 200){
-      // Atualiza localmente a lista de tarefas
-      setTasks(tasks.filter((task) => task.id !== taskId));
+      if (result === 200) {
+        toast.success(intl.formatMessage({ id: "taskDeleted" }));
       }
     } catch (error) {
       console.error("Failed to delete task:", error);

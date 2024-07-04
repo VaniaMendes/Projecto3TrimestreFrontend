@@ -81,7 +81,6 @@ export async function getProjectTasks(token, projectId){
 
         if(response.ok){
             const data = await response.json();
-            console.log(data);
 
             return data;
         }
