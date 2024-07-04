@@ -26,6 +26,8 @@ function NewTask(props) {
   const [priorityColor, setPriorityColor] = useState("");
   const [dependencies, setDependencies] = useState([]);
 
+  console.log(tasksIdList)
+
   const task = {
     title,
     description,
@@ -94,7 +96,7 @@ function NewTask(props) {
 
   const handleCloseDependencies = () => {
     setShowDependencies(false);
-    setTasksIdList(dependencies.map(dep => dep.id));
+   
   };
 
   const handleAddDependencies = () => {
@@ -275,10 +277,10 @@ function NewTask(props) {
           if (event.target.checked) {
             newPrerequisiteTasks.push(task.id);
           } else {
-            newPrerequisiteTasks.splice(
-              newPrerequisiteTasks.indexOf(task.id),
-              1
-            );
+            const index = newPrerequisiteTasks.indexOf(task.id);
+            if (index !== -1) {
+              newPrerequisiteTasks.splice(index, 1);
+            }
           }
           setTasksIdList(newPrerequisiteTasks);
         }}
