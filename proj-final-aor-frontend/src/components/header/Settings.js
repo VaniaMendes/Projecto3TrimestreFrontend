@@ -1,18 +1,15 @@
 import React, {useState, useEffect} from 'react';
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { userStore } from '../../stores/UserStore';
-import { IntlProvider, useIntl } from "react-intl";
-import languages from "../../translations";
+import { useIntl } from "react-intl";
 import {updateSettingsSystem, getSettingsInfo} from "../../services/AppSettings";
 import {toast} from 'react-toastify';
 
 function Settings({onClose}){
-  const {locale, token, userId} = userStore();
+  const {token, userId} = userStore();
   const intl = useIntl();
 
   const [settings, setSettings] = useState({ });
-
-  console.log(token);
 
   useEffect(() => {
     async function fecthInfoSettings() {
@@ -48,7 +45,7 @@ function Settings({onClose}){
     
     return(
         <div className='modal-overlay'>
-           <IntlProvider locale={locale} messages={languages[locale]}>
+           
       <div className="modal-settings"> 
         <div className = "title-settings">
         
@@ -105,7 +102,7 @@ function Settings({onClose}){
         
         {/* Adicione aqui os conteúdos e funcionalidades do modal de configurações */}
       </div>
-      </IntlProvider>
+     
     </div>
   );
 }

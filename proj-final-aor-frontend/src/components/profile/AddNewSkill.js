@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IntlProvider, useIntl } from "react-intl";
-import languages from "../../translations";
+import { useIntl } from "react-intl";
 import { userStore } from "../../stores/UserStore";
 import "./AddNewSkill.css";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -13,9 +12,9 @@ import ProjectService from "../../services/ProjectService";
 
 
 function AddNewSkill(props) {
-  // Get the locale from the userStore
+
   const { onClose, modalType, isUser, handleAdd, projectId, setNewKeyword } = props;
-  const {locale, token, userId} = userStore();
+  const {token, userId} = userStore();
 
   //State variables
   const [list, setList] = useState([]);
@@ -150,7 +149,6 @@ function AddNewSkill(props) {
       <div className="modal-backdrop" onClick={onClose}></div>
     <div className="modal-skill-container">
       
-      <IntlProvider locale={locale} messages={languages[locale]}>
         <div className="modal-close" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
@@ -221,7 +219,6 @@ function AddNewSkill(props) {
           <button className="back" onClick={onClose}>{intl.formatMessage({ id: "back" }) }</button>
         </div>
         
-      </IntlProvider>
     </div>
     </div>
   );

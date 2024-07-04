@@ -6,31 +6,33 @@ import { GoPlusCircle } from "react-icons/go";
 import { FiEdit3 } from "react-icons/fi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import {userStore} from "../stores/UserStore";
-import languages from "../translations"; 
-import { IntlProvider, FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, injectIntl, useIntl } from "react-intl";
 import KeywordComponent from "../components/keywords/KeywordComponent";
 import { getAllInterests } from "../services/interests";
 import ProjectService from "../services/ProjectService";
 import { useNavigate } from "react-router";
+import { getMaxMembers } from "../services/AppSettings";
 
 const NewProject = () => {
-    const {locale, token, userId} = userStore();
+    const {token, userId} = userStore();
+    const intl = useIntl();
     const [inputs, setInputs] = useState({
         name: '',
         description: '',
         maxMembers: '',
-        lab: ''
+        lab: '',
+        conclusionDate: null,
     });
 
     const [description, setDescription] = useState("");
     const [keywords, setKeywords] = useState([]);
     const [needs, setNeeds] = useState([]);
+    const [maxMembersLimit, setMaxMembersLimit] = useState(null);
     
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [openEditModal, setEditModal] = useState(false);
     const [modalType, setModalType] = useState(""); 
     const navigate = useNavigate();
-
 
     const labOptions = {
         LISBOA: "Lisboa",
@@ -40,6 +42,24 @@ const NewProject = () => {
         VISEU: "Viseu",
         VILA_REAL: "Vila Real"
     };
+
+    useEffect(() => {
+        if (!token) {
+            navigate("/");
+        }
+    }, [token, navigate]);
+
+    useEffect(() => {
+        const fetchMaxMembers = async () => {
+            const maxMembers = await getMaxMembers(token);
+
+            if (maxMembers) {
+                setInputs(inputs => ({ ...inputs, maxMembers: maxMembers }));
+                setMaxMembersLimit(maxMembers);
+            }
+        };
+        fetchMaxMembers();
+    }, [token]);
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
@@ -60,9 +80,7 @@ const NewProject = () => {
         setIsModalOpen(true);
         setModalType("need");
     };
-
     
-
     const handleChange = (event) => {
         const { name, value } = event.target;
         let parsedValue = value;
@@ -80,13 +98,20 @@ const NewProject = () => {
         setNeeds(needs.filter(nd => nd !== need));
     };
 
-    
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        if (inputs.maxMembers < 0 || inputs.maxMembers > maxMembersLimit) {
+            toast.warn(intl.formatMessage({ id: "maxMembersLimit" }, { maxMembers: maxMembersLimit }));
+            return;
+        }
         
+        const formattedConclusionDate = `${inputs.conclusionDate}T00:00:00`;
+
         const projectData = {
             name: inputs.name,
             description: description,
+            conclusionDate: formattedConclusionDate,
             keywords: keywords.join(', '),
             needs: needs.join(', '),
             maxMembers: parseInt(inputs.maxMembers, 10),
@@ -100,7 +125,7 @@ const NewProject = () => {
             toast.success("Project created successfully");
             navigate(`/home/${userId}?sort=desc`);
 
-            setInputs({ name: '', lab: '', maxMembers: '' });
+            setInputs({ name: '', lab: '', maxMembers: '', conclusionDate: null});
             setDescription('');
             setKeywords([]);
             setNeeds([]);
@@ -113,7 +138,6 @@ const NewProject = () => {
         <div>
             <Header />
 
-            <IntlProvider locale={locale} messages={languages[locale]}>
                 <div className="new-project-container">
                     <div className="project-form-container">
                         <h1><FormattedMessage id="create"/> <FormattedMessage id="project"/></h1>
@@ -121,19 +145,19 @@ const NewProject = () => {
                             <div className = "project-inputs-top">
                                 <div className = "input-container">
                                 {/* Project Name input */}
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder="Name"
-                                    value={inputs.name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <label className="label-description" htmlFor="name">
-                                    <FormattedMessage id="projectName">
-                                        {(message) => <span>{message} *</span>}
-                                    </FormattedMessage>
-                                </label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Name"
+                                        value={inputs.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label className="label-description" htmlFor="name">
+                                        <FormattedMessage id="projectName">
+                                            {(message) => <span>{message} *</span>}
+                                        </FormattedMessage>
+                                    </label>
                                 </div>
                                 <div className = "input-container">
                                     {/* Max Members input */}
@@ -147,6 +171,23 @@ const NewProject = () => {
 
                                     <label className="label-description" htmlFor="members">
                                         <FormattedMessage id="maxMembers">
+                                            {(message) => <span>{message}</span>}
+                                        </FormattedMessage>
+                                    </label>
+                                </div>
+                                <div className="input-container conclusion-date">
+                                    {/* Conclusion Date input */}
+                                    <input
+                                        type="date"
+                                        name="conclusionDate"
+                                        placeholder="Conclusion Date"
+                                        value={inputs.conclusionDate}
+                                        onChange={handleChange}
+                                        min={new Date().toISOString().split('T')[0]}
+                                    />
+
+                                    <label className="label-description label-conclusion-date" htmlFor="conclusionDate">
+                                        <FormattedMessage id="conclusionDatePredicted">
                                             {(message) => <span>{message}</span>}
                                         </FormattedMessage>
                                     </label>
@@ -261,9 +302,7 @@ const NewProject = () => {
                             setDescription={setDescription}
                         />
                     )}
-                </div>
-            </IntlProvider>
-            
+                </div>     
         </div>
     );
 };

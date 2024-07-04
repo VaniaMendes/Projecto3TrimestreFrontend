@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { login, getUserInfo } from "../../services/users";
 import { toast } from "react-toastify";
 import { userStore } from "../../stores/UserStore";
-import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
-import languages from "../../translations";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
 import { getUnreadNotifications } from "../../services/notifications";
 import { notificationStore } from "../../stores/NotificationStore";
@@ -18,9 +17,6 @@ function LoginForm() {
   const { setNotifications } = notificationStore();
   const [isPasswordInputFocused, setIsPasswordInputFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
 
   // Get the updateToken function from the userStore
   const updateToken = userStore((state) => state.updateToken);
@@ -88,7 +84,6 @@ function LoginForm() {
 
   return (
     <div className="login-container">
-      <IntlProvider locale={locale} messages={languages[locale]}>
         <h2 className="title-forms">
           <FormattedMessage id="welcome">
             {(message) => <span>{message}</span>}
@@ -156,7 +151,6 @@ function LoginForm() {
           <p >{intl.formatMessage({ id: "notallreadyhaveanaccount"})}</p><a className = "link-login" href="/register">{intl.formatMessage({ id: "register"})}</a>
           </div>
         </form>
-      </IntlProvider>
     </div>
   );
 }

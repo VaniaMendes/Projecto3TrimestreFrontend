@@ -121,16 +121,20 @@ input:not(:placeholder-shown) + .new-resource-input-label{
     color: var(--red2-color);
 }
 
-.description{
+.description-ctnr,
+.observations-ctnr{
     width: 85%;
     word-wrap: break-word;
     display: flex;
     justify-content: center;
+    margin: 15px 0 10px;
 }
 
-.description-label{
+.description-label,
+.observations-label{
     left: 45px;
 }
+
 
 .suppliers-search-list{
     position: absolute;

@@ -3,8 +3,7 @@ import './NewResource.css';
 import { HiMiniKey } from "react-icons/hi2";
 import { HiMiniWrench } from "react-icons/hi2";
 import Header from "../components/header/Header";
-import { FormattedMessage, IntlProvider, useIntl } from "react-intl";
-import languages from "../translations";
+import { FormattedMessage, useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
 import SupplierService from "../services/SupplierService";
 import { toast } from "react-toastify";
@@ -12,18 +11,15 @@ import ResourceService from "../services/ResourceService";
 import { uploadPhoto } from "../services/users";
 
 const NewResource = () => {
-    const {locale, token} = userStore();
+    const {token} = userStore();
 
     return (
         <div className="new-resource-container">
             <Header />
-
-            <IntlProvider locale={locale} messages={languages[locale]}>
               <div className="new-resource-form-container">
                   <h2><FormattedMessage id="newComponent"/></h2>
                   <NewResourceForm token={token}/>
               </div>
-            </IntlProvider>
         </div>
     )
 };
@@ -34,6 +30,7 @@ const NewResourceForm = (props) => {
     const [formData, setFormData] = useState({
       name: '',
       description: '',
+      observation: '',
       type: 'MATERIAL',
       brand: '',
       sourceId: '',
@@ -239,9 +236,14 @@ const NewResourceForm = (props) => {
           
         </div>
 
-        <div className="new-resource-input-container description">
-          <label className="new-resource-input-label description-label" htmlFor="description"><FormattedMessage id="description"/> :</label>
-          <input type="text" id="description" name="description" required value={formData.description} onChange={handleChange} />
+        <div className="new-resource-input-container description-ctnr">
+          <label className="new-resource-input-label description-label" htmlFor="description-newrsc"><FormattedMessage id="description"/> :</label>
+          <input type="text" id="description-new-rsc" name="description" required value={formData.description} onChange={handleChange} />
+        </div>
+
+        <div className="new-resource-input-container observations-ctnr">
+          <label className="new-resource-input-label observations-label" htmlFor="observation"><FormattedMessage id="observations"/> :</label>
+          <input type="text" id="observation" name="observation" required value={formData.observation} onChange={handleChange} />
         </div>
 
         

@@ -22,7 +22,8 @@ const EditResourceModal = (props) => {
         sourceId: '',
         type: '',
         photo: '',
-        description: ''
+        description: '',
+        observation: ''
     });
     const [initialFormData, setInitialFormData] = useState({});
     const [newSupplier, setNewSupplier] = useState({ id: '', name: '', contact: '' });
@@ -41,7 +42,8 @@ const EditResourceModal = (props) => {
                             sourceId: response.sourceId || '',
                             type: response.type || '',
                             photo: response.photo || '',
-                            description: response.description || ''
+                            description: response.description || '',
+                            observation: response.observation || ''
                         };
                         setFormData(initialData);
                         setInitialFormData(initialData);
@@ -232,9 +234,14 @@ const EditResourceModal = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div className="edit-resource-input-container description">
-                        <label className="new-resource-input-label description-label" htmlFor="description"><FormattedMessage id="description" /> :</label>
-                        <input type="text" id="description" name="description" required value={formData.description} onChange={handleChange} />
+                    <div className="new-resource-input-container description-ctnr">
+                        <label className="new-resource-input-label description-label" htmlFor="description-newrsc"><FormattedMessage id="description"/> :</label>
+                        <input type="text" id="description-new-rsc" name="description" required value={formData.description} onChange={handleChange} />
+                    </div>
+
+                    <div className="new-resource-input-container observations-ctnr">
+                        <label className="new-resource-input-label observations-label" htmlFor="observation"><FormattedMessage id="observations"/> :</label>
+                        <input type="text" id="observation" name="observation" required value={formData.observation} onChange={handleChange} />
                     </div>
                     <div className="suppliers-input-container suppliers-info">
                         <h3 className="supplier-label"><FormattedMessage id="supplier" /></h3>

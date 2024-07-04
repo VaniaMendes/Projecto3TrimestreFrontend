@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useActionsStore } from '../stores/ActionStore';
-import { IntlProvider, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
-import languages from '../translations';
 
 const FilterOptions = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { locale, suppliers, brands, isProjectsFilterBar, isProjectsMobileFilter, isResourcesSideFilter, isResourcesFilterBar } = props;
+    const { suppliers, brands, isProjectsFilterBar, isProjectsMobileFilter, isResourcesSideFilter, isResourcesFilterBar } = props;
     const { stateId, sortBy, vacancies, updateStateId, updateSortBy, updateVacancies, resetUseActionsStore } = useActionsStore();
     const [selectedState, setSelectedState] = useState(1);
     const [selectedSort, setSelectedSort] = useState("desc");
@@ -178,7 +177,7 @@ const FilterOptions = (props) => {
 
     if (isProjectsMobileFilter) {
         return (
-            <IntlProvider locale={locale} messages={languages[locale]}>
+            <>
                 <div className="filter-options">
                     <p><FormattedMessage id="state" /></p>
                     <div>
@@ -233,7 +232,7 @@ const FilterOptions = (props) => {
                         </div>
                     </div>
                 </div>
-            </IntlProvider>
+            </>
         );
     }
 

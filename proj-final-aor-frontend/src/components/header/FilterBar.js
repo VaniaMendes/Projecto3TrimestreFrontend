@@ -2,13 +2,12 @@ import React, {useState, useEffect} from "react";
 import './FilterBar.css';
 import { BiSliderAlt } from "react-icons/bi";
 import { useActionsStore } from "../../stores/ActionStore";
-import languages from "../../translations"; 
-import { IntlProvider, FormattedMessage } from "react-intl";
+import {FormattedMessage } from "react-intl";
 import FilterOptions from "../FilterOptions";
 
 const FilterBar = (props) => {
     const {isSliderOpen, updateIsSliderOpen} = useActionsStore();
-    const {locale, projectsTotal, componentsTotal} = props;
+    const {projectsTotal, componentsTotal} = props;
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     useEffect(() => {
@@ -26,7 +25,6 @@ const FilterBar = (props) => {
 
     return (
         <div className="filter-bar-container roboto-medium">
-            <IntlProvider locale={locale} messages={languages[locale]}>
                 {projectsTotal > -1 && (
                     <p>{projectsTotal} <FormattedMessage id={projectsTotal === 1 ? "project" : "projects"}/></p>
                 )}
@@ -48,7 +46,6 @@ const FilterBar = (props) => {
                         </>
                     )}
                 </div>
-            </IntlProvider>
         </div>
     )
 };

@@ -4,8 +4,7 @@ import "../services/notifications";
 import { getUserNotifications, markeAsRead, totalPagesNotifications } from "../services/notifications";
 import { userStore } from "../stores/UserStore";
 import NotificationItem from "./NotificationItem";
-import { IntlProvider, useIntl } from "react-intl";
-import languages from "../translations";
+import { useIntl } from "react-intl";
 import { toast } from 'react-toastify';
 import Pagination from './Pagination';
 import { notificationStore } from "../stores/NotificationStore";
@@ -13,8 +12,6 @@ import {useNavigate} from 'react-router-dom';
 
 function Notifications() {
 
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
   const intl = useIntl();
 
   const [notifications, setNotifications] = useState([]);
@@ -109,7 +106,7 @@ function Notifications() {
   
   return (
     <div >
-         <IntlProvider locale={locale} messages={languages[locale]}>
+        
          <div className="notification-container">
          <div className="notification-external-container">
         {notifications && notifications.length > 0 ? (
@@ -139,7 +136,7 @@ function Notifications() {
             />)}
       </div>
       </div>
-      </IntlProvider>
+     
     </div>
   );
 }

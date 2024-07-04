@@ -3,18 +3,13 @@
 import React from "react";
 import logo from '../components/assets/Logo_CSW-full-redim.png';
 import ChangePasswordForm from "../components/forms/ChangePasswordForm.js";
-import {userStore} from "../stores/UserStore";
-import { IntlProvider } from "react-intl";
-import languages from "../translations";
 import TopHeader from "../components/header/TopHeader";
 
 const ChangePassword = () => {
-    // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
+
   return (
       
     <div>
-    <IntlProvider locale={locale} messages={languages[locale]}> 
 <div className="initial-Header"><TopHeader /></div>
    
    <div className="header-left">
@@ -23,7 +18,7 @@ const ChangePassword = () => {
    <div className="login-page-container">
      <ChangePasswordForm />
    </div>
-   </IntlProvider>
+
  </div>
    );
  };

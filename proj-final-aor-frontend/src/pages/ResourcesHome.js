@@ -4,8 +4,6 @@ import Header from "../components/header/Header";
 import FilterBar from "../components/header/FilterBar";
 import { userStore } from "../stores/UserStore";
 import FilterOptions from "../components/FilterOptions";
-import { IntlProvider } from "react-intl";
-import languages from "../translations";
 import SupplierService from "../services/SupplierService";
 import ResourceService from "../services/ResourceService";
 import ResourceInfo from "../components/resources/ResourceInfo";
@@ -16,7 +14,7 @@ import { useActionsStore } from "../stores/ActionStore";
 const ResourcesHome = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const {locale, token} = userStore();
+    const {token} = userStore();
     const { isSliderOpen } = useActionsStore();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [componentsTotal, setComponentsTotal] = useState(0);
@@ -87,13 +85,12 @@ const ResourcesHome = () => {
     return (
         <div>
             <Header />
-            <FilterBar locale={locale} componentsTotal={componentsTotal} />
-            <IntlProvider locale={locale} messages={languages[locale]}>
+            <FilterBar componentsTotal={componentsTotal} />
+            
                 <div className="resources-home-container">
                     {!isMobile && (
                         <div className="resources-home-left-container">
                             <FilterOptions
-                                locale={locale}
                                 isResourcesSideFilter={true}
                                 suppliers={suppliers}
                                 brands={brands}
@@ -117,7 +114,6 @@ const ResourcesHome = () => {
                     {isMobile && (
                         <SliderContainer isOpen={isSliderOpen} isResourcesPage={true}>
                             <FilterOptions 
-                                locale={locale}
                                 isResourcesSideFilter={true}
                                 suppliers={suppliers}
                                 brands={brands}
@@ -125,7 +121,7 @@ const ResourcesHome = () => {
                         </SliderContainer>
                     )}
                 </div>
-            </IntlProvider>
+            
         </div>
     );
 };

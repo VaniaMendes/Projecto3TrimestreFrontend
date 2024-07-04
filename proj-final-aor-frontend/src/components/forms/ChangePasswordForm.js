@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
-import languages from "../../translations";
-import { userStore } from "../../stores/UserStore";
+import { FormattedMessage, useIntl } from "react-intl";
 import "react-toastify/dist/ReactToastify.css";
 import { resetPassword } from "../../services/users";
 import { toast } from "react-toastify";
@@ -9,8 +7,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import queryString from "query-string";
 
 function ChangePasswordForm() {
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
 
   // State variables
   const [password, setPassword] = useState("");
@@ -78,7 +74,7 @@ function ChangePasswordForm() {
 
   return (
     <div className="register-container">
-      <IntlProvider locale={locale} messages={languages[locale]}>
+      
         <h2 className="title-forms">
           <FormattedMessage id="changemypassword">
             {(message) => <span>{message}</span>}
@@ -143,7 +139,7 @@ function ChangePasswordForm() {
             </FormattedMessage>
           </button>
         </form>
-      </IntlProvider>
+      
     </div>
   );
 }

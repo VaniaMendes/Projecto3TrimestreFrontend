@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IntlProvider, useIntl } from "react-intl";
-import languages from "../translations";
+import { useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
 import { FiSend } from "react-icons/fi";
 import {
@@ -22,8 +21,6 @@ function ProjectChat(props) {
   const [message, setMessage] = useState({});
   const [messagesList, setMessagesList] = useState([]);
 
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
   const intl = useIntl();
 
   // Estado para controlar a visibilidade das mensagens
@@ -136,7 +133,7 @@ function ProjectChat(props) {
   return (
     <div>
       
-      <IntlProvider locale={locale} messages={languages[locale]}>
+     
       <div className={`modal-backdrop-project ${showMessages ? 'active' : 'inative'}`}>
         <div
           className={`project-chat-bar ${showMessages ? "expanded" : ""}`}
@@ -188,7 +185,6 @@ function ProjectChat(props) {
           </div>
         )}
          </div>
-      </IntlProvider>
      
     </div>
   );
