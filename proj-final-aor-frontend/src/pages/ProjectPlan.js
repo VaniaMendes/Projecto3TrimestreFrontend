@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Header from "../components/header/Header";
 import './ProjectPlan.css';
 import { GoPlusCircle } from 'react-icons/go';
-import { IntlProvider, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
-import languages from "../translations";
 import ModalNewTask from '../components/ModalNewTask';
 import { useParams } from 'react-router';
 import { getProjectTasks } from '../services/TaskService';
@@ -13,7 +12,7 @@ import Visibility from '../components/profile/Visibility';
 import TaskBoard from '../components/TaskBoard';
 
 const ProjectPlan = () => {
-    const { locale, token } = userStore();
+    const { token } = userStore();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { projectId } = useParams();
     const [availableTasks, setAvailableTasks] = useState([]);
@@ -115,7 +114,7 @@ const ProjectPlan = () => {
 
     return (
         <div>
-            <IntlProvider locale={locale} messages={languages[locale]}>
+            
                 <div className="project-plan-container">
                     <Header />
                     <div className="project-plan-separator"><p className="separator-description" onClick={handleChange}>GANT</p></div>
@@ -133,7 +132,7 @@ const ProjectPlan = () => {
                     </div>
                 </div>
                 {isModalOpen && (<ModalNewTask onClose={closeModal} />)}
-            </IntlProvider>
+
         </div>
     );
 };

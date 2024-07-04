@@ -86,7 +86,7 @@
     "usersAvailable": "Users Available",
     "usersPending": "Users Pending",
 
-    
+
     "time":"{t, time, short}", 
     "date":"{d, date}",
 
@@ -124,6 +124,8 @@
 
     "lab": "Lab",
     "description": "Description",
+    "observations": "Observations",
+    "conclusionDatePredicted": "Conclusion Date Predicted",
     "keywords": "Keywords",
     "skills": "Skills",
     "teamMembers": "Team Members",
@@ -131,7 +133,7 @@
     "addResource": "Add Resource",
     "noResources": "No associated resources",
     "resourceUpdated": "Resource updated successfully",
-    "resourceAdded": "{quantity} {name} added successfully", 
+    "resourceAdded": "Resource added successfully", 
     "brand": "Brand",
     "quantity": "Quantity",
     "supplier": "Supplier",
@@ -141,16 +143,21 @@
     "noActivities": "No activities to show",
     "type": "Type",
     "digital": "Digital",
+    "DIGITAL": "Digital",
     "material": "Material",
+    "MATERIAL": "Material",
     "sourceId": "Source Id",
     "author": "Author",
     "obs": "Observations",
     "contact": "Contact",
     "dateRegisted": "Date",
     "projectsNumber": "Number of Projects",
+    "noProjects": "No Projects to show",
+    "maxMembersLimit": "Max members must be between 0 and {maxMembers}",
 
     "searchKeywords": "Search Keywords...",
     "searchProjects": "Search Projects...",
+    "searchResource": "Search Resources...",
 
     "noMatchingSuppliers": "No matching suppliers, add new?",
     "newComponent": "New Component",

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { IntlProvider, useIntl } from "react-intl";
-import languages from "../../translations";
+import { useIntl } from "react-intl";
 import { userStore } from "../../stores/UserStore";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { updateUser, updateBiography, uploadPhoto } from "../../services/users";
@@ -13,8 +12,7 @@ const EditProfile = (props) =>{
 
 const {onClose, modalType, user} = props;
 
-  // Get the locale from the userStore
-  const {locale, token, userId} = userStore();
+  const {token, userId} = userStore();
 
   // State variables
   const { updateName, updatePhoto} = userStore();
@@ -111,7 +109,7 @@ const {onClose, modalType, user} = props;
     <div>
       <div className="modal-backdrop" onClick={onClose}></div>
     <div className="modal-skill-container">
-      <IntlProvider locale={locale} messages={languages[locale]}>
+
         <div className="modal-close" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
@@ -208,7 +206,7 @@ const {onClose, modalType, user} = props;
        <button className="save-button" onClick={() => handleEditProfile(modalType)}>
   {intl.formatMessage({ id: "save" })}
 </button>
-      </IntlProvider>
+
     </div>
     </div>
   );

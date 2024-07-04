@@ -12,13 +12,11 @@ import { IoNotifications } from "react-icons/io5";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import "./Header.css";
 import { userStore } from "../../stores/UserStore";
-import languages from "../../translations";
-import { IntlProvider, FormattedMessage } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { logoutUser } from "../../services/users";
 import { notificationStore } from "../../stores/NotificationStore";
 import WebSocketClient from "../../websocket/Websocket";
 import Settings from "./Settings";
-import ProjectService from "../../services/ProjectService";
 
 const Header = (props) => {
   const { searchInput, setSearchInput } = props;
@@ -28,7 +26,7 @@ const Header = (props) => {
   const [showProjectsMenu, setShowProjectsMenu] = useState(false);
   const [showComponentsMenu, setShowComponentsMenu] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
-  const { token, userId, name, locale, resetUserStore , photo, typeUser} = userStore();
+  const { token, userId, name, resetUserStore , photo, typeUser} = userStore();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -44,6 +42,12 @@ const Header = (props) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (searchInput) {
+      setSearchInput(searchInput);
+    }
+  }, [searchInput, setSearchInput]);
 
   const handleSearchIconClick = () => {
     setShowSearchBar(true);
@@ -63,7 +67,6 @@ const Header = (props) => {
     const response = await logoutUser(token);
     if (response === 200) {
       resetUserStore();
-      setSearchInput("");
       navigate("/");
     } else {
       console.error("Failed to logout user");
@@ -83,9 +86,9 @@ const Header = (props) => {
 
   const handleSeeAllProjects = () => {
     if (location.pathname !== "/home" || location.search !== "") {
-      setSearchInput("");
       navigate("/home", { replace: true });
     }
+    setSearchInput("");
   };
 
   const handleHomeClick = () => {
@@ -110,9 +113,9 @@ const Header = (props) => {
 
   const handleMyProjects = () => {
     if (location.pathname !== `/home/${userId}` || location.search !== "") {
-      setSearchInput("");
       navigate(`/home/${userId}`, { replace: true });
     }
+    setSearchInput("");
   };
 
   const handleMessages = () => {
@@ -126,7 +129,6 @@ const Header = (props) => {
 
   return (
     <header>
-      <IntlProvider locale={locale} messages={languages[locale]}>
         <TopHeader />
         <div className="bottom-header">
           <div className="header-left">
@@ -299,9 +301,12 @@ const Header = (props) => {
           )}
         </div>
         {showSettingsModal &&  <Settings onClose={() => setShowSettingsModal(false)} />} 
-      </IntlProvider>
     </header>
   );
+};
+
+Header.defaultProps = {
+  setSearchInput: () => {},
 };
 
 export default Header;

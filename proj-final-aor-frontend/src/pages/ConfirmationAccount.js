@@ -3,19 +3,14 @@
 import React from "react";
 import logo from '../components/assets/Logo_CSW-full-redim.png';
 import ConfirmationAccountForm from "../components/forms/ConfirmAccountForm.js";
-import {userStore} from "../stores/UserStore";
-import { IntlProvider } from "react-intl";
-import languages from "../translations";
 import TopHeader from "../components/header/TopHeader";
 
 const  ConfirmationAccount = () => {
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
   
   return (
       
     <div>
-    <IntlProvider locale={locale} messages={languages[locale]}> 
+
 <div className="initial-Header"><TopHeader /></div>
    
    <div className="header-left">
@@ -24,7 +19,7 @@ const  ConfirmationAccount = () => {
    <div className="login-page-container">
      <ConfirmationAccountForm />
    </div>
-   </IntlProvider>
+
  </div>
    );
  };

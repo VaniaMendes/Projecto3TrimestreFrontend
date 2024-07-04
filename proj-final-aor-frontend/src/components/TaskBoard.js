@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { IntlProvider, useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
-import languages from "../translations";
 import Task from "./Task";
 import { useParams } from "react-router";
 
@@ -12,7 +11,7 @@ import { toast } from "react-toastify";
 
 
 const TaskBoard = ({listTasks})=>{
-    const {locale, token} = userStore();
+    const {token} = userStore();
     const [taskId, setTaskId] = useState("");
     const {projectId} = useParams();
 
@@ -82,7 +81,7 @@ const closeModal = () => setIsModalOpen(false);
     return(
         <div className = "scrumForPhone">
     
-      <IntlProvider locale={locale} messages={languages[locale]}>
+      
         <div className="board-container" >
           <div className="column">
             <div className="title">{intl.formatMessage({ id: "planned" })}</div>
@@ -144,7 +143,7 @@ const closeModal = () => setIsModalOpen(false);
           </div>
         </div>
         {isModalOpen && (<ModalNewTask onClose={closeModal} taskId={taskIdEdit} editTask={true}/> )}
-      </IntlProvider>
+     
     </div>
 
     )

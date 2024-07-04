@@ -5,9 +5,8 @@ import { FiEdit3 } from "react-icons/fi";
 import { GoPlusCircle } from "react-icons/go";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import Header from "../components/header/Header";
-import { FormattedMessage, IntlProvider, useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
-import languages from "../translations";
 import { useNavigate, useParams } from "react-router";
 import ProjectService from "../services/ProjectService";
 import MemberDisplay from "../components/MemberDisplay";
@@ -21,7 +20,7 @@ import ResourceService from "../services/ResourceService";
 
 
 const Project = () => {
-    const {locale, token, userId} = userStore();
+    const {token, userId, typeUser} = userStore();
     const navigate = useNavigate();
     const [projectData, setProjectData] = useState([]);
     const [resources, setResources] = useState([]);
@@ -403,8 +402,6 @@ const Project = () => {
         <>
             <Header />
 
-            <IntlProvider locale={locale} messages={languages[locale]}>
-
                 <div className="project-page-container">
                     <div className="project-page-content">
                         <div className="project-page-header">
@@ -450,7 +447,7 @@ const Project = () => {
                                 <p>{projectData.maxMembers}</p>
                             </div>
 
-                            {isUserInProject() && (
+                            {(isUserInProject() || typeUser=='ADMIN') && (
                                 <>
                                 {isEditStateOpen ? (
                                     <span className="ppi-btn" onClick={handleClickEditState}><IoIosCloseCircleOutline /></span>
@@ -620,7 +617,7 @@ const Project = () => {
                 </div>
 
                 {isUserInProject() && <ProjectChat projectId={projectId}/>}
-            </IntlProvider>
+        
           
         </>
     );
@@ -751,12 +748,18 @@ function AddResources({ onClose, token, projectId, onResourceAdded }) {
     const intl = useIntl();
     const [resources, setResources] = useState([]);
     const [quantities, setQuantities] = useState({});
+    const [searchInput, setSearchInput] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
+            let response=[];
             try {
-                const response = await ResourceService.getAllResources("desc", null, null);
-                
+                if (searchInput === ''){
+                    response = await ResourceService.getAllResources("desc", null, null);
+                }else{
+                    response = await ResourceService.searchResources(searchInput);
+                }
+
                 console.log('Resources:', response);
                 if (response) {
                     setResources(response);
@@ -768,7 +771,7 @@ function AddResources({ onClose, token, projectId, onResourceAdded }) {
 
         fetchData();
 
-    }, []);
+    }, [searchInput]);
 
     const handleQuantityChange = (resourceId, value) => {
         setQuantities({
@@ -784,10 +787,7 @@ function AddResources({ onClose, token, projectId, onResourceAdded }) {
 
         if (response) {
             setQuantities([]);
-            toast.success(intl.formatMessage({ 
-                id: 'resourceAdded', 
-                values: { quantity, name: resource.name } 
-            }));
+            toast.success(intl.formatMessage({ id: 'resourceAdded' }));
             onResourceAdded();
         }
     };
@@ -799,9 +799,19 @@ function AddResources({ onClose, token, projectId, onResourceAdded }) {
                 <div className="modal-close" onClick={onClose}>
                     <IoIosCloseCircleOutline />
                 </div>
-                <h1 className="editProfile-title">
-                    <FormattedMessage id="addResource"/>
-                </h1>
+                <div className="modal-header">
+                    <h2>
+                        <FormattedMessage id="addResource"/>
+                    </h2>
+                    <input 
+                        className="search-resource-input"
+                        type="search"
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        value={searchInput}
+                        placeholder={intl.formatMessage({ id: "searchResource" })} 
+                    />
+                </div>
+                
                 <div className="resource-table-container">
                     <table className="resource-table">
                         <thead className="sticky-header">
@@ -818,7 +828,7 @@ function AddResources({ onClose, token, projectId, onResourceAdded }) {
                                 <tr key={resource.id}>
                                     <td>{resource.name}</td>
                                     <td>{resource.brand}</td>
-                                    <td>{resource.type}</td>
+                                    <td><FormattedMessage id={resource.type}/></td>
                                     <td className="minor-td">
                                         <input
                                             type="number"

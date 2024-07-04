@@ -121,6 +121,7 @@ textarea:not(:placeholder-shown) + .textarea-label-description {
   font-size: 15px;
   color: var(--red2-color);
   background-color: white;
+  padding: 0 5px;
 }
 
 .textarea-label-description{

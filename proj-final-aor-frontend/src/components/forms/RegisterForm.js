@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
-import languages from "../../translations";
+import { FormattedMessage, useIntl } from "react-intl";
 import { userStore } from "../../stores/UserStore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,8 +10,6 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function RegisterForm() {
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
 
   // State variables
   const [user, setUser] = useState({});
@@ -92,7 +89,6 @@ function RegisterForm() {
 
   return (
     <div className="register-container">
-      <IntlProvider locale={locale} messages={languages[locale]}>
         <ToastContainer />
         <h2 className="title-forms">
           <FormattedMessage id="createAccount">
@@ -195,7 +191,6 @@ function RegisterForm() {
             </a>
           </div>
         </form>
-      </IntlProvider>
     </div>
   );
 }
