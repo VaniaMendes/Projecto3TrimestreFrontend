@@ -80,6 +80,8 @@
     "inProgress": "In Progress",
     "finished": "Finished",
     "editDependys": "Edit Dependencies",
+    "taskUpdatedSuccefuly": "Task updated successfully",
+    "taskDeleted": "Task deleted successfully",
   
     "usersAvailable": "Users Available",
     "usersPending": "Users Pending",

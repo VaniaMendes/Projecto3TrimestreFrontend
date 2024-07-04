@@ -45,6 +45,60 @@ const ProjectPlan = () => {
         fetchTasks();
     }, [projectId, token]);
 
+    useEffect(() => {
+        const WS_URL = "ws://localhost:8080/project_backend/websocket/task/";
+        const websocket = new WebSocket(WS_URL + token);
+        
+        websocket.onopen = () => {
+            console.log("WebSocket connection for task is open");
+        };
+    
+        websocket.onmessage = (event) => {
+            const taskReceived = JSON.parse(event.data);
+            console.log("Task received: ", taskReceived);
+    
+            if(taskReceived.erased === true){
+                setAvailableTasks(prevTasks =>
+                    prevTasks.filter(task => task.id!== taskReceived.id)
+                );
+            }else{
+            // Atualiza a tarefa no estado
+            setAvailableTasks(prevTasks => {
+                // Verifica se a tarefa recebida deve ser adicionada ou atualizada
+                const index = prevTasks.findIndex(task => task.id === taskReceived.id);
+                if (index !== -1) {
+                    // Tarefa já existe, atualiza ela
+                    return [
+                        ...prevTasks.slice(0, index),
+                        { ...prevTasks[index], ...taskReceived },
+                        ...prevTasks.slice(index + 1)
+                    ];
+                } else {
+                    // Tarefa é nova, adiciona ela
+                    return [...prevTasks, taskReceived];
+                }
+            });
+        }
+
+            
+        };
+       
+    
+        websocket.onclose = (event) => {
+            console.warn("WebSocket closed: ", event);
+        };
+    
+        websocket.onerror = (error) => {
+            console.error("WebSocket error: ", error);
+        };
+    
+        return () => {
+            websocket.close();
+        };
+    }, [token]);
+    
+    
+
     const showTasksList = () => {
         setShowList(!showList);
     }
