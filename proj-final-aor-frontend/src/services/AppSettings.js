@@ -57,3 +57,34 @@ export async function getSettingsInfo(token){
 }
 
 }
+
+export async function getMaxMembers(token){
+    try{
+
+        const response = await fetch(url + "/max-members",  {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+ 
+        })
+
+        if(response.ok){
+            const data = await response.json();
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Failed to retrieve the settings:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
+

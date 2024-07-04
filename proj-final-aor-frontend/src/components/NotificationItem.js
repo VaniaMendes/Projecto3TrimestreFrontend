@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { IntlProvider, useIntl } from "react-intl";
-import languages from "../translations";
-import {userStore} from "../stores/UserStore";
+import { useIntl } from "react-intl";
 import moment from "moment";
 import projectIcon from './assets/projectIcon.png';
 import logoUser from './assets/profile_pic_default.png';
@@ -10,8 +8,6 @@ import ProjectService from "../services/ProjectService";
 
 function NotificationItem({ notification, onClick}) {
 
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
   const intl = useIntl();
 
   const [project, setProject] = useState({});
@@ -109,7 +105,7 @@ function NotificationItem({ notification, onClick}) {
 
   return(
     <div className={`notification-info ${notification.readStatus ? 'read' : 'unread'}`} onClick={handleClick}>
-         <IntlProvider locale={locale} messages={languages[locale]}>
+         
     <div className="notification-avatar">
       <img className="notification-image" src={notificationImage} alt="avatar" />
     </div>
@@ -117,7 +113,7 @@ function NotificationItem({ notification, onClick}) {
 
       </div>
     <div className="notification-timestamp">{formattedTimestamp}</div>
-    </IntlProvider>
+  
     </div>
 
 )

@@ -1,8 +1,6 @@
 
 import React, {useState} from "react"
-import { IntlProvider, FormattedMessage, useIntl } from "react-intl";
-import languages from "../../translations";
-import {userStore} from "../../stores/UserStore";
+import { FormattedMessage, useIntl } from "react-intl";
 import 'react-toastify/dist/ReactToastify.css';
 import {recoveryPassword} from "../../services/users";
 import { toast } from 'react-toastify';
@@ -11,8 +9,6 @@ import {useNavigate} from 'react-router-dom';
 
 function ForgetPassword(){
 
-     // Get the locale from the userStore
-   const locale = userStore((state) => state.locale);
 
     // State variables
     const [email, setEmail] = useState("");
@@ -42,7 +38,7 @@ function ForgetPassword(){
 
     return(
         <div className="register-container">
-           <IntlProvider locale={locale} messages={languages[locale]}> 
+           
 
             <h2 className="title-forms">
             <FormattedMessage id="changePassword">
@@ -84,7 +80,6 @@ function ForgetPassword(){
                       </FormattedMessage></button>
                     </div>
             </form>
-            </IntlProvider>
 
         </div>
     )

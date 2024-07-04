@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import logo from "../assets/profile_pic_default.png";
-import { IntlProvider, useIntl } from "react-intl";
-import languages from "../../translations";
+import { useIntl } from "react-intl";
 import { userStore } from "../../stores/UserStore";
 import { updatevisibility, getUserById } from "../../services/users";
 import { getUserSkills } from "../../services/skills";
@@ -22,8 +21,7 @@ import { toast } from "react-toastify";
 import Visibility from "./Visibility";
 
 function Profile() {
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
+
   const token = userStore((state) => state.token);
   const userLoggedID = userStore((state) => state.userId);
   const { userId } = useParams();
@@ -141,7 +139,7 @@ function Profile() {
    
       <div className="profile-container">
         <div className="profile-external-container">
-          <IntlProvider locale={locale} messages={languages[locale]}>
+  
             <div>
               {isModalOpen && (
                 <AddNewSkill onClose={handleCloseModal} modalType={modalType} isUser={true}/>
@@ -279,7 +277,7 @@ function Profile() {
                 </div>
               </div>
             )}
-          </IntlProvider>
+  
         </div>
       </div>
   

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IntlProvider, FormattedMessage,  useIntl } from "react-intl";
-import languages from "../../translations";
-import { userStore } from "../../stores/UserStore";
+import { FormattedMessage,  useIntl } from "react-intl";
 import { confirmAccount, uploadPhoto } from "../../services/users";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -32,8 +30,6 @@ function Confirmation() {
   const [photoFile, setPhotoFile] = useState(null);
 
 
-  // Get the locale from the userStore
-  const locale = userStore((state) => state.locale);
 
   // Get the tokenConfirmation from the URL params
   useEffect(() => {
@@ -117,7 +113,7 @@ const handleChangePhoto = (event) => {
 
   return (
     <div className="confirmation-container">
-      <IntlProvider locale={locale} messages={languages[locale]}>
+      
         <h2 className="title-forms" >
           <FormattedMessage id="confirmationAccount">
             {(message) => <span>{message}</span>}
@@ -239,7 +235,7 @@ const handleChangePhoto = (event) => {
           </button>
           {/* Back button */}
         </form>
-      </IntlProvider>
+    
     </div>
   );
 }

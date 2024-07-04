@@ -44,9 +44,12 @@
 
 @media (max-width: 768px) {
     .home-container{
-        padding: 150px 5px 0 5px;
+        padding: 150px 0 0 0;
         justify-content: center;
+
+        .left-side{
+            margin: 0;
+        }
     }
-    
     
 }

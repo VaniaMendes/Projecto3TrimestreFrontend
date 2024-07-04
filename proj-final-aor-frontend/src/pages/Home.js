@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import "./Home.css";
-import languages from "../translations"; 
-import { IntlProvider } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import Header from "../components/header/Header";
 import FilterBar from "../components/header/FilterBar";
 import ProjectInfo from "../components/projects/ProjectInfo";
@@ -17,7 +16,7 @@ import FilterOptions from "../components/FilterOptions";
 const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const {locale, token} = userStore();
+    const {token} = userStore();
     const { isSliderOpen, stateId, vacancies, sortBy} = useActionsStore();
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
     const [projectsTotal, setProjectsTotal] = useState(0);
@@ -44,6 +43,11 @@ const Home = () => {
                     ]);
                     setProjectsData(userProjectData);
                     setProjectsTotal(projectCount);
+
+                    if (searchInput) { 
+                        fetchProjectsBySearch(searchInput);
+                        fetchCountProjectsBySearch(searchInput);
+                    }
                 } catch (error) {
                     console.error('Error fetching user projects:', error);
                 }
@@ -138,15 +142,13 @@ const Home = () => {
                 searchInput={searchInput} 
                 setSearchInput={setSearchInput}
             />
-            <FilterBar locale={locale} projectsTotal={projectsTotal}/>
-
-            <IntlProvider locale={locale} messages={languages[locale]}>
+            <FilterBar projectsTotal={projectsTotal}/>
                 <div className="home-container">
                     <div className="left-side">
                         {projectsData && projectsData.length > 0 ? (
                             <ProjectInfo data={projectsData} onClick={handleProjectClick}/>
                         ) : (
-                            <div>Loading...</div>
+                            <div><FormattedMessage id="noProjects"/></div>
                         )}
                     </div>
 
@@ -158,12 +160,11 @@ const Home = () => {
 
                     {isMobile && (
                         <SliderContainer isOpen={isSliderOpen}>
-                            <FilterOptions locale={locale} isProjectsMobileFilter={true}/>
+                            <FilterOptions isProjectsMobileFilter={true}/>
                             <KeywordsContainer/>
                         </SliderContainer>
                     )}
                 </div>
-            </IntlProvider>
         </div>
     );
 };

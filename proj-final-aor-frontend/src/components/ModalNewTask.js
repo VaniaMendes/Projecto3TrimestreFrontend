@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 
 function NewTask(props) {
   const { onClose, editTask, taskId } = props;
-  const { locale, token } = userStore();
+  const { token } = userStore();
   const { projectId } = useParams();
   const intl = useIntl();
 

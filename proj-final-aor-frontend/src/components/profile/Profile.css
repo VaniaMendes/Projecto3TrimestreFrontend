@@ -31,6 +31,8 @@
     background-color: white;
   position: relative;
   display: flex;
+  justify-content: center;
+    align-items: center;
   flex-direction: column;
   width: 70%;
   border: solid 1px var(--light-grey2);
@@ -57,7 +59,7 @@
     width: 90%;
     padding: 20px;
     box-sizing: border-box;
-    left: 5%;
+    
     position: relative;
     margin-top: 20px;
     

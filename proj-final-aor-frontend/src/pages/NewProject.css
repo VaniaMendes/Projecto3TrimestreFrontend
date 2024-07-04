@@ -101,6 +101,14 @@
     }
 }
 
+.conclusion-date{
+    width: 20%;
+}
+
+.label-conclusion-date{
+    left: 15px;
+}
+
 @media (max-width: 768px) {
     .project-inputs-top {
         flex-direction: column;
@@ -124,5 +132,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+
+    .conclusion-date{
+        width: 100%;
     }
 }
