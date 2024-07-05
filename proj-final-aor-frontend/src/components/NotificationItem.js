@@ -11,6 +11,7 @@ function NotificationItem({ notification, onClick}) {
   const intl = useIntl();
 
   const [project, setProject] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
    
@@ -18,17 +19,28 @@ function NotificationItem({ notification, onClick}) {
         try {
           const projectResponse = await ProjectService.getProjectInfo(notification.relatedIDEntity);
           setProject(projectResponse);
+        
         } catch (error) {
           console.error("Error fetching project:", error);
+        }finally{
+          setLoading(false);
         }
       };
+
+      if (notification.type === 'PROJECT_STATE_CHANGE' || notification.type === 'NEW_PROJECT') {
+        fetchProject();
+      } else {
+        setLoading(true);
+      }
       fetchProject();
     
-  }, [notification.relatedIDEntity]);
+  }, [notification.relatedIDEntity, notification.type]);
 
-  
+  if (loading) {
+    return <div>Loading...</div>; 
+  }
 
-  console.log(project);
+
   const handleClick = () => {
     if (!notification.readStatus) {
       onClick(notification.id);
@@ -51,7 +63,7 @@ function NotificationItem({ notification, onClick}) {
       break;
     case 'NEW_PROJECT':
       
-      notificationMessage =  `${intl.formatMessage({ id: "newProjectNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
+      notificationMessage =  `${intl.formatMessage({ id: "newProjectNotification" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${project.name}`; 
       notificationImage = projectIcon;
       break;
     case 'PROJECT_STATE_CHANGE':
@@ -60,7 +72,7 @@ function NotificationItem({ notification, onClick}) {
       notificationImage = projectIcon;
       break;
       case 'MESSAGE_PROJECT':
-        notificationMessage =  `${intl.formatMessage({ id: "messageReceivedProject" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "withTheTitle" })}${notification.relatedEntityName}`; 
+        notificationMessage =  `${intl.formatMessage({ id: "messageReceivedProject" })} ${notification.sender.firstName} ${intl.formatMessage({ id: "forProject" })}${project.name}`; 
         if(notification.sender.photo){
           notificationImage = notification.sender.photo;
         }else{

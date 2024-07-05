@@ -53,6 +53,8 @@ const SessionTimeoutHandler = () => {
     const eventHandler = () => {
       resetTimeout();
     };
+
+    
     const handleBeforeUnload = (event) => {
         // Clear session storage
         sessionStorage.clear();
