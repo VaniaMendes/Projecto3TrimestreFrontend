@@ -110,6 +110,14 @@
 }
 
 @media (max-width: 768px) {
+    .project-form-container {
+        width: 100%;
+    }
+
+    .new-project-container{
+        padding: 120px 0 30px;
+    }
+
     .project-inputs-top {
         flex-direction: column;
         margin-bottom: 5px;

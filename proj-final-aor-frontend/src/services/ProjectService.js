@@ -31,8 +31,6 @@ const ProjectService = {
             if (state !== null) queryParams.append("state", state);
             if (orderByVacancies !== null) queryParams.append("orderByVacancies", orderByVacancies);
             if (order !== null) queryParams.append("order", order);
-
-            console.log(`${API_BASE_URL}/search?${queryParams}`);
     
             const response = await fetch(`${API_BASE_URL}/search?${queryParams}`, {
                 method: "GET",
@@ -184,13 +182,14 @@ const ProjectService = {
 
     },
 
-    getProjectInfo: async (projectId) => {
+    getProjectInfo: async (token, projectId) => {
         try {
             const response = await fetch(`${API_BASE_URL}/${projectId}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    token: token
                 },
             });
 
@@ -341,6 +340,34 @@ const ProjectService = {
             return null;
         }
     },
+
+    getProjectLastXActivities: async(token, projectId, x) => {
+        try{
+            const response = await fetch(`${API_BASE_URL}/${projectId}/activity/last/${x}`,  {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token
+                }
+            })
+    
+            if(response.ok){
+                const data = await response.json();
+                return data;
+            }
+            else{
+                const errorData = await response.text();
+                console.error("Failed to retrieve the projects of user:", response.status, errorData);
+                return null;
+            }
+    
+        }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
 
 
     updateDescription: async(token, projectId, description) => {
@@ -545,8 +572,6 @@ const ProjectService = {
                     "resourceId": resourceId
                 },
             })
-
-            console.log("addResource", response);
     
             if(response.ok){
                 return response.ok;
@@ -644,7 +669,6 @@ const ProjectService = {
     },
 
     addMember: async(token, projectId, userId, userType) => {
-        console.log("addMember", token, projectId, userId, userType);
         try{
             const response = await fetch(`${API_BASE_URL}/${projectId}/user/${userId}/add/${userType}`,  {
                 method: "POST",
