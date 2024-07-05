@@ -98,10 +98,9 @@ export async function associateInterestToUser(token, userId, interestId) {
           'token': token
         }
       });
-      console.log(response.status);
   
       if (response.ok) {
-        console.log('Interest associated successfully:');
+   
     return 200;
       } else {
         console.error('Failed to associate interest:');
@@ -125,10 +124,10 @@ export async function associateInterestToUser(token, userId, interestId) {
           'token': token
         }
       });
-      console.log(response.status);
+
   
       if (response.ok) {
-        console.log('Interest deleted successfully:');
+
     return 200;
       } else {
         console.error('Failed to delete interest:');

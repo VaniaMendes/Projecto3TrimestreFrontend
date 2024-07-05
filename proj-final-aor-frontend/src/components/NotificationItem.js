@@ -4,19 +4,20 @@ import moment from "moment";
 import projectIcon from './assets/projectIcon.png';
 import logoUser from './assets/profile_pic_default.png';
 import ProjectService from "../services/ProjectService";
+import { userStore } from '../stores/UserStore';
 
 
 function NotificationItem({ notification, onClick}) {
 
   const intl = useIntl();
-
+  const {token} = userStore();
   const [project, setProject] = useState({});
 
   useEffect(() => {
    
       const fetchProject = async () => {
         try {
-          const projectResponse = await ProjectService.getProjectInfo(notification.relatedIDEntity);
+          const projectResponse = await ProjectService.getProjectInfo(token, notification.relatedIDEntity);
           setProject(projectResponse);
         } catch (error) {
           console.error("Error fetching project:", error);

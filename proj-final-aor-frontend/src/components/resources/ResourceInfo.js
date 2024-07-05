@@ -9,7 +9,6 @@ const ResourceInfo = (props) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleClick = () => {
-        console.log(id);
         setIsModalOpen(true);
         if (onClick) {
             onClick();

@@ -141,8 +141,7 @@ const NewResourceForm = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-    
+       
         try {
           const photoUrl = await uploadPhoto(photoFile);
           if (photoUrl) {
@@ -151,8 +150,6 @@ const NewResourceForm = (props) => {
             const updatedForm = { ...formData, photo: photoUrl };
 
             const response = await ResourceService.register(token, updatedForm);
-    
-            console.log(response);
     
             if (response) {
                 setFormData({

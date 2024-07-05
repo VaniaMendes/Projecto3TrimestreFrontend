@@ -99,7 +99,6 @@ const Home = () => {
         try {
             const projects = await ProjectService.getProjectsByKeyword(keyword, sortBy);
             setProjectsData(projects);
-            console.log('Projects by keyword:', projects);
         } catch (error) {
             console.error('Error fetching data:', error);
         }

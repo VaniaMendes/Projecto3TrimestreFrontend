@@ -103,18 +103,54 @@ BOTTOM HEADER
     }
 }
 
+.search-bar:focus {
+    outline: none;
+}
+
 .search-bar {
     font-size: 1em;
     margin-left: 40px;
-    width: 100%;
+    width: calc(100% - 40px);
     background-color: #da737c31;
     padding: 5px 10px 5px 20px;
     border: transparent;
+    position: relative;
 }
 
-.search-bar:focus{
-    outline: none;
+.search-results {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    top: calc(100% + 5px); /* Adjusted for a small gap */
+    background-color: var(--light-background-color);
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 5000;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    color: var(--dark-color);
+    max-height: 200px;
+    overflow-y: auto;
+    /*visibility: hidden;
+    opacity: 0;*/
 }
+
+.search-result {
+    padding: 0.5em 1em;
+    cursor: pointer;
+    width: 100%;
+}
+
+.search-result:hover {
+    background-color: var(--light-grey);
+}
+
+.search-bar:focus + .search-results,
+.search-results:hover { 
+    visibility: visible;
+    opacity: 1;
+}
+
 
 .icon-container{
     display: flex;

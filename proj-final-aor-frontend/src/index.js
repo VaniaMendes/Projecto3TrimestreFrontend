@@ -23,6 +23,7 @@ import ProjectPlan from './pages/ProjectPlan.js';
 import { IntlProvider } from 'react-intl';
 import { userStore } from './stores/UserStore.js';
 import languages from './translations/index.js';
+import ProjectActivities from './pages/ProjectActivities.js';
 
 
 function Routing() {
@@ -49,6 +50,9 @@ function Routing() {
           </>} />
           <Route path="/project/:projectId" element={<>
             <Project />
+          </>} />
+          <Route path="/project/:projectId/activities" element={<>
+            <ProjectActivities />
           </>} />
           <Route path="/forgot-password" element={<>
             <ForgetPassword />
