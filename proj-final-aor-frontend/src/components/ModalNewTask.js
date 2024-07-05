@@ -38,11 +38,12 @@ function NewTask(props) {
 
 
   const handleNewTask = async () => {
-    if(editTask){
-      const result = updateTask(token, projectId,taskId, task, tasksIdList);
+    if(editTask && taskId){
+      const result = await updateTask(token, projectId,taskId, task, tasksIdList);
       if(result === 200){
         toast.success(intl.formatMessage({ id: 'taskUpdatedSuccefuly' }));
         onClose();
+      }
 
     }else{
     const result = await createTask(token, projectId, task, tasksIdList);
@@ -53,7 +54,7 @@ function NewTask(props) {
       console.error("Error creating new task");
     }
   }
-  }
+  
 }
 
   const handlePriorityChange = (event) => {
