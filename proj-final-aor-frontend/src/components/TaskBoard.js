@@ -28,6 +28,7 @@ const TaskBoard = ({listTasks})=>{
   }, [listTasks]);
   
       
+ 
      //Listas de tarefas classificadas pelo estado(state)
 const todoList = tasks.filter((tasks) => tasks.stateId === 10);
 const doingList = tasks.filter((tasks) => tasks.stateId === 20);

@@ -23,6 +23,7 @@ import ProjectPlan from './pages/ProjectPlan.js';
 import { IntlProvider } from 'react-intl';
 import { userStore } from './stores/UserStore.js';
 import languages from './translations/index.js';
+import SessionTimeoutHandler from './components/SessionTimeOut.js';
 
 
 function Routing() {
@@ -32,9 +33,11 @@ function Routing() {
   return (
     <div>
       <IntlProvider locale={locale} messages={languages[locale]}>
+   
         <ToastContainer />
         
         <Routes>
+      
           <Route path="/" element={<>
             <Home />
           </>} />

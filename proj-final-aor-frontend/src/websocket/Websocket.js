@@ -2,11 +2,23 @@ import { useEffect, useState } from "react";
 import { userStore } from "../stores/UserStore";
 import { notificationStore } from "../stores/NotificationStore";
 
+import { getUnreadNotifications } from "../services/notifications";
+
 function WebSocketClient() {
-  const { incrementNotification } = notificationStore.getState();
+  const { incrementNotification, setNotifications } = notificationStore.getState();
   const token = userStore.getState().token;
   const [websocket, setWebsocket] = useState(null);
 
+
+  const numberOfnotificationUnread = async (token) => {
+    try {
+      const unreadNotifications = await getUnreadNotifications(token);
+      setNotifications(unreadNotifications || 0);
+    } catch (error) {
+      console.error("Error fetching unread notifications:", error);
+      setNotifications(0);
+    }
+  };
   useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
     const ws = new WebSocket(WS_URL + token);
@@ -15,9 +27,8 @@ function WebSocketClient() {
       console.log("WebSocket connection opened");
     };
 
-    ws.onmessage = (event) => {
-           incrementNotification();
-
+    ws.onmessage = async (event) => {
+      await numberOfnotificationUnread(token);
     
     };
 

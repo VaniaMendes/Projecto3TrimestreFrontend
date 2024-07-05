@@ -98,7 +98,7 @@ function Notifications() {
     if (notification.type === "MESSAGE_RECEIVED") {
       navigate(`/messages/${userId}`);
     }
-    if(notification.type === "MESSAGE_PROJECT"){
+    if(notification.type === "MESSAGE_PROJECT || NEW_PROJECT"){
       navigate(`/project/${notification.relatedIDEntity}`);
     }
     markAsRead(notification.id);
@@ -119,7 +119,6 @@ function Notifications() {
             }}
 />
           
-            
           
           ))
         ) : (
@@ -127,7 +126,7 @@ function Notifications() {
         )}
       </div>
       <div className="pagination">
-        {totalPages > 0 && (
+        {totalPages > 1 && (
         
       <Pagination
               currentPage={currentPage}
