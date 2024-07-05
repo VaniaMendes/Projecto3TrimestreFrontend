@@ -107,7 +107,6 @@ const ResourcesHome = () => {
                                 brand={resource.brand}
                                 type={resource.type}
                                 projectsNumber={resource.projectsNumber}
-                                onClick={() => console.log(resource.id)}
                             />
                         ))}
                     </div>

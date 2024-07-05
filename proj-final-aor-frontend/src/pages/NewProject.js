@@ -54,7 +54,6 @@ const NewProject = () => {
             const maxMembers = await getMaxMembers(token);
 
             if (maxMembers) {
-                setInputs(inputs => ({ ...inputs, maxMembers: maxMembers }));
                 setMaxMembersLimit(maxMembers);
             }
         };
@@ -117,7 +116,6 @@ const NewProject = () => {
             maxMembers: parseInt(inputs.maxMembers, 10),
             lab: { name: inputs.lab }
         };
-        console.log("Submitting project data:", projectData);
 
         const response = await ProjectService.register(token, projectData);
         
@@ -164,8 +162,8 @@ const NewProject = () => {
                                     <input
                                         type="text"
                                         name="maxMembers"
-                                        placeholder="Max Members"
-                                        value={inputs.maxMembers}
+                                        placeholder={maxMembersLimit}
+                                        value={inputs.maxMembers || ''}
                                         onChange={handleChange}
                                     />
 

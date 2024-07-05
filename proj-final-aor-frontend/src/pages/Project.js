@@ -62,7 +62,7 @@ const Project = () => {
             }
 
             try {
-                const response = await ProjectService.getProjectInfo(projectId);
+                const response = await ProjectService.getProjectInfo(token, projectId);
                 const responseResources = await ProjectService.getProjectResources(token, projectId);
 
                 if (response.keywords) {
@@ -92,7 +92,7 @@ const Project = () => {
             }
 
             try {
-                const responseActivity = await ProjectService.getProjectActivity(token, projectId);
+                const responseActivity = await ProjectService.getProjectLastXActivities(token, projectId, 5);
                 setActivityRecord(responseActivity);
 
             } catch (error) {
@@ -302,7 +302,7 @@ const Project = () => {
     }
 
     const handleApproveCandidate = async (candidateId, userType, photo, name) => {
-        console.log('Approving candidate:', candidateId, userType);
+
         const response = await ProjectService.approveCandidate(token, projectId, candidateId, userType);
 
         if (response) {
@@ -328,7 +328,7 @@ const Project = () => {
     };
 
     const handleAddMember = async (userId, userType, photo, name) => {
-        console.log('Adding member:', userId, userType);
+
         const response = await ProjectService.addMember(token, projectId, userId, userType);
 
         if (response) {
@@ -372,7 +372,7 @@ const Project = () => {
     };
 
     const handleRemoveMember = async (userId) => {
-        console.log('Removing member:', userId);
+   
         const response = await ProjectService.removeMember(token, projectId, userId);
 
         if (response) {
@@ -547,6 +547,7 @@ const Project = () => {
                                     <label className="c-label"><FormattedMessage id="activityLog"/></label>
                                     {activityRecord.length<1 && <p><FormattedMessage id="noActivities"/></p>}
                                     {activityRecord.length>0 && 
+                                    <>
                                         <table className="table">
                                             <thead>
                                                 <tr>
@@ -567,6 +568,10 @@ const Project = () => {
                                                 ))}
                                             </tbody>
                                         </table>
+                                        <button onClick={() => navigate(`/project/${projectId}/activities`)}>
+                                            <FormattedMessage id="seeMore"/>
+                                        </button>
+                                    </>
                                     }
                                 </div>
                             </>
@@ -686,8 +691,6 @@ function AddTeamMembers({ onClose, projectId, token, handleApproveCandidate, han
                     setCandidates(responseCandidates);
                 }
                 
-                console.log('Users available:', responseAvailable);
-                console.log('Candidates:', responseCandidates);
             } catch (error) {
                 console.error('Error fetching users:', error);
             }
@@ -760,7 +763,6 @@ function AddResources({ onClose, token, projectId, onResourceAdded }) {
                     response = await ResourceService.searchResources(searchInput);
                 }
 
-                console.log('Resources:', response);
                 if (response) {
                     setResources(response);
                 }

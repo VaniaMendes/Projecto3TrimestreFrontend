@@ -12,20 +12,24 @@ import { IoNotifications } from "react-icons/io5";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import "./Header.css";
 import { userStore } from "../../stores/UserStore";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { logoutUser } from "../../services/users";
 import { notificationStore } from "../../stores/NotificationStore";
 import WebSocketClient from "../../websocket/Websocket";
 import Settings from "./Settings";
+import ProjectService from "../../services/ProjectService";
 
 const Header = (props) => {
   const { searchInput, setSearchInput } = props;
+  const intl = useIntl();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showProjectsMenu, setShowProjectsMenu] = useState(false);
   const [showComponentsMenu, setShowComponentsMenu] = useState(false);
   const [showSettingsModal, setShowSettingsModal] = useState(false);
+  const [searchInputProjectsName, setSearchInputProjectsName] = useState("");
+  const [ProjectsNameData, setProjectsNameData] = useState([]);
   const { token, userId, name, resetUserStore , photo, typeUser} = userStore();
 
   const navigate = useNavigate();
@@ -46,8 +50,25 @@ const Header = (props) => {
   useEffect(() => {
     if (searchInput) {
       setSearchInput(searchInput);
+    } else {
+      setSearchInputProjectsName(searchInputProjectsName);
     }
-  }, [searchInput, setSearchInput]);
+  }, [searchInput, searchInputProjectsName]);
+
+  useEffect(() => {
+    if (searchInputProjectsName) {
+      const fetchData = async () => {
+        const response = await ProjectService.searchProjectsByName(searchInputProjectsName, 1, false, "desc");
+        
+        const projectsInfo = response.map(project => ({
+          name: project.name,
+          id: project.id
+        }));
+        setProjectsNameData(projectsInfo);
+      };
+      fetchData();
+    }
+  }, [searchInputProjectsName]);
 
   const handleSearchIconClick = () => {
     setShowSearchBar(true);
@@ -124,7 +145,13 @@ const Header = (props) => {
   }
 
   const handleSearchInputChange = (event) => {
-    setSearchInput(event.target.value);
+    const path = location.pathname;
+
+    if (path === '/home' || path === '/' || path.startsWith('/home/')) {
+      setSearchInput(event.target.value);
+    } else {
+      setSearchInputProjectsName(event.target.value);
+    }
   };
 
   return (
@@ -148,7 +175,7 @@ const Header = (props) => {
               <input
                 className={`search-bar ${isMobile ? "search-bar-mobile" : ""}`}
                 type="search"
-                placeholder="Search Projects..."
+                placeholder={intl.formatMessage({ id: "searchProjects" })}
                 onChange={handleSearchInputChange}
                 value={searchInput}
                 autoFocus={isMobile}
@@ -156,6 +183,22 @@ const Header = (props) => {
               />
             )}
           </div>
+          {ProjectsNameData.length > 0 && (
+            <div className="search-results">
+              {ProjectsNameData.map((project) => (
+                <p
+                  className="search-result"
+                  key={project.id}
+                  onClick={() => {
+                    setSearchInputProjectsName("");
+                    navigate(`/project/${project.id}`);
+                  }}
+                >
+                  {project.name}
+                </p>
+              ))}
+            </div>
+          )}
           {!showSearchBar && (
             <div className="header-right">
               {location.pathname === "/" ? (
@@ -300,7 +343,7 @@ const Header = (props) => {
             </div>
           )}
         </div>
-        {showSettingsModal &&  <Settings onClose={() => setShowSettingsModal(false)} />} 
+        {showSettingsModal &&  <Settings onClose={() => setShowSettingsModal(false)} />}
     </header>
   );
 };
