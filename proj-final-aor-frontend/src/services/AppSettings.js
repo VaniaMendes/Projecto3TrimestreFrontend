@@ -43,6 +43,38 @@ export async function getSettingsInfo(token){
 
         if(response.ok){
             const data = await response.json();
+            console.log(data);
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Failed to retrieve the settings:", response.status, errorData);
+            return null;
+        }
+
+    }catch(error){
+        console.error(error);
+        return null;
+}
+
+}
+
+export async function getTimeoutValue(token){
+    try{
+
+        const response = await fetch(url + "/session-timeout",  {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+ 
+        })
+
+        if(response.ok){
+            const data = await response.json();
+           
             return data;
         }
         else{
