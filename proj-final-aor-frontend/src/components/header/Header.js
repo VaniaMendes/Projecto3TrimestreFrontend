@@ -315,7 +315,7 @@ const Header = (props) => {
                     </div>
                     {showProfileMenu && (
                       <div className="submenu">
-                        <p className="submenu-name">{name}</p>
+                        <p className="submenu-name">{typeUser === 'ADMIN' ? 'Admin' : name}</p>
                         <p
                           className="submenu-clickable"
                           onClick={() => handleClickProfile()}

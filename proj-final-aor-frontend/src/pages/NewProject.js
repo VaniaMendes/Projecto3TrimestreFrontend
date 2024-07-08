@@ -100,10 +100,14 @@ const NewProject = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        console.log(inputs);
+
         if (inputs.maxMembers < 0 || inputs.maxMembers > maxMembersLimit) {
             toast.warn(intl.formatMessage({ id: "maxMembersLimit" }, { maxMembers: maxMembersLimit }));
             return;
-        }
+        } else if (inputs.maxMembers === "") {
+            inputs.maxMembers = maxMembersLimit;
+        };
         
         const formattedConclusionDate = `${inputs.conclusionDate}T00:00:00`;
 

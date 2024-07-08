@@ -58,6 +58,11 @@
     }
 }
 
+.kw-full{
+    position: relative;
+    overflow: hidden;
+}
+
 .keyword-container {
     display: flex;
     justify-content: space-between;

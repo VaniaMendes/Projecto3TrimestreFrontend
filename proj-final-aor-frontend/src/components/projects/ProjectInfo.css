@@ -1,7 +1,7 @@
 .project-cards-container{
     display: flex;
     flex-wrap: wrap;
-    width: inherit;
+    width: 100%;
 }
 
 .info-container{

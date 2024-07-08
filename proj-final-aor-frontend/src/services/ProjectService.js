@@ -160,9 +160,9 @@ const ProjectService = {
 
     },
 
-    countBySearch: async (searchInput) => {
+    countBySearch: async (searchInput, stateId) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/count?search=${searchInput}`, {
+            const response = await fetch(`${API_BASE_URL}/count?search=${searchInput}&state=${stateId}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
