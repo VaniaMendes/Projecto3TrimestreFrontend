@@ -323,12 +323,17 @@ const Header = (props) => {
                           <FormattedMessage id="myProfile" />
                         </p>
                         {typeUser === "ADMIN" && ( 
-                        <p
-                          className="submenu-clickable"
-                          onClick={() => handleClickSettings()}
-                        >
-                          <FormattedMessage id="settings" />
-                        </p>)}
+                        <>
+                          <p
+                            className="submenu-clickable"
+                            onClick={() => handleClickSettings()}
+                          >
+                            <FormattedMessage id="settings" />
+                          </p>
+                          <p className="submenu-clickable">
+                            <FormattedMessage id="statistics" />
+                          </p>
+                        </>)}
                         <p
                           className="submenu-clickable"
                           onClick={() => handleClickLogout()}

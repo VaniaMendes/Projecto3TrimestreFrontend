@@ -155,6 +155,7 @@
     "projectsNumber": "Número de Projetos",
     "noProjects": "Sem Projetos para mostrar",
     "maxMembersLimit": "O número máximo de membros deve estar entre 0 e {maxMembers}",
+    "statistics": "Estatísticas",
 
     "searchKeywords": "Pesquisar Palavras-chave...",
     "searchProjects": "Pesquisar Projetos...",
@@ -205,8 +206,9 @@
 
 
 
-
-
+    "changeState": "Alterar Estado do Projeto",
+    "confirmStateChange": "Confirmar alteração de estado para {newState}",
+    "stateUpdated": "Estado atualizado com sucesso",
     "messageReceived": "Você recebeu uma mensagem de ",
     "newProjectNotification":" Um novo projeto foi adicionado por ",
     "projectStatusNotification": " alterou o estado do projeto",

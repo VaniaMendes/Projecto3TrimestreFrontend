@@ -155,6 +155,7 @@
     "projectsNumber": "Number of Projects",
     "noProjects": "No Projects to show",
     "maxMembersLimit": "Max members must be between 0 and {maxMembers}",
+    "statistics": "Statistics",
 
     "searchKeywords": "Search Keywords...",
     "searchProjects": "Search Projects...",
@@ -202,7 +203,9 @@
     "CANCELLED": "Cancelled",
 
 
-   
+    "changeState": "Change Project State",
+    "confirmStateChange": "Confirm State change to {newState}",
+    "stateUpdated": "State updated successfully",
     "messageReceived": "You have received a new message from ",
     "newProjectNotification": " A new project was created by ",
     "projectStatusNotification": " changed the status os the ptoject ",

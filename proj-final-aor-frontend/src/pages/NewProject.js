@@ -173,7 +173,7 @@ const NewProject = () => {
 
                                     <label className="label-description" htmlFor="members">
                                         <FormattedMessage id="maxMembers">
-                                            {(message) => <span>{message}</span>}
+                                            {(message) => <span>{message} *</span>}
                                         </FormattedMessage>
                                     </label>
                                 </div>
@@ -237,7 +237,9 @@ const NewProject = () => {
                                     {/* Conteúdo das palavras-chave */}
                                     <div className="input-profile">
                                         <label className="label-profile" htmlFor="keywords">
-                                            <FormattedMessage id="keywords"/>
+                                            <FormattedMessage id="keywords">
+                                                {(message) => <span>{message} *</span>}
+                                            </FormattedMessage>
                                         </label>
                                     </div>
 
