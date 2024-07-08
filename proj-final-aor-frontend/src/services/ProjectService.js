@@ -51,9 +51,10 @@ const ProjectService = {
         }
     },
 
-    getProjectsByKeyword: async (keyword, order) => {
+    getProjectsByKeyword: async (keyword, order, vacancies, state) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/keyword/${keyword}?order=${order}`, {
+
+            const response = await fetch(`${API_BASE_URL}/keyword/${keyword}?order=${order}&vacancies=${vacancies}&state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -137,10 +138,10 @@ const ProjectService = {
 
     },
 
-    countByKeyword: async (keyword) => {
+    countByKeyword: async (keyword, state) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/count?keyword=${keyword}`, {
+            const response = await fetch(`${API_BASE_URL}/count?keyword=${keyword}&state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
