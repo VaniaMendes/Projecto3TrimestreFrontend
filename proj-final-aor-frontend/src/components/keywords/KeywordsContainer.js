@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Keywords.css";
 import { IoSearch } from "react-icons/io5";
@@ -9,7 +9,7 @@ import ProjectService from "../../services/ProjectService";
 
 const KeywordsContainer = (props) => {
     const intl = useIntl();
-    const {isMobile} = props;
+    const { isMobile } = props;
     const [keywords, setKeywords] = useState([]);
     const [filteredKeywords, setFilteredKeywords] = useState([]);
     const [clickedKeyword, setClickedKeyword] = useState(null);
@@ -28,7 +28,7 @@ const KeywordsContainer = (props) => {
             const currentPath = location.pathname;
             const newSearchParams = new URLSearchParams(location.search);
             newSearchParams.set('keyword', clickedKeyword);
-    
+
             navigate(`${currentPath}?${newSearchParams.toString()}`);
         }
     }, [clickedKeyword]);
@@ -46,8 +46,27 @@ const KeywordsContainer = (props) => {
             const skills = await SkillInterestService.getAllSkills();
             const projKeywords = await ProjectService.getKeywords();
 
-            setKeywords([...skills, ...projKeywords]);
-            setFilteredKeywords([...skills, ...projKeywords]); // Initialize filtered keywords with all keywords initially
+            // Combine arrays and remove duplicates, preserving original format
+            const combinedKeywords = [...skills, ...projKeywords];
+            const seen = new Set();
+            const uniqueKeywords = combinedKeywords.filter(keyword => {
+                if (typeof keyword === 'object' && keyword !== null) {
+                    keyword = keyword.name;
+                }
+                if (typeof keyword !== 'string') {
+                    console.warn('Non-string keyword encountered:', keyword);
+                    return false;
+                }
+                const normalizedKeyword = keyword.trim().toLowerCase();
+                if (seen.has(normalizedKeyword)) {
+                    return false;
+                }
+                seen.add(normalizedKeyword);
+                return true;
+            });
+
+            setKeywords(uniqueKeywords);
+            setFilteredKeywords(uniqueKeywords);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -89,35 +108,35 @@ const KeywordsContainer = (props) => {
     return (
         <div className={isMobile ? "kw-mobile" : "kw-full"}>
             <div className="sk-title-container">
-                <h3><FormattedMessage id="skills"/> / </h3>
-                <h3><FormattedMessage id="keywords"/></h3>
+                <h3><FormattedMessage id="skills" /> / </h3>
+                <h3><FormattedMessage id="keywords" /></h3>
                 <div className="search-keyword-container" ref={searchContainerRef}>
-                {!showSearchKeywordBar && (
-                    <IoSearch className="search-keyword-icon" onClick={handleSearchIconClick} title={intl.formatMessage({id: "searchKeywords"})} />
-                )}
-                {showSearchKeywordBar && (
-                    <input 
-                        className="search-keyword-input" 
-                        type="search" 
-                        placeholder={intl.formatMessage({id: "searchKeywords"})}
-                        onChange={handleSearchInputChange}
-                        value={searchInput}
-                        autoFocus
-                    />
-                )}
+                    {!showSearchKeywordBar && (
+                        <IoSearch className="search-keyword-icon" onClick={handleSearchIconClick} title={intl.formatMessage({ id: "searchKeywords" })} />
+                    )}
+                    {showSearchKeywordBar && (
+                        <input
+                            className="search-keyword-input"
+                            type="search"
+                            placeholder={intl.formatMessage({ id: "searchKeywords" })}
+                            onChange={handleSearchInputChange}
+                            value={searchInput}
+                            autoFocus
+                        />
+                    )}
                 </div>
             </div>
-                        
+
             <div className="keywords-container">
-            {filteredKeywords.map((keyword, index) => {
-                let keywordName;
-                if (typeof keyword === 'object' && keyword !== null) {
-                    keywordName = keyword.name;
-                } else if (typeof keyword === 'string') {
-                    keywordName = keyword;
-                }
-                return <KeywordComponent key={index} id={keyword.id} keyword={keywordName} isProjectInfo={false} onClick={handleKeywordClick}/>
-            })}
+                {filteredKeywords.map((keyword, index) => {
+                    let keywordName;
+                    if (typeof keyword === 'object' && keyword !== null) {
+                        keywordName = keyword.name;
+                    } else if (typeof keyword === 'string') {
+                        keywordName = keyword;
+                    }
+                    return <KeywordComponent key={index} id={keyword.id} keyword={keywordName} isProjectInfo={false} onClick={handleKeywordClick} />
+                })}
             </div>
         </div>
     );

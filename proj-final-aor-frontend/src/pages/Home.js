@@ -45,8 +45,9 @@ const Home = () => {
                     setProjectsTotal(projectCount);
 
                     if (searchInput) { 
-                        fetchProjectsBySearch(searchInput);
-                        fetchCountProjectsBySearch(searchInput);
+                        navigate(`/home?search=${searchInput}`);
+                    } else if (keyword) {
+                        navigate(`/home?keyword=${keyword}`);
                     }
                 } catch (error) {
                     console.error('Error fetching user projects:', error);

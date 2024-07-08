@@ -172,11 +172,13 @@
     "REMOVED_MEMBER": "Removed Member",
     "UPDATED_MEMBER_ROLE": "Updated Member Role",
     "ADDED_RESOURCE": "Added Resource",
+    "MEMBER_COMMENT": "Member Comment",
 
     "addKeyword": "Add Keyword",
     "addNeed": "Add Need",
     "addToProject": "Add to Project",
     "addCandidate": "Add Candidate",
+    "addActivity": "Add Activity",
     "removeCandidate": "Remove Candidate",
     "selectRole": "Select Role",
 

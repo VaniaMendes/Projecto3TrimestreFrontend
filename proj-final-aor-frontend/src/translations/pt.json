@@ -172,12 +172,14 @@
     "REMOVED_MEMBER": "Membro Removido",
     "UPDATED_MEMBER_ROLE": "Função do Membro Atualizada",
     "ADDED_RESOURCE": "Componente Adicionado",
+    "MEMBER_COMMENT": "Comentário de Membro do Projeto",
 
 
     "addKeyword": "Adicionar Palavra-chave",
     "addNeed": "Adicionar Necessidade",
     "addToProject": "Adicionar ao Projeto",
     "addCandidate": "Adicionar Candidato",
+    "addActivity": "Adicionar Atividade",
     "removeCandidate": "Remover Candidato",
     "selectRole": "Selecionar Função",
 

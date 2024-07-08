@@ -16,6 +16,7 @@ import { toast } from "react-toastify";
 import { getUserProjectStatus } from "../services/users";
 import ProjectChat from '../components/ProjectChat';
 import ResourceService from "../services/ResourceService";
+import ActivityService from "../services/ActivityService";
 
 
 
@@ -35,6 +36,7 @@ const Project = () => {
     const [isEditStateOpen, setIsEditStateOpen] = useState(false);
     const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
     const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
+    const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
     const [modalType, setModalType] = useState(""); 
     const { projectId } = useParams();
 
@@ -46,6 +48,8 @@ const Project = () => {
         { id: 500, name: 'FINISHED' },
         { id: 600, name: 'CANCELLED' },
     ];
+
+    const [filteredStates, setFilteredStates] = useState(states);
     
     useEffect(() => {
         if (!token) {
@@ -80,6 +84,7 @@ const Project = () => {
                 console.error('Error fetching project:', error);
             }
         };
+
         fetchData();
     }, [projectId, token]);
 
@@ -99,8 +104,11 @@ const Project = () => {
                 console.error('Error fetching project:', error);
             }
         };
+
+        validStates(typeUser, projectData.stateId);
+
         fetchActivities();
-    }, [projectId, token, projectData]);
+    }, [projectId, token, projectData, isActivityModalOpen]);
 
     
     useEffect(() => {
@@ -159,7 +167,55 @@ const Project = () => {
         return false;
     };
 
+    const validStates = (userType, currentProjectState) => {
+        let filtStates = [];
+
+        // Encontrar e adicionar o estado atual
+        const currentStateOption = states.find(state => state.name === currentProjectState);
+        if (currentStateOption) {
+            filtStates.push(currentStateOption);
+        }
+
+        // Determinar estados adicionais com base no estado atual e no tipo de usuário
+        let additionalStates = [];
+        switch (currentProjectState) {
+            case 'PLANNING':
+                if (!isCollaborator() || userType === 'ADMIN') {
+                    additionalStates = states.filter(state => state.name === 'READY');
+                }
+                break;
+            case 'READY':
+                if (userType === 'ADMIN') {
+                    additionalStates = states.filter(state => state.name === 'APPROVED' || state.name === 'PLANNING');
+                }
+                break;
+            case 'APPROVED':
+                if (!isCollaborator() || userType === 'ADMIN') {
+                    additionalStates = states.filter(state => state.name === 'IN_PROGRESS');
+                }
+                break;
+            case 'IN_PROGRESS':
+                if (!isCollaborator() || userType === 'ADMIN') {
+                    additionalStates = states.filter(state => state.name === 'FINISHED');
+                }
+                break;
+            default:
+                break;
+        }
+
+        // Adicionar estados adicionais, evitando duplicatas
+        filtStates = [...new Set([...filtStates, ...additionalStates])];
+
+        // Adicionar "CANCELLED" condicionalmente
+        const cancelledState = states.find(state => state.name === 'CANCELLED');
+        if (cancelledState && !filtStates.includes(cancelledState) && currentProjectState !== 'FINISHED') {
+            filtStates.push(cancelledState);
+        }
+
+        setFilteredStates(filtStates);
+    };
     
+
     const handleOpenModalDescription = () => {
         setIsEditModalOpen(true);
         setModalType("description");
@@ -181,6 +237,10 @@ const Project = () => {
 
     const handleOpenModalResource = () => {
         setIsResourceModalOpen(true);
+    }
+
+    const handleOpenModalActivity = () => {
+        setIsActivityModalOpen(true);
     }
   
     const handlePlanExecution = () => {
@@ -257,6 +317,7 @@ const Project = () => {
     }
 
     const handleAddSkill = async (skill) => {
+        console.log(skill);
         await ProjectService.joinSkill(token, projectId, skill.id);
 
         const responseAdd = await ProjectService.addSkill(token, projectId, skill.id);
@@ -385,6 +446,16 @@ const Project = () => {
         }
     };
 
+    const handleAddActivity = async (observation) => {
+        const response = await ActivityService.addMemberComment(projectId, token, observation);
+
+        if (response) {
+            toast.success('Activity added successfully!');
+        }
+    };
+
+
+
     const handleCloseModal = () => {
         if(isEditModalOpen){
             setIsEditModalOpen(false);
@@ -394,6 +465,8 @@ const Project = () => {
             setIsMemberModalOpen(false);
         } else if(isResourceModalOpen){
             setIsResourceModalOpen(false);
+        } else if(isActivityModalOpen){
+            setIsActivityModalOpen(false);
         }
 
     };
@@ -431,7 +504,7 @@ const Project = () => {
                                 <h4><FormattedMessage id="state"/> :&nbsp; </h4>
                                 {isEditStateOpen ? (
                                     <select value={currentState} onChange={handleStateChange}>
-                                        {states.map((state) => (
+                                        {filteredStates.map((state) => (
                                             <option key={state.id} value={state.id}>
                                                 <FormattedMessage id={state.name}/>
                                             </option>
@@ -447,13 +520,13 @@ const Project = () => {
                                 <p>{projectData.maxMembers}</p>
                             </div>
 
-                            {(isUserInProject() || typeUser=='ADMIN') && (
+                            {(isUserInProject() || typeUser == 'ADMIN') && projectData.stateId !== "FINISHED" && projectData.stateId !== "CANCELLED" && (
                                 <>
-                                {isEditStateOpen ? (
-                                    <span className="ppi-btn" onClick={handleClickEditState}><IoIosCloseCircleOutline /></span>
-                                ) : (
-                                    <span className="ppi-btn" onClick={handleClickEditState}><FiEdit3 /></span>
-                                )}
+                                    {isEditStateOpen ? (
+                                        <span className="ppi-btn" onClick={handleClickEditState}><IoIosCloseCircleOutline /></span>
+                                    ) : (
+                                        <span className="ppi-btn" onClick={handleClickEditState}><FiEdit3 /></span>
+                                    )}
                                 </>
                             )}
                         </div>
@@ -461,7 +534,7 @@ const Project = () => {
                         <div className="project-page-description">
                             <label className="c-label"><FormattedMessage id="description"/></label>
                             <p>{projectData.description}</p>
-                            {isUserInProject() && (
+                            {isUserInProject() &&  (
                                 <span className="ppi-btn" onClick={handleOpenModalDescription}><FiEdit3 /></span>
                             )}
                         </div>
@@ -568,11 +641,14 @@ const Project = () => {
                                                 ))}
                                             </tbody>
                                         </table>
-                                        <button onClick={() => navigate(`/project/${projectId}/activities`)}>
+                                        {activityRecord.length>4 && <button onClick={() => navigate(`/project/${projectId}/activities`)}>
                                             <FormattedMessage id="seeMore"/>
-                                        </button>
+                                        </button>}
                                     </>
                                     }
+                                    {isUserInProject() && (
+                                        <span className="ppi-btn" onClick={handleOpenModalActivity}><GoPlusCircle /></span>
+                                    )}
                                 </div>
                             </>
                         )}
@@ -616,6 +692,15 @@ const Project = () => {
                             token={token}
                             projectId={projectId}
                             onResourceAdded={refetchResourceData}
+                        />
+                    )}
+
+                    {isActivityModalOpen && (
+                        <AddActivityObservation
+                            onClose={handleCloseModal}
+                            input={input}
+                            setInput={setInput}
+                            onSave={handleAddActivity}
                         />
                     )}
                     
@@ -849,6 +934,49 @@ function AddResources({ onClose, token, projectId, onResourceAdded }) {
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </>
+    );
+}
+
+function AddActivityObservation({ onClose, input, setInput, onSave }) {
+        
+    const handleAddActivity = (event) => {
+        const { value } = event.target;
+        setInput(value);
+    };
+
+    const handleSaveActivity = () => {
+        onSave(input);
+        setInput('');
+        onClose();
+    }
+    
+    return (
+        <>
+            <div className="modal-backdrop" onClick={onClose}></div>
+            <div className="modal-skill-container">
+
+                <div className="modal-close" onClick={onClose}>
+                    <IoIosCloseCircleOutline />
+                </div>
+                <h1 className="editProfile-title">
+                    <FormattedMessage id="addActivity"/>
+                </h1>
+
+                <div className="modal-body-biography">
+                <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    value={input || ""}
+                    onChange={handleAddActivity}
+                />
+                </div>
+              
+                <button className="save-button" onClick={() => handleSaveActivity()}>
+                        <FormattedMessage id="save"/>
+                </button>
             </div>
         </>
     );

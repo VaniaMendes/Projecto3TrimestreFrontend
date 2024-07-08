@@ -8,7 +8,6 @@ import { getAllInterests, createNewInterest, associateInterestToUser} from "../.
 import SkillComponent from "./SkillComponent";
 import { toast } from "react-toastify";
 import SkillInterestService from "../../services/SkillInterestService";
-import ProjectService from "../../services/ProjectService";
 
 
 function AddNewSkill(props) {
@@ -69,21 +68,15 @@ function AddNewSkill(props) {
           return;
         }
         try {
-          const response = await createNewSkill(token, skill);
-          if (response === 200) {
-            toast.success("Skill created successfully");
-            // Update the skills list locally
-            setList([...list, skill]);
-            // Reset the skill input fields
-            setSkill({ name: "", type: "" });
-            
-          } else {
-            toast.error("Failed to create skill");
-          }
+          const createdSkill = await createNewSkill(token, skill);
+          toast.success("Skill created successfully");
+          
+          setList([...list, createdSkill]);
+          setSkill({ name: "", type: "" });
         } catch (error) {
-          toast.error("An error occurred");
+          toast.error(error.message || "An error occurred");
         }
-    }else if (modalType === "interest"){
+    } else if (modalType === "interest"){
         if(!interest.name){
             toast.error("Please fill out the interest name.");
             return;

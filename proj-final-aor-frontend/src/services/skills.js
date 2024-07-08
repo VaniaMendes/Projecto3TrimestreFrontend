@@ -67,7 +67,8 @@ export async function createNewSkill(token, skill){
             body: JSON.stringify(skill)
         });
         if(response.ok){
-            return 200;
+          const createdSkill = await response.json();
+          return createdSkill;
         }
         else{
             const errorData = await response.text();
