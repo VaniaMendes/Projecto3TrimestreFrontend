@@ -25,6 +25,99 @@ const SkillInterestService = {
 
     },
 
+    getAllSkillsWithProjects: async () => {
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/skills/with-projects`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+    },
+
+    searchSkillsWithProjects: async (searchInput) => {
+            
+        try {
+            const response = await fetch(`${API_BASE_URL}/skills/with-projects/search?name=${searchInput}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+    },
+
+    getProjectsWithSkill: async (skillId, order, state) => {
+            
+        try {
+            const response = await fetch(`${API_BASE_URL}/skills/${skillId}/projects?order=${order}&state=${state}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
+    },
+
+    countProjectsWithSkill: async (skillId, state) => {
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/skills/${skillId}/projects/count?state=${state}`, {
+                method: "GET",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                return data;
+            } else {
+                throw new Error(response.statusText);
+            }
+        } catch (error) {
+
+            console.error(error);
+        }
+
+    },
+
     getAllInterests: async () => {
 
         try {

@@ -12,6 +12,7 @@ import { userStore } from "../stores/UserStore";
 import { useActionsStore } from "../stores/ActionStore";
 import { getCountProjectFromUser } from "../services/users";
 import FilterOptions from "../components/FilterOptions";
+import SkillInterestService from "../services/SkillInterestService";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -98,7 +99,7 @@ const Home = () => {
 
     const fetchProjectsByKeyword = async (keyword) => {
         try {
-            const projects = await ProjectService.getProjectsByKeyword(keyword, sortBy);
+            const projects = await ProjectService.getProjectsByKeyword(keyword, sortBy, vacancies, stateId);
             setProjectsData(projects);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -107,7 +108,8 @@ const Home = () => {
 
     const fetchCountProjectsByKeyword = async (keyword) => {
         try {
-            const count = await ProjectService.countByKeyword(keyword);
+            const count = await ProjectService.countByKeyword(keyword, stateId);
+
             setProjectsTotal(count);
         } catch (error) {
             console.error('Error fetching data:', error);

@@ -43,7 +43,7 @@ const KeywordsContainer = (props) => {
 
     const fetchKeywords = async () => {
         try {
-            const skills = await SkillInterestService.getAllSkills();
+            const skills = await SkillInterestService.getAllSkillsWithProjects();
             const projKeywords = await ProjectService.getKeywords();
 
             // Combine arrays and remove duplicates, preserving original format
@@ -78,7 +78,6 @@ const KeywordsContainer = (props) => {
     };
 
     const handleKeywordClick = (keyword) => {
-        console.log("Keyword clicked:", keyword);
         setClickedKeyword(keyword);
     };
 
@@ -94,8 +93,10 @@ const KeywordsContainer = (props) => {
 
         if (inputValue.trim() !== "") {
             try {
-                const searchResults = await ProjectService.searchKeywords(inputValue);
-                setFilteredKeywords(searchResults);
+                const searchResultsSkills = await SkillInterestService.searchSkillsWithProjects(inputValue);
+                const searchResultsKeywords = await ProjectService.searchKeywords(inputValue);
+
+                setFilteredKeywords([...searchResultsSkills, ...searchResultsKeywords]);
             } catch (error) {
                 console.error('Error searching keywords:', error);
             }
