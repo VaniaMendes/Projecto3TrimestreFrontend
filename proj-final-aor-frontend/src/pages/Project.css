@@ -31,6 +31,7 @@
 .project-page-members,
 .project-page-resources,
 .project-page-plan,
+.project-page-observation,
 .project-page-activity-historic{
     display: flex;
     align-items: center;
@@ -56,6 +57,7 @@
 .project-page-members,
 .project-page-resources,
 .project-page-plan,
+.project-page-observation,
 .project-page-activity-historic{
     position: relative;
     padding-top: 20px;
@@ -70,6 +72,7 @@
 .project-page-members label,
 .project-page-resources label,
 .project-page-plan label,
+.project-page-observation label,
 .project-page-activity-historic label{
     color: var(--main-red);
     position: absolute;

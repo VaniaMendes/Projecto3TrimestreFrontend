@@ -17,11 +17,13 @@ import { getUserProjectStatus } from "../services/users";
 import ProjectChat from '../components/ProjectChat';
 import ResourceService from "../services/ResourceService";
 import ActivityService from "../services/ActivityService";
+import CustomModal from "../components/CustomModal";
 
 
 
 const Project = () => {
     const {token, userId, typeUser} = userStore();
+    const intl = useIntl();
     const navigate = useNavigate();
     const [projectData, setProjectData] = useState([]);
     const [resources, setResources] = useState([]);
@@ -29,11 +31,14 @@ const Project = () => {
     const [input, setInput] = useState("");
     const [currentState, setCurrentState] = useState(null);
     const [newKeyword, setNewKeyword] = useState("");
+    const [newState, setNewState] = useState([]);
     const [hasApplied, setHasApplied] = useState(false);
 
+    const [isReadyState, setIsReadyState] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [isEditStateOpen, setIsEditStateOpen] = useState(false);
+    const [isEditStateConfirmOpen, setIsEditStateConfirmOpen] = useState(false);
     const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
     const [isResourceModalOpen, setIsResourceModalOpen] = useState(false);
     const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
@@ -105,8 +110,14 @@ const Project = () => {
             }
         };
 
-        validStates(typeUser, projectData.stateId);
+        const isFromReadyState = () => {
+            if (projectData.stateId === "READY" && typeUser === "ADMIN") {
+                setIsReadyState(true);
+            }
+        };
 
+        validStates(typeUser, projectData.stateId);
+        isFromReadyState();
         fetchActivities();
     }, [projectId, token, projectData, isActivityModalOpen]);
 
@@ -180,7 +191,7 @@ const Project = () => {
         let additionalStates = [];
         switch (currentProjectState) {
             case 'PLANNING':
-                if (!isCollaborator() || userType === 'ADMIN') {
+                if (!isCollaborator() && userType !== 'ADMIN') {
                     additionalStates = states.filter(state => state.name === 'READY');
                 }
                 break;
@@ -190,12 +201,12 @@ const Project = () => {
                 }
                 break;
             case 'APPROVED':
-                if (!isCollaborator() || userType === 'ADMIN') {
+                if (!isCollaborator() && userType !== 'ADMIN') {
                     additionalStates = states.filter(state => state.name === 'IN_PROGRESS');
                 }
                 break;
             case 'IN_PROGRESS':
-                if (!isCollaborator() || userType === 'ADMIN') {
+                if (!isCollaborator() && userType !== 'ADMIN') {
                     additionalStates = states.filter(state => state.name === 'FINISHED');
                 }
                 break;
@@ -272,19 +283,46 @@ const Project = () => {
     const handleStateChange = async (event) => {
         const selectedStateId = event.target.value;
         const selectedStateName = states.find(state => state.id === parseInt(selectedStateId)).name;
-        const userConfirmed = window.confirm('Are you sure you want to save this selection?');
 
-        if (userConfirmed) {
-            const response = await ProjectService.updateState(token, projectId, selectedStateId);
-            if  (response) {
-                setProjectData(prevProjectData => ({
-                    ...prevProjectData,
-                    stateId: selectedStateName
-                }));
-                setCurrentState(selectedStateId);
-                setIsEditStateOpen(false);
+        setNewState([selectedStateId, selectedStateName]);
+        setIsEditStateConfirmOpen(true);
+    };
+
+    const modalTitle = <FormattedMessage id="changeState"/>;
+    let newStateLabel;
+    if (newState && newState.length > 1) {
+        newStateLabel = intl.formatMessage({ id: newState[1] });
+    }
+    const modalLabel = (
+        <FormattedMessage
+            id="confirmStateChange"
+            values={{ newState: newStateLabel }}
+        />
+    );
+
+    const onConfirmStateChange = async (value, observation) => {
+        const response = await ProjectService.updateState(token, projectId, value);
+
+        if (response) {
+            if (isReadyState && observation) {
+                await handleUpdateObservation(observation);
+                setInput("");
             }
+
+            toast.success(intl.formatMessage({ id: 'stateUpdated' }));
+
+            setProjectData(prevProjectData => ({
+                ...prevProjectData,
+                stateId: states.find(state => state.id === parseInt(value)).name
+            }));
+            setCurrentState(value);
+            setIsEditStateConfirmOpen(false);
+            setIsEditStateOpen(false);
         }
+    };
+
+    const handleUpdateObservation = async (observation) => {
+        const response = await ProjectService.updateObservation(token, projectId, observation);
     };
 
     const handleAddKeyword = async (keyword) => {
@@ -634,8 +672,8 @@ const Project = () => {
                                                 {activityRecord.map((activity, index) => (
                                                     <tr key={index}>
                                                         <td><FormattedMessage id={activity.type}/></td>
-                                                        <td>{activity.author.name}</td>
-                                                        <td>{activity.observation}</td>
+                                                        <td>{activity.author.name === 'null null' ? 'Admin' : activity.author.name}</td>
+                                                        <td>{activity.type === 'EDIT_PROJECT_STATE' ? intl.formatMessage({ id: activity.observation }) : activity.observation}</td>
                                                         <td>{new Date(activity.createdAt).toLocaleString()}</td>
                                                     </tr>
                                                 ))}
@@ -650,6 +688,12 @@ const Project = () => {
                                         <span className="ppi-btn" onClick={handleOpenModalActivity}><GoPlusCircle /></span>
                                     )}
                                 </div>
+                                {projectData.observations && (
+                                    <div className="project-page-observation">
+                                        <label className="c-label"><FormattedMessage id="observations"/></label>
+                                        <p>{projectData.observations}</p>
+                                    </div>
+                                )}
                             </>
                         )}
                     </div>
@@ -701,6 +745,18 @@ const Project = () => {
                             input={input}
                             setInput={setInput}
                             onSave={handleAddActivity}
+                        />
+                    )}
+
+                    {isEditStateConfirmOpen && (
+                        <CustomModal
+                            title={modalTitle}
+                            label={modalLabel}
+                            show={isEditStateConfirmOpen}
+                            setObservationInput={setInput}
+                            onClose={() => setIsEditStateConfirmOpen(false)}
+                            onConfirm={() => onConfirmStateChange(newState[0], input)}
+                            isReadyState={isReadyState}
                         />
                     )}
                     

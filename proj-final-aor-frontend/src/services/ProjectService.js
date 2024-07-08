@@ -426,6 +426,31 @@ const ProjectService = {
         }
     },
 
+    updateObservation: async(token, projectId, observation) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${projectId}/observation`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                },
+                body: JSON.stringify({observation: observation})
+            });
+    
+            if(response.ok) {
+                return response.ok;
+            } else {
+                const errorData = await response.text();
+                console.error("Failed to update the observation of the project:", response.status, errorData);
+                return null;
+            }
+        } catch(error) {
+            console.error(error);
+            return null;
+        }
+    },
+
     joinSkill: async(token, projectId, skillId) => {
         try{
             const response = await fetch(`${API_BASE_URL}/${projectId}/skill`,  {
