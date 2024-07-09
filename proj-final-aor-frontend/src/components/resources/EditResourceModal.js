@@ -241,7 +241,7 @@ const EditResourceModal = (props) => {
 
                     <div className="new-resource-input-container observations-ctnr">
                         <label className="new-resource-input-label observations-label" htmlFor="observation"><FormattedMessage id="observations"/> :</label>
-                        <input type="text" id="observation" name="observation" required value={formData.observation} onChange={handleChange} />
+                        <input type="text" id="observation" name="observation" value={formData.observation} onChange={handleChange} />
                     </div>
                     <div className="suppliers-input-container suppliers-info">
                         <h3 className="supplier-label"><FormattedMessage id="supplier" /></h3>

@@ -10,6 +10,7 @@ import { getProjectTasks, getProjectTasksOrderByDate } from '../services/TaskSer
 import GanttComponent from '../components/GanttChart';
 import Visibility from '../components/profile/Visibility';
 import TaskBoard from '../components/TaskBoard';
+import ProjectService from '../services/ProjectService';
 
 const ProjectPlan = () => {
     const { token } = userStore();
@@ -24,6 +25,8 @@ const ProjectPlan = () => {
     const [tasksOrdered, setTasksOrdered] = useState([]);
     const [isMobile, setIsMobile] = useState(false); 
 
+    const [project, setProject] = useState("");
+
     const closeModal = () => setIsModalOpen(false);
     const handleNewTask = () => setIsModalOpen(true);
 
@@ -33,6 +36,10 @@ const ProjectPlan = () => {
                 console.warn("Missing token or projectId.");
                 return;
             }
+
+            setProject(await ProjectService.getProjectInfo(token, projectId));
+            
+
             if (showGantt) {
                 const data = await getProjectTasksOrderByDate(token, projectId);
                 console.log(data);
@@ -50,7 +57,7 @@ const ProjectPlan = () => {
         }
     };
 
-
+    console.log(project);
     useEffect(() => {
         fetchTasks();
     }, [projectId, token, showGantt, showBoard]);
@@ -166,7 +173,7 @@ const ProjectPlan = () => {
                     <div className="project-plan-exterior-container">
                         <div className="project-plan-chart">
                            
-                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={tasksOrdered} showList={showList} viewMode={viewMode} />}
+                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={tasksOrdered} showList={showList} viewMode={viewMode} project={project} />}
                     {showBoard && isPageLoaded&& <TaskBoard listTasks={availableTasks} />}
                         </div>
                         <TaskAdder handleNewTask={handleNewTask} />

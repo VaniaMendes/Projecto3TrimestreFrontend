@@ -34,7 +34,7 @@ function Routing() {
   return (
     <div>
       <IntlProvider locale={locale} messages={languages[locale]}>
-   
+   <SessionTimeoutHandler />
         <ToastContainer />
         
         <Routes>

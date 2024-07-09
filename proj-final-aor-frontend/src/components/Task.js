@@ -5,8 +5,7 @@ function Task({
   task,
   handleDeleteTask,
   handleDragStart,
-  handleEdit,
-  handleTaskDoubleClick
+  handleEdit
 }) {
 
   const getColorForPriority = (priority) => {
@@ -21,13 +20,15 @@ function Task({
     }
   };
 
+
+  
   return (
     <div
       className="task"
       key={task.id}
       draggable
       onDragStart={(event) => handleDragStart(event, task.id)}
-      onDoubleClick={() => handleTaskDoubleClick(task.id)}
+    
     >
       <div
         className="priority-bar"

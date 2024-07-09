@@ -6,10 +6,13 @@ import { logoutUser } from "../services/users";
 import { userStore } from "../stores/UserStore";
 
 const SessionTimeoutHandler = () => {
+  //State variables
   const [sessionTimeout, setSessionTimeout] = useState(null);
   const navigate = useNavigate();
+  //Get the token of the userStore
   const { token } = userStore();
 
+  //Get the value of sessiontimeout
   useEffect(() => {
     const fetchSettings = async () => {
       const value = await getTimeoutValue(token);
@@ -39,10 +42,10 @@ const SessionTimeoutHandler = () => {
     };
 
     const handleLogout = async () => {
-      // Clear session storage or any other storage used
+      // Clear session storage 
       sessionStorage.clear();
 
-      // Log the user out (assuming logoutUser is an async function)
+      // Log the user out 
       await logoutUser(token);
       // Show a message
       toast.info("Your session has expired due to inactivity.");
@@ -54,12 +57,12 @@ const SessionTimeoutHandler = () => {
       resetTimeout();
     };
 
-    
+    //When the page is closed
     const handleBeforeUnload = (event) => {
         // Clear session storage
         sessionStorage.clear();
         // Log the user out (assuming logoutUser is an async function)
-        logoutUser(token);
+       handleLogout();
         // Show a message
         toast.info("Your session has expired due to inactivity.");
       };
