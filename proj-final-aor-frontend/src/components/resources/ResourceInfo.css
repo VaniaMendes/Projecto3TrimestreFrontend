@@ -43,20 +43,27 @@
 .label-name-container {
     display: flex;
     justify-content: flex-start;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 
-.label-name-container p,
 .label-name-container h4 {
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    white-space: normal;
+    text-overflow: clip;
     flex: 1;
+    word-wrap: break-word;
 }
+
+
 
 @media (max-width: 768px) {
     .resource-container {
         flex-direction: row;
         width: 90%;
         height: 200px
+    }
+
+    .label-name-container h4,
+    .label-name-container p{
+        font-size: 0.8rem;
     }
 }

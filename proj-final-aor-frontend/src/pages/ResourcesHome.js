@@ -117,6 +117,9 @@ const ResourcesHome = () => {
                                 suppliers={suppliers}
                                 brands={brands}
                             />
+                            <FilterOptions 
+                                isResourcesSortMobile={true}
+                            />
                         </SliderContainer>
                     )}
                 </div>
