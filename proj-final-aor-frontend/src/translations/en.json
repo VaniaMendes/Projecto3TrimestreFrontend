@@ -168,6 +168,7 @@
     "projectsNumber": "Number of Projects",
     "noProjects": "No Projects to show",
     "maxMembersLimit": "Max members must be between 0 and {maxMembers}",
+    "statistics": "Statistics",
 
     "searchKeywords": "Search Keywords...",
     "searchProjects": "Search Projects...",
@@ -185,11 +186,13 @@
     "REMOVED_MEMBER": "Removed Member",
     "UPDATED_MEMBER_ROLE": "Updated Member Role",
     "ADDED_RESOURCE": "Added Resource",
+    "MEMBER_COMMENT": "Member Comment",
 
     "addKeyword": "Add Keyword",
     "addNeed": "Add Need",
     "addToProject": "Add to Project",
     "addCandidate": "Add Candidate",
+    "addActivity": "Add Activity",
     "removeCandidate": "Remove Candidate",
     "selectRole": "Select Role",
 
@@ -213,7 +216,9 @@
     "CANCELLED": "Cancelled",
 
 
-   
+    "changeState": "Change Project State",
+    "confirmStateChange": "Confirm State change to {newState}",
+    "stateUpdated": "State updated successfully",
     "messageReceived": "You have received a new message from ",
     "newProjectNotification": " A new project was created by ",
     "projectStatusNotification": " changed the status of the ptoject ",

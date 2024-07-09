@@ -100,10 +100,14 @@ const NewProject = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        console.log(inputs);
+
         if (inputs.maxMembers < 0 || inputs.maxMembers > maxMembersLimit) {
             toast.warn(intl.formatMessage({ id: "maxMembersLimit" }, { maxMembers: maxMembersLimit }));
             return;
-        }
+        } else if (inputs.maxMembers === "") {
+            inputs.maxMembers = maxMembersLimit;
+        };
         
         const formattedConclusionDate = `${inputs.conclusionDate}T00:00:00`;
 
@@ -169,7 +173,7 @@ const NewProject = () => {
 
                                     <label className="label-description" htmlFor="members">
                                         <FormattedMessage id="maxMembers">
-                                            {(message) => <span>{message}</span>}
+                                            {(message) => <span>{message} *</span>}
                                         </FormattedMessage>
                                     </label>
                                 </div>
@@ -233,7 +237,9 @@ const NewProject = () => {
                                     {/* Conteúdo das palavras-chave */}
                                     <div className="input-profile">
                                         <label className="label-profile" htmlFor="keywords">
-                                            <FormattedMessage id="keywords"/>
+                                            <FormattedMessage id="keywords">
+                                                {(message) => <span>{message} *</span>}
+                                            </FormattedMessage>
                                         </label>
                                     </div>
 

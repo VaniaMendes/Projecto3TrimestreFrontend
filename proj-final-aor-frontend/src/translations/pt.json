@@ -167,6 +167,7 @@
     "projectsNumber": "Número de Projetos",
     "noProjects": "Sem Projetos para mostrar",
     "maxMembersLimit": "O número máximo de membros deve estar entre 0 e {maxMembers}",
+    "statistics": "Estatísticas",
 
     "searchKeywords": "Pesquisar Palavras-chave...",
     "searchProjects": "Pesquisar Projetos...",
@@ -184,12 +185,14 @@
     "REMOVED_MEMBER": "Membro Removido",
     "UPDATED_MEMBER_ROLE": "Função do Membro Atualizada",
     "ADDED_RESOURCE": "Componente Adicionado",
+    "MEMBER_COMMENT": "Comentário de Membro do Projeto",
 
 
     "addKeyword": "Adicionar Palavra-chave",
     "addNeed": "Adicionar Necessidade",
     "addToProject": "Adicionar ao Projeto",
     "addCandidate": "Adicionar Candidato",
+    "addActivity": "Adicionar Atividade",
     "removeCandidate": "Remover Candidato",
     "selectRole": "Selecionar Função",
 
@@ -215,8 +218,9 @@
 
 
 
-
-
+    "changeState": "Alterar Estado do Projeto",
+    "confirmStateChange": "Confirmar alteração de estado para {newState}",
+    "stateUpdated": "Estado atualizado com sucesso",
     "messageReceived": "Você recebeu uma mensagem de ",
     "newProjectNotification":" Um novo projeto foi adicionado por ",
     "projectStatusNotification": " alterou o estado do projeto",

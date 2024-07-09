@@ -140,38 +140,43 @@ const NewResourceForm = (props) => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-       
-        try {
-          const photoUrl = await uploadPhoto(photoFile);
-          if (photoUrl) {
-
-            // Update user state with photo URL
-            const updatedForm = { ...formData, photo: photoUrl };
-
-            const response = await ResourceService.register(token, updatedForm);
-    
-            if (response) {
-                setFormData({
-                    name: '',
-                    description: '',
-                    type: 'MATERIAL',
-                    brand: '',
-                    sourceId: '',
-                    suppliers: [{ name: '', contact: ''}],
-                    photo: null
-                });
-                setPhotoPreview(null);
-    
-                toast.success(intl.formatMessage({ id: "componentCreatedSuccess" }));
-            } else {
-                toast.warn(intl.formatMessage({ id: "componentCreatedError" }));
-            }
+      e.preventDefault();
+  
+      try {
+          let photoUrl = null; // Inicializa photoUrl como null
+  
+          // Tenta o upload da foto apenas se photoFile estiver definido
+          if (photoFile) {
+              photoUrl = await uploadPhoto(photoFile);
           }
-        } catch (error) {
-            toast.error(intl.formatMessage({ id: "componentCreatedError" }));
-        }
-    };
+  
+          // Atualiza o estado do formulário com a URL da foto, se disponível
+          const updatedForm = { ...formData, photo: photoUrl };
+  
+          console.log(updatedForm);
+
+          const response = await ResourceService.register(token, updatedForm);
+  
+          if (response) {
+              setFormData({
+                  name: '',
+                  description: '',
+                  type: 'MATERIAL',
+                  brand: '',
+                  sourceId: '',
+                  suppliers: [{ name: '', contact: '' }],
+                  photo: null
+              });
+              setPhotoPreview(null);
+  
+              toast.success(intl.formatMessage({ id: "componentCreatedSuccess" }));
+          } else {
+              toast.warn(intl.formatMessage({ id: "componentCreatedError" }));
+          }
+      } catch (error) {
+          toast.error(intl.formatMessage({ id: "componentCreatedError" }));
+      }
+  };
   
   
   
@@ -180,17 +185,17 @@ const NewResourceForm = (props) => {
         <div className="new-resource-form-top-container">
           <div className="nrftc-left">
             <div className="new-resource-input-container">
-              <label className="new-resource-input-label" htmlFor="name"><FormattedMessage id="name"/> :</label>
+              <label className="new-resource-input-label" htmlFor="name"><FormattedMessage id="name"/>* :</label>
               <input type="text" id="name" name="name" required value={formData.name} onChange={handleChange} />
             </div>
 
             <div className="new-resource-input-container">
-              <label className="new-resource-input-label" htmlFor="brand"><FormattedMessage id="brand" /> :</label>
+              <label className="new-resource-input-label" htmlFor="brand"><FormattedMessage id="brand" />* :</label>
               <input type="text" id="brand" name="brand" required value={formData.brand} onChange={handleChange} />
             </div>
 
             <div className="new-resource-input-container">
-              <label className="new-resource-input-label" htmlFor="sourceId"><FormattedMessage id="sourceId"/> :</label>
+              <label className="new-resource-input-label" htmlFor="sourceId"><FormattedMessage id="sourceId"/>* :</label>
               <input type="text" id="sourceId" name="sourceId" required value={formData.sourceId} onChange={handleChange} />
             </div>
 
@@ -234,26 +239,26 @@ const NewResourceForm = (props) => {
         </div>
 
         <div className="new-resource-input-container description-ctnr">
-          <label className="new-resource-input-label description-label" htmlFor="description-newrsc"><FormattedMessage id="description"/> :</label>
+          <label className="new-resource-input-label description-label" htmlFor="description-newrsc"><FormattedMessage id="description"/>* :</label>
           <input type="text" id="description-new-rsc" name="description" required value={formData.description} onChange={handleChange} />
         </div>
 
         <div className="new-resource-input-container observations-ctnr">
           <label className="new-resource-input-label observations-label" htmlFor="observation"><FormattedMessage id="observations"/> :</label>
-          <input type="text" id="observation" name="observation" required value={formData.observation} onChange={handleChange} />
+          <input type="text" id="observation" name="observation" value={formData.observation} onChange={handleChange} />
         </div>
 
         
         <div className="suppliers-input-container">
           <h3 className="supplier-label"><FormattedMessage id="supplier"/></h3>
           <div className="new-resource-input-container">
-            <label className="new-resource-input-label" htmlFor="suppliersName"><FormattedMessage id="name"/> :</label>
+            <label className="new-resource-input-label" htmlFor="suppliersName"><FormattedMessage id="name"/>* :</label>
             <input type="text" id="suppliersName" name="name" placeholder="Supplier Name" required value={formData.suppliers[0].name} onChange={handleSupplierChange} />
             {renderSuppliersList()}
           </div>
 
           <div className="new-resource-input-container">
-            <label className="new-resource-input-label" htmlFor="suppliersContact"><FormattedMessage id="contact"/> :</label>
+            <label className="new-resource-input-label" htmlFor="suppliersContact"><FormattedMessage id="contact"/>* :</label>
             <input type="text" id="suppliersContact" name="contact" placeholder="Supplier Contact" required value={formData.suppliers[0].contact} onChange={handleSupplierContactChange} />
           </div>
         </div>

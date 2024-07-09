@@ -51,9 +51,10 @@ const ProjectService = {
         }
     },
 
-    getProjectsByKeyword: async (keyword, order) => {
+    getProjectsByKeyword: async (keyword, order, vacancies, state) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/keyword/${keyword}?order=${order}`, {
+
+            const response = await fetch(`${API_BASE_URL}/keyword/${keyword}?order=${order}&vacancies=${vacancies}&state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -137,10 +138,10 @@ const ProjectService = {
 
     },
 
-    countByKeyword: async (keyword) => {
+    countByKeyword: async (keyword, state) => {
 
         try {
-            const response = await fetch(`${API_BASE_URL}/count?keyword=${keyword}`, {
+            const response = await fetch(`${API_BASE_URL}/count?keyword=${keyword}&state=${state}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -160,9 +161,9 @@ const ProjectService = {
 
     },
 
-    countBySearch: async (searchInput) => {
+    countBySearch: async (searchInput, stateId) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/count?search=${searchInput}`, {
+            const response = await fetch(`${API_BASE_URL}/count?search=${searchInput}&state=${stateId}`, {
                 method: "GET",
                 headers: {
                     Accept: "application/json",
@@ -420,6 +421,31 @@ const ProjectService = {
             }
     
         }catch(error){
+            console.error(error);
+            return null;
+        }
+    },
+
+    updateObservation: async(token, projectId, observation) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/${projectId}/observation`, {
+                method: "PUT",
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    "token": token,
+                },
+                body: JSON.stringify({observation: observation})
+            });
+    
+            if(response.ok) {
+                return response.ok;
+            } else {
+                const errorData = await response.text();
+                console.error("Failed to update the observation of the project:", response.status, errorData);
+                return null;
+            }
+        } catch(error) {
             console.error(error);
             return null;
         }
