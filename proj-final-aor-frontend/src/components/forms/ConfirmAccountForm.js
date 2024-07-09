@@ -40,7 +40,7 @@ function Confirmation() {
     }
   }, [location.search]);
 
- 
+ //Get the inputs info
   const handleChange = (event) => {
     const { name, value } = event.target;
     setUser(prevState => ({
@@ -49,6 +49,7 @@ function Confirmation() {
     }));
   };
   
+  //Function to change the visibility state
   function handleChangeVisibility(event) {
     const { name, value } = event.target;
 
@@ -61,6 +62,7 @@ function Confirmation() {
     }));
 }
 
+//Function to change the photo
 const handleChangePhoto = (event) => {
   if (event.target.files && event.target.files[0]) {
     const file = event.target.files[0];
@@ -72,17 +74,19 @@ const handleChangePhoto = (event) => {
 };
   
 
+//Function to change the lab
   const handleChangeLab = (event) => {
     const { value } = event.target;
     setLab(value);
   };
   
  
+  //Function to submit the form
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!user.firstName || !user.lastName || !user.nickname || !lab || !photoFile) {
-        toast.warning("Por favor, preencha todos os campos e selecione uma foto.");
+    if (!user.firstName || !user.lastName || !lab ) {
+        toast.warning(intl.formatMessage({ id: 'fillAllFields' }));
         return;
     }
 
@@ -96,10 +100,10 @@ const handleChangePhoto = (event) => {
             // Confirm account with user data and photo URL
             const responseStatus = await confirmAccount(tokenConfirmation, updatedUser, lab);
             if (responseStatus === 200) {
-                toast.success("Conta confirmada com sucesso!");
+                toast.success(intl.formatMessage({ id: 'countConfirmSucc' }));
                 navigate("/login");
             } else {
-                toast.warning("Falha ao confirmar conta.");
+                toast.warning(intl.formatMessage({ id: 'countConfirmFailed' }));
             }
         }
     } catch (error) {

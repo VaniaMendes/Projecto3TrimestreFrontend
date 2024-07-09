@@ -8,15 +8,17 @@ import { getUnreadNotifications } from "../../services/notifications";
 import { notificationStore } from "../../stores/NotificationStore";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+
 function LoginForm() {
   // State variables
   const [newUser, setNewUser] = useState({});
-  const navigate = useNavigate();
-  const intl = useIntl();
   const { updateUserId, updateName, updatePhoto, updateTypeUser } = userStore();
   const { setNotifications } = notificationStore();
   const [isPasswordInputFocused, setIsPasswordInputFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
+  const intl = useIntl();
 
   // Get the updateToken function from the userStore
   const updateToken = userStore((state) => state.updateToken);
@@ -57,7 +59,7 @@ function LoginForm() {
           updateName(data.firstName + " " + data.lastName);
           updatePhoto(data.photo);
           updateTypeUser(data.userType);
-          numberOfnotificationUnread(result);
+          numberOfnotificationUnread(result);//Get the number of notifications
           navigate(`/home/${data.id}`);
         }
       }
@@ -67,14 +69,16 @@ function LoginForm() {
     }
   };
 
+  // Toggle the visibility of the password input field
   const handleForgotPassword = () => {
     navigate("/forgot-password");
   };
 
+  //Get the number of notifications unread
   const numberOfnotificationUnread = async (token) => {
     const unreadNotifications = await getUnreadNotifications(token);
 
-    // Verifica se unreadNotifications é nulo ou vazio
+    // Verify if the number of notifications is 0
     if (unreadNotifications === 0) {
       setNotifications(0);
     } else {

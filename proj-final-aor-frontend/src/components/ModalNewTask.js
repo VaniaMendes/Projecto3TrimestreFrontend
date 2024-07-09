@@ -4,6 +4,7 @@ import { useIntl } from "react-intl";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./ModalNewTask.css";
 import { createTask, getTaskInfo, getListTasks, updateTask } from "../services/TaskService";
+import ProjectService  from "../services/ProjectService";
 import { useParams } from "react-router-dom";
 import { toast } from 'react-toastify';
 
@@ -12,6 +13,8 @@ function NewTask(props) {
   const { token } = userStore();
   const { projectId } = useParams();
   const intl = useIntl();
+  const [project, setProject] = useState({});
+ 
 
 
   const [showDependencies, setShowDependencies] = useState(false);
@@ -26,7 +29,9 @@ function NewTask(props) {
   const [priorityColor, setPriorityColor] = useState("");
   const [dependencies, setDependencies] = useState([]);
 
-  console.log(tasksIdList)
+
+  const [executor, setExecutor] = useState("");
+  const [projectUsers, setProjectUsers] = useState([]);
 
   const task = {
     title,
@@ -35,11 +40,59 @@ function NewTask(props) {
     deadline: deadline + "T23:59:59",
     startDate: startDate + "T00:00:00",
     priorityId: parseInt(priorityId),
+    owner: { id: parseInt(executor) } 
      
   };
 
+  console.log(projectUsers)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getListTasks(token, projectId);
+        setAvailableTasks(data);
 
+             
+        //Get info about the project
+        const projectInfo = await ProjectService.getProjectInfo(token, projectId);
+        setProject(projectInfo);
+        console.log(projectInfo)
+
+          // Extract users from projectInfo
+          if (projectInfo && projectInfo.usersInfo) {
+            setProjectUsers(projectInfo.usersInfo);
+          }
+      
+
+    
+        if (editTask && taskId) {
+          const taskToEdit = await getTaskInfo(token, projectId, taskId);
+          
+         console.log(taskToEdit)
+          setTitle(taskToEdit.title);
+          setDescription(taskToEdit.description);
+          setAdicionalExecutors(taskToEdit.additionalExecutors);
+          setDeadline(taskToEdit.deadline.split("T")[0]);
+          setStartDate(taskToEdit.startDate.split("T")[0]);
+          setPriorityId(taskToEdit.priorityId);
+          setPriorityColor(taskToEdit.priorityId.toString());
+          setDependencies(taskToEdit.dependencies);
+          setExecutor(taskToEdit.owner.id.toString());
+
+
+          // Map dependencies to IDs for the checkbox list
+        const dependencyIds = taskToEdit.dependencies.map(dep => dep.id);
+        setTasksIdList(dependencyIds);
+        }
+      } catch (error) {
+        console.error("Error fetching tasks: ", error);
+      }
+    };
+    fetchData();
+  }, [token, projectId, editTask, taskId]);
+
+  
   const handleNewTask = async () => {
+  
     if(editTask && taskId){
       const result = await updateTask(token, projectId,taskId, task, tasksIdList);
       if(result === 200){
@@ -64,35 +117,7 @@ function NewTask(props) {
     setPriorityId(parseInt(event.target.value));
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getListTasks(token, projectId);
-        setAvailableTasks(data);
-        console.log(availableTasks)
-
-        if (editTask && taskId) {
-          const taskToEdit = await getTaskInfo(token, projectId, taskId);
-          console.log(taskToEdit);
-          setTitle(taskToEdit.title);
-          setDescription(taskToEdit.description);
-          setAdicionalExecutors(taskToEdit.additionalExecutors);
-          setDeadline(taskToEdit.deadline.split("T")[0]);
-          setStartDate(taskToEdit.startDate.split("T")[0]);
-          setPriorityId(taskToEdit.priorityId);
-          setPriorityColor(taskToEdit.priorityId.toString());
-          setDependencies(taskToEdit.dependencies);
-
-          // Map dependencies to IDs for the checkbox list
-        const dependencyIds = taskToEdit.dependencies.map(dep => dep.id);
-        setTasksIdList(dependencyIds);
-        }
-      } catch (error) {
-        console.error("Error fetching tasks: ", error);
-      }
-    };
-    fetchData();
-  }, [token, projectId, editTask, taskId]);
+  
 
   const handleCloseDependencies = () => {
     setShowDependencies(false);
@@ -108,7 +133,18 @@ function NewTask(props) {
     }
   };
   
-  console.log(tasksIdList)
+
+ // Obtenha a data de hoje no formato YYYY-MM-DD
+ const today = new Date().toISOString().split('T')[0];
+
+// onChange handler for the executor select
+const handleExecutorChange = (event) => {
+  console.log(event.target.value); // Deve registrar o ID do usuário selecionado
+  setExecutor(event.target.value); // Define o estado executor com o ID do usuário selecionado
+};
+
+
+
 
   return (
     <div className="new-task-external-container">
@@ -141,9 +177,28 @@ function NewTask(props) {
             placeholder={intl.formatMessage({ id: "description" })}
             value={description}
             onChange={(event) => setDescription(event.target.value)}
+            style={{ resize: 'none' }}
           ></textarea>
           <label htmlFor="description-task" className="label-description-task">
             {intl.formatMessage({ id: "description" })}
+          </label>
+        </div>
+
+
+        <div className="input-container">
+          <select className = "select-task"
+            value={executor}
+            onChange={handleExecutorChange}
+          >
+           <option value="">{intl.formatMessage({ id: "selectExecutor" })}</option>
+          {projectUsers && projectUsers.map(user => (
+            <option key={user.userId} value={user.userId} > 
+              {user.firstName} {user.lastName}
+            </option>
+            ))}
+          </select>
+          <label htmlFor="executor-select" className="label-description-task">
+            {intl.formatMessage({ id: "executor" })}
           </label>
         </div>
 
@@ -154,6 +209,7 @@ function NewTask(props) {
             placeholder={intl.formatMessage({ id: "executors" })}
             value={additionalExecutors}
             onChange={(event) => setAdicionalExecutors(event.target.value)}
+            style={{ resize: 'none' }}
           ></textarea>
           <label htmlFor="description-task" className="label-description-task">
             {intl.formatMessage({ id: "executors" })}
@@ -171,6 +227,7 @@ function NewTask(props) {
               type="date"
               id="startDate"
               value={startDate}
+              min={today}
               onChange={(event) => setStartDate(event.target.value)}
             />
           </div>
@@ -180,6 +237,7 @@ function NewTask(props) {
               type="date"
               id="deadline"
               value={deadline}
+              min={today}
               onChange={(event) => setDeadline(event.target.value)}
             />
           </div>

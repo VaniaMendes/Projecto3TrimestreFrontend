@@ -2,24 +2,32 @@ import { useEffect, useState } from "react";
 import { userStore } from "../stores/UserStore";
 import { notificationStore } from "../stores/NotificationStore";
 
-import { getUnreadNotifications } from "../services/notifications";
+import { getUnreadNotifications, getNotificationsList, getNumberOfUnOPenNotification } from "../services/notifications";
 
 function WebSocketClient() {
-  const { incrementNotification, setNotifications } = notificationStore.getState();
+  const { setNotifications, updateNotifications } = notificationStore.getState();
   const token = userStore.getState().token;
+  const userId = userStore.getState().userId;
+
   const [websocket, setWebsocket] = useState(null);
+  const [notificationsList, setNotificationsList] = useState([]);
 
-
-  const numberOfnotificationUnread = async (token) => {
+  const fetchUnreadNotifications = async () => {
     try {
       const unreadNotifications = await getUnreadNotifications(token);
       setNotifications(unreadNotifications || 0);
+      
+      const result = await getNotificationsList(token, userId);
+      setNotificationsList(result);
     } catch (error) {
       console.error("Error fetching unread notifications:", error);
       setNotifications(0);
     }
   };
+
   useEffect(() => {
+    fetchUnreadNotifications();
+
     const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
     const ws = new WebSocket(WS_URL + token);
 
@@ -28,8 +36,12 @@ function WebSocketClient() {
     };
 
     ws.onmessage = async (event) => {
-      await numberOfnotificationUnread(token);
-    
+      try {
+        const unreadNotifications = await getNumberOfUnOPenNotification(token);
+        updateNotifications(unreadNotifications || 0);
+      } catch (error) {
+        console.error("Error updating notifications:", error);
+      }
     };
 
     ws.onclose = () => {
@@ -48,7 +60,7 @@ function WebSocketClient() {
         console.log("WebSocket connection closed");
       }
     };
-  }, [incrementNotification, token]);
+  }, [token, userId]);
 
   return websocket;
 }
