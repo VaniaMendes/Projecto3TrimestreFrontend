@@ -50,7 +50,7 @@ function ProjectChat(props) {
   const handleSendMessage = async () => {
     const result = await sendMessageToProject(token, message, projectId);
     if (result === 200) {
-      toast.success(intl.formatMessage({ id: "messageSent" }));
+    
       // Adicionar a nova mensagem à lista de mensagens
 
       setMessage({ ...message, content: "" });

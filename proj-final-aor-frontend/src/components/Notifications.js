@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Notifications.css";
 import "../services/notifications";
-import { getUserNotifications, markeAsRead, totalPagesNotifications } from "../services/notifications";
+import { getUserNotifications, markeAsRead, totalPagesNotifications, markAsOpen } from "../services/notifications";
 import { userStore } from "../stores/UserStore";
 import NotificationItem from "./NotificationItem";
 import { useIntl } from "react-intl";
@@ -10,12 +10,13 @@ import Pagination from './Pagination';
 import { notificationStore } from "../stores/NotificationStore";
 import {useNavigate} from 'react-router-dom';
 
+
 function Notifications() {
 
   const intl = useIntl();
 
   const [notifications, setNotifications] = useState([]);
-  const { incrementNotification } = notificationStore.getState();
+  const { clearNotifications } = notificationStore();
 
   const navigate = useNavigate();
 
@@ -31,13 +32,17 @@ function Notifications() {
       setNotifications(response);
       const notificationPage = await totalPagesNotifications(token, userId);
       setTotalPages(notificationPage);
+     
 
     } catch (error) {
     }
   }
 
+  
+
   useEffect(() => {
     fetchNotifications(currentPage);
+    
   }, [currentPage, token, userId]);
   
   useEffect(() => {
@@ -48,7 +53,7 @@ function Notifications() {
       const newNotification = JSON.parse(event.data);
       newNotification.sendTimestamp = formatDateFromArray(newNotification.sendTimestamp);
       
-       if(newNotification.type === "MESSAGE_RECEIVED"){
+       if(newNotification.type === "MESSAGE_RECEIVED" || newNotification.type === "MESSAGE_PROJECT"){
          setNotifications(prevList => {
           const filteredList = prevList.filter(notification => notification.sender.id !== newNotification.sender.id);
           return[newNotification, ...filteredList];
@@ -67,18 +72,17 @@ function Notifications() {
   function formatDateFromArray(dateArray) {
     // Cria um objeto Date usando os valores do array
     const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
-  
+
     // Formata a data e hora
     const year = date.getFullYear().toString().slice(-2); // Pega os dois últimos dígitos do ano
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Adiciona um zero à esquerda se necessário
     const day = date.getDate().toString().padStart(2, '0');
     const hour = date.getHours().toString().padStart(2, '0');
     const minute = date.getMinutes().toString().padStart(2, '0');
-  
+
     // Retorna a data formatada
     return `${day}/${month}/${year} ${hour}:${minute}`;
   }
-
 
 
 
@@ -95,14 +99,15 @@ function Notifications() {
   };
 
   const handleNotificationClick = (notification) => {
+    markAsRead(notification.id);
     if (notification.type === "MESSAGE_RECEIVED") {
-      navigate(`/messages/${userId}`);
-    }
-    if(notification.type === "MESSAGE_PROJECT || NEW_PROJECT"){
+      clearNotifications();
+      navigate(`/messages/${notification.sender.id}`);
+    } else if (notification.type === "MESSAGE_PROJECT" || notification.type === "NEW_PROJECT") {
       navigate(`/project/${notification.relatedIDEntity}`);
     }
-    markAsRead(notification.id);
   };
+
   
   return (
     <div >
@@ -113,13 +118,9 @@ function Notifications() {
           notifications.map((notification) => (
            
             <NotificationItem key={notification.id} notification={notification}
-            onClick={() => {
-              handleNotificationClick(notification);
-           
-            }}
+            onClick={() => handleNotificationClick(notification)}
 />
-          
-          
+                    
           ))
         ) : (
           <div className="no-notifications"> {intl.formatMessage({ id: "noNBotificationsAvailable" })}</div>

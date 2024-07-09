@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IntlProvider, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { userStore } from "../stores/UserStore";
 import Task from "./Task";
 import { useParams } from "react-router";

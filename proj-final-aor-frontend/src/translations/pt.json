@@ -80,8 +80,20 @@
     "editDependys": "Editar Dependências",
     "taskUpdatedSuccefuly": "Tarefa atualizada com sucesso",
     "taskDeleted": "Tarefa eliminada com sucesso",
+    "byUser": " pelo utilizador", 
+    "startDateMustBeBeforeToday": "A data de início deve ser anterior à data de hoje",
+    "deadlineMustBeBeforeProjectStart": "A data de conclusão deve ser anterior à data de início do projeto",
+    "fillAllFields": "Preencha todos os campos obrigatórios",
+    "invalidPassword": "Senha inválida",
+    "passwordDonotMatch": "As senhas não coincidem",
+    "passwordResetSuccess": "Senha redefinida com sucesso",
+    "countConfirmSuccess": "Conta confirmada com sucesso",
+    "countConfirmFailed": "Falha ao confirmar a conta",
+    "emailNotFound": "Email não encontrado",
+    "pleaseVerifyYourEmail": "Por favor verifique o seu email",
+    "selectExecutor": "Selecione um executor",
+    "executor": "Executor",
 
-    
 
     "usersAvailable": "Utilizadores Disponíveis",
     "usersPending": "Utilizadores Pendentes",

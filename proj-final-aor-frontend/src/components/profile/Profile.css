@@ -43,6 +43,12 @@
   height: auto; 
 }
 
+@media screen and (max-width: 1028px) {
+    .profile-external-container {
+        width: 100%;
+    }
+
+}
 
 .profile-header,
 .profile-biography,

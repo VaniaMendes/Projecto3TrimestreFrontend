@@ -81,7 +81,36 @@ export async function getProjectTasks(token, projectId){
 
         if(response.ok){
             const data = await response.json();
+            return data;
+        }
+        else{
+            const errorData = await response.text();
+            console.error("Get tasks info failed:", response.status, errorData);
+            return null;
+        }
 
+    }catch(error){
+        console.error(error);
+        return null;
+}
+}
+
+export async function getProjectTasksOrderByDate(token, projectId){
+    try{
+
+        const response = await fetch(`${url}/${projectId}/tasks/order`,  {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                "token": token
+            }
+        })
+
+
+        if(response.ok){
+            const data = await response.json();
+            console.log(data);
             return data;
         }
         else{
@@ -111,8 +140,7 @@ export async function getListTasks(token, projectId){
 
         if(response.ok){
             const data = await response.json();
-            console.log(data);
-
+        
             return data;
         }
         else{
@@ -199,7 +227,7 @@ export async function getTaskInfo(token, projectId, taskId) {
   
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+      
         return data;
       } else {
         const errorData = await response.text();

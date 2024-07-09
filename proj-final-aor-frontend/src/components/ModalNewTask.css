@@ -305,3 +305,12 @@ scrollbar-width: thin;
 .task_item label {
   margin-left: 8px; /* Espaçamento entre o checkbox e o label */
 }
+.select-task{
+  width: 100%;
+  height: 35px;
+  margin-top: 0px;
+  overflow: auto;
+  scrollbar-width: thin;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+}

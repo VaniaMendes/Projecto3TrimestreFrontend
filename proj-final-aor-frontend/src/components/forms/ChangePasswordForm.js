@@ -37,18 +37,21 @@ function ChangePasswordForm() {
     return passwordRegex.test(password);
   };
 
+  // submit the new password
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    //Validate password requirements
     if (!validatePassword(password)) {
       toast.error(
-        "Invalid Password"
+        intl.formatMessage({ id: 'invalidPassword' })
       );
       return;
     }
 
+    // Check if the passwords match
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match");
+      toast.error( intl.formatMessage({ id: 'passwordDonotMatch' }));
       return;
     }
 
@@ -59,16 +62,17 @@ function ChangePasswordForm() {
         confirmPassword
       );
       if (result === 400) {
-        toast.error("Invalid password");
+        toast.error(intl.formatMessage({ id: 'invalidPassword'}));
       } else {
         toast.success(
-          "Your password has been reset successfully. Please login to continue."
+          intl.formatMessage({ id: 'passwordResetSuccess'})
+          
         );
         navigate("/login");
       }
     } catch (error) {
       console.error("Error occurred while resetting the password:", error);
-      toast.error("An error occurred while resetting the password");
+   
     }
   };
 
