@@ -18,6 +18,7 @@ import { notificationStore } from "../../stores/NotificationStore";
 import WebSocketClient from "../../websocket/Websocket";
 import Settings from "./Settings";
 import ProjectService from "../../services/ProjectService";
+import StatisticsService from "../../services/StatisticsService.js";
 
 const Header = (props) => {
   const { searchInput, setSearchInput } = props;
@@ -154,6 +155,17 @@ const Header = (props) => {
     }
   };
 
+  const handleDownload = async () => {
+    try {
+      await StatisticsService.getStatisticsPDF(token);
+      console.log('PDF download initiated successfully.');
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+    }
+
+    setShowProfileMenu(false);
+  }
+
   return (
     <header>
         <TopHeader />
@@ -183,7 +195,7 @@ const Header = (props) => {
               />
             )}
           </div>
-          {ProjectsNameData.length > 0 && (
+          {searchInputProjectsName && ProjectsNameData.length > 0 && (
             <div className="search-results">
               {ProjectsNameData.map((project) => (
                 <p
@@ -330,7 +342,10 @@ const Header = (props) => {
                           >
                             <FormattedMessage id="settings" />
                           </p>
-                          <p className="submenu-clickable">
+                          <p 
+                            className="submenu-clickable"
+                            onClick={handleDownload}
+                          >
                             <FormattedMessage id="statistics" />
                           </p>
                         </>)}
