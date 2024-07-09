@@ -55,6 +55,65 @@
     color: white;
     cursor: pointer;
 }
+/* Styles for screens wider than 768px */
+@media screen and (min-width: 769px) {
+    .project-plan-container,
+    .project-plan-exterior-container,
+    .project-plan-separator,
+    .project-plan-separator-board {
+        /* Existing styles here */
+    }
+}
+
+/* Styles for screens 768px wide or smaller */
+@media screen and (max-width: 768px) {
+    .project-plan-container {
+        top: 18%; /* Bring content higher up for mobile */
+    }
+
+    .project-plan-exterior-container {
+        width: 100%; /* Use more of the screen width */
+        padding: 10px; /* Adjust padding for smaller screens */
+        height: auto; /* Make height flexible */
+    }
+
+    .project-plan-separator,
+    .project-plan-separator-board {
+        width: 100px; /* Slightly reduce width for smaller screens */
+        height: 30px; /* Adjust height */
+        top: -30px; /* Adjust top position */
+        
+    }
+    .project-plan-separator-board {
+        left: 30% /* Centers the separator horizontally */
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .project-plan-container {
+        /* Ajustes específicos para tablets */
+        top: 15%; /* Exemplo: Ajuste a posição superior */
+    }
+
+    .project-plan-exterior-container {
+        /* Ajustes específicos para tablets */
+        width: 100%; /* Exemplo: Use menos da largura da tela para dar um pouco de margem */
+        padding: 20px; /* Exemplo: Ajuste o padding */
+        
+    }
+
+    .project-plan-separator,
+    .project-plan-separator-board {
+        /* Ajustes específicos para tablets */
+        width: 120px; /* Exemplo: Ajuste a largura */
+        height: 35px; /* Exemplo: Ajuste a altura */
+        top: -35px; /* Exemplo: Ajuste a posição superior */
+    }
+
+    .project-plan-separator-board {
+        left: 27%; /* Exemplo: Ajuste para centralizar horizontalmente conforme necessário */
+    }
+}
 
 .separator-description {
     margin: 0; /* Removes default margin from <p> */
@@ -136,6 +195,19 @@
     height: 500px;
     overflow-y: auto;
     scrollbar-width: thin;
+}
+@media screen and (max-width: 768px) {
+    .board-container {
+        flex-direction: column;
+        align-items: center; /* Centraliza as colunas verticalmente */
+        gap: 20px; /* Aumenta o espaço entre as colunas para melhor visualização */
+    }
+
+    .column {
+        width: 100%; /* Ajusta a largura das colunas para ocupar a largura total do contêiner */
+        margin: 0; /* Remove as margens laterais para evitar deslocamento desnecessário */
+        max-width: 330px; /* Opcional: Limita a largura máxima das colunas para não ficarem muito largas em dispositivos maiores */
+    }
 }
 
 .title {

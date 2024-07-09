@@ -81,7 +81,7 @@ function NotificationItem({ notification, onClick}) {
         }
       break;
       case 'NEW_MEMBER':
-        notificationMessage =  `${intl.formatMessage({ id: "newMemberNotification" })} ${notification.relatedEntityName}`; 
+        notificationMessage =  ` ${intl.formatMessage({ id: "newMemberNotification" })} ${project.name} ${intl.formatMessage({ id: "byUser" })} ${notification.sender.firstName} ${notification.sender.lastName}`; 
         if(notification.sender.photo){
           notificationImage = notification.sender.photo;
         }else{

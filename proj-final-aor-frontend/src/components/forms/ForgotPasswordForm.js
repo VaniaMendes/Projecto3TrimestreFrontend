@@ -16,19 +16,21 @@ function ForgetPassword(){
     const intl = useIntl();
    
 
+    // Function to handle back button click to login page
     const handleBack = () =>{
         navigate("/login");
     }
 
+    // Function to handle form submission
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
             const result = await recoveryPassword(email);
             if (result === 400) {
-                toast.error("Invalid email ");
+                toast.error(intl.formatMessage({ id: "emailNotFound"}));
             } else {
-                toast.success("Please verify your email to reset your password");
+                toast.success(intl.formatMessage({ id: "pleaseVerifyYourEmail"}));
             }
         } catch (error) {
             console.error("Error occurred while registering:", error);

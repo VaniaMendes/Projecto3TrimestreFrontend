@@ -18,6 +18,7 @@ import { notificationStore } from "../../stores/NotificationStore";
 import WebSocketClient from "../../websocket/Websocket";
 import Settings from "./Settings";
 import ProjectService from "../../services/ProjectService";
+import { markAsOpen } from "../../services/notifications";
 import StatisticsService from "../../services/StatisticsService.js";
 
 const Header = (props) => {
@@ -100,8 +101,22 @@ const Header = (props) => {
     setShowSettingsModal(true);
   };
 
+  async function marKNotificationsAsOpen(token){
+    try {
+      const markRead = await markAsOpen(token);
+      clearNotifications();
+      if(markRead === 200){
+       console.log("marcadas como open")
+      }
+      
+    } catch (error) {
+      
+    }
+  }
+  
   const handleClickNotificationsPage = () => {
-    clearNotifications();
+    marKNotificationsAsOpen(token);
+  
     setSearchInput("");
     navigate("/notifications");
   };
