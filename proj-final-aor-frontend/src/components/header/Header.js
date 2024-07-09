@@ -115,7 +115,7 @@ const Header = (props) => {
   
   const handleClickNotificationsPage = () => {
     marKNotificationsAsOpen(token);
-    clearNotifications();
+  
     setSearchInput("");
     navigate("/notifications");
   };

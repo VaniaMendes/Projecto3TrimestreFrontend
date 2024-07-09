@@ -32,15 +32,14 @@ function Notifications() {
       setNotifications(response);
       const notificationPage = await totalPagesNotifications(token, userId);
       setTotalPages(notificationPage);
+      clearNotifications();
      
 
     } catch (error) {
     }
   }
 
-  
-
-  useEffect(() => {
+    useEffect(() => {
     fetchNotifications(currentPage);
     
   }, [currentPage, token, userId]);
@@ -83,7 +82,6 @@ function Notifications() {
     // Retorna a data formatada
     return `${day}/${month}/${year} ${hour}:${minute}`;
   }
-
 
 
   const markAsRead = async (notificationId) => {

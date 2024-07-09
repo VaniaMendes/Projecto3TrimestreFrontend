@@ -8,6 +8,7 @@ import { getUnreadNotifications } from "../../services/notifications";
 import { notificationStore } from "../../stores/NotificationStore";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+
 function LoginForm() {
   // State variables
   const [newUser, setNewUser] = useState({});
@@ -58,7 +59,7 @@ function LoginForm() {
           updateName(data.firstName + " " + data.lastName);
           updatePhoto(data.photo);
           updateTypeUser(data.userType);
-          numberOfnotificationUnread(result);
+          numberOfnotificationUnread(result);//Get the number of notifications
           navigate(`/home/${data.id}`);
         }
       }
