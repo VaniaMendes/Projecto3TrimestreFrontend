@@ -9,10 +9,10 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     gap: 200px; /* Espaço entre os modais */
+    z-index:1;
     
   }
  
-  
   .new-task-container {
     background-color: white;
     position: inherit;
@@ -20,6 +20,7 @@
     border-radius: 8px;
     width: 400px;
     max-width: 90%;
+    z-index:2;
   }
   @media screen and (max-width: 768px) {
     .new-task-container {
@@ -27,6 +28,19 @@
       height: auto;
       top:130px;
     }
+    .new-task-container.shift-left {
+      margin-right: 0 !important; /* Remove o deslocamento para dispositivos móveis */
+    }
+  
+    .dependencies-modal {
+      position: inherit;
+      width: 90%; 
+      height: auto; 
+      top: 130px; 
+      left: 5%; 
+      z-index: 10000; 
+    }
+  
     
   }
   .task-title{
@@ -276,6 +290,14 @@ overflow-y: auto;
 scrollbar-width: thin;
 
 }
+@media screen and (max-width: 768px) {
+  .dependencies_modal {
+    width: 90%;
+    height: auto;
+    top:130px;
+  }
+  
+}
 
 
 .label-description-editProfile {
@@ -292,8 +314,9 @@ scrollbar-width: thin;
 /* Estiliza cada item da tarefa */
 .task_item {
   display: flex;
-  align-items: center; /* Alinha o checkbox e o label verticalmente */
-  margin-bottom: 8px; /* Espaçamento entre os itens */
+  align-items: center;
+  margin-top: 20px; /* Alinha o checkbox e o label verticalmente */
+  margin-bottom: 12px; /* Espaçamento entre os itens */
 }
 
 /* Estiliza o checkbox */
