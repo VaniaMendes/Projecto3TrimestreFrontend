@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Gantt, ViewMode } from 'gantt-task-react';
 import "gantt-task-react/dist/index.css";
+import { useIntl } from "react-intl";
 
-const GanttComponent = ({ availableTasks, showList, viewMode }) => {
+const GanttComponent = ({ availableTasks, showList, viewMode, project }) => {
   const [tasksList, setTasksList] = useState(availableTasks);
+  const intl = useIntl();
+  
 
   useEffect(() => {
     setTasksList(availableTasks); // Update local tasks when availableTasks changes
+
   }, [availableTasks]);
 
   let tasks = [];
@@ -46,13 +50,22 @@ const GanttComponent = ({ availableTasks, showList, viewMode }) => {
   }
 
   const view = ViewMode[viewMode] || ViewMode.Week;
+   // Format createdAt and conclusionDate to show only day, month, and year
+   const formattedCreatedAt = project.createdAt ? new Date(project.createdAt).toLocaleDateString(intl.locale) : '';
+   const formattedConclusionDate = project.conclusionDate ? new Date(project.conclusionDate).toLocaleDateString(intl.locale) : '';
+ 
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '400px' }}>
+       <h2>{project.name}</h2>
+       <p>{intl.formatMessage({ id: "initialDate" })}: {formattedCreatedAt} | {intl.formatMessage({ id: "finalDate" })}: {formattedConclusionDate}</p>
+
+       
       <Gantt
         tasks={tasks}
         viewMode={view}
         listCellWidth={showList ? undefined : ''}
+  
       />
     </div>
   );

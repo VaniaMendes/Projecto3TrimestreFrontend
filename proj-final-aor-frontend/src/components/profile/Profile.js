@@ -64,6 +64,7 @@ function Profile() {
       setInterests(interestsData);
 
       const projectsData = await ProjectService.getUserProjects(token, effectiveUserId);
+      console.log(projectsData);
       setProjects(projectsData);
 
 
