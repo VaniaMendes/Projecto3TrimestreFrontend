@@ -329,3 +329,15 @@
 .delete_btnS:focus {
     outline: none;
 }
+
+.selected {
+    background-color:#DA737B; /* Cor de fundo quando selecionado */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow suave */
+    cursor: pointer; /* Mostrar cursor ao passar por cima */
+}
+
+.selected-board {
+    background-color: #DA737B; /* Cor de fundo quando selecionado */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow suave */
+    cursor: pointer; /* Mostrar cursor ao passar por cima */
+}

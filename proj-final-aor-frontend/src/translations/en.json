@@ -94,6 +94,14 @@
     "pleaseVerifyYourEmail": "Please verify your email",
     "selectExecutor": "Select Executor",
     "executor": "Executor",
+    "read": "Read",
+    "unread": "Unread",
+    "status": "State",
+    "planning": "Planning",
+    "ready": "Ready",
+    "approved": "Aproved",
+
+    "cancelled": "Cancelled",
   
     "usersAvailable": "Users Available",
     "usersPending": "Users Pending",

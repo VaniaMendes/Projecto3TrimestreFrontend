@@ -93,6 +93,14 @@
     "pleaseVerifyYourEmail": "Por favor verifique o seu email",
     "selectExecutor": "Selecione um executor",
     "executor": "Executor",
+    "read": "Lida",
+    "unread": "Entregue",
+    "status": "Estado",
+    "planning": "Em Planeamento",
+    "ready": "Pronto",
+    "approved": "Aprovado",
+
+    "cancelled": "Cancelado",
 
 
     "usersAvailable": "Utilizadores Disponíveis",
