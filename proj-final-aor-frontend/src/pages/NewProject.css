@@ -109,6 +109,13 @@
     left: 15px;
 }
 
+.description-input{
+    height: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+}
+
 @media (max-width: 768px) {
     .project-form-container {
         width: 100%;

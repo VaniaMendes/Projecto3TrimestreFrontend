@@ -643,9 +643,14 @@ const ProjectService = {
         }
     },
 
-    getUsersAvailable: async(token, projectId) => {
+    getUsersAvailable: async(token, projectId, name) => {
+        let query = '';
+        if(name !== null){
+            query = `?name=${encodeURIComponent(name)}`;
+        }
+        
         try{
-            const response = await fetch(`${API_BASE_URL}/${projectId}/users/available`,  {
+            const response = await fetch(`${API_BASE_URL}/${projectId}/users/available${query}`,  {
                 method: "GET",
                 headers: {
                     Accept: "application/json",

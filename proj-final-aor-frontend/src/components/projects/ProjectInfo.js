@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import KeywordComponent from "../keywords/KeywordComponent";
 import MemberDisplay from "../MemberDisplay";
 import "./ProjectInfo.css";
 import { FormattedMessage } from "react-intl";
 
 const ProjectInfo = (props) => {
+    const containerRef = useRef(null);
     const {data, onClick} = props;
+    const [containerWidth, setContainerWidth] = useState(0);
+    const [renderLimits, setRenderLimits] = useState({});
+
+    useEffect(() => {
+        if (containerRef.current) {
+            setContainerWidth(containerRef.current.offsetWidth);
+        }
+    }, []);
+
+    useEffect(() => {
+        const newRenderLimits = {};
+        data.forEach((project, projectIndex) => {
+            let totalWidthUsed = 0;
+            const memberWidth = 160;
+            let limit = project.usersInfo.reduce((acc, curr, index) => {
+                totalWidthUsed += memberWidth;
+                if (totalWidthUsed <= containerWidth) return index + 1;
+                else return acc;
+            }, 0);
+            newRenderLimits[projectIndex] = limit;
+        });
+        setRenderLimits(newRenderLimits);
+    }, [containerWidth, data]);
 
     const handleClick = (projectId) => {
         if (onClick) {
@@ -54,8 +78,8 @@ const ProjectInfo = (props) => {
                             ))}
                         </div>
                         <h4><FormattedMessage id="teamMembers"/>:</h4>
-                        <div className="team-members-container">
-                            {project.usersInfo.map((user, userIndex) => (
+                        <div className="team-members-container" ref={containerRef}>
+                            {project.usersInfo.slice(0, renderLimits[index] || project.usersInfo.length).map((user, userIndex) => (
                                 <MemberDisplay
                                     key={userIndex}
                                     id={user.userId}
@@ -63,9 +87,13 @@ const ProjectInfo = (props) => {
                                     name={user.firstName + " " + user.lastName}
                                     role={user.userType}
                                 />
-                            ))}                        
+                            ))}
+                            {project.usersInfo.length > (renderLimits[index] || 0) && (
+                                <div className="more-members-info">
+                                    <FormattedMessage id="moreMembers" values={{ value: project.usersInfo.length - (renderLimits[index] || 0) }} />
+                                </div>
+                            )}
                         </div>
-                    
                 </div>
             ))}
         </div>

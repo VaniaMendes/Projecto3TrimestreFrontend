@@ -422,6 +422,9 @@ const Project = () => {
                 ...prevProjectData,
                 usersInfo: [...prevProjectData.usersInfo, mockUser]
             }));
+
+            setIsMemberModalOpen(false);
+            
         }
     };
 
@@ -448,6 +451,8 @@ const Project = () => {
                 ...prevProjectData,
                 usersInfo: [...prevProjectData.usersInfo, mockUser]
             }));
+
+            setIsMemberModalOpen(false);
         }
     };
 
@@ -816,30 +821,36 @@ function EditProject({ onClose, modalType, input, setInput, onDescriptionSave })
 
 function AddTeamMembers({ onClose, projectId, token, handleApproveCandidate, handleAddMember }) {
 
+    const intl = useIntl();
     const [candidates, setCandidates] = useState([]);
     const [available, setAvailable] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const responseAvailable = await ProjectService.getUsersAvailable(token, projectId);
-                const responseCandidates = await ProjectService.getCandidates(token, projectId);
-
+                
+                const responseAvailable = searchInput === ''
+                    ? await ProjectService.getUsersAvailable(token, projectId, null)
+                    : await ProjectService.getUsersAvailable(token, projectId, searchInput);
+    
                 if (responseAvailable) {
                     setAvailable(responseAvailable);
                 }
-                if (responseCandidates) {
-                    setCandidates(responseCandidates);
+    
+                if (searchInput === '') {
+                    const responseCandidates = await ProjectService.getCandidates(token, projectId);
+                    if (responseCandidates) {
+                        setCandidates(responseCandidates);
+                    }
                 }
-                
             } catch (error) {
                 console.error('Error fetching users:', error);
             }
         };
-        fetchData();
-    }, [token, projectId, handleApproveCandidate, handleAddMember]);
-
     
+        fetchData();
+    }, [token, projectId, searchInput]);
     
     return (
         <>
@@ -849,7 +860,15 @@ function AddTeamMembers({ onClose, projectId, token, handleApproveCandidate, han
                 <div className="modal-close" onClick={onClose}>
                     <IoIosCloseCircleOutline />
                 </div>
-                
+                <div className="search-users-input-container">
+                    <input 
+                        className="search-bar search-users" 
+                        type="search" 
+                        placeholder={intl.formatMessage({ id: "searchAvailableUser" })}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        value={searchInput}
+                />
+                </div>
                 <div className="modal-members-container">
                     <div className="add-members-users-container with-border-right">
                         <h3 style={{ position: 'sticky',top: 0 , backgroundColor: '#fdfdfd'}}>
