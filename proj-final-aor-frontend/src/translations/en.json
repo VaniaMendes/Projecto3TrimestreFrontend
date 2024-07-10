@@ -107,6 +107,7 @@
 
     "home": "Home",
     "myProjects": "My Projects",
+    "allProjects": "All Projects",
     "component": "Component",
     "components": "Components",
     "needs": "Needs",
@@ -166,8 +167,10 @@
     "dateRegisted": "Date",
     "projectsNumber": "Number of Projects",
     "noProjects": "No Projects to show",
-    "maxMembersLimit": "Max members must be between 0 and {maxMembers}",
+    "maxMembersLimit": "Max members must be between 1 and {maxMembers}",
     "statistics": "Statistics",
+
+    "appliedToProject": "Application sent successfully!",
 
     "searchKeywords": "Search Keywords...",
     "searchProjects": "Search Projects...",

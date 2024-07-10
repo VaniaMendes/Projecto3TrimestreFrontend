@@ -5,14 +5,15 @@ import {FormattedMessage, useIntl } from "react-intl";
 import { MdAddCircle } from "react-icons/md";
 import { MdRemoveCircle } from "react-icons/md";
 import { PiCaretCircleRightFill } from "react-icons/pi";
-import { PiUserCircleGearFill } from "react-icons/pi";
+import { PiCaretCircleLeftFill } from "react-icons/pi";
 import { PiUserCircleMinusFill } from "react-icons/pi";
 import { PiUserSwitchFill } from "react-icons/pi";
+import { FiEdit3 } from "react-icons/fi";
 
 import CustomModal from "./CustomModal";
 
 const MemberDisplay = (props) => {
-    const {id, photo, name, role, isCandidate, isInsideProject, handleAddMember, handleApproveCandidate, handleRemoveMember, onMemberRoleChange} = props;
+    const {id, photo, name, role, visitorIsProjectMember, isCandidate, isInsideProject, handleAddMember, handleApproveCandidate, handleRemoveMember, onMemberRoleChange} = props;
     const intl = useIntl();
 
     const [addColor, setAddColor] = useState('#2bd948');
@@ -122,12 +123,12 @@ const MemberDisplay = (props) => {
                 <h4>{name}</h4>
                 {role ? <p><FormattedMessage id={role} /></p> : null}
             </div>
-            {className === "inside-project-member-display" && role !== "CREATOR" ? (
+            {className === "inside-project-member-display" && role !== "CREATOR" && visitorIsProjectMember ? (
                 <>
                  {!showHiddenContent && (
                     <div className="user-circle-gear-icon">
-                        <PiUserCircleGearFill 
-                            fontSize='1.2em' 
+                        <FiEdit3
+                            fontSize='0.9em' 
                             onClick={handleAddClick}
                             color={iconEditColor}
                             onMouseEnter={() => setIconEditColor('#282828')}
@@ -139,7 +140,7 @@ const MemberDisplay = (props) => {
                 
                     <div className={`select-member-type-container ${showHiddenContent ? 'show' : ''}`}>
                         <span onClick={handleBackClick}>
-                            <PiCaretCircleRightFill title={intl.formatMessage({ id: 'back' })}/>
+                            <PiCaretCircleLeftFill title={intl.formatMessage({ id: 'back' })}/>
                         </span>
                         <div className="remove-edit-role-icons-cont">
                             <PiUserCircleMinusFill 

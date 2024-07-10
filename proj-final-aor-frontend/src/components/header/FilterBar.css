@@ -1,4 +1,4 @@
-.filter-bar-container{
+.filter-bar-container {
     position: fixed;
     display: flex;
     justify-content: space-between;
@@ -11,22 +11,31 @@
     border-bottom: #ccc 1px solid;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1400;
-
-    .right-side{
-        display: flex;
-        align-items: center;
-        justify-content: space-evenly;
-        width: 20%;
-    }
-
-    p{
-        display: flex;
-        align-items: center;
-        font-size: 0.8em;
-        cursor: pointer;
-    }
-    
 }
+
+.filter-bar-container p {
+    display: flex;
+    align-items: center;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+.filter-bar-container > :first-child,
+.filter-bar-container > :last-child {
+    flex: 1;
+}
+
+.filter-bar-container > :last-child {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.filter-bar-container > :nth-child(2) {
+    text-align: center;
+}
+
+
 
 .active-item{
     color: var(--main-red);
@@ -83,6 +92,10 @@
     font-size: 1.2em;
     color: var(--main-red);
     cursor: pointer;
+}
+
+.item-filter-label {
+    padding: 0 25px;
 }
 
 
