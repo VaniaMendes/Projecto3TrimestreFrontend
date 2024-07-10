@@ -38,6 +38,7 @@ function WebSocketClient() {
     ws.onmessage = async (event) => {
       try {
         const unreadNotifications = await getNumberOfUnOPenNotification(token);
+        console.log(unreadNotifications)
         updateNotifications(unreadNotifications || 0);
       } catch (error) {
         console.error("Error updating notifications:", error);

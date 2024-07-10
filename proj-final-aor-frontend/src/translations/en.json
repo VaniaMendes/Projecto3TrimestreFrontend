@@ -35,7 +35,6 @@
     "newPassword": "Confirm Password",
     "interests": "Interests",
     "name": "Name",
-    "initialData": "Initial Date:",
     "finalData": "Final Date:",
     "addNewSkill": "Add New Skill",
     "pleaseSelectOneSkill": "Type of skill:",

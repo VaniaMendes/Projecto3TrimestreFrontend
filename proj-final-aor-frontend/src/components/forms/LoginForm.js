@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { userStore } from "../../stores/UserStore";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
-import { getUnreadNotifications } from "../../services/notifications";
+import { getNumberOfUnOPenNotification } from "../../services/notifications";
 import { notificationStore } from "../../stores/NotificationStore";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -76,7 +76,7 @@ function LoginForm() {
 
   //Get the number of notifications unread
   const numberOfnotificationUnread = async (token) => {
-    const unreadNotifications = await getUnreadNotifications(token);
+    const unreadNotifications = await getNumberOfUnOPenNotification(token);
 
     // Verify if the number of notifications is 0
     if (unreadNotifications === 0) {

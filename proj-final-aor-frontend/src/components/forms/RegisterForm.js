@@ -53,33 +53,40 @@ function RegisterForm() {
     return emailRegex.test(email);
   };
 
+  //Handle Form submissino
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    //validate email
     if (!validateEmail(user.email)) {
       toast.warning("Invalid email.");
       return;
     }
 
+    //validate password
     if (!validatePassword(user.password)) {
       toast.warning("Invalid password");
       return;
     }
 
+    //Check if password match
     if (user.password !== user.confirmPassword) {
       toast.warning("Passwords do not match.");
       return;
     }
 
     try {
+      //Atempt to register user
       const result = await register(user);
+
+      //Handle registration result
       if (result === 400) {
         toast.error("Invalid email or password");
       } else {
         toast.success(
           "Successfully registered. Please verify your email account."
         );
-        navigate("/login");
+        navigate("/login"); // Navigate to login page after successful registration
       }
     } catch (error) {
       console.error("Error occurred while registering:", error);

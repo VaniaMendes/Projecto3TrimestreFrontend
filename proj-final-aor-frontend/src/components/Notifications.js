@@ -11,6 +11,10 @@ import { notificationStore } from "../stores/NotificationStore";
 import {useNavigate} from 'react-router-dom';
 
 
+/**
+ * Renders a component that displays notifications and handles user interactions.
+ 
+ */
 function Notifications() {
 
   const intl = useIntl();
@@ -33,14 +37,15 @@ function Notifications() {
       const notificationPage = await totalPagesNotifications(token, userId);
       setTotalPages(notificationPage);
       clearNotifications();
+      await markAsOpen(token);
      
-
     } catch (error) {
     }
   }
 
     useEffect(() => {
     fetchNotifications(currentPage);
+
     
   }, [currentPage, token, userId]);
   
