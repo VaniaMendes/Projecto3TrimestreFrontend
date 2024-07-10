@@ -124,6 +124,7 @@ const Header = (props) => {
   const handleSeeAllProjects = () => {
     if (location.pathname !== "/home" || location.search !== "") {
       navigate("/home", { replace: true });
+      setShowProjectsMenu(false);
     }
     setSearchInput("");
   };
@@ -151,6 +152,7 @@ const Header = (props) => {
   const handleMyProjects = () => {
     if (location.pathname !== `/home/${userId}` || location.search !== "") {
       navigate(`/home/${userId}`, { replace: true });
+      setShowProjectsMenu(false);
     }
     setSearchInput("");
   };
@@ -189,8 +191,9 @@ const Header = (props) => {
             <img
               src={logoToRender}
               alt="CSW Logo"
-              style={{ width: logoWidth, height: "auto" }}
+              style={{ width: logoWidth, height: "auto", cursor: "pointer"}}
               loading="lazy"
+              onClick={() => navigate("/home")}
             />
             {isMobile && !showSearchBar && (
               <IoSearch

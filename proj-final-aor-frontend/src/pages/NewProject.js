@@ -102,7 +102,7 @@ const NewProject = () => {
 
         console.log(inputs);
 
-        if (inputs.maxMembers < 0 || inputs.maxMembers > maxMembersLimit) {
+        if (inputs.maxMembers < 2 || inputs.maxMembers > maxMembersLimit) {
             toast.warn(intl.formatMessage({ id: "maxMembersLimit" }, { maxMembers: maxMembersLimit }));
             return;
         } else if (inputs.maxMembers === "") {

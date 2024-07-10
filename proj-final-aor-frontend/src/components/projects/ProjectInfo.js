@@ -19,19 +19,20 @@ const ProjectInfo = (props) => {
                 <div className="info-container" key={index} onClick={() => handleClick(project.id)}>
                     
                         <h2>{project.name}</h2>
-                        <div className="title-label-container">
-                            <h4><FormattedMessage id="lab"/></h4>
-                            <p>: {project.lab.name.toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>
-                        </div>
+                        
 
                         <div className="state-vacancies-container">
+                        <div className="title-label-container">
+                            <h4><FormattedMessage id="lab"/>:</h4>
+                            <p>&nbsp;{project.lab.name.toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</p>
+                        </div>
                             <div className="title-label-container">
-                                <h4><FormattedMessage id="state"/></h4>
-                                <p>: <FormattedMessage id={project.stateId}/></p>
+                                <h4><FormattedMessage id="state"/>:</h4>
+                                <p className="planning-label">&nbsp;<FormattedMessage id={project.stateId} /></p>
                             </div>
                             <div className="title-label-container">
-                                <h4><FormattedMessage id="vacancies"/></h4>
-                                <p>: {project.vacancyNumber}</p>
+                                <h4><FormattedMessage id="vacancies"/>:</h4>
+                                <p>&nbsp;{project.vacancyNumber}</p>
                             </div>
                         </div>
                         <h4><FormattedMessage id="description"/>: </h4>
