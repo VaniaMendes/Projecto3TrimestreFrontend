@@ -305,13 +305,13 @@ scrollbar-width: thin;
   color: #333;
 }
 
-/* Estiliza o container da lista de dependências */
+
 .dependencies_list {
   display: flex;
   flex-direction: column;
 }
 
-/* Estiliza cada item da tarefa */
+
 .task_item {
   display: flex;
   align-items: center;
@@ -319,7 +319,7 @@ scrollbar-width: thin;
   margin-bottom: 12px; /* Espaçamento entre os itens */
 }
 
-/* Estiliza o checkbox */
+
 .task_item input[type="checkbox"] {
   accent-color: #C01722; /* Cor do checkbox quando selecionado */
 }

@@ -10,10 +10,15 @@ import { userStore } from '../stores/UserStore';
 function NotificationItem({ notification, onClick}) {
 
   const intl = useIntl();
+  //Get the token from the user store
   const {token} = userStore();
+
+  //State variables
   const [project, setProject] = useState({});
   const [loading, setLoading] = useState(true);
 
+
+  // Fetch the project information when the component mounts
   useEffect(() => {
    
       const fetchProject = async () => {
@@ -38,6 +43,7 @@ function NotificationItem({ notification, onClick}) {
   }, [notification.relatedIDEntity, notification.type]);
 
 
+// Add a click evente to the notification item
   const handleClick = () => {
     if (!notification.readStatus) {
       onClick(notification.id);
@@ -47,7 +53,7 @@ function NotificationItem({ notification, onClick}) {
   let notificationMessage;
   let notificationImage;
   
-
+//Create a notification item depending on the type of notification
   switch (notification.type) {
     case 'MESSAGE_RECEIVED':
       notificationMessage =  `${intl.formatMessage({ id: "messageReceived" })} ${notification.sender.firstName}`; 
@@ -97,6 +103,7 @@ function NotificationItem({ notification, onClick}) {
  
    let formattedTimestamp;
 
+   // Format the timestamp based on the time difference
    if (duration.asYears() >= 1) {
     formattedTimestamp = `${duration.years()} a`;
   } else if (duration.asMonths() >= 1) {

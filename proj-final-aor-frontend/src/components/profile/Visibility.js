@@ -3,21 +3,26 @@ import { useIntl } from 'react-intl';
 
 
 const Visibility = (props) => {
-
+//Destructure props to extract specif values
     const{visibility, onChangeVisibility, project, profile, showTasksList} = props;
+    
+    //State variables
     const [isPrivate, setIsPrivate] = useState(false);
     const intl = useIntl();
 
+    // useEffect hook to update the local state when the visibility prop changes
     useEffect(() => {
         setIsPrivate(visibility);
     }, [visibility]);
 
+
+    // Function to handle the toggle visibility button click
     const handleToggle = () => {
         setIsPrivate(!isPrivate);
         if (project) {
-            showTasksList(); // Chamando a função showTasksList se o projeto estiver marcado
+            showTasksList(); // CIf we are in a project, we call the function showTasksList
         } else {
-            onChangeVisibility(); // Chamando onChangeVisibility se for perfil
+            onChangeVisibility(); // In the profile we call the function onChangeVisibility
         }
     };
 
