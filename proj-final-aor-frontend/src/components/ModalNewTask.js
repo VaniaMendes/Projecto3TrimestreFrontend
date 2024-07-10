@@ -33,6 +33,8 @@ function NewTask(props) {
   const [executor, setExecutor] = useState("");
   const [projectUsers, setProjectUsers] = useState([]);
 
+  const [finalDateProject, setFinalDateProject] = useState("");
+
   const task = {
     title,
     description,
@@ -55,6 +57,7 @@ function NewTask(props) {
         //Get info about the project
         const projectInfo = await ProjectService.getProjectInfo(token, projectId);
         setProject(projectInfo);
+        setFinalDateProject(projectInfo.conclusionDate);
         console.log(projectInfo)
 
           // Extract users from projectInfo
@@ -92,7 +95,19 @@ function NewTask(props) {
 
   
   const handleNewTask = async () => {
+    if(startDate > deadline){
+      toast.error(intl.formatMessage({ id: 'deadlineMustBeBeforeStartDate' }));
+      return;
+    }
+    if(deadline > finalDateProject){
+      toast.error(intl.formatMessage({ id: 'deadlineMustBeBeforeFinalDateProject' }));
+      return;
+    }
   
+    if(startDate > finalDateProject){
+      toast.error(intl.formatMessage({ id: 'startDateMustBeBeforeFinalDateProject' }));
+      return;
+    }
     if(editTask && taskId){
       const result = await updateTask(token, projectId,taskId, task, tasksIdList);
       if(result === 200){

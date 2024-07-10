@@ -22,7 +22,7 @@ const ProjectPlan = () => {
     const [viewMode, setViewMode] = useState('Week'); 
     const [showBoard, setShowBoard] = useState(false);
     const [showGantt, setShowGantt] = useState(true);
-    const [tasksOrdered, setTasksOrdered] = useState([]);
+
     const [isMobile, setIsMobile] = useState(false); 
     const [selectedMode, setSelectedMode] = useState('gantt'); 
 
@@ -44,12 +44,11 @@ const ProjectPlan = () => {
             if (showGantt) {
                 const data = await getProjectTasksOrderByDate(token, projectId);
                 console.log(data);
-                setTasksOrdered(data);
+                setAvailableTasks(data);
        
             } else{
                 const data = await getProjectTasks(token, projectId);
                 setAvailableTasks(data);
-               
             
             }
             setIsPageLoaded(true);
@@ -181,7 +180,7 @@ const ProjectPlan = () => {
                     <div className="project-plan-exterior-container">
                         <div className="project-plan-chart">
                            
-                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={tasksOrdered} showList={showList} viewMode={viewMode} project={project} />}
+                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={availableTasks} showList={showList} viewMode={viewMode} project={project} />}
                     {showBoard && isPageLoaded&& <TaskBoard listTasks={availableTasks} />}
                         </div>
                         <TaskAdder handleNewTask={handleNewTask} />
@@ -199,7 +198,7 @@ const TaskAdder = ({ handleNewTask }) => {
 
     return (
         <div className="add-task" >
-            <GoPlusCircle className= "add-task-button" onClick={handleNewTask}/> <p>{intl.formatMessage({ id: "addTask" })}</p>
+            <GoPlusCircle className= "add-task-button" onClick={handleNewTask}/> <p className="add-new-task" onClick={handleNewTask}>{intl.formatMessage({ id: "addTask" })}</p>
         </div>
     );
 };
