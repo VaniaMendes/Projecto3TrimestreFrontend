@@ -179,10 +179,12 @@
     "statistics": "Estatísticas",
 
     "appliedToProject": "Candidatura enviada com sucesso!",
+    "moreMembers": "+ {value} Membros",
 
     "searchKeywords": "Pesquisar Palavras-chave...",
     "searchProjects": "Pesquisar Projetos...",
     "searchResources": "Pesquisar Componentes...",
+    "searchAvailableUser": "Pesquisar Utilizadores Disponíveis...",
 
     "noMatchingSuppliers": "Sem fornecedores correspondentes, adicione um novo fornecedor",
     "newComponent": "Novo Componente",

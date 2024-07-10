@@ -24,7 +24,6 @@ const NewProject = () => {
         conclusionDate: null,
     });
 
-    const [description, setDescription] = useState("");
     const [keywords, setKeywords] = useState([]);
     const [needs, setNeeds] = useState([]);
     const [maxMembersLimit, setMaxMembersLimit] = useState(null);
@@ -113,7 +112,7 @@ const NewProject = () => {
 
         const projectData = {
             name: inputs.name,
-            description: description,
+            description: inputs.description,
             conclusionDate: formattedConclusionDate,
             keywords: keywords.join(', '),
             needs: needs.join(', '),
@@ -127,8 +126,7 @@ const NewProject = () => {
             toast.success("Project created successfully");
             navigate(`/home/${userId}?sort=desc`);
 
-            setInputs({ name: '', lab: '', maxMembers: '', conclusionDate: null});
-            setDescription('');
+            setInputs({ name: '', description: '', lab: '', maxMembers: '', conclusionDate: null});
             setKeywords([]);
             setNeeds([]);
         } else {
@@ -226,10 +224,15 @@ const NewProject = () => {
                                     </FormattedMessage>
                                     </label>
                                 </div>
-                                <div className="add-keywords" onClick={handleOpenModalDescription}>
-                                    <FiEdit3 />
-                                </div>
-                                {description && <div>{description}</div>}
+                                
+                                <textarea
+                                    className="description-input roboto-regular"
+                                    id="description-np"
+                                    name="description"
+                                    value={inputs.description || ""}
+                                    onChange={handleChange}
+                                    required
+                                />
                             </div>
 
                             <div className="sections-container">
@@ -252,8 +255,6 @@ const NewProject = () => {
                                         ))}
                                     </div>
                                 </div>
-
-                                
 
                                 <div className="profile-keywords">
                                     {/* Conteúdo das necessidades */}
@@ -298,57 +299,12 @@ const NewProject = () => {
                             setNeeds={setNeeds}
                         />
                     )}
-                    {openEditModal && (
-                        <EditProject
-                            onClose={handleCloseModal}
-                            modalType={modalType}
-                            description={description}
-                            setDescription={setDescription}
-                        />
-                    )}
                 </div>     
         </div>
     );
 };
 
-function EditProject({ onClose, modalType, description, setDescription }) {
-  
-    const handleEditProject = async (type) => {
-      onClose();
-    };
-        
-    const handleChangeDescription = (event) => {
-        const { value } = event.target;
-        setDescription(value);
-    };
-    
-    return (
-      <div className="modal-skill-container">
 
-          <div className="modal-close" onClick={onClose}>
-            <IoIosCloseCircleOutline />
-          </div>
-          <h1 className="editProfile-title">
-               <FormattedMessage id="editDescription"/>
-          </h1>
-  
-          {modalType === "description" && (
-            <div className="modal-body-biography">
-              <input
-                type="text"
-                id="description"
-                name="description"
-                value={description || ""}
-                onChange={handleChangeDescription}
-              />
-            </div>
-          )}
-         <button className="save-button" onClick={() => handleEditProject(modalType)}>
-                <FormattedMessage id="save"/>
-        </button>
-      </div>
-    );
-  }
 
 
   function AddNewKeywordOrNeed({ onClose, modalType, keywords, setKeywords, needs, setNeeds, intl }) {

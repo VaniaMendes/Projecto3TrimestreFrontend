@@ -111,9 +111,10 @@ BOTTOM HEADER
     font-size: 1em;
     margin-left: 40px;
     width: calc(100% - 40px);
-    background-color: #da737c31;
     padding: 5px 10px 5px 20px;
     border: transparent;
+    border-bottom: 1px solid var(--main-red);
+    border-radius: 0;
     position: relative;
 }
 
@@ -192,7 +193,7 @@ BOTTOM HEADER
     color: var(--grey-color);
     background-color: #fff;
     border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.1);
     z-index: 2000;
     opacity: 0;
     visibility: hidden;
@@ -261,8 +262,6 @@ BOTTOM HEADER
     .component-subtitle{
         width: 85px;
     }
-
-    
 }
 
 .icon{
@@ -354,4 +353,23 @@ input:not(:placeholder-shown) + .label-description-settings{
 }
 .buttons-settings{
     padding-bottom: 20px;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    
+
+    .bottom-header{
+        padding: 0 0.5rem 0.7rem;
+        align-items: center;
+
+        .header-left{
+            align-items: center;
+        }
+
+        .header-right{
+            align-items: baseline;
+        }
+    }
 }

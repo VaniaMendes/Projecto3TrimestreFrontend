@@ -12,7 +12,6 @@ import { userStore } from "../stores/UserStore";
 import { useActionsStore } from "../stores/ActionStore";
 import { getCountProjectFromUser } from "../services/users";
 import FilterOptions from "../components/FilterOptions";
-import SkillInterestService from "../services/SkillInterestService";
 
 const Home = () => {
     const navigate = useNavigate();
