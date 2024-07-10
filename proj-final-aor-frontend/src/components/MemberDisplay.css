@@ -20,6 +20,7 @@
 
 .inside-project-member-display .user-circle-gear-icon {
     visibility: hidden;
+    margin-right: 3px;
 }
 
 .inside-project-member-display:hover .user-circle-gear-icon {

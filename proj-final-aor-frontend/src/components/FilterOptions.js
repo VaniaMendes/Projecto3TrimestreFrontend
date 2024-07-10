@@ -239,7 +239,7 @@ const FilterOptions = (props) => {
     if (isProjectsFilterBar) {
         return (
             <>
-                <p className={stateSelected ? 'active-item' : ''} onClick={handleClickState}>
+                <p className={`item-filter-label ${stateSelected ? 'active-item' : ''}`} onClick={handleClickState}>
                     <FormattedMessage id="state" />
                     {stateSelected ? <MdArrowDropUp /> : <MdArrowDropDown />}
                 </p>
@@ -276,7 +276,7 @@ const FilterOptions = (props) => {
                         </div>
                     </div>
                 )}
-                <p className={sortBySelected ? 'active-item' : ''} onClick={handleClickSortBy}>
+                <p className={`item-filter-label ${sortBySelected ? 'active-item' : ''}`} onClick={handleClickSortBy}>
                     <FormattedMessage id="sortBy" />
                     {sortBySelected ? <MdArrowDropUp /> : <MdArrowDropDown />}
                 </p>

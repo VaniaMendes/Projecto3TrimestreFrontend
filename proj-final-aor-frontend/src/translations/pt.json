@@ -115,6 +115,7 @@
 
     "home": "Início",
     "myProjects": "Meus Projetos",
+    "allProjects": "Todos os Projetos",
     "component": "Componente",
     "components": "Componentes",
     "needs": "Necessidades",
@@ -174,8 +175,10 @@
     "dateRegisted": "Data",
     "projectsNumber": "Número de Projetos",
     "noProjects": "Sem Projetos para mostrar",
-    "maxMembersLimit": "O número máximo de membros deve estar entre 0 e {maxMembers}",
+    "maxMembersLimit": "O número máximo de membros deve estar entre 1 e {maxMembers}",
     "statistics": "Estatísticas",
+
+    "appliedToProject": "Candidatura enviada com sucesso!",
 
     "searchKeywords": "Pesquisar Palavras-chave...",
     "searchProjects": "Pesquisar Projetos...",

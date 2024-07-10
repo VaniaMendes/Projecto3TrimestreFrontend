@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Project.css";
-import defaultPhoto from "../components/assets/profile_pic_default.png"
 import { FiEdit3 } from "react-icons/fi";
 import { GoPlusCircle } from "react-icons/go";
 import { IoIosCloseCircleOutline } from "react-icons/io";
@@ -75,6 +74,8 @@ const Project = () => {
                 if (response.keywords) {
                     response.keywords = response.keywords.split(',');
                 }
+
+                console.log(response);
 
                 setProjectData(response);
                 setResources(responseResources);
@@ -394,7 +395,7 @@ const Project = () => {
 
         if (response) {
             setHasApplied(true);
-            toast.success('Application sent successfully!');
+            toast.success(intl.formatMessage({ id: 'appliedToProject' }));
         }
     }
 
@@ -515,7 +516,7 @@ const Project = () => {
                     <div className="project-page-content">
                         <div className="project-page-header">
                             <div className="cretor-project-name-container">
-                                <div className="creator-info-container">
+                                {/*<div className="creator-info-container">
                                     {projectData.usersInfo && projectData.usersInfo[0].userType === "CREATOR" && (
                                         <>
                                             <div className="photo-container">
@@ -524,7 +525,7 @@ const Project = () => {
                                             <h4><FormattedMessage id={projectData.usersInfo[0].userType}/> </h4>
                                         </>
                                     )}
-                                </div>
+                                </div>*/}
                                 <h1>{projectData.name}</h1>
                             </div>
                             {!hasApplied && !isUserInProject() && projectData.vacancyNumber>0 && <button className="project-page-candidate-button" onClick={handleApplyToProject}><FormattedMessage id="candidate"/></button>}
@@ -611,9 +612,10 @@ const Project = () => {
                                     isInsideProject={true}
                                     onMemberRoleChange={handleChangeMemberRole}
                                     handleRemoveMember={handleRemoveMember}
+                                    visitorIsProjectMember={isUserInProject()}
                                 />
                             ))}
-                            {isUserInProject() && !isCollaborator() && (
+                            {isUserInProject() && !isCollaborator() && projectData.usersInfo.length<projectData.maxMembers && (
                                 <span className="ppi-btn" onClick={handleOpenModalMember}><GoPlusCircle /></span>
                             )}
                         </div>
