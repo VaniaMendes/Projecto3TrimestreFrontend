@@ -152,8 +152,6 @@ const NewResourceForm = (props) => {
   
           // Atualiza o estado do formulário com a URL da foto, se disponível
           const updatedForm = { ...formData, photo: photoUrl };
-  
-          console.log(updatedForm);
 
           const response = await ResourceService.register(token, updatedForm);
   

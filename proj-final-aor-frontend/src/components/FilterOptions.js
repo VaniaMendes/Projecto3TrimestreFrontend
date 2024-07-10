@@ -7,7 +7,7 @@ import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 const FilterOptions = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { suppliers, brands, isProjectsFilterBar, isProjectsMobileFilter, isResourcesSideFilter, isResourcesFilterBar } = props;
+    const { suppliers, brands, isProjectsFilterBar, isProjectsMobileFilter, isResourcesSideFilter, isResourcesFilterBar, isResourcesSortMobile } = props;
     const { stateId, sortBy, vacancies, updateStateId, updateSortBy, updateVacancies, resetUseActionsStore } = useActionsStore();
     const [selectedState, setSelectedState] = useState(1);
     const [selectedSort, setSelectedSort] = useState("desc");
@@ -470,6 +470,43 @@ const FilterOptions = (props) => {
                     </div>
                 )}
             </>
+        );
+    }
+
+    if (isResourcesSortMobile) {
+        return (
+            <div className='filter-options'>
+                <p className='resource-filter-label'>
+                    <FormattedMessage id="sortBy" />
+                </p>
+                    <div className='sort-options-container'>
+                        {/* Sort by radio buttons */}
+                        <div className="radio-wrapper">
+                            <input className="radio-input" type="radio" id="newest" name="sort" value="desc" onChange={handleSortChange} checked={selectedSort === "desc"} />
+                            <label className="radio-label" htmlFor="newest"><FormattedMessage id="newest" /></label>
+                        </div>
+                        <div className="radio-wrapper">
+                            <input className="radio-input" type="radio" id="oldest" name="sort" value="asc" onChange={handleSortChange} checked={selectedSort === "asc"} />
+                            <label className="radio-label" htmlFor="oldest"><FormattedMessage id="oldest" /></label>
+                        </div>
+                        <div className="radio-wrapper">
+                            <input className="radio-input" type="radio" id="nameAsc" name="sort" value="asc" onChange={handleNameSortChange} checked={selectedNameSort === "asc"} />
+                            <label className="radio-label" htmlFor="nameAsc"><FormattedMessage id="name" /> : <FormattedMessage id="aToZ" /></label>
+                        </div>
+                        <div className="radio-wrapper">
+                            <input className="radio-input" type="radio" id="nameDesc" name="sort" value="desc" onChange={handleNameSortChange} checked={selectedNameSort === "desc"} />
+                            <label className="radio-label" htmlFor="nameDesc"><FormattedMessage id="name" /> : <FormattedMessage id="zToA" /></label>
+                        </div>
+                        <div className="radio-wrapper">
+                            <input className="radio-input" type="radio" id="projectsHigh" name="sort" value="desc" onChange={handleProjectsSortChange} checked={selectedProjectsSort === "desc" } />
+                            <label className="radio-label" htmlFor="projectsHigh"><FormattedMessage id="projects" /> : <FormattedMessage id="highToLow" /></label>
+                        </div>
+                        <div className="radio-wrapper">
+                            <input className="radio-input" type="radio" id="projectsLow" name="sort" value="asc" onChange={handleProjectsSortChange} checked={selectedProjectsSort === "asc"} />
+                            <label className="radio-label" htmlFor="projectsLow"><FormattedMessage id="projects" /> : <FormattedMessage id="lowToHigh" /></label>
+                        </div>
+                    </div>
+            </div>
         );
     }
 

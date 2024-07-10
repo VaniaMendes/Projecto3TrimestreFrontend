@@ -122,27 +122,27 @@ BOTTOM HEADER
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    top: calc(100% + 5px); /* Adjusted for a small gap */
+    top: 100%;
     background-color: var(--light-background-color);
     border: 1px solid #ccc;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 5000;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);    z-index: 5000;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     color: var(--dark-color);
     max-height: 200px;
     overflow-y: auto;
-    /*visibility: hidden;
-    opacity: 0;*/
+    width: 100% ;
 }
 
 .search-result {
     padding: 0.5em 1em;
     cursor: pointer;
     width: 100%;
+    transition: all 0.2s ease;
 }
 
 .search-result:hover {
     background-color: var(--light-grey);
+    color: var(--main-red);
 }
 
 .search-bar:focus + .search-results,

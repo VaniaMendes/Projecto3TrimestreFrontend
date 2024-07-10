@@ -19,8 +19,6 @@ import ResourceService from "../services/ResourceService";
 import ActivityService from "../services/ActivityService";
 import CustomModal from "../components/CustomModal";
 
-
-
 const Project = () => {
     const {token, userId, typeUser} = userStore();
     const intl = useIntl();

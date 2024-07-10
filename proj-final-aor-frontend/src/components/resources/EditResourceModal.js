@@ -6,6 +6,7 @@ import ResourceService from '../../services/ResourceService';
 import { userStore } from '../../stores/UserStore';
 import SupplierService from '../../services/SupplierService';
 import { toast } from 'react-toastify';
+import { uploadPhoto } from '../../services/users';
 
 const EditResourceModal = (props) => {
     const intl = useIntl();
@@ -15,6 +16,7 @@ const EditResourceModal = (props) => {
     const [suppliersList, setSuppliersList] = useState([]);
     const [resourceSuppliers, setResourceSuppliers] = useState([]);
     const [showSuppliersList, setShowSuppliersList] = useState(false);
+    const [photoFile, setPhotoFile] = useState(null);
     
     const [formData, setFormData] = useState({
         name: '',
@@ -76,22 +78,32 @@ const EditResourceModal = (props) => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleChangePhoto = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setPhotoPreview(reader.result);
-        };
-        if (file) {
-            reader.readAsDataURL(file);
+    const handleChangePhoto = (event) => {
+        if (event.target.files && event.target.files[0]) {
+          const file = event.target.files[0];
+          const photoURL = URL.createObjectURL(file);
+          setPhotoPreview(photoURL);
+          setPhotoFile(file);
+      
+          setFormData(prevState => ({
+            ...prevState,
+            photo: photoURL
+          }));
         }
-        setFormData({ ...formData, photo: file });
-    };
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const updatedFields = {};
+        let photoUrl = null;
+  
+        // Tenta o upload da foto apenas se photoFile estiver definido
+        if (photoFile) {
+            photoUrl = await uploadPhoto(photoFile);
+        }
+
+        const updatedFields = { ...formData, photo: photoUrl };
+
         Object.keys(formData).forEach(key => {
             if (formData[key] !== initialFormData[key]) {
                 updatedFields[key] = formData[key];
@@ -108,6 +120,8 @@ const EditResourceModal = (props) => {
                 await ResourceService.addSupplier(token, id, newSupplier);
                 toast.success(intl.formatMessage({ id: "supplierAdded" }));
             }
+
+            setPhotoPreview('');
 
             onClose();
         } catch (error) {
