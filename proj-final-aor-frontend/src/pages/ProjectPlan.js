@@ -24,6 +24,7 @@ const ProjectPlan = () => {
     const [showGantt, setShowGantt] = useState(true);
     const [tasksOrdered, setTasksOrdered] = useState([]);
     const [isMobile, setIsMobile] = useState(false); 
+    const [selectedMode, setSelectedMode] = useState('gantt'); 
 
     const [project, setProject] = useState("");
 
@@ -149,15 +150,18 @@ const ProjectPlan = () => {
         setShowList(!showList);
     }
     
-    const handleChange = () => {
+
+    const handleChangeToGantt = () => {
+        setSelectedMode('gantt');
         setShowBoard(false);
         setShowGantt(true);
-    }
+    };
     
-    const handleChangeBoard = () => {
+    const handleChangeToBoard = () => {
+        setSelectedMode('board');
         setShowBoard(true);
         setShowGantt(false);
-    }
+    };
 
 
     return (
@@ -165,8 +169,12 @@ const ProjectPlan = () => {
             
                 <div className="project-plan-container">
                     <Header />
-                    <div className="project-plan-separator"><p className="separator-description" onClick={handleChange}>GANT</p></div>
-                    <div className="project-plan-separator-board"><p className="separator-description" onClick={handleChangeBoard}>BOARD</p></div>
+                    <div className={`project-plan-separator ${selectedMode === 'board' ? 'selected' : ''}`} onClick={handleChangeToGantt}>
+                    <p className="separator-description">GANTT</p>
+                </div>
+                <div className={`project-plan-separator-board ${selectedMode === 'gantt' ? 'selected' : ''}`} onClick={handleChangeToBoard}>
+                    <p className="separator-description">BOARD</p>
+                </div>
                     {!showBoard && isPageLoaded && !isMobile && (<Visibility project={true} showTasksList={showTasksList}/>)}
                     {!showBoard && !isMobile && (<Buttons setViewMode={setViewMode} />)}
 

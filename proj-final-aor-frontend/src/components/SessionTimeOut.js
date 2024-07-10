@@ -6,47 +6,40 @@ import { logoutUser } from "../services/users";
 import { userStore } from "../stores/UserStore";
 
 const SessionTimeoutHandler = () => {
-  //State variables
-  const [sessionTimeout, setSessionTimeout] = useState(null);
   const navigate = useNavigate();
-  //Get the token of the userStore
-  const { token } = userStore();
-
-  //Get the value of sessiontimeout
+  const { token, timeout, updateTimeout, resetUserStore } = userStore();
+  
   useEffect(() => {
     const fetchSettings = async () => {
-      const value = await getTimeoutValue(token);
-      console.log("Session timeout value is", value);
-
       if (token) {
+        const value = await getTimeoutValue(token);
+        console.log("Session timeout value is", value);
+
         if (value) {
           const timeoutInMilliseconds = value * 60 * 1000; // Convert minutes to milliseconds
-          setSessionTimeout(timeoutInMilliseconds);
-          
-        } else {
-          
+          updateTimeout(timeoutInMilliseconds);
         }
       }
     };
     fetchSettings();
-  }, [token]);
+  }, [token, updateTimeout]);
 
   useEffect(() => {
-    if (sessionTimeout === null) return; // Wait until sessionTimeout is set
+    if (timeout === null || !token) return; // Wait until sessionTimeout is set
 
     let timeoutId;
 
     const resetTimeout = () => {
       if (timeoutId) clearTimeout(timeoutId);
-      timeoutId = setTimeout(handleLogout, sessionTimeout);
+      timeoutId = setTimeout(handleLogout, timeout);
     };
 
     const handleLogout = async () => {
       // Clear session storage 
       sessionStorage.clear();
-
       // Log the user out 
       await logoutUser(token);
+      resetUserStore();
       // Show a message
       toast.info("Your session has expired due to inactivity.");
       // Redirect to login page or a session expired page
@@ -57,22 +50,10 @@ const SessionTimeoutHandler = () => {
       resetTimeout();
     };
 
-    //When the page is closed
-    const handleBeforeUnload = (event) => {
-        // Clear session storage
-        sessionStorage.clear();
-        // Log the user out (assuming logoutUser is an async function)
-       handleLogout();
-        // Show a message
-        toast.info("Your session has expired due to inactivity.");
-      };
-
     // Add event listeners for user activity
     window.addEventListener("mousemove", eventHandler);
     window.addEventListener("keydown", eventHandler);
     window.addEventListener("click", eventHandler);
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
 
     // Set initial timeout
     resetTimeout();
@@ -83,9 +64,8 @@ const SessionTimeoutHandler = () => {
       window.removeEventListener("mousemove", eventHandler);
       window.removeEventListener("keydown", eventHandler);
       window.removeEventListener("click", eventHandler);
-      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [sessionTimeout, token, navigate]);
+  }, [timeout, token, navigate, resetUserStore]);
 
   return null; // This component does not render anything
 };

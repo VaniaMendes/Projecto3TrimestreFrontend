@@ -229,10 +229,11 @@ const ProjectService = {
         }
     },
 
-    getUserProjects: async(token, userId) => {
+    getUserProjects: async(token, userId, order) => {
         try{
     
-            const response = await fetch(`${API_BASE_URL}/user/${userId}`,  {
+
+            const response = await fetch(`${API_BASE_URL}/user/${userId}?order=${order}`,  {
                 method: "GET",
                 headers: {
                     Accept: "application/json",

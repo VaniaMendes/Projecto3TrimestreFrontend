@@ -37,10 +37,6 @@ function NotificationItem({ notification, onClick}) {
     
   }, [notification.relatedIDEntity, notification.type]);
 
-  if (loading) {
-    return <div>Loading...</div>; 
-  }
-
 
   const handleClick = () => {
     if (!notification.readStatus) {

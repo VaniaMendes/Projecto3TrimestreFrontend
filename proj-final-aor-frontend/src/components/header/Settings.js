@@ -89,7 +89,7 @@ function Settings({ onClose }) {
               className="label-description-settings"
               htmlFor="sessiontimeout"
             >
-              {intl.formatMessage({ id: "sessiontimeout" })}
+              {intl.formatMessage({ id: "sessiontimeout" })} (min)
             </label>
           </div>
 

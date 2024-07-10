@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { userStore } from "../stores/UserStore";
-import { useIntl, FormattedMessage  } from "react-intl";
+import { useIntl } from "react-intl";
 import { sendMessage, getMessages, getPageCountBetweenTwoUsers, markMessageAsRead } from "../services/messages";
 import { getUserById } from "../services/users";
 import { toast } from "react-toastify";
@@ -9,15 +9,13 @@ import moment from "moment";
 import './Messages.css'
 import userLogo from './assets/profile_pic_default.png';
 import { RiCheckDoubleLine } from "react-icons/ri";
+import { RiCheckLine } from "react-icons/ri";
 import {useNavigate} from 'react-router-dom';
-import { notificationStore } from "../stores/NotificationStore";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
 
 const MessageChat = (props) => {
   const { receiverId, handleBackToUsers  } = props;
   
-  const { incrementNotification } = notificationStore.getState();
-
 
   const intl = useIntl();
   const navigate = useNavigate();
@@ -25,8 +23,6 @@ const MessageChat = (props) => {
   const userId = userStore((state) => state.userId);
   const token = userStore((state) => state.token);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
-
-
 
 const[pages, setPages] = useState(0);
 const [currentPage, setCurrentPage] = useState(0);
@@ -46,7 +42,7 @@ const [messages, setMessages] = useState([]);
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-
+       
         setMessage({
           receiver: { id: receiverId },
           subject: "",
@@ -259,7 +255,7 @@ const formatTimestamp = (timestamp) => {
       <div className="message-body">
       {messages && messages.map((msg, index) => (
           <div
-          className={`message ${msg.sender.id === userId ? "sender-message" : "receiver-message"} ${!msg.readStatus ? "unread-message" : "read-message"}`}
+          className={`message ${msg.sender.id === userId ? "sender-message" : "receiver-message"} ${!msg.readStatus ? "" : "read-message"}`}
             key={index}
             onClick={() => handleMarkAsRead(msg.id)}
           >
@@ -268,7 +264,9 @@ const formatTimestamp = (timestamp) => {
             <p>{msg.content}</p>
             <div className="ckeck-message">
             <span className="timestamp">{formatTimestamp(msg.sendTimestamp)}</span>
-            {msg.readStatus && <RiCheckDoubleLine />} </div>
+            {msg.readStatus && <RiCheckDoubleLine  title={intl.formatMessage({ id: "read" })}/>} 
+            {!msg.readStatus && <RiCheckLine title={intl.formatMessage({ id: "unread" })}/>}
+            </div>
        
           </div>
         ))}
