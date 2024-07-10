@@ -59,6 +59,19 @@ function ProjectChat(props) {
   };
 
   useEffect(() => {
+    if (showMessages) {
+        document.body.classList.add('body-no-scroll');
+    } else {
+        document.body.classList.remove('body-no-scroll');
+    }
+
+    // Limpeza ao desmontar
+    return () => {
+        document.body.classList.remove('body-no-scroll');
+    };
+}, [showMessages]);
+
+  useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/message/";
     const websocket = new WebSocket(WS_URL + token);
     websocket.onopen = () => {
@@ -106,10 +119,18 @@ function ProjectChat(props) {
   }, [token, messagesList, projectId]);
 
  // Efeito para rolar para o final quando showMessages muda
- useEffect(() => {
+useEffect(() => {
   if (showMessages) {
     scrollToBottom();
+    document.body.classList.add('body-no-scroll');
+  } else {
+    document.body.classList.remove('body-no-scroll');
   }
+
+  // Limpeza ao desmontar
+  return () => {
+    document.body.classList.remove('body-no-scroll');
+  };
 }, [showMessages, messagesList]);
   
   const formatTimestamp = (timestamp) => {
