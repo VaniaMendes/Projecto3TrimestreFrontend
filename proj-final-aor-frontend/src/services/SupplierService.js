@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://localhost:8443/project_backend/rest/suppliers";
+const API_BASE_URL = "http://localhost:8080/project_backend/rest/suppliers";
 
 const SupplierService = {
 

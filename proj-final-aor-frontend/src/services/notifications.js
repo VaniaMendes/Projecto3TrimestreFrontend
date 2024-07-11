@@ -1,5 +1,5 @@
 //Define the base URL for the backend API
-const url = "https://localhost:8443/project_backend/rest/notifications";
+const url = "http://localhost:8080/project_backend/rest/notifications";
 
 export async function getUserNotifications(token, userId, page){
     try{

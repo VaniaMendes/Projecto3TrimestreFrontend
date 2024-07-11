@@ -183,17 +183,17 @@ const NewResourceForm = (props) => {
         <div className="new-resource-form-top-container">
           <div className="nrftc-left">
             <div className="new-resource-input-container">
-              <label className="new-resource-input-label" htmlFor="name"><FormattedMessage id="name"/>* :</label>
+              <label className="new-resource-input-label" htmlFor="name"><FormattedMessage id="name"/> * :</label>
               <input type="text" id="name" name="name" required value={formData.name} onChange={handleChange} />
             </div>
 
             <div className="new-resource-input-container">
-              <label className="new-resource-input-label" htmlFor="brand"><FormattedMessage id="brand" />* :</label>
+              <label className="new-resource-input-label" htmlFor="brand"><FormattedMessage id="brand" /> * :</label>
               <input type="text" id="brand" name="brand" required value={formData.brand} onChange={handleChange} />
             </div>
 
             <div className="new-resource-input-container">
-              <label className="new-resource-input-label" htmlFor="sourceId"><FormattedMessage id="sourceId"/>* :</label>
+              <label className="new-resource-input-label" htmlFor="sourceId"><FormattedMessage id="sourceId"/> * :</label>
               <input type="text" id="sourceId" name="sourceId" required value={formData.sourceId} onChange={handleChange} />
             </div>
 
@@ -237,7 +237,7 @@ const NewResourceForm = (props) => {
         </div>
 
         <div className="new-resource-input-container description-ctnr">
-          <label className="new-resource-input-label description-label" htmlFor="description-newrsc"><FormattedMessage id="description"/>* :</label>
+          <label className="new-resource-input-label description-label" htmlFor="description-newrsc"><FormattedMessage id="description"/> * :</label>
           <input type="text" id="description-new-rsc" name="description" required value={formData.description} onChange={handleChange} />
         </div>
 
@@ -250,13 +250,13 @@ const NewResourceForm = (props) => {
         <div className="suppliers-input-container">
           <h3 className="supplier-label"><FormattedMessage id="supplier"/></h3>
           <div className="new-resource-input-container">
-            <label className="new-resource-input-label" htmlFor="suppliersName"><FormattedMessage id="name"/>* :</label>
+            <label className="new-resource-input-label" htmlFor="suppliersName"><FormattedMessage id="name"/> * :</label>
             <input type="text" id="suppliersName" name="name" placeholder="Supplier Name" required value={formData.suppliers[0].name} onChange={handleSupplierChange} />
             {renderSuppliersList()}
           </div>
 
           <div className="new-resource-input-container">
-            <label className="new-resource-input-label" htmlFor="suppliersContact"><FormattedMessage id="contact"/>* :</label>
+            <label className="new-resource-input-label" htmlFor="suppliersContact"><FormattedMessage id="contact"/> * :</label>
             <input type="text" id="suppliersContact" name="contact" placeholder="Supplier Contact" required value={formData.suppliers[0].contact} onChange={handleSupplierContactChange} />
           </div>
         </div>

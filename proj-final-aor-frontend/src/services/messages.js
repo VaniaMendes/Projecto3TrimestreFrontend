@@ -1,5 +1,5 @@
 //Define the base URL for the backend API
-const url = "https://localhost:8443/project_backend/rest/messages";
+const url = "http://localhost:8080/project_backend/rest/messages";
 
 
 export async function sendMessage(token, message){

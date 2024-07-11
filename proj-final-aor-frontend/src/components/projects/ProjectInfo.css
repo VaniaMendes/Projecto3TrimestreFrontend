@@ -51,10 +51,6 @@
         font-weight: 400;
     }
 
-    .planning-label{
-        color: var(--red2-color);
-    }
-
     .state-vacancies-container{
         display: flex;
         justify-content: space-between;
@@ -125,8 +121,51 @@
     padding-bottom: 5px;
     font-size: 0.8em;
     font-weight: 500;
-    
 }
+
+.progress-bar-container {
+    width: 100%;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.progress-bar {
+    height: 3px;
+    border-radius: 5px;
+}
+
+
+.progress-bar-green {
+    opacity: 0.5;
+    background: linear-gradient(to right, var(--light-grey), var(--progress-bar-green));
+}
+
+.progress-bar-full-green {
+    background-color: var(--progress-bar-green);
+}
+
+.progress-bar-red {
+    background-color: var(--red2-color); 
+}
+
+.info-container .proj-state-neutral{
+    color: var(--dark-color);
+    font-size: 0.8em;
+    font-weight: 400;
+}
+
+.info-container .proj-state-green{
+    color: #407974;
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
+.info-container .proj-state-red{
+    color: var(--red2-color);
+    font-size: 0.8em;
+    font-weight: 600;
+}
+
 
 @media (max-width: 768px) {
     .info-container {

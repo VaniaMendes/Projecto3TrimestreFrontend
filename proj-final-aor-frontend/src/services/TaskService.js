@@ -1,4 +1,4 @@
-const url = "https://localhost:8443/project_backend/rest/project";
+const url = "http://localhost:8080/project_backend/rest/project";
 
 export async function createTask(token, projectId, task, tasksIdList) {
     try {

@@ -1,5 +1,5 @@
 //Define the base URL for the backend API
-const url = "https://localhost:8443/project_backend/rest/users";
+const url = "http://localhost:8080/project_backend/rest/users";
 
 // Export an asynchronous function named 'login' that receives a 'newUser' object as a parameter
 export async function login(newUser){
