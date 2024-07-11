@@ -262,7 +262,7 @@ const Project = () => {
             const response = await ProjectService.updateDescription(token, projectId, description);
 
             if (response) {
-                toast.success('Description updated successfully!');
+                toast.success(intl.formatMessage({ id: 'descriptionUpdated' }));
                 // Update the projectData state with the new description
                 setProjectData(prevProjectData => ({
                     ...prevProjectData,
@@ -332,7 +332,7 @@ const Project = () => {
 
             if (response) {
                 const formattedKeyword = toTitleCase(keywords[i].trim());
-                toast.success(`Keyword ${formattedKeyword} added successfully!`);
+                toast.success(intl.formatMessage({ id: 'keywordAdded' }));
                 setProjectData(prevProjectData => ({
                     ...prevProjectData,
                     keywords: [...prevProjectData.keywords, formattedKeyword]
@@ -345,7 +345,7 @@ const Project = () => {
         const response = await ProjectService.removeKeyword(token, projectId, keyword);
 
         if (response) {
-            toast.success('Keyword removed successfully!');
+            toast.success(intl.formatMessage({ id: 'keywordRemoved' }));
             setProjectData(prevProjectData => ({
                 ...prevProjectData,
                 keywords: prevProjectData.keywords.filter(k => k !== keyword)
@@ -360,7 +360,7 @@ const Project = () => {
         const responseAdd = await ProjectService.addSkill(token, projectId, skill.id);
 
         if (responseAdd) {
-            toast.success('Skill added successfully!');
+            toast.success(intl.formatMessage({ id: 'skillAdded' }));
             setProjectData(prevProjectData => ({
                 ...prevProjectData,
                 skills: [...prevProjectData.skills, skill]
@@ -372,7 +372,7 @@ const Project = () => {
         const response = await ProjectService.removeSkill(token, projectId, id);
 
         if (response) {
-            toast.success('Skill removed successfully!');
+            toast.success(intl.formatMessage({ id: 'skillRemoved' }));
             setProjectData(prevProjectData => ({
                 ...prevProjectData,
                 skills: prevProjectData.skills.filter(s => s.name !== name)
@@ -404,7 +404,7 @@ const Project = () => {
         const response = await ProjectService.approveCandidate(token, projectId, candidateId, userType);
 
         if (response) {
-            toast.success('Candidate approved successfully!');
+            toast.success(intl.formatMessage({ id: 'candidateApproved' }));
 
             const nameParts = name.split(' ');
             const firstName = nameParts[0];
@@ -433,7 +433,7 @@ const Project = () => {
         const response = await ProjectService.addMember(token, projectId, userId, userType);
 
         if (response) {
-            toast.success('Member added successfully!');
+            toast.success(intl.formatMessage({ id: 'memberAdded' }));
 
             const nameParts = name.split(' ');
             const firstName = nameParts[0];
@@ -460,7 +460,7 @@ const Project = () => {
         const response = await ProjectService.updateMemberRole(token, projectId, userId, userType);
 
         if (response) {
-            toast.success('Member role changed successfully!');
+            toast.success(intl.formatMessage({ id: 'memberRoleUpdated' }));
 
             setProjectData(prevProjectData => ({
                 ...prevProjectData,
@@ -479,7 +479,7 @@ const Project = () => {
         const response = await ProjectService.removeMember(token, projectId, userId);
 
         if (response) {
-            toast.success('Member removed successfully!');
+            toast.success(intl.formatMessage({ id: 'memberRemoved' }));
 
             setProjectData(prevProjectData => ({
                 ...prevProjectData,
@@ -492,11 +492,15 @@ const Project = () => {
         const response = await ActivityService.addMemberComment(projectId, token, observation);
 
         if (response) {
-            toast.success('Activity added successfully!');
+            toast.success(intl.formatMessage({ id: 'activityAdded' }));
         }
     };
 
-
+    const handleMemberClick = (userId, isVisible) => {
+        if (isVisible) {
+            navigate(`/profile/${userId}`);
+        }
+    };
 
     const handleCloseModal = () => {
         if(isEditModalOpen){
@@ -614,10 +618,12 @@ const Project = () => {
                                     photo={user.photo}
                                     name={user.firstName + " " + user.lastName}
                                     role={user.userType}
+                                    isVisible={user.visibility}
                                     isInsideProject={true}
                                     onMemberRoleChange={handleChangeMemberRole}
                                     handleRemoveMember={handleRemoveMember}
                                     visitorIsProjectMember={isUserInProject()}
+                                    onClick={handleMemberClick}
                                 />
                             ))}
                             {isUserInProject() && !isCollaborator() && projectData.usersInfo.length<projectData.maxMembers && (

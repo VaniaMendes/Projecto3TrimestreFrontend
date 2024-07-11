@@ -130,10 +130,10 @@ function Profile() {
       if (response === 200) {
         toast.success(intl.formatMessage({ id: "profile5" }));
       } else {
-        toast.error("Error updating visibility");
+        toast.error(intl.formatMessage({ id: "profile6" }));
       }
     } catch (error) {
-      toast.error("Error updating visibility");
+      toast.error(intl.formatMessage({ id: "profile6" }));
     }
   }
 

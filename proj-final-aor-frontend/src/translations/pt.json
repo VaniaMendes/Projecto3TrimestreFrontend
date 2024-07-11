@@ -275,6 +275,35 @@
     "profile2": "Não foi possível remover o interesse",
     "profile3": "Competência removida com sucesso",
     "profile4": "Não foi possível remover a competência",
-     "profile5":" A visibilidade do perfil foi alterada com sucesso"
+    "profile5":" A visibilidade do perfil foi alterada com sucesso",
+
+    "notificationMarkedAsRead": "Notificação marcada como lida",
+    "notificationMarkedAsReadError": "Erro ao marcar a notificação como lida",
+    "countConfirmError": "Erro ao confirmar a conta",
+    "invalidEmailOrPassword": "Email ou senha inválidos",
+    "errorOccurred": "Ocorreu um erro",
+    "invalidEmail": "Email inválido",
+    "passwordsDoNotMatch": "As senhas não coincidem",
+    "emailAlreadyExists": "Email já existe",
+    "registrationSuccess": "Registo efetuado com sucesso, por favor verifique o seu email",
+    "skillCreatedSuccess": "Competência criada com sucesso",
+    "interestCreatedSuccess": "Interesse criado com sucesso",
+    "skillAssociatedSuccess": "Competência associada com sucesso",
+    "interestAssociatedSuccess": "Interesse associado com sucesso",
+    "profileUpdated": "Perfil atualizado com sucesso",
+    "biographyUpdated": "Biografia atualizada com sucesso",
+    "projectCreated": "Projeto criado com sucesso",
+    "keywordAdded": "Palavra-chave adicionada com sucesso",
+    "keywordAlreadyAdded": "Palavra-chave já adicionada",
+    "descriptionUpdated": "Descrição atualizada com sucesso",
+    "keywordRemoved": "Palavra-chave removida com sucesso",
+    "skillAdded": "Competência adicionada com sucesso",
+    "skillRemoved": "Competência removida com sucesso",
+    "candidateApproved": "Candidato aprovado com sucesso",
+    "memberAdded": "Membro adicionado com sucesso",
+    "memberRoleUpdated": "Função do membro atualizada com sucesso",
+    "memberRemoved": "Membro removido com sucesso",
+    "activityAdded": "Atividade adicionada com sucesso"
+    
 
 }

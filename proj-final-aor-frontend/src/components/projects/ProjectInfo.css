@@ -141,6 +141,19 @@
     }
 }
 
+@media (max-width: 1240px) {
+    .info-container {
+        width: 90%;
+        padding: 10px 20px 0;
+        margin: 20px 0;
+        width: 95%;
+    }
+
+    .project-cards-container{
+        justify-content: center;
+    }
+}
+
 .body-no-scroll {
     overflow: hidden;
 }

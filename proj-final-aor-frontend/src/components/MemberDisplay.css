@@ -95,6 +95,14 @@
     margin-right: 8px;
 }
 
+.locked-icon-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px 0 2px;
+    margin-left: auto;
+}
+
 @media (max-width: 768px) {
     .select-member-type-container.show {
         max-width: 250px;

@@ -9,11 +9,13 @@ import { PiCaretCircleLeftFill } from "react-icons/pi";
 import { PiUserCircleMinusFill } from "react-icons/pi";
 import { PiUserSwitchFill } from "react-icons/pi";
 import { FiEdit3 } from "react-icons/fi";
+import { FaUserLock } from "react-icons/fa";
+
 
 import CustomModal from "./CustomModal";
 
 const MemberDisplay = (props) => {
-    const {id, photo, name, role, visitorIsProjectMember, isCandidate, isInsideProject, handleAddMember, handleApproveCandidate, handleRemoveMember, onMemberRoleChange} = props;
+    const {id, photo, name, role, isVisible, visitorIsProjectMember, isCandidate, isInsideProject, handleAddMember, handleApproveCandidate, handleRemoveMember, onMemberRoleChange, onClick} = props;
     const intl = useIntl();
 
     const [addColor, setAddColor] = useState('#2bd948');
@@ -46,6 +48,10 @@ const MemberDisplay = (props) => {
             setNewRole('COLLABORATOR');
         }
     }, [role]);
+
+    const handleClick = () => {
+        onClick(id, isVisible);
+    };
 
     const handleAddClick = () => {
         setShowHiddenContent(true);
@@ -115,7 +121,7 @@ const MemberDisplay = (props) => {
 
 
     return (
-        <div className={className}>
+        <div className={className} onClick={(e) => className === "inside-project-member-display" && handleClick(e)}>
             <div className="photo-container">
                 <img src={photo || defaultPhoto} alt="member" />
             </div>
@@ -123,6 +129,14 @@ const MemberDisplay = (props) => {
                 <h4>{name}</h4>
                 {role ? <p><FormattedMessage id={role} /></p> : null}
             </div>
+            {className === "inside-project-member-display" && !isVisible && (
+                <div className="locked-icon-container">
+                    <FaUserLock 
+                        fontSize='0.9em'
+                        title={intl.formatMessage({ id: 'private' })}
+                        color={iconEditColor}
+                    />
+                </div>)}
             {className === "inside-project-member-display" && role !== "CREATOR" && visitorIsProjectMember ? (
                 <>
                  {!showHiddenContent && (
