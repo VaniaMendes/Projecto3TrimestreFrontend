@@ -182,10 +182,12 @@
     "statistics": "Statistics",
 
     "appliedToProject": "Application sent successfully!",
+    "moreMembers": "+ {value} Members",
 
     "searchKeywords": "Search Keywords...",
     "searchProjects": "Search Projects...",
     "searchResource": "Search Resources...",
+    "searchAvailableUser": "Search Available Users...",
 
     "noMatchingSuppliers": "No matching suppliers, add new?",
     "newComponent": "New Component",

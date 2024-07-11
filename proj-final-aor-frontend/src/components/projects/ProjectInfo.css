@@ -10,7 +10,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     width: 48%;
-    height: 420px;
+    height: 400px;
     padding: 10px 30px 0;
     margin: 10px;
     border: solid 1px var(--light-grey2);
@@ -38,8 +38,7 @@
         font-size: 1.3em;
         font-weight: 600;
         color: var(--dark-grey);
-        padding-bottom: 2px;
-        border-bottom: solid 1px var(--light-grey);
+        padding-bottom: 0.5rem;
     }
 
     h4{
@@ -103,7 +102,7 @@
     .team-members-container{
         display: flex;
         flex-wrap: wrap;
-        justify-content: left;
+        justify-content: flex-start;
         width: 100%;
         padding: 10px 0;
     }
@@ -115,6 +114,18 @@
     justify-content: left;
     align-items: flex-end;
     height: 20px;
+}
+
+.more-members-info{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+    height: 30px;
+    padding-bottom: 5px;
+    font-size: 0.8em;
+    font-weight: 500;
+    
 }
 
 @media (max-width: 768px) {

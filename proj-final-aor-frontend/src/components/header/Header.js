@@ -62,11 +62,13 @@ const Header = (props) => {
       const fetchData = async () => {
         const response = await ProjectService.searchProjectsByName(searchInputProjectsName, 1, false, "desc");
         
-        const projectsInfo = response.map(project => ({
-          name: project.name,
-          id: project.id
-        }));
-        setProjectsNameData(projectsInfo);
+        if (response != null && response.length > 0) {
+          const projectsInfo = response.map(project => ({
+            name: project.name,
+            id: project.id
+          }));
+          setProjectsNameData(projectsInfo);
+        }
       };
       fetchData();
     }
@@ -250,6 +252,16 @@ const Header = (props) => {
                       onClick={handleHomeClick}
                     >
                       <AiFillHome className="icon" />
+                      {isMobile && (
+                        <>
+                          {showProjectsMenu ? (
+                            <MdArrowDropUp />
+                          ) : (
+                            <MdArrowDropDown />
+                          )}
+                        </>
+                      )}
+                      
                       <p className="icon-subtitle">
                         <FormattedMessage id="projects" />
                         {showProjectsMenu ? (
@@ -290,6 +302,15 @@ const Header = (props) => {
                       onClick={handleComponentsClick}
                     >
                       <BiSolidComponent className="icon" />
+                      {isMobile && (
+                        <>
+                          {showComponentsMenu ? (
+                            <MdArrowDropUp />
+                          ) : (
+                            <MdArrowDropDown />
+                          )}
+                        </>
+                      )}
                       <p className="icon-subtitle component-subtitle">
                         <FormattedMessage id="components" />
                         {showComponentsMenu ? (
@@ -334,8 +355,18 @@ const Header = (props) => {
                       <div className="photo-container">
                         <img src={photo || defaultPhoto} alt="Profile Pic" />{" "}
                       </div>
+                      {isMobile && (
+                        <>
+                          {showProfileMenu ? (
+                            <MdArrowDropUp />
+                          ) : (
+                            <MdArrowDropDown />
+                          )}
+                        </>
+                      )}
                       <p className="icon-subtitle">
                         <FormattedMessage id="profile" />
+                        
                         {showProfileMenu ? (
                           <MdArrowDropUp />
                         ) : (
