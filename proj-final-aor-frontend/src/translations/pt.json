@@ -99,6 +99,10 @@
     "planning": "Em Planeamento",
     "ready": "Pronto",
     "approved": "Aprovado",
+    "deadlineMustBeBeforeFinalDateProject": "A data de conclusão da tarefa deve ser anterior à data final do projeto",
+
+    "startDateMustBeBeforeFinalDateProject": "A data de início da tarefa deve ser anterior à data final do projeto",
+
 
     "cancelled": "Cancelado",
 

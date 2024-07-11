@@ -13,7 +13,11 @@ import TaskBoard from '../components/TaskBoard';
 import ProjectService from '../services/ProjectService';
 
 const ProjectPlan = () => {
+
+    //Get the token from the userStore
     const { token } = userStore();
+
+    //State variables
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { projectId } = useParams();
     const [availableTasks, setAvailableTasks] = useState([]);
@@ -22,15 +26,15 @@ const ProjectPlan = () => {
     const [viewMode, setViewMode] = useState('Week'); 
     const [showBoard, setShowBoard] = useState(false);
     const [showGantt, setShowGantt] = useState(true);
-    const [tasksOrdered, setTasksOrdered] = useState([]);
     const [isMobile, setIsMobile] = useState(false); 
     const [selectedMode, setSelectedMode] = useState('gantt'); 
-
     const [project, setProject] = useState("");
 
+    //Functions to close modal or show modal new task
     const closeModal = () => setIsModalOpen(false);
     const handleNewTask = () => setIsModalOpen(true);
 
+    //Fetch tasks when component mounts
     const fetchTasks = async () => {
         try {
             if (!token || !projectId) {
@@ -38,18 +42,20 @@ const ProjectPlan = () => {
                 return;
             }
 
+            //Get info about the project
             setProject(await ProjectService.getProjectInfo(token, projectId));
             
 
+            //If showGantt is true, fetch tasks ordered by date
             if (showGantt) {
                 const data = await getProjectTasksOrderByDate(token, projectId);
                 console.log(data);
-                setTasksOrdered(data);
+                setAvailableTasks(data);
        
             } else{
+                //if showBoard is true, fetch tasks ordered by priority
                 const data = await getProjectTasks(token, projectId);
                 setAvailableTasks(data);
-               
             
             }
             setIsPageLoaded(true);
@@ -58,11 +64,14 @@ const ProjectPlan = () => {
         }
     };
 
-    console.log(project);
+
+    //efect to mount the component
     useEffect(() => {
         fetchTasks();
     }, [projectId, token, showGantt, showBoard]);
 
+
+    //efect to received a task from websocket connection
     useEffect(() => {
         const WS_URL = "ws://localhost:8080/project_backend/websocket/task/";
         const websocket = new WebSocket(WS_URL + token);
@@ -73,28 +82,29 @@ const ProjectPlan = () => {
     
         websocket.onmessage = (event) => {
             const taskReceived = JSON.parse(event.data);
-            console.log("Task received: ", taskReceived);
+          
             taskReceived.startDate = formatDateFromArray(taskReceived.startDate)
             taskReceived.deadline = formatDateFromArray(taskReceived.deadline)
     
+            //If task was deleted , is removed from the list
             if(taskReceived.erased === true){
                 setAvailableTasks(prevTasks =>
                     prevTasks.filter(task => task.id!== taskReceived.id)
                 );
             }else{
-            // Atualiza a tarefa no estado
+         //If not verifica it was a new task or an update
             setAvailableTasks(prevTasks => {
-                // Verifica se a tarefa recebida deve ser adicionada ou atualizada
+                //
                 const index = prevTasks.findIndex(task => task.id === taskReceived.id);
                 if (index !== -1) {
-                    // Tarefa já existe, atualiza ela
+                   //If the task already exists, update it
                     return [
                         ...prevTasks.slice(0, index),
                         { ...prevTasks[index], ...taskReceived },
                         ...prevTasks.slice(index + 1)
                     ];
                 } else {
-                    // Tarefa é nova, adiciona ela
+                    // Otherwise, add the new task to the list
                     return [...prevTasks, taskReceived];
                 }
             });
@@ -116,13 +126,14 @@ const ProjectPlan = () => {
         };
     }, [token]);
 
+
+    //Efect for mobile device
     useEffect(() => {
         const handleResize = () => {
-            // Atualiza o estado de acordo com a largura da janela
-            setIsMobile(window.innerWidth < 768); // Define como móvel se a largura for menor que 768px
+            
+            setIsMobile(window.innerWidth < 768); 
         };
 
-        // Verifica o tamanho da janela inicialmente e adiciona um ouvinte de redimensionamento
         handleResize();
         window.addEventListener('resize', handleResize);
 
@@ -131,6 +142,7 @@ const ProjectPlan = () => {
         };
     }, []);
     
+    //Format date and time of task
     function formatDateFromArray(dateArray) {
         // Cria um objeto Date usando os valores do array
         const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
@@ -146,17 +158,20 @@ const ProjectPlan = () => {
         return `${day}/${month}/${year} ${hour}:${minute}`;
       }
 
+      //Show task list
     const showTasksList = () => {
         setShowList(!showList);
     }
     
 
+    //Handle to render the gantt component
     const handleChangeToGantt = () => {
         setSelectedMode('gantt');
         setShowBoard(false);
         setShowGantt(true);
     };
     
+    //Handle to render the board component
     const handleChangeToBoard = () => {
         setSelectedMode('board');
         setShowBoard(true);
@@ -181,7 +196,7 @@ const ProjectPlan = () => {
                     <div className="project-plan-exterior-container">
                         <div className="project-plan-chart">
                            
-                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={tasksOrdered} showList={showList} viewMode={viewMode} project={project} />}
+                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={availableTasks} showList={showList} viewMode={viewMode} project={project} />}
                     {showBoard && isPageLoaded&& <TaskBoard listTasks={availableTasks} />}
                         </div>
                         <TaskAdder handleNewTask={handleNewTask} />
@@ -199,7 +214,7 @@ const TaskAdder = ({ handleNewTask }) => {
 
     return (
         <div className="add-task" >
-            <GoPlusCircle className= "add-task-button" onClick={handleNewTask}/> <p>{intl.formatMessage({ id: "addTask" })}</p>
+            <GoPlusCircle className= "add-task-button" onClick={handleNewTask}/> <p className="add-new-task" onClick={handleNewTask}>{intl.formatMessage({ id: "addTask" })}</p>
         </div>
     );
 };

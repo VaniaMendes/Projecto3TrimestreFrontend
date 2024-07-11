@@ -8,6 +8,8 @@ function Task({
   handleEdit
 }) {
 
+
+  //Function to print the color in task according to task priority
   const getColorForPriority = (priority) => {
     if (priority === 10) {
       return "green";

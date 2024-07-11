@@ -4,15 +4,19 @@ import "gantt-task-react/dist/index.css";
 import { useIntl } from "react-intl";
 
 const GanttComponent = ({ availableTasks, showList, viewMode, project }) => {
+
+  //State variables
   const [tasksList, setTasksList] = useState(availableTasks);
   const intl = useIntl();
   
 
+  // Function to update tasks list when availableTasks changes
   useEffect(() => {
     setTasksList(availableTasks); // Update local tasks when availableTasks changes
 
   }, [availableTasks]);
 
+  // Mapping tasks to gantt-task-react format and filtering out invalid tasks
   let tasks = [];
   try {
     tasks = tasksList
