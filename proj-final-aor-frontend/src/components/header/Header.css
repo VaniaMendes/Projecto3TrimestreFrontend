@@ -42,7 +42,7 @@ TOP HEADER
             padding: 0 0.2em;
         }
         
-        .selected {
+        .selected-language {
             font-weight: bold;
         }
     }
@@ -89,7 +89,7 @@ BOTTOM HEADER
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
-    padding: 0.4rem 1rem 0;
+    padding: 0.4rem 1rem;
     color: #fffdfd;
    
     .header-left{
@@ -358,8 +358,6 @@ input:not(:placeholder-shown) + .label-description-settings{
 
 @media screen and (max-width: 768px) {
 
-    
-
     .bottom-header{
         padding: 0 0.5rem 0.7rem;
         align-items: center;
@@ -372,4 +370,9 @@ input:not(:placeholder-shown) + .label-description-settings{
             align-items: baseline;
         }
     }
+
+    .submenu {
+        transform: translateX(-25%); 
+    }
+
 }

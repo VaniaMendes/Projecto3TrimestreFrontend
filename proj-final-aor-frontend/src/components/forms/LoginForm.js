@@ -47,13 +47,13 @@ function LoginForm() {
       const result = await login(newUser);
       console.log(result);
       if (result === null) {
-        toast.error("Invalid email or password");
+        toast.error(intl.formatMessage({ id: "invalidEmailOrPassword" }));
       } else {
         updateToken(result);
         const data = await getUserInfo(result);
         console.log(data);
         if (data === null) {
-          toast.error("An error occurred while logging in");
+          toast.error(intl.formatMessage({ id: "errorOccurred" }));
         } else {
           updateUserId(data.id);
           updateName(data.firstName + " " + data.lastName);
@@ -65,7 +65,7 @@ function LoginForm() {
       }
     } catch (error) {
       console.error("Error occurred while logging in:", error);
-      toast.error("An error occurred while logging in");
+      toast.error(intl.formatMessage({ id: "errorOccurred" }));
     }
   };
 

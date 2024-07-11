@@ -33,7 +33,7 @@ const TopHeader = () => {
             <div className="language-select">
                 {["en", "pt"].map((language, index) => (
                     <React.Fragment key={language}>
-                        <span className={selectedLanguage === language ? "selected" : ""} onClick={() => handleClickLanguage(language)}>
+                        <span className={selectedLanguage === language ? "selected-language" : ""} onClick={() => handleClickLanguage(language)}>
                             {language.toUpperCase()}
                         </span>
                         {index !== ["en", "pt"].length - 1 && <span>|</span>}

@@ -123,14 +123,14 @@ const NewProject = () => {
         const response = await ProjectService.register(token, projectData);
         
         if (response) {
-            toast.success("Project created successfully");
+            toast.success(intl.formatMessage({ id: "projectCreated" }));
             navigate(`/home/${userId}?sort=desc`);
 
             setInputs({ name: '', description: '', lab: '', maxMembers: '', conclusionDate: null});
             setKeywords([]);
             setNeeds([]);
         } else {
-            toast.error("Error creating project");
+            toast.error(intl.formatMessage({ id: "occurredError" }));
         }
     }
 
@@ -375,9 +375,9 @@ const NewProject = () => {
         if (modalType === "keyword") {
             if (!keywords.includes(item)) {
                 setKeywords([...keywords, item]);
-                toast.success(`Keyword "${item}" added successfully`);
+                toast.success(intl.formatMessage({ id: "keywordAdded" }));
             } else {
-                toast.error(`Keyword "${item}" already added`);
+                toast.error(intl.formatMessage({ id: "keywordAlreadyAdded" }));
             }
         }
     };

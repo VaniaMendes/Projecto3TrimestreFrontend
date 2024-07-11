@@ -81,44 +81,44 @@ function AddNewSkill(props) {
     if (modalType === "skill") {
       // If modalType is skill
       if (!skill.name || !skill.type) {
-        toast.error("Please fill out both the skill name and type.");
+        toast.error(intl.formatMessage({ id: "fillAllFields" }));
         return;
       }
       try {
         //Create new skill
         const createdSkill = await createNewSkill(token, skill);
-        toast.success("Skill created successfully");
+        toast.success(intl.formatMessage({ id: "skillCreatedSuccess" }));
 
         setList([...list, createdSkill]); // Update skills list with new skill
         setSkill({ name: "", type: "" }); //Clear input fields
       } catch (error) {
-        toast.error(error.message || "An error occurred");
+        toast.error(error.message || intl.formatMessage({ id: "errorOccurred" }));
       }
     } else if (modalType === "interest") {
       //If modalType is interest
       if (!interest.name) {
-        toast.error("Please fill out the interest name.");
+        toast.error(intl.formatMessage({ id: "fillAllFields" }));
         return;
       }
       try {
         //Create new interest
         const response = await createNewInterest(token, interest);
         if (response === 200) {
-          toast.success("Interest created successfully");
+          toast.success(intl.formatMessage({ id: "interestCreatedSuccess" }));
           // Update the interests list locally
           setList([...list, interest]);
           // Reset the interest input fields
           setInterest({ name: "" });
         } else {
-          toast.error("Failed to create interest");
+          toast.error(intl.formatMessage({ id: "errorOccurred" }));
         }
       } catch (error) {
-        toast.error("An error occurred");
+        toast.error(intl.formatMessage({ id: "errorOccurred" }));
       }
     } else if (modalType === "keyword") {
       // If modalType is keyword
       if (!interest.name) {
-        toast.error("Please fill out the interest name.");
+        toast.error(intl.formatMessage({ id: "fillAllFields" }));
         return;
       }
       handleAdd(modalType, interest); // Call handleAdd function passed from props
@@ -135,9 +135,7 @@ function AddNewSkill(props) {
           //If modalType is a skill
           const response = await associateSkillToUser(token, userId, item.id);
           if (response === 200) {
-            toast.success("Skill associated successfully");
-          } else {
-            toast.error("You already have this skill associated");
+            toast.success(intl.formatMessage({ id: "skillAssociatedSuccess" }));
           }
         } else {
           // If modalType is interest
@@ -147,9 +145,9 @@ function AddNewSkill(props) {
             item.id
           );
           if (response === 200) {
-            toast.success("Interest associated successfully");
+            toast.success(intl.formatMessage({ id: "interestAssociatedSuccess" }));
           } else {
-            toast.error("You already have this interest associated");
+            toast.error(intl.formatMessage({ id: "errorOccurred" }));
           }
         }
       } catch (error) {

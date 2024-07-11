@@ -106,11 +106,11 @@ function Notifications() {
     const result = await markeAsRead(token, notificationId);
     if(result === 200) {
       fetchNotifications();
-      toast.success("Notificação marcada como lida com sucesso");
+      toast.success(intl.formatMessage({ id: "notificationMarkedAsRead" }));
 
       
     }else{
-      toast.warning("Falha ao marcar como lida");
+      toast.warning(intl.formatMessage({ id: "notificationMarkedAsReadError" }));
     }
   };
 
