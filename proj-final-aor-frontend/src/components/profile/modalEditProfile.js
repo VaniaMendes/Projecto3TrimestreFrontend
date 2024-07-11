@@ -41,21 +41,19 @@ const EditProfile = (props) => {
       if (result === 200) {
         updatePhoto(photoUrl);
 
-        toast.success("User updated successfully");
+        toast.success(intl.formatMessage({ id: "profileUpdated" }));
         onClose();
       } else {
-        toast.warning(
-          "This nickname already exists. Please choose another one."
-        );
+        toast.warning(intl.formatMessage({ id: "errorOccurred" }));
       }
     } else if (type === "biography") {
       // Update user biography
       const result = await updateBiography(userId, token, editUser);
       if (result === 200) {
-        toast.success("Biography updated successfully");
+        toast.success(intl.formatMessage({ id: "biographyUpdated" }));
         onClose();
       } else {
-        toast.warning("Something went wrong. Please try again.");
+        toast.warning(intl.formatMessage({ id: "errorOccurred" }));
       }
     }
   };

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { userStore } from "../../stores/UserStore";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { register } from "../../services/users";
@@ -59,19 +58,19 @@ function RegisterForm() {
 
     //validate email
     if (!validateEmail(user.email)) {
-      toast.warning("Invalid email.");
+      toast.warning(intl.formatMessage({ id: "invalidEmail" }));
       return;
     }
 
     //validate password
     if (!validatePassword(user.password)) {
-      toast.warning("Invalid password");
+      toast.warning(intl.formatMessage({ id: "invalidPassword" }));
       return;
     }
 
     //Check if password match
     if (user.password !== user.confirmPassword) {
-      toast.warning("Passwords do not match.");
+      toast.warning(intl.formatMessage({ id: "passwordsDoNotMatch" }));
       return;
     }
 
@@ -81,16 +80,14 @@ function RegisterForm() {
 
       //Handle registration result
       if (result === 400) {
-        toast.error("Invalid email or password");
+        toast.error(intl.formatMessage({ id: "emailAlreadyExists" }));
       } else {
-        toast.success(
-          "Successfully registered. Please verify your email account."
-        );
+        toast.success(intl.formatMessage({ id: "registrationSuccess" }));
         navigate("/login"); // Navigate to login page after successful registration
       }
     } catch (error) {
       console.error("Error occurred while registering:", error);
-      toast.error("An error occurred while registering");
+      toast.error(intl.formatMessage({ id: "errorOccurred" }));
     }
   };
 

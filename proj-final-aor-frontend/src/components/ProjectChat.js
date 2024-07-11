@@ -6,7 +6,6 @@ import {
   sendMessageToProject,
   getMessagesForProject,
 } from "../services/messages";
-import { toast } from "react-toastify";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import moment from "moment";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";

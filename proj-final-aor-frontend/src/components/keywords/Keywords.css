@@ -24,9 +24,10 @@
         }
 
         .search-keyword-input{
-            background-color: var(--light-grey);
             padding: 5px 10px;
             border: transparent;
+            border-bottom: 1px solid var(--main-red);
+            border-radius: 0;
             margin: 10px 0;
 
             &:focus{

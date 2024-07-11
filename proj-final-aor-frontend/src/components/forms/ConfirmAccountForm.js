@@ -108,7 +108,7 @@ const handleChangePhoto = (event) => {
         }
     } catch (error) {
         console.error("Erro ao confirmar usuário:", error);
-        toast.error("Erro ao confirmar usuário.");
+        toast.error(intl.formatMessage({ id: 'countConfirmError' }));
     }
 };
 
