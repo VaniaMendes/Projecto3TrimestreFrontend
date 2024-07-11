@@ -100,8 +100,10 @@
     }
     
     .profile-image {
-        width: 80px;
-        height: 80px;
+        position: absolute;
+
+        top:-12%;
+
     }
 }
 
@@ -384,5 +386,9 @@ textarea:not(:placeholder-shown) + .textarea-label-description.editProfile {
     margin-left: auto; 
   }
   .select-item-profile{
+    font-size: 12px;
+    width: 100px;
+    height: 20px;
+    padding: 0 10px;
     
   }

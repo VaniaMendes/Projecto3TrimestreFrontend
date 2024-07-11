@@ -97,14 +97,15 @@
     "read": "Read",
     "unread": "Unread",
     "status": "State",
-    "planning": "Planning",
-    "ready": "Ready",
-    "approved": "Aproved",
+   
     "deadlineMustBeBeforeStartDate": "The final date must be after the start date",
     "deadlineMustBeBeforeFinalDateProject": "The final date must be before the project end date",
     "startDateMustBeBeforeFinalDateProject": "The start date must be before the project end date",
-
+    "planning": "Planning",
+    "ready": "Ready",
+    "approved": "Approved",
     "cancelled": "Cancelled",
+
   
     "usersAvailable": "Users Available",
     "usersPending": "Users Pending",

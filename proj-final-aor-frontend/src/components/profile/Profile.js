@@ -182,10 +182,10 @@ function Profile() {
         default:
             messageId = "";
     }
-    return intl.formatMessage({ id: {messageId} });
+    return intl.formatMessage({ id: messageId });
 }
 
-
+console.log(projects)
   return (
    
       <div className="profile-container">
@@ -347,6 +347,7 @@ function Profile() {
 const FilterOptions = ({setOrder}) => {
 //State variables
   const [openMenu, setOpenMenu] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("newest");
   //Method to toggle the menu open or closed
   const handleToggleMenu = () => {
     setOpenMenu(!openMenu);
@@ -354,8 +355,10 @@ const FilterOptions = ({setOrder}) => {
 
   //Method to handle the change in the sort option
   const handleSortChange = (event) => {
-    setOrder(event.target.value);
-    setOpenMenu(false); // Fechar o menu após selecionar uma opção
+    const selectedValue = event.target.value;
+    setOrder(selectedValue);
+    setOpenMenu(false); 
+    setSelectedOption(selectedValue);
   };
 
   return (
@@ -369,15 +372,15 @@ const FilterOptions = ({setOrder}) => {
     <div className={`select-container-profile ${openMenu ? 'show' : ''}`}>
     {/* Sort by radio buttons */}
     <div className="radio-wrapper">
-        <input className="radio-input" type="radio" id="newest" name="sort" value="newest"  onChange={handleSortChange} />
+        <input className="radio-input" type="radio" id="newest" name="sort" value="newest"   checked={selectedOption === "newest"} onChange={handleSortChange} />
         <label className="radio-label" htmlFor="newest"><FormattedMessage id="newest" /></label>
     </div>
     <div className="radio-wrapper">
-        <input className="radio-input" type="radio" id="oldest" name="sort" value="oldest"   onChange={handleSortChange}/>
+        <input className="radio-input" type="radio" id="oldest" name="sort" value="oldest"  checked={selectedOption === "oldest"}  onChange={handleSortChange}/>
         <label className="radio-label" htmlFor="oldest"><FormattedMessage id="oldest" /></label>
     </div>
     <div className="radio-wrapper">
-        <input className="radio-input" type="radio" id="vacanciesLow" name="sort" value="state"  onChange={handleSortChange} />
+        <input className="radio-input" type="radio" id="vacanciesLow" name="sort" value="state"  checked={selectedOption === "state"}  onChange={handleSortChange} />
         <label className="radio-label" htmlFor="vacanciesLow"><FormattedMessage id="state" /></label>
     </div>
    
