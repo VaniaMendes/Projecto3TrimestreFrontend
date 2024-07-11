@@ -182,7 +182,7 @@ function Profile() {
         default:
             messageId = "";
     }
-    return intl.formatMessage({ id: messageId });
+    return intl.formatMessage({ id: {messageId} });
 }
 
 
