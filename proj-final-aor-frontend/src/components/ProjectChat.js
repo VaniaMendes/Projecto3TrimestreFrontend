@@ -12,51 +12,61 @@ import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 
 function ProjectChat(props) {
+  //Destructure the props object
   const { projectId } = props;
 
+  //Get the token and userId from the userStore
   const token = userStore((state) => state.token);
   const userId = userStore((state) => state.userId);
+
+  //State variables
   const [message, setMessage] = useState({});
   const [messagesList, setMessagesList] = useState([]);
   const endOfPageRef = useRef(null);
-
+  const [showMessages, setShowMessages] = useState(false);
   const intl = useIntl();
 
-  // Estado para controlar a visibilidade das mensagens
-  const [showMessages, setShowMessages] = useState(false);
+ 
 
+  //Fecth messages to end of page
   const scrollToBottom = () => {
     endOfPageRef.current?.scrollIntoView({ behavior: "auto" });
   };
 
-  // Função para alternar a visibilidade
+//Function to show messages in mobile
   const toggleMessages = () => {
     setShowMessages(!showMessages);
     fetchMessages();
 
   };
 
+  //Fetch messages when component mounts
   const fetchMessages = async () => {
     const result = await getMessagesForProject(token, projectId);
     setMessagesList(result);
     scrollToBottom();
   };
 
+  //Handle change in input fields to send a new message
   const handleInputChange = (e) => {
     setMessage({ ...message, content: e.target.value });
   };
 
+
+  //Handle sending a new message
   const handleSendMessage = async () => {
     const result = await sendMessageToProject(token, message, projectId);
     if (result === 200) {
     
-      // Adicionar a nova mensagem à lista de mensagens
+      // Add the new message to messages list
 
       setMessage({ ...message, content: "" });
       scrollToBottom(); 
     }
   };
 
+
+  //UseEffect to control the scroll in the principal page
   useEffect(() => {
     if (showMessages) {
         document.body.classList.add('body-no-scroll');
@@ -64,12 +74,14 @@ function ProjectChat(props) {
         document.body.classList.remove('body-no-scroll');
     }
 
-    // Limpeza ao desmontar
+    // clean
     return () => {
         document.body.classList.remove('body-no-scroll');
     };
 }, [showMessages]);
 
+
+//UseEffect to send a message or received from the websocket connection
   useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/message/";
     const websocket = new WebSocket(WS_URL + token);
@@ -117,7 +129,9 @@ function ProjectChat(props) {
     };
   }, [token, messagesList, projectId]);
 
- // Efeito para rolar para o final quando showMessages muda
+
+
+ // Efect to open the component with scroll in bottom
 useEffect(() => {
   if (showMessages) {
     scrollToBottom();
@@ -126,12 +140,14 @@ useEffect(() => {
     document.body.classList.remove('body-no-scroll');
   }
 
-  // Limpeza ao desmontar
+  // Clean
   return () => {
     document.body.classList.remove('body-no-scroll');
   };
 }, [showMessages, messagesList]);
   
+
+//Format time of message
   const formatTimestamp = (timestamp) => {
     const now = moment();
     const messageTime = moment(timestamp);
@@ -143,6 +159,7 @@ useEffect(() => {
     }
   };
 
+  //Check if the message is from the current user
   const isSender = (senderId) => {
     if (senderId && senderId === userId) {
       return true;

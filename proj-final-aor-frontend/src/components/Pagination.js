@@ -2,6 +2,8 @@ import React from 'react';
 import './Notifications.css'; 
 import { useIntl } from 'react-intl';
 
+/** Component to show de pagination in the notifications page */
+
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   const intl = useIntl();

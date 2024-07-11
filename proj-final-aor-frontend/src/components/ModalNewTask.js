@@ -3,20 +3,26 @@ import { userStore } from "../stores/UserStore";
 import { useIntl } from "react-intl";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import "./ModalNewTask.css";
-import { createTask, getTaskInfo, getListTasks, updateTask } from "../services/TaskService";
-import ProjectService  from "../services/ProjectService";
+import {
+  createTask,
+  getTaskInfo,
+  getListTasks,
+  updateTask,
+} from "../services/TaskService";
+import ProjectService from "../services/ProjectService";
 import { useParams } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 function NewTask(props) {
+  //Destructue the props values
   const { onClose, editTask, taskId } = props;
+  //Get the token from the userStore
   const { token } = userStore();
   const { projectId } = useParams();
   const intl = useIntl();
+
+  //State variables
   const [project, setProject] = useState({});
- 
-
-
   const [showDependencies, setShowDependencies] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -28,10 +34,9 @@ function NewTask(props) {
   const [availableTasks, setAvailableTasks] = useState([]);
   const [priorityColor, setPriorityColor] = useState("");
   const [dependencies, setDependencies] = useState([]);
-
-
   const [executor, setExecutor] = useState("");
   const [projectUsers, setProjectUsers] = useState([]);
+  const [finalDateProject, setFinalDateProject] = useState("");
 
   const task = {
     title,
@@ -40,34 +45,36 @@ function NewTask(props) {
     deadline: deadline + "T23:59:59",
     startDate: startDate + "T00:00:00",
     priorityId: parseInt(priorityId),
-    owner: { id: parseInt(executor) } 
-     
+    owner: { id: parseInt(executor) },
   };
 
-  console.log(projectUsers)
+  //Fetch the list of tasks and the project info when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
+
+        //Get list of tasks of the project
         const data = await getListTasks(token, projectId);
         setAvailableTasks(data);
 
-             
-        //Get info about the project
-        const projectInfo = await ProjectService.getProjectInfo(token, projectId);
+        //Get info about the project to know about the conclusion date
+        const projectInfo = await ProjectService.getProjectInfo(
+          token,
+          projectId
+        );
         setProject(projectInfo);
-        console.log(projectInfo)
+        setFinalDateProject(projectInfo.conclusionDate);
+        
 
-          // Extract users from projectInfo
-          if (projectInfo && projectInfo.usersInfo) {
-            setProjectUsers(projectInfo.usersInfo);
-          }
-      
+        // Extract users from projectInfo
+        if (projectInfo && projectInfo.usersInfo) {
+          setProjectUsers(projectInfo.usersInfo);
+        }
 
-    
+        // If task is being edited, fetch the task info and populate the form fields
         if (editTask && taskId) {
           const taskToEdit = await getTaskInfo(token, projectId, taskId);
-          
-         console.log(taskToEdit)
+
           setTitle(taskToEdit.title);
           setDescription(taskToEdit.description);
           setAdicionalExecutors(taskToEdit.additionalExecutors);
@@ -78,10 +85,9 @@ function NewTask(props) {
           setDependencies(taskToEdit.dependencies);
           setExecutor(taskToEdit.owner.id.toString());
 
-
           // Map dependencies to IDs for the checkbox list
-        const dependencyIds = taskToEdit.dependencies.map(dep => dep.id);
-        setTasksIdList(dependencyIds);
+          const dependencyIds = taskToEdit.dependencies.map((dep) => dep.id);
+          setTasksIdList(dependencyIds);
         }
       } catch (error) {
         console.error("Error fetching tasks: ", error);
@@ -90,71 +96,95 @@ function NewTask(props) {
     fetchData();
   }, [token, projectId, editTask, taskId]);
 
-  
+  //Function to handle the new tasks
   const handleNewTask = async () => {
-  
-    if(editTask && taskId){
-      const result = await updateTask(token, projectId,taskId, task, tasksIdList);
-      if(result === 200){
-        toast.success(intl.formatMessage({ id: 'taskUpdatedSuccefuly' }));
+
+    //Validate the inputs of data time
+    if (startDate > deadline) {
+      toast.error(intl.formatMessage({ id: "deadlineMustBeBeforeStartDate" }));
+      return;
+    }
+    if (deadline > finalDateProject) {
+      toast.error(
+        intl.formatMessage({ id: "deadlineMustBeBeforeFinalDateProject" })
+      );
+      return;
+    }
+
+    if (startDate > finalDateProject) {
+      toast.error(
+        intl.formatMessage({ id: "startDateMustBeBeforeFinalDateProject" })
+      );
+      return;
+    }
+
+    //If task is being edited, update the task, otherwise, create a new one
+    if (editTask && taskId) {
+      const result = await updateTask(
+        token,
+        projectId,
+        taskId,
+        task,
+        tasksIdList
+      );
+      if (result === 200) {
+        toast.success(intl.formatMessage({ id: "taskUpdatedSuccefuly" }));
         onClose();
       }
-
-    }else{
-    const result = await createTask(token, projectId, task, tasksIdList);
-    if (result === 200) {
-      toast.success(intl.formatMessage({ id: 'taskCreatedSuccefuly' }));
-      onClose();
     } else {
-      console.error("Error creating new task");
+      // Create a new task
+      const result = await createTask(token, projectId, task, tasksIdList);
+      if (result === 200) {
+        toast.success(intl.formatMessage({ id: "taskCreatedSuccefuly" }));
+        onClose();
+      } else {
+        console.error("Error creating new task");
+      }
     }
-  }
-  
-}
+  };
 
+  //Handle with the priority change
   const handlePriorityChange = (event) => {
     setPriorityColor(event.target.value);
     setPriorityId(parseInt(event.target.value));
   };
 
-  
-
+  //Close the modal for dependencies
   const handleCloseDependencies = () => {
     setShowDependencies(false);
-   
   };
 
+  // Handle with the add dependencies
   const handleAddDependencies = () => {
     setShowDependencies(true);
     if (editTask) {
-      setTasksIdList(dependencies.map(dep => dep.id));
+      setTasksIdList(dependencies.map((dep) => dep.id));
     } else {
       setTasksIdList([]);
     }
   };
-  
 
- // Obtenha a data de hoje no formato YYYY-MM-DD
- const today = new Date().toISOString().split('T')[0];
+  // Get the date in format YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
 
-// onChange handler for the executor select
-const handleExecutorChange = (event) => {
-  console.log(event.target.value); // Deve registrar o ID do usuário selecionado
-  setExecutor(event.target.value); // Define o estado executor com o ID do usuário selecionado
-};
-
-
-
+  // onChange handler for the executor select
+  const handleExecutorChange = (event) => {
+    setExecutor(event.target.value); 
+  };
 
   return (
     <div className="new-task-external-container">
-      <div className={`new-task-container ${showDependencies ? 'shift-left' : ''}`}>
+      <div
+        className={`new-task-container ${showDependencies ? "shift-left" : ""}`}
+      >
         <div className="modal-close-task" onClick={onClose}>
           <IoIosCloseCircleOutline />
         </div>
 
         <h2 className="task_creationTitle">
-          {editTask ? intl.formatMessage({ id: "taskEdition" }) : intl.formatMessage({ id: "addTask" })}
+          {editTask
+            ? intl.formatMessage({ id: "taskEdition" })
+            : intl.formatMessage({ id: "addTask" })}
         </h2>
 
         <div className="input-container">
@@ -177,25 +207,28 @@ const handleExecutorChange = (event) => {
             placeholder={intl.formatMessage({ id: "description" })}
             value={description}
             onChange={(event) => setDescription(event.target.value)}
-            style={{ resize: 'none' }}
+            style={{ resize: "none" }}
           ></textarea>
           <label htmlFor="description-task" className="label-description-task">
             {intl.formatMessage({ id: "description" })}
           </label>
         </div>
 
-
         <div className="input-container">
-          <select className = "select-task"
+          <select
+            className="select-task"
             value={executor}
             onChange={handleExecutorChange}
           >
-           <option value="">{intl.formatMessage({ id: "selectExecutor" })}</option>
-          {projectUsers && projectUsers.map(user => (
-            <option key={user.userId} value={user.userId} > 
-              {user.firstName} {user.lastName}
+            <option value="">
+              {intl.formatMessage({ id: "selectExecutor" })}
             </option>
-            ))}
+            {projectUsers &&
+              projectUsers.map((user) => (
+                <option key={user.userId} value={user.userId}>
+                  {user.firstName} {user.lastName}
+                </option>
+              ))}
           </select>
           <label htmlFor="executor-select" className="label-description-task">
             {intl.formatMessage({ id: "executor" })}
@@ -209,7 +242,7 @@ const handleExecutorChange = (event) => {
             placeholder={intl.formatMessage({ id: "executors" })}
             value={additionalExecutors}
             onChange={(event) => setAdicionalExecutors(event.target.value)}
-            style={{ resize: 'none' }}
+            style={{ resize: "none" }}
           ></textarea>
           <label htmlFor="description-task" className="label-description-task">
             {intl.formatMessage({ id: "executors" })}
@@ -217,7 +250,9 @@ const handleExecutorChange = (event) => {
         </div>
 
         <div className="dependencies" onClick={handleAddDependencies}>
-          {!editTask ? intl.formatMessage({ id: "addDependys" }) : intl.formatMessage({ id: "editDependys" })}
+          {!editTask
+            ? intl.formatMessage({ id: "addDependys" })
+            : intl.formatMessage({ id: "editDependys" })}
         </div>
 
         <div id="date_section" className="descriptionLabelTask">
@@ -305,7 +340,9 @@ const handleExecutorChange = (event) => {
 
         <div className="buttons">
           <button className="btns_task" id="task_save" onClick={handleNewTask}>
-            {editTask ? intl.formatMessage({ id: "update" }) : intl.formatMessage({ id: "save" })}
+            {editTask
+              ? intl.formatMessage({ id: "update" })
+              : intl.formatMessage({ id: "save" })}
           </button>
           <button className="btns_task" id="task_cancel" onClick={onClose}>
             {intl.formatMessage({ id: "back" })}
@@ -317,40 +354,50 @@ const handleExecutorChange = (event) => {
 
       {showDependencies && (
         <div className="dependencies_modal">
-          <div className="modal-close-dependencies" onClick={handleCloseDependencies}>
+          <div
+            className="modal-close-dependencies"
+            onClick={handleCloseDependencies}
+          >
             <IoIosCloseCircleOutline />
           </div>
-          <h2 className="label-description-task">{intl.formatMessage({ id: "addDependys" })}</h2>
+          <h2 className="label-description-task">
+            {intl.formatMessage({ id: "addDependys" })}
+          </h2>
           <div className="dependencies_list">
-          {availableTasks && availableTasks.map((task) => (
-  <div key={task.id} className="task_item">
-    <div className="checkbox">
-      <input
-        type="checkbox"
-        id={task.id}
-        value={task.id}
-        checked={tasksIdList.includes(task.id)}
-        onChange={(event) => {
-          const newPrerequisiteTasks = [...tasksIdList];
-          if (event.target.checked) {
-            newPrerequisiteTasks.push(task.id);
-          } else {
-            const index = newPrerequisiteTasks.indexOf(task.id);
-            if (index !== -1) {
-              newPrerequisiteTasks.splice(index, 1);
-            }
-          }
-          setTasksIdList(newPrerequisiteTasks);
-        }}
-      />
-    </div>
-    <div className="task-title">
-      <label htmlFor={task.id}>{task.title}</label>
-    </div>
-  </div>
-))}
+            {availableTasks &&
+              availableTasks.map((task) => (
+                <div key={task.id} className="task_item">
+                  <div className="checkbox">
+                    <input
+                      type="checkbox"
+                      id={task.id}
+                      value={task.id}
+                      checked={tasksIdList.includes(task.id)}
+                      onChange={(event) => {
+                        const newPrerequisiteTasks = [...tasksIdList];
+                        if (event.target.checked) {
+                          newPrerequisiteTasks.push(task.id);
+                        } else {
+                          const index = newPrerequisiteTasks.indexOf(task.id);
+                          if (index !== -1) {
+                            newPrerequisiteTasks.splice(index, 1);
+                          }
+                        }
+                        setTasksIdList(newPrerequisiteTasks);
+                      }}
+                    />
+                  </div>
+                  <div className="task-title">
+                    <label htmlFor={task.id}>{task.title}</label>
+                  </div>
+                </div>
+              ))}
 
-            <button className="btns_task" id="task_save" onClick={handleCloseDependencies}>
+            <button
+              className="btns_task"
+              id="task_save"
+              onClick={handleCloseDependencies}
+            >
               {intl.formatMessage({ id: "save" })}
             </button>
           </div>

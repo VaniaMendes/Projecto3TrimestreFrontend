@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/project_backend/rest/settings";
+const url = "https://localhost:8443/project_backend/rest/settings";
 
 export async function updateSettingsSystem(token, settings){
     try{

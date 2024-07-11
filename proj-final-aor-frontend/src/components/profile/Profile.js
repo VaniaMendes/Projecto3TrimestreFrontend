@@ -23,8 +23,10 @@ import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 
 function Profile() {
 
+  //Get the token and the userId from the store
   const token = userStore((state) => state.token);
   const userLoggedID = userStore((state) => state.userId);
+  // Get userId from URL params
   const { userId } = useParams();
   
 
@@ -51,34 +53,42 @@ function Profile() {
   const [isOwner, setIsOwner] = useState(false);
 
 
+  // Fetch user data when component mounts or dependencies change
   useEffect(() => {
     async function fetchUser() {
+      //Verify if is the users logged to view the page
+      //If it is not the user logger, were gonna fetch the user data
       setIsOwner(userId === userLoggedID);
       const effectiveUserId = isOwner ? userLoggedID : userId;
 
+      //Info about the user
       const data = await getUserById(token, effectiveUserId);
       setUser(data);
 
+      //Skills and interests of the user
       const skillsData = await getUserSkills(token, effectiveUserId);
       setSkills(skillsData);
 
       const interestsData = await getUserInterests(token, effectiveUserId);
       setInterests(interestsData);
 
+      //Projects of the user
       const projectsData = await ProjectService.getUserProjects(token, effectiveUserId, order);
-   console.log(projectsData)
+   
       setProjects(projectsData);
 
 
     }
     fetchUser();
-  }, [token, userId, isModalOpen, openEditModal, order]);
+  }, [token, userId, isModalOpen, openEditModal, order]); //dependencies for the useEffect
 
 
+  //Handle removing an interest from user
   const handleRemoveInterestFromUser = async (userId, interestId) => {
     const result = await softDeleteInterestUser(token, userId, interestId);
     if (result === 200) {
       toast.success(intl.formatMessage({ id: "profile1" }));
+      //If it was successful, remove the interest from the list
       setInterests((prevInterests) =>
         prevInterests.filter((interest) => interest.id!== interestId)
       );
@@ -89,40 +99,50 @@ function Profile() {
     }
   };
 
+  //Handle removing a skill from user
   const handleRemoveSkillFromUser = async (userId, skillId) => {
     const result = await softDeleteSkillUser(token, userId, skillId);
     if (result === 200) {
       toast.success(intl.formatMessage({ id: "profile3" }));
+      //If it was successful, remove the skill from the list
       setSkills((prevSkills) => prevSkills.filter((skill) => skill.id !== skillId));
     } else {
       toast.error(intl.formatMessage({ id: "profile4" }));
     }
   };
+
+  //Handle open modal skill
   const handleOpenModalSkill = () => {
     setIsModalOpen(true);
     setModalType("skill");
   };
 
+  //Handle open modal interest
   const handleOpenModalInterest = () => {
     setIsModalOpen(true);
     setModalType("interest");
   };
 
+  //Handle close modal
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditModal(false);
   };
 
+  //Handle edit modal for user info
   const handleEditModal = () => {
     setEditModal(true);
     setModalType("biography");
   };
+
+  //Handle edit modal for user profile
   const handleEditModalProfile = () => {
     setEditModal(true);
     setModalType("profile");
   };
 
 
+  //Handle change visibility
   const onChangeVisibility = async () => {
  
     try {
@@ -137,7 +157,7 @@ function Profile() {
     }
   }
 
-
+//Method to convert the status of projects into a string
   const getStateDescription = (stateCode) => {
     let messageId;
     switch (stateCode) {
@@ -162,10 +182,10 @@ function Profile() {
         default:
             messageId = "";
     }
-    return intl.formatMessage({ id: {messageId} });
+    return intl.formatMessage({ id: messageId });
 }
 
-
+console.log(projects)
   return (
    
       <div className="profile-container">
@@ -322,16 +342,23 @@ function Profile() {
   );
 }
 
-const FilterOptions = ({setOrder}) => {
 
+//Component to show the filter options for projects user
+const FilterOptions = ({setOrder}) => {
+//State variables
   const [openMenu, setOpenMenu] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("newest");
+  //Method to toggle the menu open or closed
   const handleToggleMenu = () => {
     setOpenMenu(!openMenu);
   } 
 
+  //Method to handle the change in the sort option
   const handleSortChange = (event) => {
-    setOrder(event.target.value);
-    setOpenMenu(false); // Fechar o menu após selecionar uma opção
+    const selectedValue = event.target.value;
+    setOrder(selectedValue);
+    setOpenMenu(false); 
+    setSelectedOption(selectedValue);
   };
 
   return (
@@ -345,15 +372,15 @@ const FilterOptions = ({setOrder}) => {
     <div className={`select-container-profile ${openMenu ? 'show' : ''}`}>
     {/* Sort by radio buttons */}
     <div className="radio-wrapper">
-        <input className="radio-input" type="radio" id="newest" name="sort" value="newest"  onChange={handleSortChange} />
+        <input className="radio-input" type="radio" id="newest" name="sort" value="newest"   checked={selectedOption === "newest"} onChange={handleSortChange} />
         <label className="radio-label" htmlFor="newest"><FormattedMessage id="newest" /></label>
     </div>
     <div className="radio-wrapper">
-        <input className="radio-input" type="radio" id="oldest" name="sort" value="oldest"   onChange={handleSortChange}/>
+        <input className="radio-input" type="radio" id="oldest" name="sort" value="oldest"  checked={selectedOption === "oldest"}  onChange={handleSortChange}/>
         <label className="radio-label" htmlFor="oldest"><FormattedMessage id="oldest" /></label>
     </div>
     <div className="radio-wrapper">
-        <input className="radio-input" type="radio" id="vacanciesLow" name="sort" value="state"  onChange={handleSortChange} />
+        <input className="radio-input" type="radio" id="vacanciesLow" name="sort" value="state"  checked={selectedOption === "state"}  onChange={handleSortChange} />
         <label className="radio-label" htmlFor="vacanciesLow"><FormattedMessage id="state" /></label>
     </div>
    

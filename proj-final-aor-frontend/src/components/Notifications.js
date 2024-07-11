@@ -19,24 +19,33 @@ function Notifications() {
 
   const intl = useIntl();
 
+  //State variables
   const [notifications, setNotifications] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+
+  //Get the notifications from the notification store
   const { clearNotifications } = notificationStore();
 
   const navigate = useNavigate();
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  
+
+  //Get token e userId from the userStore
   const token = userStore((state) => state.token);
   const userId = userStore((state) => state.userId);
 
+
+  //Fetch the notifications from the backende
   async function fetchNotifications() {
     try {
       const response = await getUserNotifications(token, userId, currentPage);
       setNotifications(response);
+      //Fetch the total number of pages
       const notificationPage = await totalPagesNotifications(token, userId);
       setTotalPages(notificationPage);
       clearNotifications();
+      //Mark the notification as open
       await markAsOpen(token);
      
     } catch (error) {
@@ -45,10 +54,11 @@ function Notifications() {
 
     useEffect(() => {
     fetchNotifications(currentPage);
-
     
   }, [currentPage, token, userId]);
   
+
+  //Receveid the notification from the websocket
   useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/notifier/";
     const ws = new WebSocket(WS_URL + token);
@@ -56,7 +66,7 @@ function Notifications() {
     ws.onmessage = (event) => {
       const newNotification = JSON.parse(event.data);
       newNotification.sendTimestamp = formatDateFromArray(newNotification.sendTimestamp);
-      
+      //If the notification is already in the list, remove it and add it again to begin the notifications
        if(newNotification.type === "MESSAGE_RECEIVED" || newNotification.type === "MESSAGE_PROJECT"){
          setNotifications(prevList => {
           const filteredList = prevList.filter(notification => notification.sender.id !== newNotification.sender.id);
@@ -73,6 +83,8 @@ function Notifications() {
   }, [token]);
 
   
+
+  //Format the date and time
   function formatDateFromArray(dateArray) {
     // Cria um objeto Date usando os valores do array
     const date = new Date(dateArray[0], dateArray[1] - 1, dateArray[2], dateArray[3], dateArray[4]);
@@ -89,6 +101,7 @@ function Notifications() {
   }
 
 
+  //Mark the notification as read
   const markAsRead = async (notificationId) => {
     const result = await markeAsRead(token, notificationId);
     if(result === 200) {
@@ -101,14 +114,25 @@ function Notifications() {
     }
   };
 
+
+  //Function do handle wtih a click in the notification
   const handleNotificationClick = (notification) => {
+    if(!notification.readStatus){
     markAsRead(notification.id);
     if (notification.type === "MESSAGE_RECEIVED") {
       clearNotifications();
       navigate(`/messages/${notification.sender.id}`);
-    } else if (notification.type === "MESSAGE_PROJECT" || notification.type === "NEW_PROJECT") {
+    } else {
       navigate(`/project/${notification.relatedIDEntity}`);
     }
+    }else{
+    if (notification.type === "MESSAGE_RECEIVED") {
+      clearNotifications();
+      navigate(`/messages/${notification.sender.id}`);
+    } else {
+      navigate(`/project/${notification.relatedIDEntity}`);
+    }
+  }
   };
 
   
