@@ -10,6 +10,7 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import moment from "moment";
 import { MdOutlineKeyboardArrowUp } from "react-icons/md";
 import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
+import logoUser from "./assets/profile_pic_default.png";
 
 function ProjectChat(props) {
   //Destructure the props object
@@ -204,7 +205,7 @@ useEffect(() => {
                     }`}
                   >
                     <img
-                      src={msg.sender.photo}
+                      src={msg.sender.photo ? msg.sender.photo : logoUser}
                       alt="Sender"
                       className="photo-message"
                     />

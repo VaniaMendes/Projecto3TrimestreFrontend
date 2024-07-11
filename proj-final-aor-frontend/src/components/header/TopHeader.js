@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {userStore} from "../../stores/UserStore";
 import {FormattedMessage } from "react-intl";
 
+
 const TopHeader = () => {
     const {locale, updateLocale} = userStore();
     const [time, setTime] = useState(new Date());

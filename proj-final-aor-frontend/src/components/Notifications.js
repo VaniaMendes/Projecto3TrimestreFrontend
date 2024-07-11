@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Notifications.css";
 import "../services/notifications";
-import { getUserNotifications, markeAsRead, totalPagesNotifications, markAsOpen } from "../services/notifications";
+import { getUserNotifications, markeAsRead, totalPagesNotifications, getUnreadNotifications } from "../services/notifications";
 import { userStore } from "../stores/UserStore";
 import NotificationItem from "./NotificationItem";
 import { useIntl } from "react-intl";
@@ -23,32 +23,34 @@ function Notifications() {
   const [notifications, setNotifications] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
 
   //Get the notifications from the notification store
-  const { clearNotifications } = notificationStore();
+  const { clearNotifications, updateNotifications } = notificationStore();
 
   const navigate = useNavigate();
 
 
   //Get token e userId from the userStore
-  const token = userStore((state) => state.token);
-  const userId = userStore((state) => state.userId);
+const {token, userId} = userStore();
 
 
   //Fetch the notifications from the backende
   async function fetchNotifications() {
+    if (isLoading) return;
+    setIsLoading(true);
     try {
       const response = await getUserNotifications(token, userId, currentPage);
       setNotifications(response);
+
       //Fetch the total number of pages
       const notificationPage = await totalPagesNotifications(token, userId);
       setTotalPages(notificationPage);
-      clearNotifications();
-      //Mark the notification as open
-      await markAsOpen(token);
-     
+   
     } catch (error) {
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -106,6 +108,8 @@ function Notifications() {
     const result = await markeAsRead(token, notificationId);
     if(result === 200) {
       fetchNotifications();
+      const result = await getUnreadNotifications(token);
+      updateNotifications(result);
       toast.success(intl.formatMessage({ id: "notificationMarkedAsRead" }));
 
       
@@ -120,14 +124,14 @@ function Notifications() {
     if(!notification.readStatus){
     markAsRead(notification.id);
     if (notification.type === "MESSAGE_RECEIVED") {
-      clearNotifications();
+      
       navigate(`/messages/${notification.sender.id}`);
     } else {
       navigate(`/project/${notification.relatedIDEntity}`);
     }
     }else{
     if (notification.type === "MESSAGE_RECEIVED") {
-      clearNotifications();
+      
       navigate(`/messages/${notification.sender.id}`);
     } else {
       navigate(`/project/${notification.relatedIDEntity}`);

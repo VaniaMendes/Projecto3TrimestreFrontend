@@ -57,7 +57,7 @@ export async function markeAsRead(token, notificationId){
 
 }
 
-export async function markAsOpen(token){
+export async function markNotificationsAsOpen(token){
     try{
 
         const response = await fetch(url + '/markAllAsOpen',  {
@@ -74,7 +74,10 @@ export async function markAsOpen(token){
             return 200;
         }
         else{
-            return 400;
+             // Print the response to understand the error message
+             const errorData = await response.json();
+             console.error('Error response:', errorData);
+             return 400;
         }
 
     }catch(error){
@@ -126,6 +129,7 @@ export async function getNumberOfUnOPenNotification(token){
 
         if(response.ok){
             const data = await response.json();
+            console.log("numero de notificaçoes unopen: " + data)
             return data;
         }
         else{
