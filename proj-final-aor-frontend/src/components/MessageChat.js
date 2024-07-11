@@ -54,10 +54,7 @@ const MessageChat = (props) => {
           sender: { id: userId },
         });
 
-        //When the component is mounted, we set the current page to 0 and the number of pages to 0
-        setCurrentPage(0);
-        setPages(0);
-
+       
         //Fetch the messages from the backend for the current page and receiver id
         const response = await getMessages(token, receiverId, currentPage);
         setMessages(response);
@@ -71,7 +68,7 @@ const MessageChat = (props) => {
           token,
           receiverId
         );
-        
+        console.log(numberOfPages);
         setPages(numberOfPages - 1);
         setShowButton(numberOfPages > 1);
 
@@ -85,9 +82,10 @@ const MessageChat = (props) => {
       } catch (error) {}
     };
     fetchMessages();
-  }, [token, receiverId, userId, currentPage]);
+  }, [token, receiverId, userId]);
 
 
+  console.log(currentPage);
   //UseEffect to get the connection with the websocket
   useEffect(() => {
     const WS_URL = "ws://localhost:8080/project_backend/websocket/message/";
@@ -193,6 +191,7 @@ const MessageChat = (props) => {
   const loadMessages = async (page) => {
     try {
       const response = await getMessages(token, receiverId, page);
+      console.log(response)
       if (response && typeof response[Symbol.iterator] === "function") {
         setMessages((prevMessages) => [...prevMessages, ...response]);
         setCurrentPage(page);
@@ -202,6 +201,7 @@ const MessageChat = (props) => {
     } catch (error) {}
   };
 
+  console.log(messages);
   //Handle to change the next page of messages
   const handleShowMore = () => {
     if (currentPage < pages) {
@@ -297,7 +297,7 @@ const MessageChat = (props) => {
             <div
               className={`message ${
                 msg.sender.id === userId ? "sender-message" : "receiver-message"
-              } ${!msg.readStatus ? "" : "read-message"}`}
+              } ${!msg.readStatus ? "unread-message" : "read-message"}`}
               key={index}
               onClick={() => handleMarkAsRead(msg.id)}
             >
