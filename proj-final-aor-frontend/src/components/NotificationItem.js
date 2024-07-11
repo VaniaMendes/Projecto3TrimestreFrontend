@@ -45,7 +45,7 @@ function NotificationItem({ notification, onClick}) {
 
 // Add a click evente to the notification item
   const handleClick = () => {
-    if (!notification.readStatus) {
+    if (notification) {
       onClick(notification.id);
     }
   };

@@ -11,41 +11,42 @@ import { toast } from "react-toastify";
 
 
 const TaskBoard = ({listTasks})=>{
+  //Destructure the props values
     const {token} = userStore();
     const [taskId, setTaskId] = useState("");
     const {projectId} = useParams();
 
     const intl = useIntl();
 
+    //State variables
     const [tasks, setTasks] = useState(listTasks);
     const [editTask, setEditTask] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const [taskIdEdit, setTaskIdEdit] = useState(false);
 
     useEffect(() => {
-      setTasks(listTasks); // Atualiza localmente as tarefas quando listTasks (availableTasks) mudar
+      setTasks(listTasks); //Update the tasks list when the listTasks prop changes
   }, [listTasks]);
   
       
  
-     //Listas de tarefas classificadas pelo estado(state)
+    //Lists of tasks in each state
 const todoList = tasks.filter((tasks) => tasks.stateId === 10);
 const doingList = tasks.filter((tasks) => tasks.stateId === 20);
 const doneList = tasks.filter((tasks) => tasks.stateId === 30);
 
-//Manipulação de eventos de arrastar e soltar
+///Handle the event of dragging a task to another
 const handleDragStart = (event, taskId) => {
     event.dataTransfer.setData("taskId", taskId);
     setTaskId(taskId);
   };
 
-  //Função para manipular o evento de soltar uma tarefa
+  //Handle the event of dragging a task to
   const handleDrop = async (event, token, taskId, newState) => {
     event.preventDefault();
 
     try {
-      // Atualiza o estado da tarefa no servidor
+      //Update the task en database
      await updateTaskStatus(token, projectId, taskId, newState);
     
     } catch (error) {
@@ -58,6 +59,8 @@ const handleDragStart = (event, taskId) => {
     event.preventDefault();
   };
 
+
+  //Function to soft delete a task
   const handleDeleteTask = async (taskId) => {
     try {
       // Deleta a tarefa no servidor
@@ -69,6 +72,8 @@ const handleDragStart = (event, taskId) => {
       console.error("Failed to delete task:", error);
     }
 }
+
+//Function to edit a task, show the modal
 const handleEdit = (taskId) =>{
   setTaskIdEdit(taskId);
     setEditTask(true);
