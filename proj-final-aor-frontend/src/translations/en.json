@@ -97,6 +97,7 @@
     "read": "Read",
     "unread": "Unread",
     "status": "State",
+    "moment": "moment",
    
     "deadlineMustBeBeforeStartDate": "The final date must be after the start date",
     "deadlineMustBeBeforeFinalDateProject": "The final date must be before the project end date",
@@ -237,7 +238,8 @@
     "stateUpdated": "State updated successfully",
     "messageReceived": "You have received a new message from ",
     "newProjectNotification": " A new project was created by ",
-    "projectStatusNotification": " changed the status of the ptoject ",
+    "projectStatusNotification": " The state of project ",
+    "wasChanged": " was changed.",
     "noNBotificationsAvailable": "No notifications available",
     "year": "year (s) ",
     "day": "day (s)",

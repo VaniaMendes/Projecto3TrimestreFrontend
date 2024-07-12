@@ -5,6 +5,7 @@ import MessageChat from "./MessageChat";
 import { getUsersWithMessage } from "../services/messages";
 import { userStore } from "../stores/UserStore";
 import { getFilterUsers } from "../services/users";
+import userLogo from "./assets/profile_pic_default.png";
 
 function Messages() {
   const intl = useIntl();
@@ -95,7 +96,7 @@ function Messages() {
                     >
                       <div className="info-user-message">
                         <div className="photo-message">
-                          <img src={user.photo} alt="user-photo" />
+                          <img src={user.photo ? user.photo : userLogo} alt="user-photo" />
                         </div>
                         <p className="user-firstName">
                           {user.firstName} {user.lastName}
