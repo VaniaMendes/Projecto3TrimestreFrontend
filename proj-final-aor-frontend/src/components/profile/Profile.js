@@ -199,6 +199,7 @@ function Profile() {
                 <EditProfile onClose={handleCloseModal} modalType={modalType} user={user} />
               )}
             </div>
+            <div className="profile-photo-nickname">
             <div className="profile-image">
                 {user && user.photo ? (
                   <img src={user.photo} alt=" Photo" />
@@ -210,6 +211,7 @@ function Profile() {
               {user && user.nickname && (
                   <div className="user-nickname">{user.nickname}</div>
                 )}
+                </div>
             <div className="profile-header">
              
               <div className="profile-info">

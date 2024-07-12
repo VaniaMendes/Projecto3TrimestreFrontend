@@ -82,14 +82,21 @@
     align-items: center;
     overflow: hidden;
     border-radius: 50%;
-    position: absolute;
-    top: 5%;
     border: 1px solid var(--main-red);
     background-color: #fdfdfd;
-    z-index: 1000;
+  
 }
 
-
+.profile-photo-nickname{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top:4%;
+    z-index: 1000;
+    
+}
 .profile-image img {
     width: auto; 
     height: 100%;
@@ -98,16 +105,16 @@
     
     
 }
+.user-nickname{
+    padding: 10px;
+}
 
 @media screen and (max-width: 768px) {
     :root {
         --width-profile: 90%;
     }
-    
-    .profile-image {
-        position: absolute;
-
-        top:-12%;
+    .profile-photo-nickname{
+top: 40px;
 
     }
 }
@@ -169,9 +176,6 @@
 
 .profile-info {
     display: flex;
-    margin-bottom: 10px;
-    
-  
    
 }
 
@@ -258,15 +262,6 @@
 
 }
 
- .user-nickname{
-    display: flex;
- 
-        left:-10%;
-        transform: translate(12%, -80%);
-        top:25%;
-        position:absolute;
-     
- }
   
  .biography-champ{
 height: 150px;
