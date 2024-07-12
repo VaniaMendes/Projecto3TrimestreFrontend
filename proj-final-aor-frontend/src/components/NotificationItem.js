@@ -71,7 +71,7 @@ function NotificationItem({ notification, onClick}) {
       break;
     case 'PROJECT_STATE_CHANGE':
       
-      notificationMessage = ` ${notification.sender.firstName}  ${notification.sender.lastName} ${intl.formatMessage({ id: "projectStatusNotification" })} ${project.name}`;
+      notificationMessage = ` ${intl.formatMessage({ id: "projectStatusNotification" })} ${project.name} ${intl.formatMessage({ id: "wasChanged" })}`;
       notificationImage = projectIcon;
       break;
       case 'MESSAGE_PROJECT':

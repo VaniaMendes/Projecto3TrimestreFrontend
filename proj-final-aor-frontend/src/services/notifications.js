@@ -57,35 +57,6 @@ export async function markeAsRead(token, notificationId){
 
 }
 
-export async function markNotificationsAsOpen(token){
-    try{
-
-        const response = await fetch(url + '/markAllAsOpen',  {
-            method: "PUT",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "token": token
-            }
-        })
-
-
-        if(response.ok){
-            return 200;
-        }
-        else{
-             // Print the response to understand the error message
-             const errorData = await response.json();
-             console.error('Error response:', errorData);
-             return 400;
-        }
-
-    }catch(error){
-        console.error(error);
-        return null;
-}
-
-}
 
 export async function getUnreadNotifications(token){
     try{
@@ -115,33 +86,6 @@ export async function getUnreadNotifications(token){
 
 }
 
-export async function getNumberOfUnOPenNotification(token){
-    try{
-
-        const response = await fetch( url + "/open",  {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "token": token
-            }
-        })
-
-        if(response.ok){
-            const data = await response.json();
-            console.log("numero de notificaçoes unopen: " + data)
-            return data;
-        }
-        else{
-            return null;
-        }
-
-    }catch(error){
-        console.error(error);
-        return null;
-}
-
-}
 
 
 

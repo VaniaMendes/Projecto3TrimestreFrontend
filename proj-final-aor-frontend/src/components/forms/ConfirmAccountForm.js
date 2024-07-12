@@ -91,21 +91,24 @@ const handleChangePhoto = (event) => {
     }
 
     try {
-        // Upload the photo and get the URL
-        const photoUrl = await uploadPhoto(photoFile);
-        if (photoUrl) {
-            // Update user state with photo URL
-            const updatedUser = { ...user, photo: photoUrl };
+      let photoUrl = null;
 
-            // Confirm account with user data and photo URL
-            const responseStatus = await confirmAccount(tokenConfirmation, updatedUser, lab);
-            if (responseStatus === 200) {
-                toast.success(intl.formatMessage({ id: 'countConfirmSucc' }));
-                navigate("/login");
-            } else {
-                toast.warning(intl.formatMessage({ id: 'countConfirmFailed' }));
-            }
-        }
+      // Upload the photo and get the URL if photoFile is not null
+      if (photoFile) {
+          photoUrl = await uploadPhoto(photoFile);
+      }
+
+      // Update user state with photo URL if available
+      const updatedUser = photoUrl ? { ...user, photo: photoUrl } : { ...user };
+
+      // Confirm account with user data and photo URL
+      const responseStatus = await confirmAccount(tokenConfirmation, updatedUser, lab);
+      if (responseStatus === 200) {
+          toast.success(intl.formatMessage({ id: 'countConfirmSucc' }));
+          navigate("/login");
+      } else {
+          toast.warning(intl.formatMessage({ id: 'countConfirmFailed' }));
+      }
     } catch (error) {
         console.error("Erro ao confirmar usuário:", error);
         toast.error(intl.formatMessage({ id: 'countConfirmError' }));

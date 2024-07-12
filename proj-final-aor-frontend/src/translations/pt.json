@@ -105,6 +105,7 @@
 
 
     "cancelled": "Cancelado",
+    "moment": "momento",
 
 
     "usersAvailable": "Utilizadores Disponíveis",
@@ -240,7 +241,8 @@
     "stateUpdated": "Estado atualizado com sucesso",
     "messageReceived": "Você recebeu uma mensagem de ",
     "newProjectNotification":" Um novo projeto foi adicionado por ",
-    "projectStatusNotification": " alterou o estado do projeto",
+    "projectStatusNotification": " O estado do projeto",
+    "wasChangedTo": "foi alterado.",
     "noNotificationsAvailable": "Nenhuma notificação disponível",
     "year": "ano (s) ",
     "day": "dia (s)",

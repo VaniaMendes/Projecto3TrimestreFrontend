@@ -75,21 +75,26 @@
 }
 
 .profile-image {
-    width: 100px;
-    height: 100px;
+
+    width: 6em;
+    height: 6em;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
     border-radius: 50%;
-    margin-bottom: 15px;
-    position: relative;
-    top: -50%;
+    position: absolute;
+    top: 5%;
     border: 1px solid var(--main-red);
     background-color: #fdfdfd;
+    z-index: 1000;
 }
 
+
 .profile-image img {
-    width: 100%; 
+    width: auto; 
     height: 100%;
     object-fit: cover;
-    border-radius: 50%;
+
     
     
 }
@@ -134,6 +139,8 @@
 
 .profile-header {
     height: 150px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .label-profile {
@@ -253,9 +260,12 @@
 
  .user-nickname{
     display: flex;
-    position: relative;
+ 
         left:-10%;
         transform: translate(12%, -80%);
+        top:25%;
+        position:absolute;
+     
  }
   
  .biography-champ{
