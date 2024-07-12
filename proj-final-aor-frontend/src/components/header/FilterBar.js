@@ -41,14 +41,14 @@ const FilterBar = (props) => {
                         <p>{componentsTotal} <FormattedMessage id={componentsTotal === 1 ? "component" : "components"}/></p>
                     )}
                 </div>
-                <div className="center-side">
+                <div className="center-side" data-testid="home-icon">
                     {location.pathname === "/home" ? (
                         <AiFillHome size='1.2em' color="#C01722"/>
                     ) : location.pathname === `/home/${userId}` ? (
                         <FaUserLarge size='1.2em' color="#C01722"/>
                     ) : null}
                 </div>
-                <div className="right-side">
+                <div className="right-side" data-testid="slider-icon">
                     {isMobile ? (
                         <BiSliderAlt className={isSliderOpen ? "slider-icon-active" : 'slider-icon'} onClick={handleClickSliderIcon}/>
                     ) : (
