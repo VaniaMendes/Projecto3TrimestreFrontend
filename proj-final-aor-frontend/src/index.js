@@ -33,7 +33,7 @@ function Routing() {
  const {locale} = userStore();
   
   return (
-    <div>
+    <>
       <IntlProvider locale={locale} messages={languages[locale]}>
    <SessionTimeoutHandler />
         <ToastContainer />
@@ -86,7 +86,7 @@ function Routing() {
           <Route path="/not-have-permission" element={<> <NotLoggedPage /> </>} />
         </Routes>
       </IntlProvider>
-    </div>
+    </>
   );
 }
 

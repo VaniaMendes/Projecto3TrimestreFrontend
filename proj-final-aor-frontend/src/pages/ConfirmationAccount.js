@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import logo from '../components/assets/Logo_CSW-full-redim.png';
 import ConfirmationAccountForm from "../components/forms/ConfirmAccountForm.js";

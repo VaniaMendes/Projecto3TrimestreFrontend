@@ -32,7 +32,7 @@ const ResourceInfo = (props) => {
 
     return (
       <>
-        <div className="resource-container" onClick={handleClick}>
+        <div className="resource-container" data-testid="resource-container" onClick={handleClick}>
             <div className="resource-photo-container">
                 {renderResourceIcon(photo, type)}
             </div>
