@@ -92,7 +92,7 @@ html, body {
 	--dark-color: #282828;
 	--background-color: #b8171705;
   --light-background-color: #fdfdfd;
-  --test: #2bd948;
+  --progress-bar-green: #76c7c0;
 }
 
 button{
@@ -254,5 +254,6 @@ BOTTOM HEADER
   left: 10%;
   top:12%;
   position: relative;
+  cursor: pointer;
 }
 

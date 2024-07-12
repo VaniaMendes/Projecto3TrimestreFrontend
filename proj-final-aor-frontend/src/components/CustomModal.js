@@ -20,6 +20,7 @@ const CustomModal = ({ title, label, show, onClose, onConfirm, isReadyState, set
                 {isReadyState && (
                     <div className="modal-header">
                         <textarea 
+                            className="roboto-regular"
                             placeholder="Observation" 
                             style={{ resize: 'none' }} 
                             onChange={handleChange}

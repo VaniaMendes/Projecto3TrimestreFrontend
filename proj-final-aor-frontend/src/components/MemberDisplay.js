@@ -15,7 +15,8 @@ import { FaUserLock } from "react-icons/fa";
 import CustomModal from "./CustomModal";
 
 const MemberDisplay = (props) => {
-    const {id, photo, name, role, isVisible, visitorIsProjectMember, isCandidate, isInsideProject, handleAddMember, handleApproveCandidate, handleRemoveMember, onMemberRoleChange, onClick} = props;
+    const {id, photo, name, role, isVisible, isProjectCancelledOrFinished, visitorIsProjectMember, isCandidate, 
+            isInsideProject, handleAddMember, handleApproveCandidate, handleRemoveMember, onMemberRoleChange, onClick} = props;
     const intl = useIntl();
 
     const [addColor, setAddColor] = useState('#2bd948');
@@ -139,7 +140,7 @@ const MemberDisplay = (props) => {
                 </div>)}
             {className === "inside-project-member-display" && role !== "CREATOR" && visitorIsProjectMember ? (
                 <>
-                 {!showHiddenContent && (
+                 {!showHiddenContent && !isProjectCancelledOrFinished && (
                     <div className="user-circle-gear-icon">
                         <FiEdit3
                             fontSize='0.9em' 

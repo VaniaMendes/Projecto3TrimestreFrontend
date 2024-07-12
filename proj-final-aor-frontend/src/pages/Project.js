@@ -118,7 +118,7 @@ const Project = () => {
         validStates(typeUser, projectData.stateId);
         isFromReadyState();
         fetchActivities();
-    }, [projectId, token, projectData, isActivityModalOpen]);
+    }, [projectData, isActivityModalOpen]);
 
     
     useEffect(() => {
@@ -224,7 +224,13 @@ const Project = () => {
 
         setFilteredStates(filtStates);
     };
-    
+
+    const isProjectCancelledOrFinished = () => {
+        console.log(projectData.stateId);
+        if (projectData.stateId === "CANCELLED" || projectData.stateId === "FINISHED"){
+            return true;
+        }
+    }
 
     const handleOpenModalDescription = () => {
         setIsEditModalOpen(true);
@@ -580,7 +586,7 @@ const Project = () => {
                         <div className="project-page-description">
                             <label className="c-label"><FormattedMessage id="description"/></label>
                             <p>{projectData.description}</p>
-                            {isUserInProject() &&  (
+                            {isUserInProject() &&  !isProjectCancelledOrFinished() && (
                                 <span className="ppi-btn" onClick={handleOpenModalDescription}><FiEdit3 /></span>
                             )}
                         </div>
@@ -592,7 +598,7 @@ const Project = () => {
                                 <KeywordComponent keyword={keyword.trim()} key={index} isProjectInfo={true} isItemRemovable={true} onRemoveClick={handleRemoveKeyword}/> :
                                 <KeywordComponent keyword={keyword.trim()} key={index} isProjectInfo={true} />
                             ))}
-                            {isUserInProject() && (
+                            {isUserInProject() && !isProjectCancelledOrFinished() && (
                                 <span className="ppi-btn" onClick={handleOpenModalKeyword}><GoPlusCircle /></span>
                             )}
                         </div>
@@ -604,7 +610,7 @@ const Project = () => {
                                 <KeywordComponent id={skill.id} keyword={skill.name} key={index} isProjectInfo={true} isItemRemovable={true} onRemoveClick={handleRemoveSkill}/> :
                                 <KeywordComponent id={skill.id} keyword={skill.name} key={index} isProjectInfo={true}/>
                             ))}
-                            {isUserInProject() && (
+                            {isUserInProject() && !isProjectCancelledOrFinished() && (
                                 <span className="ppi-btn" onClick={handleOpenModalSkill}><GoPlusCircle /></span>
                             )}
                         </div>
@@ -623,10 +629,11 @@ const Project = () => {
                                     onMemberRoleChange={handleChangeMemberRole}
                                     handleRemoveMember={handleRemoveMember}
                                     visitorIsProjectMember={isUserInProject()}
+                                    isProjectCancelledOrFinished={isProjectCancelledOrFinished()}
                                     onClick={handleMemberClick}
                                 />
                             ))}
-                            {isUserInProject() && !isCollaborator() && projectData.usersInfo.length<projectData.maxMembers && (
+                            {isUserInProject() && !isProjectCancelledOrFinished() && !isCollaborator() && projectData.usersInfo.length<projectData.maxMembers && (
                                 <span className="ppi-btn" onClick={handleOpenModalMember}><GoPlusCircle /></span>
                             )}
                         </div>
@@ -654,7 +661,7 @@ const Project = () => {
                                     </tbody>
                                 </table>
                             }
-                            {isUserInProject() && (
+                            {isUserInProject() && !isProjectCancelledOrFinished() && (
                                 <span className="ppi-btn" onClick={handleOpenModalResource}><GoPlusCircle /></span>
                             )}
                         </div>
@@ -695,7 +702,7 @@ const Project = () => {
                                         </button>}
                                     </>
                                     }
-                                    {isUserInProject() && (
+                                    {isUserInProject() && !isProjectCancelledOrFinished() && (
                                         <span className="ppi-btn" onClick={handleOpenModalActivity}><GoPlusCircle /></span>
                                     )}
                                 </div>

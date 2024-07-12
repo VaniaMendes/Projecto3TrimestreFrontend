@@ -25,6 +25,7 @@ import { userStore } from './stores/UserStore.js';
 import languages from './translations/index.js';
 import ProjectActivities from './pages/ProjectActivities.js';
 import SessionTimeoutHandler from './components/SessionTimeOut.js';
+import NotLoggedPage from './pages/NotLoggedPage.js';
 
 
 function Routing() {
@@ -82,6 +83,7 @@ function Routing() {
           <Route path="/notifications" element={<> <NotificationsPage /> </>} />
           <Route path="/messages/:userId" element={<> <MessagesPage /> </>} />
           <Route path="/project/:projectId/execution-plan" element={<> <ProjectPlan /> </>} />
+          <Route path="/not-have-permission" element={<> <NotLoggedPage /> </>} />
         </Routes>
       </IntlProvider>
     </div>

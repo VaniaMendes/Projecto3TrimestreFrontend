@@ -143,35 +143,17 @@ const FilterOptions = (props) => {
 
     const handleTypeChange = (event) => {
         const value = event.target.value;
-       
-        if (value === selectedType) {
-            setSelectedType(''); 
-            document.getElementById('type-none').checked = true;
-        } else {
-            setSelectedType(value);
-        }
+        setSelectedType(value === selectedType ? '' : value);
     };
 
     const handleBrandChange = (event) => {
         const value = event.target.value;
-       
-        if (value === selectedBrand) {
-            setSelectedBrand(''); 
-            document.getElementById('brand-none').checked = true;
-        } else {
-            setSelectedBrand(value);
-        }
+        setSelectedBrand(value === selectedBrand ? '' : value);
     };
 
     const handleSupplierChange = (event) => {
         const value = event.target.value;
-        
-        if (value === selectedSupplier) {
-            setSelectedSupplier('');
-            document.getElementById('supplier-none').checked = true;
-        } else {
-            setSelectedSupplier(value);
-        }
+        setSelectedSupplier(value === selectedSupplier ? '' : value);
     };
 
 
@@ -421,7 +403,12 @@ const FilterOptions = (props) => {
                                 name="supplier"
                                 value={supplier.id}
                                 onChange={handleSupplierChange}
-                                checked={selectedSupplier === supplier.id}
+                                onClick={(e) => {
+                                    if (selectedSupplier === String(supplier.id)) {
+                                        handleSupplierChange(e);
+                                    }
+                                }}
+                                checked={selectedSupplier === String(supplier.id)}
                             />
                             <label className="radio-label" htmlFor={`supplier-${supplier.id}`}>
                                 {supplier.name}

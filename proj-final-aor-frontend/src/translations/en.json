@@ -190,7 +190,7 @@
     "searchResource": "Search Resources...",
     "searchAvailableUser": "Search Available Users...",
 
-    "noMatchingSuppliers": "No matching suppliers, add new?",
+    "noMatchingSuppliers": "No matching suppliers, add a new one above",
     "newComponent": "New Component",
     "componentCreatedSuccess": "Component created successfully",
     "componentCreatedError": "Error creating component",
@@ -309,5 +309,7 @@
     "memberAdded": "Member added successfully",
     "memberRoleUpdated": "Member role updated successfully",
     "memberRemoved": "Member removed successfully",
-    "activityAdded": "Activity added successfully"
+    "activityAdded": "Activity added successfully",
+    "seeMoreInformation": "To see more information please login",
+    "returnHomePage": "Return to the home page"
 } 
