@@ -190,7 +190,7 @@ function RegisterForm() {
 
           <div className="navigate">
             <p>{intl.formatMessage({ id: "allreadyhaveanaccount" })}</p>
-            <a className="link-login" href="/login">
+            <a className="link-login" onClick={() => navigate('/login')}>
               {intl.formatMessage({ id: "login" })}
             </a>
           </div>

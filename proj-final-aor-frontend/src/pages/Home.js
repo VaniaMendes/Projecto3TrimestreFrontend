@@ -134,7 +134,11 @@ const Home = () => {
     }
 
     const handleProjectClick = (projectId) => {
-        navigate(`/project/${projectId}`);
+        if(token){
+            navigate(`/project/${projectId}`);
+        } else {
+            navigate("/not-have-permission");
+        }
     };
     
     return (

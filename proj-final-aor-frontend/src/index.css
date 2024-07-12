@@ -254,5 +254,6 @@ BOTTOM HEADER
   left: 10%;
   top:12%;
   position: relative;
+  cursor: pointer;
 }
 

@@ -1,0 +1,37 @@
+.nlp-container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    border: solid 1px var(--main-red);
+    width: 450px;
+    height: 350px;
+    top: 25%;
+    position: absolute;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+}
+
+.navigate-ctnr{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.nlp-title-forms{
+    padding: 1rem;
+    text-align: center;
+}
+
+.no-margin{
+    margin: 0;
+}
+
+@media screen and (max-width: 768px){
+    .nlp-container{
+        width: 90%;
+    }
+}

@@ -305,6 +305,7 @@
 
     .cretor-project-name-container{
         flex-direction: column;
+        text-align: center;
 
         .creator-info-container{
             margin-right: 0;

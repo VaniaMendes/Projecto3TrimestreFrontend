@@ -190,7 +190,7 @@
     "searchResources": "Pesquisar Componentes...",
     "searchAvailableUser": "Pesquisar Utilizadores Disponíveis...",
 
-    "noMatchingSuppliers": "Sem fornecedores correspondentes, adicione um novo fornecedor",
+    "noMatchingSuppliers": "Sem fornecedores correspondentes, adicione um novo fornecedor acima",
     "newComponent": "Novo Componente",
     "componentCreatedSuccess": "Componente criado com sucesso",
     "componentCreatedError": "Erro ao criar componente",
@@ -307,7 +307,9 @@
     "memberAdded": "Membro adicionado com sucesso",
     "memberRoleUpdated": "Função do membro atualizada com sucesso",
     "memberRemoved": "Membro removido com sucesso",
-    "activityAdded": "Atividade adicionada com sucesso"
+    "activityAdded": "Atividade adicionada com sucesso",
+    "seeMoreInformation": "Para ver mais informações por favor faça login",
+    "returnHomePage": "Voltar à página inicial"
     
 
 }
