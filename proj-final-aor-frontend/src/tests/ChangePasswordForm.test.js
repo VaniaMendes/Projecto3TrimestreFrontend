@@ -1,46 +1,26 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import ChangePasswordForm from '../components/forms/ChangePasswordForm';
+import { render, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+import ConfirmAccountForm from '../components/forms/ConfirmAccountForm.js';
+import queryString from "query-string";
 
-// Mock para queryString
-jest.mock('query-string', () => ({
-  parse: jest.fn(),
-}));
+test('it should change the lab when a new option is selected', () => {
+  const { getByTestId } = render(<ConfirmAccountForm />);
+  
+  const select = getByTestId('lab-select');
+  const selectedLab = getByTestId('selected-lab');
 
-describe('ChangePasswordForm component', () => {
-  test('renders password and confirm password inputs', () => {
-    render(<ChangePasswordForm />);
-    
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const confirmPasswordInput = screen.getByPlaceholderText('New Password');
-    
-    expect(passwordInput).toBeInTheDocument();
-    expect(confirmPasswordInput).toBeInTheDocument();
-  });
+  // Verify initial state
+  expect(select.value).toBe('');
+  expect(selectedLab).toHaveTextContent('Selected Lab: ');
 
-  test('renders submit and back buttons', () => {
-    render(<ChangePasswordForm />);
-    
-    const submitButton = screen.getByText('Change Password');
-    const backButton = screen.getByText('Back');
-    
-    expect(submitButton).toBeInTheDocument();
-    expect(backButton).toBeInTheDocument();
-  });
+  // Change to Lab 1
+  fireEvent.change(select, { target: { value: 'lab1' } });
+  expect(select.value).toBe('lab1');
+  expect(selectedLab).toHaveTextContent('Selected Lab: lab1');
 
-  test('updates password and confirm password fields on user input', () => {
-    render(<ChangePasswordForm />);
-    
-    const passwordInput = screen.getByPlaceholderText('Password');
-    const confirmPasswordInput = screen.getByPlaceholderText('New Password');
-    
-    fireEvent.change(passwordInput, { target: { value: 'newpassword' } });
-    fireEvent.change(confirmPasswordInput, { target: { value: 'newpassword' } });
-    
-    expect(passwordInput.value).toBe('newpassword');
-    expect(confirmPasswordInput.value).toBe('newpassword');
-  });
-
- 
-
+  // Change to Lab 2
+  fireEvent.change(select, { target: { value: 'lab2' } });
+  expect(select.value).toBe('lab2');
+  expect(selectedLab).toHaveTextContent('Selected Lab: lab2');
 });

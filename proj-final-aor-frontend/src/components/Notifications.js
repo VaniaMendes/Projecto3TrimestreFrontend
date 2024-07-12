@@ -110,7 +110,7 @@ const {token, userId} = userStore();
       fetchNotifications();
       const result = await getUnreadNotifications(token);
       updateNotifications(result);
-      toast.success(intl.formatMessage({ id: "notificationMarkedAsRead" }));
+    
 
       
     }else{
