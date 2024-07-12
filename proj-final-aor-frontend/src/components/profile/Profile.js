@@ -185,7 +185,7 @@ function Profile() {
     return intl.formatMessage({ id: messageId });
 }
 
-console.log(projects)
+
   return (
    
       <div className="profile-container">
@@ -199,18 +199,19 @@ console.log(projects)
                 <EditProfile onClose={handleCloseModal} modalType={modalType} user={user} />
               )}
             </div>
-           
-            <div className="profile-header">
-              <div className="profile-image">
+            <div className="profile-image">
                 {user && user.photo ? (
                   <img src={user.photo} alt=" Photo" />
                 ) : (
                   <img src={logo} alt="Logo" />
                 )}
-                {user && user.nickname && (
+               
+              </div>
+              {user && user.nickname && (
                   <div className="user-nickname">{user.nickname}</div>
                 )}
-              </div>
+            <div className="profile-header">
+             
               <div className="profile-info">
                 {user && (
                   <div className="user-name">
@@ -304,7 +305,7 @@ console.log(projects)
                         {moment(project.joinedAt).format("D MMMM YYYY")} -
                         {project.leftAt
                           ? moment(project.leftAt).format("D MMMM YYYY")
-                          : "momento"}{" "}
+                          :  intl.formatMessage({id:"moment"})}{" "}
                         |
                         {(() => {
                           const duration = moment.duration(

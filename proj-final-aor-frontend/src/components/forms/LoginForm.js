@@ -4,9 +4,10 @@ import { toast } from "react-toastify";
 import { userStore } from "../../stores/UserStore";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
-import { getNumberOfUnOPenNotification } from "../../services/notifications";
+import { getUnreadNotifications } from "../../services/notifications";
 import { notificationStore } from "../../stores/NotificationStore";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import WebSocketClient from "../../websocket/Websocket";
 
 
 function LoginForm() {
@@ -61,6 +62,7 @@ function LoginForm() {
           updateTypeUser(data.userType);
           numberOfnotificationUnread(result);//Get the number of notifications
           navigate(`/home/${data.id}`);
+
         }
       }
     } catch (error) {
@@ -76,7 +78,7 @@ function LoginForm() {
 
   //Get the number of notifications unread
   const numberOfnotificationUnread = async (token) => {
-    const unreadNotifications = await getNumberOfUnOPenNotification(token);
+    const unreadNotifications = await getUnreadNotifications(token);
 
     // Verify if the number of notifications is 0
     if (unreadNotifications === 0) {

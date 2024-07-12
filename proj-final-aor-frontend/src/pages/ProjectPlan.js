@@ -29,6 +29,7 @@ const ProjectPlan = () => {
     const [isMobile, setIsMobile] = useState(false); 
     const [selectedMode, setSelectedMode] = useState('gantt'); 
     const [project, setProject] = useState("");
+    const [tasksOrderForGantt, setTasksOrderForGantt] = useState([]);
 
     //Functions to close modal or show modal new task
     const closeModal = () => setIsModalOpen(false);
@@ -50,7 +51,7 @@ const ProjectPlan = () => {
             if (showGantt) {
                 const data = await getProjectTasksOrderByDate(token, projectId);
                 console.log(data);
-                setAvailableTasks(data);
+                setTasksOrderForGantt(data);
        
             } else{
                 //if showBoard is true, fetch tasks ordered by priority
@@ -91,6 +92,7 @@ const ProjectPlan = () => {
                 setAvailableTasks(prevTasks =>
                     prevTasks.filter(task => task.id!== taskReceived.id)
                 );
+
             }else{
          //If not verifica it was a new task or an update
             setAvailableTasks(prevTasks => {
@@ -108,6 +110,7 @@ const ProjectPlan = () => {
                     return [...prevTasks, taskReceived];
                 }
             });
+            
         }
 
             
@@ -196,7 +199,7 @@ const ProjectPlan = () => {
                     <div className="project-plan-exterior-container">
                         <div className="project-plan-chart">
                            
-                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={availableTasks} showList={showList} viewMode={viewMode} project={project} />}
+                            {!showBoard && isPageLoaded && <GanttComponent availableTasks={tasksOrderForGantt} showList={showList} viewMode={viewMode} project={project} />}
                     {showBoard && isPageLoaded&& <TaskBoard listTasks={availableTasks} />}
                         </div>
                         <TaskAdder handleNewTask={handleNewTask} />

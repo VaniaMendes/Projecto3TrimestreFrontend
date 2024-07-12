@@ -13,7 +13,6 @@ const SessionTimeoutHandler = () => {
     const fetchSettings = async () => {
       if (token) {
         const value = await getTimeoutValue(token);
-        console.log("Session timeout value is", value);
 
         if (value) {
           const timeoutInMilliseconds = value * 60 * 1000; // Convert minutes to milliseconds
@@ -54,6 +53,7 @@ const SessionTimeoutHandler = () => {
     window.addEventListener("mousemove", eventHandler);
     window.addEventListener("keydown", eventHandler);
     window.addEventListener("click", eventHandler);
+
 
     // Set initial timeout
     resetTimeout();

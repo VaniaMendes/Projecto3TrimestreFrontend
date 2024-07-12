@@ -9,12 +9,14 @@ import { useLocation } from "react-router";
 import { AiFillHome } from "react-icons/ai";
 import { FaUserLarge } from "react-icons/fa6";
 
+
 const FilterBar = (props) => {
     const {isSliderOpen, updateIsSliderOpen} = useActionsStore();
     const {userId} = userStore();
     const {projectsTotal, componentsTotal} = props;
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const location = useLocation();
+
 
     useEffect(() => {
         const handleResize = () => {

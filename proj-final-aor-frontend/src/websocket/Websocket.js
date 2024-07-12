@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { userStore } from "../stores/UserStore";
 import { notificationStore } from "../stores/NotificationStore";
 
-import { getUnreadNotifications, getNotificationsList, getNumberOfUnOPenNotification } from "../services/notifications";
+import { getUnreadNotifications, getNotificationsList } from "../services/notifications";
 
 function WebSocketClient() {
   const { setNotifications, updateNotifications } = notificationStore.getState();
@@ -37,9 +37,9 @@ function WebSocketClient() {
 
     ws.onmessage = async (event) => {
       try {
-        const unreadNotifications = await getNumberOfUnOPenNotification(token);
-        console.log(unreadNotifications)
-        updateNotifications(unreadNotifications || 0);
+        const result = await getUnreadNotifications(token);
+       
+        updateNotifications(result || 0);
       } catch (error) {
         console.error("Error updating notifications:", error);
       }

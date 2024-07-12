@@ -315,7 +315,7 @@ scrollbar-width: thin;
 .task_item {
   display: flex;
   align-items: center;
-  margin-top: 20px; /* Alinha o checkbox e o label verticalmente */
+  margin-top: 10px; /* Alinha o checkbox e o label verticalmente */
   margin-bottom: 12px; /* Espaçamento entre os itens */
 }
 
